@@ -244,7 +244,8 @@ function Home() {
               <span className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
                 {desc}
               </span>
-            </button>
+            </Link>
+
           ))}
         </div>
       </section>
