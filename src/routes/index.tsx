@@ -114,8 +114,9 @@ const features = [
 function Home() {
   const { user } = useAuth();
   const planLink = user ? "/planner" : "/auth";
-
+  return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+
       <Snowfall count={70} />
 
       {/* Ambient warm glow behind content */}
