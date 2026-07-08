@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Snowfall } from "@/components/Snowfall";
+import { useAuth } from "@/hooks/use-auth";
+
 import { Countdown } from "@/components/Countdown";
 import heroTree from "@/assets/hero-tree.jpg";
 import inspirationImg from "@/assets/inspiration.jpg";
@@ -110,7 +112,9 @@ const features = [
 ];
 
 function Home() {
-  return (
+  const { user } = useAuth();
+  const planLink = user ? "/planner" : "/auth";
+
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <Snowfall count={70} />
 
