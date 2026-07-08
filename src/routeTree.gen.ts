@@ -13,6 +13,10 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
+import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
+import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
+import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
+import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -33,30 +37,87 @@ const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
   path: '/planner',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlannerIndexRoute =
+  AuthenticatedPlannerIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerTodosRoute =
+  AuthenticatedPlannerTodosRouteImport.update({
+    id: '/todos',
+    path: '/todos',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerGiftsRoute =
+  AuthenticatedPlannerGiftsRouteImport.update({
+    id: '/gifts',
+    path: '/gifts',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerCardsRoute =
+  AuthenticatedPlannerCardsRouteImport.update({
+    id: '/cards',
+    path: '/cards',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/planner': typeof AuthenticatedPlannerRoute
+  '/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/planner/': typeof AuthenticatedPlannerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/planner': typeof AuthenticatedPlannerRoute
+  '/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/planner': typeof AuthenticatedPlannerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/planner': typeof AuthenticatedPlannerRoute
+  '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/planner'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/planner'
+    | '/planner/cards'
+    | '/planner/gifts'
+    | '/planner/todos'
+    | '/planner/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/planner'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/planner'
+  to:
+    | '/'
+    | '/auth'
+    | '/planner/cards'
+    | '/planner/gifts'
+    | '/planner/todos'
+    | '/planner'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/planner'
+    | '/_authenticated/planner/cards'
+    | '/_authenticated/planner/gifts'
+    | '/_authenticated/planner/todos'
+    | '/_authenticated/planner/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,15 +156,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/planner/': {
+      id: '/_authenticated/planner/'
+      path: '/'
+      fullPath: '/planner/'
+      preLoaderRoute: typeof AuthenticatedPlannerIndexRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/todos': {
+      id: '/_authenticated/planner/todos'
+      path: '/todos'
+      fullPath: '/planner/todos'
+      preLoaderRoute: typeof AuthenticatedPlannerTodosRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/gifts': {
+      id: '/_authenticated/planner/gifts'
+      path: '/gifts'
+      fullPath: '/planner/gifts'
+      preLoaderRoute: typeof AuthenticatedPlannerGiftsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/cards': {
+      id: '/_authenticated/planner/cards'
+      path: '/cards'
+      fullPath: '/planner/cards'
+      preLoaderRoute: typeof AuthenticatedPlannerCardsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
   }
 }
 
+interface AuthenticatedPlannerRouteChildren {
+  AuthenticatedPlannerCardsRoute: typeof AuthenticatedPlannerCardsRoute
+  AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
+  AuthenticatedPlannerTodosRoute: typeof AuthenticatedPlannerTodosRoute
+  AuthenticatedPlannerIndexRoute: typeof AuthenticatedPlannerIndexRoute
+}
+
+const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
+  AuthenticatedPlannerCardsRoute: AuthenticatedPlannerCardsRoute,
+  AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
+  AuthenticatedPlannerTodosRoute: AuthenticatedPlannerTodosRoute,
+  AuthenticatedPlannerIndexRoute: AuthenticatedPlannerIndexRoute,
+}
+
+const AuthenticatedPlannerRouteWithChildren =
+  AuthenticatedPlannerRoute._addFileChildren(AuthenticatedPlannerRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedPlannerRoute: typeof AuthenticatedPlannerRoute
+  AuthenticatedPlannerRoute: typeof AuthenticatedPlannerRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedPlannerRoute: AuthenticatedPlannerRoute,
+  AuthenticatedPlannerRoute: AuthenticatedPlannerRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

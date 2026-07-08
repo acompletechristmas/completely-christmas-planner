@@ -26,7 +26,13 @@ function PlannerOverview() {
   const wrapped = gifts.rows.filter((g) => g.status === "wrapped" || g.status === "given").length;
   const bought = gifts.rows.filter((g) => g.status !== "idea").length;
 
-  const stats = [
+  const stats: Array<{
+    label: string;
+    value: string | number;
+    sub: string;
+    icon: typeof Gift;
+    to?: string;
+  }> = [
     {
       label: "Gifts planned",
       value: gifts.rows.length,
@@ -54,7 +60,8 @@ function PlannerOverview() {
       sub: "on bought / wrapped gifts",
       icon: PoundSterling,
     },
-  ] as const;
+  ];
+
 
   return (
     <div className="rise-in space-y-8">
