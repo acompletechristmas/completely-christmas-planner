@@ -15,12 +15,13 @@ export const Route = createFileRoute("/_authenticated/planner")({
   component: PlannerLayout,
 });
 
-const tabs = [
+const tabs: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/planner", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/planner/gifts", label: "Gifts", icon: Gift },
   { to: "/planner/cards", label: "Cards", icon: Mail },
   { to: "/planner/todos", label: "To-do", icon: ListChecks },
-] as const;
+];
+
 
 function PlannerLayout() {
   const { user } = useAuth();

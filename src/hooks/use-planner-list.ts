@@ -35,7 +35,7 @@ export function usePlannerList<T extends BaseRow>(table: TableName, userId: stri
         .order("created_at", { ascending: true });
       if (cancelled) return;
       if (error) toast.error(`Couldn't load ${table}`);
-      else setRows((data ?? []) as T[]);
+      else setRows((data ?? []) as unknown as T[]);
       setLoading(false);
     })();
     return () => {
@@ -54,12 +54,13 @@ export function usePlannerList<T extends BaseRow>(table: TableName, userId: stri
         (payload) => {
           setRows((prev) => {
             if (payload.eventType === "INSERT") {
-              const row = payload.new as T;
+              const row = payload.new as unknown as T;
               if (prev.some((r) => r.id === row.id)) return prev;
               return [...prev, row];
             }
             if (payload.eventType === "UPDATE") {
-              const row = payload.new as T;
+              const row = payload.new as unknown as T;
+
               return prev.map((r) => (r.id === row.id ? { ...r, ...row } : r));
             }
             if (payload.eventType === "DELETE") {
@@ -89,7 +90,7 @@ export function usePlannerList<T extends BaseRow>(table: TableName, userId: stri
         toast.error(`Couldn't add`);
         return;
       }
-      setRows((prev) => (prev.some((r) => r.id === (data as T).id) ? prev : [...prev, data as T]));
+      setRows((prev) => (prev.some((r) => r.id === (data as unknown as T).id) ? prev : [...prev, data as unknown as T]));
     },
     [rows, table, userId],
   );
