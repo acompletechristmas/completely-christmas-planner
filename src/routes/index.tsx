@@ -1,5 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Snowfall } from "@/components/Snowfall";
+import { useAuth } from "@/hooks/use-auth";
+
 import { Countdown } from "@/components/Countdown";
 import heroTree from "@/assets/hero-tree.jpg";
 import inspirationImg from "@/assets/inspiration.jpg";
@@ -110,8 +112,11 @@ const features = [
 ];
 
 function Home() {
+  const { user } = useAuth();
+  const planLink = user ? "/planner" : "/auth";
   return (
     <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+
       <Snowfall count={70} />
 
       {/* Ambient warm glow behind content */}
@@ -138,12 +143,13 @@ function Home() {
           <a className="transition hover:text-foreground" href="#days-out">Days Out</a>
           <a className="transition hover:text-foreground" href="#vip">VIP</a>
         </nav>
-        <a
-          href="#vip"
+        <Link
+          to={planLink}
           className="hidden rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-4 py-2 text-xs font-medium tracking-wide text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.08)] sm:inline-flex"
         >
-          Join VIP
-        </a>
+          {user ? "Open Planner" : "Sign in"}
+        </Link>
+
       </header>
 
       {/* HERO */}
@@ -202,11 +208,12 @@ function Home() {
           style={{ animationDelay: "0.35s" }}
         >
           {primaryActions.map(({ icon: Icon, title, desc, tone }) => (
-            <button
+            <Link
               key={title}
-              type="button"
+              to={planLink}
               className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
             >
+
               <span
                 className={
                   "grid h-10 w-10 place-items-center rounded-xl transition-transform duration-500 group-hover:scale-110 " +
@@ -237,7 +244,8 @@ function Home() {
               <span className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
                 {desc}
               </span>
-            </button>
+            </Link>
+
           ))}
         </div>
       </section>
