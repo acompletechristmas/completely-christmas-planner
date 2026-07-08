@@ -143,12 +143,13 @@ function Home() {
           <a className="transition hover:text-foreground" href="#days-out">Days Out</a>
           <a className="transition hover:text-foreground" href="#vip">VIP</a>
         </nav>
-        <a
-          href="#vip"
+        <Link
+          to={planLink}
           className="hidden rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-4 py-2 text-xs font-medium tracking-wide text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.08)] sm:inline-flex"
         >
-          Join VIP
-        </a>
+          {user ? "Open Planner" : "Sign in"}
+        </Link>
+
       </header>
 
       {/* HERO */}
