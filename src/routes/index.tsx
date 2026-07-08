@@ -208,11 +208,12 @@ function Home() {
           style={{ animationDelay: "0.35s" }}
         >
           {primaryActions.map(({ icon: Icon, title, desc, tone }) => (
-            <button
+            <Link
               key={title}
-              type="button"
+              to={planLink}
               className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
             >
+
               <span
                 className={
                   "grid h-10 w-10 place-items-center rounded-xl transition-transform duration-500 group-hover:scale-110 " +
