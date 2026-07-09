@@ -83,7 +83,7 @@ function AuthPage() {
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-xl">
-            Completely <span className="gold-text">Christmas</span>
+            A Complete <span className="gold-text">Christmas</span>
           </span>
         </Link>
 
