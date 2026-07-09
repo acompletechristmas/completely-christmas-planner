@@ -51,7 +51,7 @@ function PlannerLayout() {
               <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
             </span>
             <span className="font-display text-base sm:text-lg">
-              Completely <span className="gold-text">Christmas</span>
+              A Complete <span className="gold-text">Christmas</span>
             </span>
           </Link>
           <div className="flex items-center gap-3">
