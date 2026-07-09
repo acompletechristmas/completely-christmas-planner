@@ -2,12 +2,12 @@ import { createFileRoute, Link, Outlet, useRouterState, useNavigate } from "@tan
 import { Snowfall } from "@/components/Snowfall";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Sparkles, LayoutDashboard, Gift, Mail, ListChecks, LogOut } from "lucide-react";
+import { Sparkles, LayoutDashboard, Gift, Mail, ListChecks, LogOut, BellRing } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
     meta: [
-      { title: "Christmas Planner — Completely Christmas" },
+      { title: "Christmas Planner — A Complete Christmas" },
       { name: "description", content: "Your gifts, cards, budget and to-do list — all in one calm place." },
       { name: "robots", content: "noindex" },
     ],
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/_authenticated/planner")({
 
 const tabs: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/planner", label: "Overview", icon: LayoutDashboard, exact: true },
+  { to: "/planner/reminders", label: "Never Miss", icon: BellRing },
   { to: "/planner/gifts", label: "Gifts", icon: Gift },
   { to: "/planner/cards", label: "Cards", icon: Mail },
   { to: "/planner/todos", label: "To-do", icon: ListChecks },
