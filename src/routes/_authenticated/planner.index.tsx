@@ -40,6 +40,17 @@ function PlannerOverview() {
     to?: string;
   }> = [
     {
+      label: "Never Miss",
+      value: remindersUpcoming.length,
+      sub: remindersDueSoon
+        ? `${remindersDueSoon} due now`
+        : remindersUpcoming.length
+          ? "reminders on your timeline"
+          : "add the classic set",
+      icon: BellRing,
+      to: "/planner/reminders",
+    },
+    {
       label: "Gifts planned",
       value: gifts.rows.length,
       sub: `${bought} bought · ${wrapped} wrapped`,
