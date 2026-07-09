@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { Gift, Mail, ListChecks, PoundSterling, PackageCheck, ArrowRight } from "lucide-react";
+import { Gift, Mail, ListChecks, PoundSterling, PackageCheck, ArrowRight, BellRing } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
@@ -13,18 +13,24 @@ interface GiftRow extends BaseRow {
 }
 interface CardRow extends BaseRow { sent: boolean }
 interface TodoRow extends BaseRow { done: boolean }
+interface ReminderRow extends BaseRow { done: boolean; remind_on: string }
 
 function PlannerOverview() {
   const { user } = useAuth();
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
+  const reminders = usePlannerList<ReminderRow>("reminders", user?.id);
 
   const totalSpent = gifts.rows
     .filter((g) => g.status !== "idea")
     .reduce((sum, g) => sum + (Number(g.price) || 0), 0);
   const wrapped = gifts.rows.filter((g) => g.status === "wrapped" || g.status === "given").length;
   const bought = gifts.rows.filter((g) => g.status !== "idea").length;
+
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const remindersUpcoming = reminders.rows.filter((r) => !r.done);
+  const remindersDueSoon = remindersUpcoming.filter((r) => r.remind_on <= todayIso).length;
 
   const stats: Array<{
     label: string;
@@ -33,6 +39,17 @@ function PlannerOverview() {
     icon: typeof Gift;
     to?: string;
   }> = [
+    {
+      label: "Never Miss",
+      value: remindersUpcoming.length,
+      sub: remindersDueSoon
+        ? `${remindersDueSoon} due now`
+        : remindersUpcoming.length
+          ? "reminders on your timeline"
+          : "add the classic set",
+      icon: BellRing,
+      to: "/planner/reminders",
+    },
     {
       label: "Gifts planned",
       value: gifts.rows.length,

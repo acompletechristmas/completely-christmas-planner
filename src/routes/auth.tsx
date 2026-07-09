@@ -9,7 +9,7 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Completely Christmas" },
+      { title: "Sign in — A Complete Christmas" },
       { name: "description", content: "Sign in to save your Christmas plans, gift lists and reminders." },
       { name: "robots", content: "noindex" },
     ],
@@ -83,7 +83,7 @@ function AuthPage() {
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-xl">
-            Completely <span className="gold-text">Christmas</span>
+            A Complete <span className="gold-text">Christmas</span>
           </span>
         </Link>
 

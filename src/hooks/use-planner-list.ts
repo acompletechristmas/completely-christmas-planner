@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-type TableName = "gifts" | "cards" | "todos";
+type TableName = "gifts" | "cards" | "todos" | "reminders";
 
 export interface BaseRow {
   id: string;

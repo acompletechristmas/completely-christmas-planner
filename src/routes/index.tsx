@@ -25,11 +25,11 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Completely Christmas — Your magical, stress-free Christmas" },
+      { title: "A Complete Christmas — Your magical, stress-free Christmas" },
       {
         name: "description",
         content:
-          "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with Completely Christmas.",
+          "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas.",
       },
     ],
   }),
@@ -133,7 +133,7 @@ function Home() {
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-lg tracking-tight sm:text-xl">
-            Completely <span className="gold-text">Christmas</span>
+            A Complete <span className="gold-text">Christmas</span>
           </span>
         </a>
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
@@ -162,7 +162,7 @@ function Home() {
           className="rise-in font-display text-5xl leading-[1.02] tracking-tight sm:text-7xl md:text-8xl"
           style={{ animationDelay: "0.05s" }}
         >
-          <span className="block text-foreground">Completely</span>
+          <span className="block text-foreground">A Complete</span>
           <span className="block gold-text">Christmas</span>
         </h1>
 
@@ -291,6 +291,14 @@ function Home() {
                 </li>
               ))}
             </ul>
+            <Link
+              to={user ? "/planner/reminders" : "/auth"}
+              className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
+              style={{ background: "var(--gradient-gold)" }}
+            >
+              <BellRing className="h-4 w-4" />
+              {user ? "Open my timeline" : "Start my timeline"}
+            </Link>
           </div>
 
           <div className="relative">
@@ -363,7 +371,7 @@ function Home() {
           </h2>
           <p className="mt-5 text-base text-muted-foreground sm:text-lg">
             From the first September planning list to Boxing Day leftovers —
-            Completely Christmas keeps every idea, list and reminder in one calm place.
+            A Complete Christmas keeps every idea, list and reminder in one calm place.
           </p>
         </div>
 
@@ -475,7 +483,7 @@ function Home() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-8 text-xs text-muted-foreground sm:flex-row sm:px-8">
           <div className="flex items-center gap-2">
             <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
-            <span className="font-display text-sm text-foreground">Completely Christmas</span>
+            <span className="font-display text-sm text-foreground">A Complete Christmas</span>
           </div>
           <p>Made with warmth · {new Date().getFullYear()}</p>
         </div>
