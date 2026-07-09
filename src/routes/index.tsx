@@ -291,6 +291,14 @@ function Home() {
                 </li>
               ))}
             </ul>
+            <Link
+              to={user ? "/planner/reminders" : "/auth"}
+              className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
+              style={{ background: "var(--gradient-gold)" }}
+            >
+              <BellRing className="h-4 w-4" />
+              {user ? "Open my timeline" : "Start my timeline"}
+            </Link>
           </div>
 
           <div className="relative">
