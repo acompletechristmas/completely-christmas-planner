@@ -78,13 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#1a0f0f" },
-      { title: "Completely Christmas — Your magical, stress-free Christmas" },
+      { title: "A Complete Christmas — Your magical, stress-free Christmas" },
       {
         name: "description",
         content:
           "The ultimate Christmas planning platform. Plan gifts, food and traditions, discover magical days out, and never miss a booking again.",
       },
-      { property: "og:title", content: "Completely Christmas" },
+      { property: "og:title", content: "A Complete Christmas" },
       {
         property: "og:description",
         content: "Everything you need for a magical, stress-free Christmas.",

@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Completely Christmas — Design System
+ * A Complete Christmas — Design System
  * Luxurious festive: deep reds, forest greens, gold, black.
  * All colors oklch. Serif display (Cormorant Garamond), body (Inter).
  * Fonts are loaded via <link> in __root.tsx head.
