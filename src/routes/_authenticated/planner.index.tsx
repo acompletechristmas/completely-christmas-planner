@@ -13,6 +13,7 @@ interface GiftRow extends BaseRow {
 }
 interface CardRow extends BaseRow { sent: boolean }
 interface TodoRow extends BaseRow { done: boolean }
+interface ReminderRow extends BaseRow { done: boolean; remind_on: string }
 
 function PlannerOverview() {
   const { user } = useAuth();
