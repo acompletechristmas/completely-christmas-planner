@@ -82,15 +82,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "The ultimate Christmas planning platform. Plan gifts, food and traditions, discover magical days out, and never miss a booking again.",
+          "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas.",
       },
-      { property: "og:title", content: "A Complete Christmas" },
+      { property: "og:title", content: "A Complete Christmas — Your magical, stress-free Christmas" },
       {
         property: "og:description",
-        content: "Everything you need for a magical, stress-free Christmas.",
+        content: "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "A Complete Christmas — Your magical, stress-free Christmas" },
+      { name: "twitter:description", content: "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d6430f31-e7b6-461d-82c3-b74f6adae28c/id-preview-71067bab--5ecac018-9d2f-45b9-b06d-ea25edc4d4dd.lovable.app-1783578327502.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d6430f31-e7b6-461d-82c3-b74f6adae28c/id-preview-71067bab--5ecac018-9d2f-45b9-b06d-ea25edc4d4dd.lovable.app-1783578327502.png" },
     ],
     links: [
       {
