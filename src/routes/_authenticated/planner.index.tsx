@@ -20,12 +20,17 @@ function PlannerOverview() {
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
+  const reminders = usePlannerList<ReminderRow>("reminders", user?.id);
 
   const totalSpent = gifts.rows
     .filter((g) => g.status !== "idea")
     .reduce((sum, g) => sum + (Number(g.price) || 0), 0);
   const wrapped = gifts.rows.filter((g) => g.status === "wrapped" || g.status === "given").length;
   const bought = gifts.rows.filter((g) => g.status !== "idea").length;
+
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const remindersUpcoming = reminders.rows.filter((r) => !r.done);
+  const remindersDueSoon = remindersUpcoming.filter((r) => r.remind_on <= todayIso).length;
 
   const stats: Array<{
     label: string;
