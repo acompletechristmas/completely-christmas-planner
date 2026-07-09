@@ -95,6 +95,51 @@ export type Database = {
         }
         Relationships: []
       }
+      reminders: {
+        Row: {
+          category: string
+          created_at: string
+          done: boolean
+          id: string
+          notes: string | null
+          remind_on: string
+          sort_order: number
+          source: string
+          target_date: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          done?: boolean
+          id?: string
+          notes?: string | null
+          remind_on: string
+          sort_order?: number
+          source?: string
+          target_date?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          done?: boolean
+          id?: string
+          notes?: string | null
+          remind_on?: string
+          sort_order?: number
+          source?: string
+          target_date?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       todos: {
         Row: {
           category: string
