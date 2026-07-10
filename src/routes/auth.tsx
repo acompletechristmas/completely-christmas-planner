@@ -79,7 +79,7 @@ function AuthPage() {
       <Snowfall count={50} />
       <div className="relative z-10 w-full max-w-md">
         <Link to="/" className="mb-8 flex items-center justify-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.14_0.02_25_/_0.6)] twinkle">
+          <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] twinkle">
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-xl">
@@ -87,7 +87,7 @@ function AuthPage() {
           </span>
         </Link>
 
-        <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.14_0.02_25_/_0.85)] p-8 shadow-[var(--shadow-card)] backdrop-blur-xl">
+        <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.85)] p-8 shadow-[var(--shadow-card)] backdrop-blur-xl">
           <h1 className="font-display text-3xl leading-tight sm:text-4xl">
             {mode === "signin" ? "Welcome back" : "Start your Christmas"}
           </h1>
@@ -101,7 +101,7 @@ function AuthPage() {
             type="button"
             onClick={handleGoogle}
             disabled={busy}
-            className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.98_0.02_85)] px-4 py-3 text-sm font-medium text-[color:oklch(0.14_0.02_25)] transition hover:brightness-95 disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.98_0.02_85)] px-4 py-3 text-sm font-medium text-[color:oklch(0.20_0.04_245)] transition hover:brightness-95 disabled:opacity-60"
           >
             <GoogleIcon />
             Continue with Google
@@ -118,7 +118,7 @@ function AuthPage() {
               <span className="mb-1.5 block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                 Email
               </span>
-              <div className="flex items-center gap-2 rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.18_0.025_25_/_0.8)] px-3.5 py-2.5 focus-within:border-[oklch(0.80_0.14_85_/_0.6)]">
+              <div className="flex items-center gap-2 rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.8)] px-3.5 py-2.5 focus-within:border-[oklch(0.80_0.14_85_/_0.6)]">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="email"
@@ -134,7 +134,7 @@ function AuthPage() {
               <span className="mb-1.5 block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                 Password
               </span>
-              <div className="flex items-center gap-2 rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.18_0.025_25_/_0.8)] px-3.5 py-2.5 focus-within:border-[oklch(0.80_0.14_85_/_0.6)]">
+              <div className="flex items-center gap-2 rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.8)] px-3.5 py-2.5 focus-within:border-[oklch(0.80_0.14_85_/_0.6)]">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="password"

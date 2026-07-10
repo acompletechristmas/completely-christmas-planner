@@ -52,7 +52,7 @@ function TodosPage() {
           {rows.map((row) => (
             <li
               key={row.id}
-              className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3 transition hover:border-[oklch(0.80_0.14_85_/_0.35)]"
+              className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3 transition hover:border-[oklch(0.80_0.14_85_/_0.35)]"
             >
               <input
                 type="checkbox"
@@ -73,7 +73,7 @@ function TodosPage() {
                 type="date"
                 value={row.due_date ?? ""}
                 onChange={(e) => updateField(row.id, "due_date", e.target.value || null)}
-                className="shrink-0 rounded-lg border border-transparent bg-[oklch(0.18_0.025_25_/_0.5)] px-2 py-1 text-xs text-muted-foreground outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+                className="shrink-0 rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.5)] px-2 py-1 text-xs text-muted-foreground outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
               />
               <button
                 onClick={() => removeRow(row.id)}
@@ -92,7 +92,7 @@ function TodosPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3">
+    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3">
       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{label}</p>
       <p className="mt-1 font-display text-2xl gold-text">{value}</p>
     </div>

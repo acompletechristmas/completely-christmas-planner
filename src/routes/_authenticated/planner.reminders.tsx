@@ -39,11 +39,11 @@ interface ReminderRow extends BaseRow {
 }
 
 const CATEGORY_STYLE: Record<string, { label: string; tint: string; text: string }> = {
-  book: { label: "Book", tint: "oklch(0.42 0.16 20 / 0.3)", text: "oklch(0.96 0.02 85)" },
-  order: { label: "Order", tint: "oklch(0.68 0.19 45 / 0.2)", text: "oklch(0.96 0.02 85)" },
-  post: { label: "Post", tint: "oklch(0.36 0.08 155 / 0.35)", text: "oklch(0.96 0.02 85)" },
+  book: { label: "Book", tint: "oklch(0.42 0.16 20 / 0.3)", text: "oklch(0.97 0.01 240)" },
+  order: { label: "Order", tint: "oklch(0.68 0.19 45 / 0.2)", text: "oklch(0.97 0.01 240)" },
+  post: { label: "Post", tint: "oklch(0.50 0.10 180 / 0.35)", text: "oklch(0.97 0.01 240)" },
   prepare: { label: "Prep", tint: "oklch(0.80 0.14 85 / 0.2)", text: "oklch(0.88 0.10 88)" },
-  family: { label: "Family", tint: "oklch(0.55 0.14 320 / 0.25)", text: "oklch(0.96 0.02 85)" },
+  family: { label: "Family", tint: "oklch(0.55 0.14 320 / 0.25)", text: "oklch(0.97 0.01 240)" },
   general: { label: "General", tint: "oklch(0.80 0.14 85 / 0.15)", text: "oklch(0.88 0.10 88)" },
 };
 
@@ -130,7 +130,7 @@ function RemindersPage() {
   return (
     <div className="rise-in space-y-6">
       {/* Header card */}
-      <div className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.14_0.02_25_/_0.75)] p-6 sm:p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.75)] p-6 sm:p-8">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl"
@@ -241,7 +241,7 @@ function ReminderItem({
   return (
     <li
       className={
-        "rounded-xl border bg-[oklch(0.18_0.025_25_/_0.6)] transition " +
+        "rounded-xl border bg-[oklch(0.26_0.04_245_/_0.6)] transition " +
         (row.done
           ? "border-[oklch(0.80_0.14_85_/_0.1)] opacity-70"
           : "border-[oklch(0.80_0.14_85_/_0.18)] hover:border-[oklch(0.80_0.14_85_/_0.4)]")
@@ -294,10 +294,10 @@ function ReminderItem({
                 : status.tone === "gold"
                   ? "oklch(0.80 0.14 85 / 0.2)"
                   : status.tone === "pine"
-                    ? "oklch(0.36 0.08 155 / 0.35)"
-                    : "oklch(0.18 0.025 25 / 0.8)",
+                    ? "oklch(0.50 0.10 180 / 0.35)"
+                    : "oklch(0.26 0.04 245 / 0.8)",
             color:
-              status.tone === "gold" ? "oklch(0.88 0.10 88)" : "oklch(0.96 0.02 85)",
+              status.tone === "gold" ? "oklch(0.88 0.10 88)" : "oklch(0.97 0.01 240)",
           }}
         >
           {status.label}
@@ -318,20 +318,20 @@ function ReminderItem({
             value={row.title}
             onChange={(e) => onTitle(e.target.value)}
             placeholder="What do you need to remember?"
-            className="min-w-0 rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.14_0.02_25_/_0.7)] px-3 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+            className="min-w-0 rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.7)] px-3 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
           />
           <input
             type="date"
             value={row.remind_on}
             onChange={(e) => onDate(e.target.value)}
-            className="rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.14_0.02_25_/_0.7)] px-3 py-2 text-sm text-muted-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+            className="rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.7)] px-3 py-2 text-sm text-muted-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
           />
           <textarea
             value={row.notes ?? ""}
             onChange={(e) => onNotes(e.target.value || null)}
             placeholder="Notes (links, options you're considering, who's booking)…"
             rows={2}
-            className="sm:col-span-2 rounded-lg border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.14_0.02_25_/_0.5)] px-3 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+            className="sm:col-span-2 rounded-lg border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.20_0.04_245_/_0.5)] px-3 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
           />
         </div>
       ) : null}
@@ -343,7 +343,7 @@ function Stat({ label, value, tone = "muted" }: { label: string; value: string; 
   return (
     <div
       className={
-        "rounded-xl border bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3 " +
+        "rounded-xl border bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3 " +
         (tone === "ember"
           ? "border-[oklch(0.68_0.19_45_/_0.5)]"
           : "border-[oklch(0.80_0.14_85_/_0.15)]")

@@ -62,8 +62,8 @@ function GiftsPage() {
       ) : rows.length === 0 ? (
         <EmptyState onAdd={() => addRow({ recipient: "", item: "", status: "idea" } as Partial<GiftRow>)} />
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.14_0.02_25_/_0.6)]">
-          <div className="hidden grid-cols-[1.2fr_1.6fr_0.9fr_1fr_2fr_auto] gap-3 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.10_0.015_25_/_0.6)] px-4 py-3 text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:grid">
+        <div className="overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)]">
+          <div className="hidden grid-cols-[1.2fr_1.6fr_0.9fr_1fr_2fr_auto] gap-3 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.6)] px-4 py-3 text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:grid">
             <span>Recipient</span>
             <span>Gift</span>
             <span>Price</span>
@@ -99,7 +99,7 @@ function GiftsPage() {
                 <select
                   value={row.status}
                   onChange={(e) => updateField(row.id, "status", e.target.value as GiftStatus)}
-                  className="rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.8)] px-3 py-2 text-sm text-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+                  className="rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] px-3 py-2 text-sm text-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
                 >
                   {statuses.map((s) => (
                     <option key={s.value} value={s.value}>{s.label}</option>
@@ -138,7 +138,7 @@ function GiftsPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3">
+    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3">
       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{label}</p>
       <p className="mt-1 font-display text-2xl gold-text">{value}</p>
     </div>
@@ -162,14 +162,14 @@ function FieldInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-transparent bg-[oklch(0.18_0.025_25_/_0.5)] px-3 py-2 text-sm text-foreground outline-none transition hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)] focus:bg-[oklch(0.18_0.025_25_/_0.9)]"
+      className="w-full rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.5)] px-3 py-2 text-sm text-foreground outline-none transition hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)] focus:bg-[oklch(0.26_0.04_245_/_0.9)]"
     />
   );
 }
 
 function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className="rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.14_0.02_25_/_0.4)] p-10 text-center">
+    <div className="rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
       <Sparkles className="mx-auto h-6 w-6 text-[color:var(--gold)]" />
       <h3 className="mt-3 font-display text-2xl">Your gift list is empty</h3>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">

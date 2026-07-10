@@ -48,7 +48,7 @@ function CardsPage() {
           <p className="mt-3 text-sm text-muted-foreground">Add your first card recipient.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.14_0.02_25_/_0.6)]">
+        <div className="overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)]">
           <ul>
             {rows.map((row) => (
               <li
@@ -59,13 +59,13 @@ function CardsPage() {
                   value={row.recipient}
                   onChange={(e) => updateField(row.id, "recipient", e.target.value)}
                   placeholder="Recipient"
-                  className="rounded-lg border border-transparent bg-[oklch(0.18_0.025_25_/_0.5)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+                  className="rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.5)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
                 />
                 <input
                   value={row.address ?? ""}
                   onChange={(e) => updateField(row.id, "address", e.target.value)}
                   placeholder="Address (optional)"
-                  className="rounded-lg border border-transparent bg-[oklch(0.18_0.025_25_/_0.5)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+                  className="rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.5)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
                 />
                 <Checkbox
                   label="Sent"
@@ -95,7 +95,7 @@ function CardsPage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3">
+    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3">
       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{label}</p>
       <p className="mt-1 font-display text-2xl gold-text">{value}</p>
     </div>
