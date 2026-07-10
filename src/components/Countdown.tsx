@@ -41,7 +41,7 @@ export function Countdown() {
       {items.map(([label, value]) => (
         <div
           key={label}
-          className="flex min-w-[64px] flex-col items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.14_0.02_25_/_0.6)] px-3 py-3 backdrop-blur-sm sm:min-w-[88px] sm:px-5 sm:py-4"
+          className="flex min-w-[64px] flex-col items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-3 backdrop-blur-sm sm:min-w-[88px] sm:px-5 sm:py-4"
         >
           <span className="font-display text-3xl leading-none sm:text-5xl gold-text tabular-nums">
             {mounted ? String(value).padStart(2, "0") : "--"}

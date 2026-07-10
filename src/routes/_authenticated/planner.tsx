@@ -44,7 +44,7 @@ function PlannerLayout() {
       />
 
       {/* Top bar */}
-      <header className="relative z-10 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.10_0.015_25_/_0.6)] backdrop-blur-md">
+      <header className="relative z-10 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.6)] backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <Link to="/" className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] twinkle">
@@ -94,7 +94,7 @@ function PlannerLayout() {
                   "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition " +
                   (active
                     ? "border-[oklch(0.80_0.14_85_/_0.7)] bg-[oklch(0.80_0.14_85_/_0.12)] text-[color:var(--gold-soft)]"
-                    : "border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.6)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
+                    : "border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
                 }
               >
                 <Icon className="h-4 w-4" />

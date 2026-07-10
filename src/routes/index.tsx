@@ -129,7 +129,7 @@ function Home() {
       {/* NAV */}
       <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
         <a href="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.14_0.02_25_/_0.6)] twinkle">
+          <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] twinkle">
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-lg tracking-tight sm:text-xl">
@@ -154,7 +154,7 @@ function Home() {
 
       {/* HERO */}
       <section className="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-5 pt-6 pb-20 text-center sm:px-8 sm:pt-10 sm:pb-28">
-        <div className="rise-in mb-6 inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.14_0.02_25_/_0.5)] px-4 py-1.5 text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)] backdrop-blur-sm">
+        <div className="rise-in mb-6 inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.5)] px-4 py-1.5 text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)] backdrop-blur-sm">
           <span className="twinkle">✦</span> Your Christmas companion
         </div>
 
@@ -190,7 +190,7 @@ function Home() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(180deg, oklch(0.09 0.015 25 / 0.3) 0%, oklch(0.09 0.015 25 / 0.1) 40%, oklch(0.09 0.015 25 / 0.85) 100%)",
+                  "linear-gradient(180deg, oklch(0.12 0.03 245 / 0.3) 0%, oklch(0.12 0.03 245 / 0.1) 40%, oklch(0.12 0.03 245 / 0.85) 100%)",
               }}
             />
             <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-5 pb-6 sm:pb-10">
@@ -211,7 +211,7 @@ function Home() {
             <Link
               key={title}
               to={planLink}
-              className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
+              className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
             >
 
               <span
@@ -284,7 +284,7 @@ function Home() {
               ].map((r) => (
                 <li
                   key={r}
-                  className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.18_0.025_25_/_0.6)] px-4 py-3"
+                  className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3"
                 >
                   <BellRing className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
                   <span className="text-sm">{r}</span>
@@ -303,7 +303,7 @@ function Home() {
 
           <div className="relative">
             <div className="absolute -inset-6 rounded-3xl bg-[oklch(0.80_0.14_85_/_0.08)] blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.14_0.02_25_/_0.8)] p-6 shadow-[var(--shadow-card)] backdrop-blur-sm sm:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)] p-6 shadow-[var(--shadow-card)] backdrop-blur-sm sm:p-8">
               <div className="mb-5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CalendarClock className="h-4 w-4 text-[color:var(--gold)]" />
@@ -341,14 +341,14 @@ function Home() {
                         r.tone === "ember"
                           ? "oklch(0.68 0.19 45 / 0.2)"
                           : r.tone === "pine"
-                            ? "oklch(0.36 0.08 155 / 0.35)"
+                            ? "oklch(0.50 0.10 180 / 0.35)"
                             : r.tone === "gold"
                               ? "oklch(0.80 0.14 85 / 0.2)"
                               : "oklch(0.42 0.16 20 / 0.3)",
                       color:
                         r.tone === "gold"
                           ? "oklch(0.88 0.10 88)"
-                          : "oklch(0.96 0.02 85)",
+                          : "oklch(0.97 0.01 240)",
                     }}
                   >
                     {r.tag}
@@ -381,7 +381,7 @@ function Home() {
               key={title}
               id={title === "Christmas Days Out" ? "days-out" : undefined}
               className={
-                "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.18_0.025_25_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
+                "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
                 (i === 0 ? "sm:col-span-2 lg:col-span-2" : "")
               }
             >
@@ -397,7 +397,7 @@ function Home() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(180deg, transparent 40%, oklch(0.14 0.02 25 / 0.85) 100%)",
+                        "linear-gradient(180deg, transparent 40%, oklch(0.20 0.04 245 / 0.85) 100%)",
                     }}
                   />
                 </div>
@@ -405,7 +405,7 @@ function Home() {
 
               <div className="flex flex-1 flex-col p-6">
                 <div className="mb-4 flex items-center justify-between">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.14_0.02_25_/_0.8)]">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
                     <Icon className="h-5 w-5 text-[color:var(--gold)]" />
                   </span>
                   {tag ? (
@@ -428,7 +428,7 @@ function Home() {
           className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] p-8 sm:p-14"
           style={{
             background:
-              "radial-gradient(ellipse at top left, oklch(0.32 0.12 22 / 0.6) 0%, oklch(0.14 0.02 25) 60%), oklch(0.10 0.015 25)",
+              "radial-gradient(ellipse at top left, oklch(0.35 0.10 260 / 0.6) 0%, oklch(0.20 0.04 245) 60%), oklch(0.13 0.03 245)",
           }}
         >
           <div
@@ -438,7 +438,7 @@ function Home() {
           />
           <div className="relative grid gap-10 md:grid-cols-2 md:items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.14_0.02_25_/_0.6)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
                 <Crown className="h-3 w-3" /> VIP Membership
               </div>
               <h2 className="mt-5 font-display text-4xl leading-tight sm:text-5xl md:text-6xl">
@@ -467,7 +467,7 @@ function Home() {
               ].map((b) => (
                 <li
                   key={b}
-                  className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.14_0.02_25_/_0.5)] px-4 py-3 text-sm"
+                  className="flex items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.5)] px-4 py-3 text-sm"
                 >
                   <Sparkles className="h-4 w-4 shrink-0 text-[color:var(--gold)]" />
                   {b}

@@ -85,7 +85,7 @@ function PlannerOverview() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map(({ label, value, sub, icon: Icon, to }) => {
           const inner = (
-            <div className="group flex h-full flex-col justify-between rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.7)] p-5 transition hover:-translate-y-0.5 hover:border-[oklch(0.80_0.14_85_/_0.5)]">
+            <div className="group flex h-full flex-col justify-between rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.7)] p-5 transition hover:-translate-y-0.5 hover:border-[oklch(0.80_0.14_85_/_0.5)]">
               <div className="flex items-center justify-between">
                 <span className="grid h-9 w-9 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)]">
                   <Icon className="h-4 w-4 text-[color:var(--gold)]" />
@@ -131,7 +131,7 @@ function QuickStart({ title, body, to, icon: Icon }: { title: string; body: stri
   return (
     <Link
       to={to}
-      className="group relative overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.18_0.025_25_/_0.7)] p-6 transition hover:border-[oklch(0.80_0.14_85_/_0.5)]"
+      className="group relative overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 transition hover:border-[oklch(0.80_0.14_85_/_0.5)]"
     >
       <div className="flex items-center gap-3">
         <span className="grid h-10 w-10 place-items-center rounded-xl" style={{ background: "var(--gradient-gold)" }}>
