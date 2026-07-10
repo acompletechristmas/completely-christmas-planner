@@ -49,6 +49,10 @@
   --color-gold-soft: var(--gold-soft);
   --color-ivory: var(--ivory);
   --color-ember: var(--ember);
+  --color-frost: var(--frost);
+  --color-frost-deep: var(--frost-deep);
+  --color-aurora: var(--aurora);
+  --color-midnight: var(--midnight);
 }
 
 :root {
