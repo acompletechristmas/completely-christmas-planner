@@ -52,53 +52,76 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.9rem;
 
-  /* Christmas palette */
-  --cranberry: oklch(0.42 0.16 20);       /* deep festive red */
-  --holly: oklch(0.35 0.10 260);           /* darker mulled wine red */
-  --pine: oklch(0.42 0.09 175);           /* forest green */
-  --gold: oklch(0.80 0.14 85);            /* warm gold */
-  --gold-soft: oklch(0.88 0.10 88);       /* champagne */
-  --ivory: oklch(0.97 0.01 240);           /* warm cream */
-  --ember: oklch(0.68 0.19 45);           /* warm ember glow */
+  /* Winter Wonderland palette */
+  --cranberry: oklch(0.62 0.16 22);        /* berry accent, softer */
+  --holly: oklch(0.55 0.12 155);           /* evergreen */
+  --pine: oklch(0.48 0.09 185);            /* frosted spruce */
+  --gold: oklch(0.86 0.12 88);             /* champagne gold */
+  --gold-soft: oklch(0.93 0.07 90);        /* warm starlight */
+  --ivory: oklch(0.98 0.01 240);           /* fresh snow */
+  --ember: oklch(0.72 0.16 45);            /* candlelight */
+  --frost: oklch(0.90 0.05 230);           /* icy frost */
+  --frost-deep: oklch(0.62 0.10 235);      /* deeper ice blue */
+  --aurora: oklch(0.72 0.14 195);          /* aurora teal */
+  --midnight: oklch(0.22 0.06 260);        /* deep starry sky */
 
-  /* Semantic — dark-first luxe */
-  --background: oklch(0.20 0.04 245);      /* near-black, warm */
-  --foreground: oklch(0.97 0.01 240);      /* ivory */
-  --card: oklch(0.26 0.04 245);
-  --card-foreground: oklch(0.97 0.01 240);
-  --popover: oklch(0.20 0.04 245);
-  --popover-foreground: oklch(0.97 0.01 240);
-  --primary: oklch(0.80 0.14 85);         /* gold */
-  --primary-foreground: oklch(0.20 0.04 245);
-  --secondary: oklch(0.42 0.09 175);      /* pine */
-  --secondary-foreground: oklch(0.97 0.01 240);
-  --muted: oklch(0.32 0.04 240);
-  --muted-foreground: oklch(0.82 0.03 235);
-  --accent: oklch(0.42 0.16 20);          /* cranberry */
-  --accent-foreground: oklch(0.97 0.01 240);
-  --destructive: oklch(0.55 0.22 27);
+  /* Semantic — starry winter night, magical but lighter */
+  --background: oklch(0.24 0.05 250);      /* deep icy midnight */
+  --foreground: oklch(0.98 0.01 240);      /* snow */
+  --card: oklch(0.30 0.05 245);
+  --card-foreground: oklch(0.98 0.01 240);
+  --popover: oklch(0.24 0.05 250);
+  --popover-foreground: oklch(0.98 0.01 240);
+  --primary: oklch(0.86 0.12 88);          /* champagne gold */
+  --primary-foreground: oklch(0.22 0.06 260);
+  --secondary: oklch(0.48 0.09 185);       /* frosted spruce */
+  --secondary-foreground: oklch(0.98 0.01 240);
+  --muted: oklch(0.36 0.04 240);
+  --muted-foreground: oklch(0.86 0.03 235);
+  --accent: oklch(0.72 0.14 195);          /* aurora */
+  --accent-foreground: oklch(0.22 0.06 260);
+  --destructive: oklch(0.62 0.20 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.62 0.05 235 / 40%);
-  --input: oklch(0.62 0.05 235 / 40%);
-  --ring: oklch(0.80 0.14 85 / 60%);
+  --border: oklch(0.72 0.06 230 / 35%);
+  --input: oklch(0.72 0.06 230 / 35%);
+  --ring: oklch(0.86 0.12 88 / 60%);
 
-  /* Gradients & shadows */
+  /* Gradients & shadows — aurora / snow */
   --gradient-hero: radial-gradient(
-      ellipse at 50% 0%,
-      oklch(0.35 0.10 260 / 0.7) 0%,
-      oklch(0.20 0.04 245) 55%,
-      oklch(0.12 0.03 245) 100%
+      ellipse at 20% -10%,
+      oklch(0.55 0.14 210 / 0.55) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 10%,
+      oklch(0.60 0.14 300 / 0.35) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 50% 110%,
+      oklch(0.55 0.12 175 / 0.35) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      oklch(0.20 0.05 258) 0%,
+      oklch(0.28 0.06 245) 60%,
+      oklch(0.22 0.05 250) 100%
     );
-  --gradient-gold: linear-gradient(135deg, oklch(0.88 0.10 88) 0%, oklch(0.72 0.15 78) 100%);
-  --gradient-cranberry: linear-gradient(135deg, oklch(0.42 0.16 20) 0%, oklch(0.32 0.10 260) 100%);
-  --gradient-pine: linear-gradient(135deg, oklch(0.50 0.10 180) 0%, oklch(0.30 0.06 200) 100%);
+  --gradient-gold: linear-gradient(135deg, oklch(0.95 0.06 90) 0%, oklch(0.80 0.14 82) 100%);
+  --gradient-cranberry: linear-gradient(135deg, oklch(0.62 0.16 22) 0%, oklch(0.38 0.12 18) 100%);
+  --gradient-pine: linear-gradient(135deg, oklch(0.58 0.10 185) 0%, oklch(0.34 0.08 200) 100%);
+  --gradient-frost: linear-gradient(135deg, oklch(0.95 0.03 235) 0%, oklch(0.75 0.09 220) 100%);
+  --gradient-aurora: linear-gradient(120deg, oklch(0.68 0.14 200) 0%, oklch(0.62 0.15 260) 45%, oklch(0.68 0.14 320) 100%);
 
-  --shadow-glow-gold: 0 0 60px oklch(0.80 0.14 85 / 0.35), 0 0 20px oklch(0.80 0.14 85 / 0.25);
-  --shadow-warm: 0 20px 60px -20px oklch(0.42 0.16 20 / 0.5);
-  --shadow-card: 0 10px 40px -12px oklch(0 0 0 / 0.6);
+  --shadow-glow-gold: 0 0 60px oklch(0.86 0.12 88 / 0.35), 0 0 20px oklch(0.86 0.12 88 / 0.28);
+  --shadow-glow-frost: 0 0 60px oklch(0.80 0.10 220 / 0.45), 0 0 22px oklch(0.90 0.05 230 / 0.4);
+  --shadow-warm: 0 20px 60px -20px oklch(0.62 0.16 22 / 0.45);
+  --shadow-card: 0 10px 40px -12px oklch(0.15 0.05 250 / 0.65);
 }
+
 
 @layer base {
   * {
