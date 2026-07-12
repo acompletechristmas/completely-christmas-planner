@@ -219,10 +219,10 @@ function Home() {
           className="rise-in mt-10 grid w-full max-w-4xl grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-4 sm:gap-4"
           style={{ animationDelay: "0.35s" }}
         >
-          {primaryActions.map(({ icon: Icon, title, desc, tone }) => (
+          {primaryActions.map(({ icon: Icon, title, desc, tone, to }) => (
             <Link
               key={title}
-              to={planLink}
+              to={to === "planner" ? planLink : to}
               className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
             >
 
