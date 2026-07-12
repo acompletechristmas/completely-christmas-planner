@@ -3,10 +3,12 @@ import { Snowfall } from "@/components/Snowfall";
 import { useAuth } from "@/hooks/use-auth";
 
 import { Countdown } from "@/components/Countdown";
+import { WaitlistForm } from "@/components/WaitlistForm";
 import heroTree from "@/assets/hero-tree.jpg";
 import inspirationImg from "@/assets/inspiration.jpg";
 import giftsImg from "@/assets/gifts.jpg";
 import marketImg from "@/assets/market.jpg";
+
 import {
   Gift,
   Sparkles,
@@ -31,10 +33,13 @@ export const Route = createFileRoute("/")({
         content:
           "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas.",
       },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/" }],
   }),
   component: Home,
 });
+
 
 const primaryActions = [
   {
@@ -154,7 +159,9 @@ function Home() {
           <Link className="transition hover:text-foreground" to="/days-out">Days Out</Link>
           <Link className="transition hover:text-foreground" to="/save">Save</Link>
           <Link className="transition hover:text-foreground" to="/teachers">Teachers</Link>
+          <Link className="transition hover:text-foreground" to="/partners">Partners</Link>
           <Link className="transition hover:text-foreground" to="/vip">VIP</Link>
+
         </nav>
         <Link
           to={planLink}
@@ -494,6 +501,27 @@ function Home() {
         </div>
       </section>
 
+      {/* WAITLIST — early access */}
+      <section id="early-access" className="relative z-10 mx-auto max-w-4xl px-5 py-20 sm:px-8 sm:py-28">
+        <div className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.7)] p-8 text-center backdrop-blur-sm sm:p-14">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "oklch(0.80 0.14 85 / 0.2)" }} />
+          <div className="relative flex flex-col items-center gap-6">
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+              Launching Christmas 2027 · Trialling now
+            </p>
+            <h2 className="font-display text-4xl leading-tight sm:text-5xl">
+              Be first to <span className="gold-text">a complete Christmas</span>
+            </h2>
+            <p className="max-w-lg text-sm text-muted-foreground sm:text-base">
+              Join the early access list. You'll get the app before anyone else, a weekly Christmas countdown, and a hand in shaping what we build.
+            </p>
+            <div className="w-full max-w-lg">
+              <WaitlistForm source="home" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-[oklch(0.80_0.14_85_/_0.15)]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-8 text-xs text-muted-foreground sm:flex-row sm:px-8">
@@ -501,9 +529,13 @@ function Home() {
             <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
             <span className="font-display text-sm text-foreground">A Complete Christmas</span>
           </div>
-          <p>Made with warmth · {new Date().getFullYear()}</p>
+          <div className="flex items-center gap-5">
+            <Link to="/partners" className="transition hover:text-foreground">Partner with us</Link>
+            <p>Made with warmth · {new Date().getFullYear()}</p>
+          </div>
         </div>
       </footer>
     </div>
   );
 }
+
