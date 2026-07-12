@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { Wand2, Search, ArrowRight, Sparkles, Printer } from "lucide-react";
 
-export const Route = createFileRoute("/teachers")({
+export const Route = createFileRoute("/teachers/")({
   head: () => ({
     meta: [
       { title: "Teachers & Education — A Complete Christmas" },
