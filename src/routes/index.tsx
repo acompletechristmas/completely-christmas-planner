@@ -21,6 +21,7 @@ import {
   ChefHat,
   Film,
   Bot,
+  Crown,
   BellRing,
   TreePine,
 } from "lucide-react";
