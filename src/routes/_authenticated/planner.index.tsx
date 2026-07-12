@@ -72,13 +72,13 @@ function PlannerOverview() {
       {/* Celebration hero */}
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 md:col-span-2">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">You're on your way</p>
+          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Look at you go</p>
           <p className="mt-2 font-display text-3xl leading-snug sm:text-4xl">
             {cheer}
           </p>
           <div className="mt-5 flex items-baseline gap-3">
             <span className="font-display text-5xl gold-text leading-none">{overallReady}%</span>
-            <span className="text-sm text-muted-foreground">Christmas ready</span>
+            <span className="text-sm text-muted-foreground">of the way to a jingly Christmas</span>
           </div>
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
             <div className="h-full rounded-full transition-all" style={{ width: `${overallReady}%`, background: "var(--gradient-gold)" }} />
