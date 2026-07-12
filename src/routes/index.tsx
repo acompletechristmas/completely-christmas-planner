@@ -42,26 +42,30 @@ const primaryActions = [
     title: "Plan My Christmas",
     desc: "Gifts, budget, food & lists — all in one place.",
     tone: "cranberry",
+    to: "planner" as const,
   },
   {
     icon: Sparkles,
     title: "Inspire Me",
     desc: "Trees, tables, traditions & Elf ideas.",
     tone: "pine",
+    to: "/inspire" as const,
   },
   {
     icon: MapPin,
     title: "Christmas Magic Near Me",
     desc: "Santa, markets, light trails & panto.",
     tone: "gold",
+    to: "/days-out" as const,
   },
   {
     icon: PiggyBank,
     title: "Save Money",
     desc: "Smart budgets, deals & clever swaps.",
     tone: "ember",
+    to: "/save" as const,
   },
-] as const;
+];
 
 const features = [
   {
@@ -69,45 +73,53 @@ const features = [
     title: "Christmas Planner",
     body: "Gift planner, budget, present & wrap tracker, cards, meal planner, shopping lists, family calendar — everything saves automatically.",
     image: giftsImg,
+    to: "planner" as const,
   },
   {
     icon: BellRing,
     title: "Never Miss Christmas",
     body: "Timely nudges through the year: book Santa, panto, markets, afternoon teas, order the turkey, post the last cards.",
     tag: "Signature feature",
+    to: "planner-reminders" as const,
   },
   {
     icon: Bot,
     title: "AI Gift Finder",
     body: "Answer a few questions and get thoughtful, personal gift ideas — from stocking fillers to luxury.",
     image: giftsImg,
+    to: "/gift-finder" as const,
   },
   {
     icon: TreePine,
     title: "Christmas Inspiration",
     body: "Decor themes, table settings, outdoor lights, crafts, DIY gifts, Christmas Eve boxes and Elf ideas.",
     image: inspirationImg,
+    to: "/inspire" as const,
   },
   {
     icon: Film,
     title: "Christmas Entertainment",
     body: "Films, TV, playlists, family games and quiz packs to make evenings sparkle.",
+    to: "/entertainment" as const,
   },
   {
     icon: ChefHat,
     title: "Christmas Food",
     body: "Recipes, dinner planner, cooking timeline, shopping lists, leftovers and festive drinks.",
+    to: "/food" as const,
   },
   {
     icon: MapPin,
     title: "Christmas Days Out",
     body: "Enter your postcode to find Santa experiences, markets, light trails, ice skating and festive stays nearby.",
     image: marketImg,
+    to: "/days-out" as const,
   },
   {
     icon: Bot,
     title: "AI Christmas Assistant",
     body: "Ask anything: gift ideas for Dad, dinner plans, film picks, quiz builders, days out — right when you need it.",
+    to: "/assistant" as const,
   },
 ];
 
@@ -128,20 +140,20 @@ function Home() {
 
       {/* NAV */}
       <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-        <a href="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] twinkle">
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-lg tracking-tight sm:text-xl">
             A Complete <span className="gold-text">Christmas</span>
           </span>
-        </a>
+        </Link>
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
-          <a className="transition hover:text-foreground" href="#planner">Planner</a>
-          <a className="transition hover:text-foreground" href="#never-miss">Never Miss</a>
-          <a className="transition hover:text-foreground" href="#inspire">Inspire</a>
-          <a className="transition hover:text-foreground" href="#days-out">Days Out</a>
-          <a className="transition hover:text-foreground" href="#vip">VIP</a>
+          <Link className="transition hover:text-foreground" to={planLink}>Planner</Link>
+          <Link className="transition hover:text-foreground" to="/inspire">Inspire</Link>
+          <Link className="transition hover:text-foreground" to="/days-out">Days Out</Link>
+          <Link className="transition hover:text-foreground" to="/save">Save</Link>
+          <Link className="transition hover:text-foreground" to="/vip">VIP</Link>
         </nav>
         <Link
           to={planLink}
@@ -207,10 +219,10 @@ function Home() {
           className="rise-in mt-10 grid w-full max-w-4xl grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-4 sm:gap-4"
           style={{ animationDelay: "0.35s" }}
         >
-          {primaryActions.map(({ icon: Icon, title, desc, tone }) => (
+          {primaryActions.map(({ icon: Icon, title, desc, tone, to }) => (
             <Link
               key={title}
-              to={planLink}
+              to={to === "planner" ? planLink : to}
               className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
             >
 
@@ -376,49 +388,52 @@ function Home() {
         </div>
 
         <div id="inspire" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map(({ icon: Icon, title, body, image, tag }, i) => (
-            <article
-              key={title}
-              id={title === "Christmas Days Out" ? "days-out" : undefined}
-              className={
-                "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
-                (i === 0 ? "sm:col-span-2 lg:col-span-2" : "")
-              }
-            >
-              {image ? (
-                <div className="relative h-44 overflow-hidden sm:h-52">
-                  <img
-                    src={image}
-                    alt=""
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, transparent 40%, oklch(0.20 0.04 245 / 0.85) 100%)",
-                    }}
-                  />
-                </div>
-              ) : null}
+          {features.map(({ icon: Icon, title, body, image, tag, to }, i) => {
+            const dest = to === "planner" ? planLink : to === "planner-reminders" ? (user ? "/planner/reminders" : "/auth") : to;
+            return (
+              <Link
+                key={title}
+                to={dest}
+                className={
+                  "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
+                  (i === 0 ? "sm:col-span-2 lg:col-span-2" : "")
+                }
+              >
+                {image ? (
+                  <div className="relative h-44 overflow-hidden sm:h-52">
+                    <img
+                      src={image}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent 40%, oklch(0.20 0.04 245 / 0.85) 100%)",
+                      }}
+                    />
+                  </div>
+                ) : null}
 
-              <div className="flex flex-1 flex-col p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
-                    <Icon className="h-5 w-5 text-[color:var(--gold)]" />
-                  </span>
-                  {tag ? (
-                    <span className="rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--gold-soft)]">
-                      {tag}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
+                      <Icon className="h-5 w-5 text-[color:var(--gold)]" />
                     </span>
-                  ) : null}
+                    {tag ? (
+                      <span className="rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--gold-soft)]">
+                        {tag}
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="font-display text-2xl text-foreground">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
                 </div>
-                <h3 className="font-display text-2xl text-foreground">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-              </div>
-            </article>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 
@@ -448,13 +463,13 @@ function Home() {
                 Unlimited AI, exclusive planners, VIP competitions, early booking access,
                 members-only printables — and never an advert.
               </p>
-              <button
-                type="button"
+              <Link
+                to="/vip"
                 className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
                 style={{ background: "var(--gradient-gold)" }}
               >
                 <Crown className="h-4 w-4" /> Join VIP — Early access
-              </button>
+              </Link>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {[
