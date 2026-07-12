@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { Plus, Trash2, ExternalLink, Sparkles } from "lucide-react";
+import { usePeople } from "@/hooks/use-people";
+import { Plus, Trash2, ExternalLink, Sparkles, Users } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
   component: GiftsPage,
@@ -15,6 +16,8 @@ interface GiftRow extends BaseRow {
   price: number | null;
   status: GiftStatus;
   notes: string | null;
+  person_id: string | null;
+  year: number;
 }
 
 const statuses: { value: GiftStatus; label: string }[] = [
