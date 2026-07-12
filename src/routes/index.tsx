@@ -388,49 +388,52 @@ function Home() {
         </div>
 
         <div id="inspire" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map(({ icon: Icon, title, body, image, tag }, i) => (
-            <article
-              key={title}
-              id={title === "Christmas Days Out" ? "days-out" : undefined}
-              className={
-                "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
-                (i === 0 ? "sm:col-span-2 lg:col-span-2" : "")
-              }
-            >
-              {image ? (
-                <div className="relative h-44 overflow-hidden sm:h-52">
-                  <img
-                    src={image}
-                    alt=""
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, transparent 40%, oklch(0.20 0.04 245 / 0.85) 100%)",
-                    }}
-                  />
-                </div>
-              ) : null}
+          {features.map(({ icon: Icon, title, body, image, tag, to }, i) => {
+            const dest = to === "planner" ? planLink : to === "planner-reminders" ? (user ? "/planner/reminders" : "/auth") : to;
+            return (
+              <Link
+                key={title}
+                to={dest}
+                className={
+                  "group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)] " +
+                  (i === 0 ? "sm:col-span-2 lg:col-span-2" : "")
+                }
+              >
+                {image ? (
+                  <div className="relative h-44 overflow-hidden sm:h-52">
+                    <img
+                      src={image}
+                      alt=""
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent 40%, oklch(0.20 0.04 245 / 0.85) 100%)",
+                      }}
+                    />
+                  </div>
+                ) : null}
 
-              <div className="flex flex-1 flex-col p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
-                    <Icon className="h-5 w-5 text-[color:var(--gold)]" />
-                  </span>
-                  {tag ? (
-                    <span className="rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--gold-soft)]">
-                      {tag}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="mb-4 flex items-center justify-between">
+                    <span className="grid h-10 w-10 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
+                      <Icon className="h-5 w-5 text-[color:var(--gold)]" />
                     </span>
-                  ) : null}
+                    {tag ? (
+                      <span className="rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[color:var(--gold-soft)]">
+                        {tag}
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="font-display text-2xl text-foreground">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
                 </div>
-                <h3 className="font-display text-2xl text-foreground">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
-              </div>
-            </article>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
 
