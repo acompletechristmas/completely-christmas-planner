@@ -220,35 +220,35 @@ function PlannerOverview() {
 
       {/* Quick stats — celebratory */}
       <section>
-        <h2 className="font-display text-2xl">A little celebration</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Look how much you've already done.</p>
+        <h2 className="font-display text-2xl">Wins so far 🎉</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Every little tick counts. Look at all this magic.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Cheer icon={Gift} label="Presents sorted" value={bought} total={gifts.rows.length} pct={giftPct} />
-          <Cheer icon={PoundSterling} label={budget ? "Budget used" : "Budget"} value={`£${totalSpent.toFixed(0)}`} total={budget ? `£${budget.toFixed(0)}` : "—"} pct={budget ? Math.min(100, Math.round((totalSpent / budget) * 100)) : 0} />
-          <Cheer icon={Mail} label="Cards sent" value={cardsSent} total={cards.rows.length} pct={cardsPct} />
+          <Cheer icon={Gift} label="Pressies sorted" value={bought} total={gifts.rows.length} pct={giftPct} />
+          <Cheer icon={PoundSterling} label={budget ? "Pot spent" : "Budget"} value={`£${totalSpent.toFixed(0)}`} total={budget ? `£${budget.toFixed(0)}` : "—"} pct={budget ? Math.min(100, Math.round((totalSpent / budget) * 100)) : 0} />
+          <Cheer icon={Mail} label="Cards posted" value={cardsSent} total={cards.rows.length} pct={cardsPct} />
           <Cheer icon={ListChecks} label="Ticked off" value={tasksDone} total={todos.rows.length} pct={tasksPct} />
         </div>
       </section>
 
       {/* Tiny secondary links */}
       <section className="flex flex-wrap gap-2 pt-2">
-        <TinyLink to="/planner/setup" icon={Settings2}>Personalise my Christmas</TinyLink>
-        <TinyLink to="/planner/people" icon={Users}>My people</TinyLink>
-        <TinyLink to="/planner/timeline" icon={CalendarRange}>Timeline</TinyLink>
-        <TinyLink to="/planner/reminders" icon={BellRing}>Reminders</TinyLink>
+        <TinyLink to="/planner/setup" icon={Settings2}>Tweak my Christmas</TinyLink>
+        <TinyLink to="/planner/people" icon={Users}>My humans</TinyLink>
+        <TinyLink to="/planner/timeline" icon={CalendarRange}>The plan</TinyLink>
+        <TinyLink to="/planner/reminders" icon={BellRing}>Nudges</TinyLink>
       </section>
     </div>
   );
 }
 
 function pickCheer({ bought, giftsTotal, wrapped, overallReady, overdue }: { bought: number; giftsTotal: number; wrapped: number; overallReady: number; overdue: number }): string {
-  if (overallReady >= 90) return "You're basically Mrs Claus — Christmas is nearly wrapped up 🌟";
-  if (overallReady >= 70) return "You're well ahead of most people — beautifully done ✨";
-  if (bought >= 10) return `${bought} presents sorted — you're smashing it 🎁`;
-  if (wrapped >= 5) return `${wrapped} wrapped and ready under the tree 🎀`;
-  if (giftsTotal > 0) return "Your Christmas is coming together beautifully 🎄";
-  if (overdue > 0) return "A gentle nudge or two — no stress, we've got time 💛";
-  return "Fancy planning something festive today? ✨";
+  if (overallReady >= 90) return "You're basically Mrs Claus — nearly there 🌟";
+  if (overallReady >= 70) return "Miles ahead of the rest of us — absolute legend ✨";
+  if (bought >= 10) return `${bought} pressies sorted. You're on fire 🎁`;
+  if (wrapped >= 5) return `${wrapped} wrapped and ready to sparkle under the tree 🎀`;
+  if (giftsTotal > 0) return "Bit by bit — this Christmas is coming together 🎄";
+  if (overdue > 0) return "A couple of gentle nudges — nothing scary, promise 💛";
+  return "Right, shall we sprinkle a bit of Christmas magic? ✨";
 }
 
 function friendlyDate(iso: string, today: string): string {
