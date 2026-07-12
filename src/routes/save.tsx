@@ -9,7 +9,9 @@ export const Route = createFileRoute("/save")({
       { name: "description", content: "Smart Christmas budgets, curated deals, clever gift swaps and money-saving tricks that don't dim the magic." },
       { property: "og:title", content: "Save Money at Christmas — A Complete Christmas" },
       { property: "og:description", content: "Give a beautiful Christmas without the January regret." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/save" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/save" }],
   }),
   component: SavePage,
 });

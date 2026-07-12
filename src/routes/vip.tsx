@@ -9,7 +9,9 @@ export const Route = createFileRoute("/vip")({
       { name: "description", content: "Unlimited AI, exclusive planners, VIP competitions, early booking access, members-only printables — and never an advert." },
       { property: "og:title", content: "VIP — The Golden Ticket to Christmas" },
       { property: "og:description", content: "The golden ticket to a truly complete Christmas." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/vip" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/vip" }],
   }),
   component: VipPage,
 });

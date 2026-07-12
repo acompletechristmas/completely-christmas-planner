@@ -12,7 +12,9 @@ export const Route = createFileRoute("/teachers/")({
       { name: "description", content: "The UK's magical Christmas resource hub for teachers, home educators and parents. Printable worksheets, activities, quizzes, crafts and AI-generated lesson plans." },
       { property: "og:title", content: "Christmas Teaching Resources — A Complete Christmas" },
       { property: "og:description", content: "Printable and digital Christmas resources for every classroom, plus an AI resource generator." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/teachers" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/teachers" }],
   }),
   component: TeachersHub,
 });

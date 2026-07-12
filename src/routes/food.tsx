@@ -9,7 +9,9 @@ export const Route = createFileRoute("/food")({
       { name: "description", content: "Recipes, dinner planner, cooking timeline, shopping lists, leftover ideas and festive drinks." },
       { property: "og:title", content: "Christmas Food — A Complete Christmas" },
       { property: "og:description", content: "The calm, delicious way to cook Christmas dinner." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/food" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/food" }],
   }),
   component: FoodPage,
 });

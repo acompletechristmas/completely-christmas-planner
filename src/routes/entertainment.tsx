@@ -9,7 +9,9 @@ export const Route = createFileRoute("/entertainment")({
       { name: "description", content: "Films, TV, playlists, family games and quiz packs to make festive evenings sparkle." },
       { property: "og:title", content: "Christmas Entertainment — A Complete Christmas" },
       { property: "og:description", content: "Curated evenings for cosy nights, big family gatherings and everything between." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/entertainment" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/entertainment" }],
   }),
   component: EntertainmentPage,
 });

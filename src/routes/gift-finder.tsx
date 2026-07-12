@@ -9,7 +9,9 @@ export const Route = createFileRoute("/gift-finder")({
       { name: "description", content: "Answer a few questions and get thoughtful, personal Christmas gift ideas — from stocking fillers to luxury." },
       { property: "og:title", content: "AI Gift Finder — A Complete Christmas" },
       { property: "og:description", content: "The kindest, cleverest Christmas gift assistant." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/gift-finder" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/gift-finder" }],
   }),
   component: GiftFinderPage,
 });
