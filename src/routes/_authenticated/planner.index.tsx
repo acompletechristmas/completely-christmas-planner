@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { usePlannerSettings } from "@/hooks/use-planner-settings";
+import { usePeople } from "@/hooks/use-people";
 import {
   Gift,
   Mail,
@@ -13,6 +14,8 @@ import {
   Users,
   Settings2,
   ArrowRight,
+  Check,
+  CircleDashed,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
