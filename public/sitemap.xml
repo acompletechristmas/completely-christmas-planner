@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://completechristmas.co.uk/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://completechristmas.co.uk/days-out</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://completechristmas.co.uk/food</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://completechristmas.co.uk/entertainment</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://completechristmas.co.uk/gift-finder</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://completechristmas.co.uk/inspire</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://completechristmas.co.uk/teachers</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://completechristmas.co.uk/save</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://completechristmas.co.uk/vip</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://completechristmas.co.uk/assistant</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://completechristmas.co.uk/auth</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/days-out</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/food</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/entertainment</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/gift-finder</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/inspire</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/teachers</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/save</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/vip</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/assistant</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://acompletechristmas.co.uk/auth</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
