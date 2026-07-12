@@ -21,6 +21,7 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
+import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
@@ -89,6 +90,11 @@ const IndexRoute = IndexRouteImport.update({
 const TeachersIndexRoute = TeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeachersGenerateRoute = TeachersGenerateRouteImport.update({
+  id: '/teachers/generate',
+  path: '/teachers/generate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeachersCategoryRoute = TeachersCategoryRouteImport.update({
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/vip': typeof VipRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/vip': typeof VipRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/vip'
     | '/planner'
     | '/teachers/$category'
+    | '/teachers/generate'
     | '/teachers/'
     | '/planner/cards'
     | '/planner/gifts'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/save'
     | '/vip'
     | '/teachers/$category'
+    | '/teachers/generate'
     | '/teachers'
     | '/planner/cards'
     | '/planner/gifts'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/vip'
     | '/_authenticated/planner'
     | '/teachers/$category'
+    | '/teachers/generate'
     | '/teachers/'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
@@ -303,6 +315,7 @@ export interface RootRouteChildren {
   SaveRoute: typeof SaveRoute
   VipRoute: typeof VipRoute
   TeachersCategoryRoute: typeof TeachersCategoryRoute
+  TeachersGenerateRoute: typeof TeachersGenerateRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
 }
 
@@ -390,6 +403,13 @@ declare module '@tanstack/react-router' {
       path: '/teachers'
       fullPath: '/teachers/'
       preLoaderRoute: typeof TeachersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/generate': {
+      id: '/teachers/generate'
+      path: '/teachers/generate'
+      fullPath: '/teachers/generate'
+      preLoaderRoute: typeof TeachersGenerateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teachers/$category': {
@@ -527,6 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   SaveRoute: SaveRoute,
   VipRoute: VipRoute,
   TeachersCategoryRoute: TeachersCategoryRoute,
+  TeachersGenerateRoute: TeachersGenerateRoute,
   TeachersIndexRoute: TeachersIndexRoute,
 }
 export const routeTree = rootRouteImport
