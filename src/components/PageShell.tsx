@@ -120,7 +120,7 @@ export function GoldCTA({ to, children }: CTAProps) {
 export function ComingSoonBadge() {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-      <Sparkles className="h-3 w-3 twinkle" /> Arriving this season
+      <Sparkles className="h-3 w-3 twinkle" /> Santa's still wrapping this one
     </span>
   );
 }

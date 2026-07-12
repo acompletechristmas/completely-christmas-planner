@@ -72,13 +72,13 @@ function PlannerOverview() {
       {/* Celebration hero */}
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 md:col-span-2">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">You're on your way</p>
+          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Look at you go</p>
           <p className="mt-2 font-display text-3xl leading-snug sm:text-4xl">
             {cheer}
           </p>
           <div className="mt-5 flex items-baseline gap-3">
             <span className="font-display text-5xl gold-text leading-none">{overallReady}%</span>
-            <span className="text-sm text-muted-foreground">Christmas ready</span>
+            <span className="text-sm text-muted-foreground">of the way to a jingly Christmas</span>
           </div>
           <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
             <div className="h-full rounded-full transition-all" style={{ width: `${overallReady}%`, background: "var(--gradient-gold)" }} />
@@ -86,29 +86,29 @@ function PlannerOverview() {
         </div>
 
         <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-6">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">✨ What's next?</p>
+          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">✨ Little nudge</p>
           {nextTask ? (
             <>
-              <p className="mt-2 font-display text-xl">{nextTask.title || "One little thing to tick off"}</p>
+              <p className="mt-2 font-display text-xl">{nextTask.title || "A tiny thing waiting for a tick"}</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                {nextTask.due_date ? friendlyDate(nextTask.due_date, todayIso) : "whenever you fancy"}
+                {nextTask.due_date ? friendlyDate(nextTask.due_date, todayIso) : "no rush, whenever"}
               </p>
               <Link
                 to="/planner/todos"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
               >
-                Tick it off <ArrowRight className="h-3 w-3" />
+                Sort it now <ArrowRight className="h-3 w-3" />
               </Link>
             </>
           ) : (
             <>
-              <p className="mt-2 font-display text-xl">You're all caught up 🌟</p>
-              <p className="mt-1 text-xs text-muted-foreground">Fancy planning something festive today?</p>
+              <p className="mt-2 font-display text-xl">Nothing waiting — go you 🌟</p>
+              <p className="mt-1 text-xs text-muted-foreground">Fancy dreaming up something festive?</p>
               <Link
                 to="/planner/todos"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
               >
-                Add something new <ArrowRight className="h-3 w-3" />
+                Add a little something <ArrowRight className="h-3 w-3" />
               </Link>
             </>
           )}
@@ -118,131 +118,137 @@ function PlannerOverview() {
       {/* Christmas village — feature cards */}
       <section>
         <h2 className="font-display text-2xl sm:text-3xl">
-          Wander through your <span className="gold-text">Christmas village</span>
+          Have a wander round your <span className="gold-text">Christmas village</span>
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">Every corner has something lovely waiting.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Pop into any corner — there's something lovely in each one.</p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <VillageCard
             emoji="🎁"
-            title="Let's Buy Some Presents"
-            body={bought > 0 ? `${bought} sorted so far — keep going!` : "Start your list and find something special."}
+            title="Who am I buying for?"
+            body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
             to="/planner/gifts"
             gradient="var(--gradient-cranberry)"
           />
           <VillageCard
             emoji="👪"
-            title="Your Favourite People"
-            body="Keep track of who you're buying for."
+            title="My favourite humans"
+            body="Everyone you love, all in one place."
             to="/planner/people"
             gradient="var(--gradient-aurora)"
           />
           <VillageCard
             emoji="💷"
-            title="Where's the Money Going?"
+            title="Where's the money going?"
             body={budget != null && budgetLeft != null
-              ? (budgetLeft >= 0 ? `£${budgetLeft.toFixed(0)} still to spend` : `£${Math.abs(budgetLeft).toFixed(0)} over — worth a peek`)
-              : "Set a comfy budget for the season."}
+              ? (budgetLeft >= 0 ? `£${budgetLeft.toFixed(0)} left in the pot` : `£${Math.abs(budgetLeft).toFixed(0)} over — oops, worth a peek`)
+              : "Set a cosy little budget and we'll keep an eye."}
             to="/planner/setup"
             gradient="var(--gradient-gold)"
           />
           <VillageCard
             emoji="✅"
-            title="What's Next?"
-            body={overdue.length ? `${overdue.length} nudging you — no rush.` : "Your friendly little to-do list."}
+            title="Little things to do"
+            body={overdue.length ? `${overdue.length} waiting patiently — no panic.` : "Your friendly festive to-do list."}
             to="/planner/todos"
             gradient="var(--gradient-pine)"
           />
           <VillageCard
             emoji="✉️"
-            title="Cards & Messages"
-            body={cards.rows.length ? `${cardsSent}/${cards.rows.length} sent` : "Start your card list while it's on your mind."}
+            title="Cards & lovely notes"
+            body={cards.rows.length ? `${cardsSent}/${cards.rows.length} popped in the post` : "Jot them down while they're on your mind."}
             to="/planner/cards"
             gradient="var(--gradient-frost)"
           />
           <VillageCard
             emoji="🔔"
-            title="Never Miss a Moment"
-            body={nextReminder ? `Next: ${nextReminder.title}` : "The dates that always catch people out."}
+            title="Nudges from Santa's helpers"
+            body={nextReminder ? `Next up: ${nextReminder.title}` : "The dates that always sneak up on people."}
             to="/planner/reminders"
             gradient="var(--gradient-aurora)"
           />
           <VillageCard
             emoji="🗓"
-            title="Your Christmas Timeline"
-            body="What to focus on this month, all mapped out."
+            title="Your festive plan-of-attack"
+            body="A gentle month-by-month roadmap."
             to="/planner/timeline"
             gradient="var(--gradient-cranberry)"
           />
           <VillageCard
             emoji="🎄"
-            title="Make the House Sparkle"
-            body="Decorations, trees and cosy touches."
+            title="Make the house twinkle"
+            body="Trees, tables and cosy corners."
             to="/inspire"
             gradient="var(--gradient-pine)"
+            comingSoon
           />
           <VillageCard
             emoji="🍽"
-            title="Christmas Dinner"
-            body="Menus, timings and no last-minute panic."
+            title="Feed the whole crew"
+            body="Menus, timings, and zero panic at 3pm."
             to="/food"
             gradient="var(--gradient-cranberry)"
+            comingSoon
           />
           <VillageCard
             emoji="🎬"
-            title="Films & TV"
-            body="Cosy nights sorted."
+            title="Films, games & silly nights"
+            body="Cosy evenings, sorted."
             to="/entertainment"
             gradient="var(--gradient-frost)"
+            comingSoon
           />
           <VillageCard
             emoji="📍"
-            title="Days Out & Adventures"
-            body="Grottos, markets and magical trips."
+            title="Days out & mini adventures"
+            body="Grottos, markets and twinkly walks."
             to="/days-out"
             gradient="var(--gradient-aurora)"
+            comingSoon
           />
           <VillageCard
             emoji="✨"
-            title="Need Some Inspiration?"
-            body="Ideas, traditions and lovely little touches."
+            title="Give me a little inspo"
+            body="Ideas, traditions and lovely touches."
             to="/inspire"
             gradient="var(--gradient-gold)"
+            comingSoon
           />
         </div>
       </section>
 
+
       {/* Quick stats — celebratory */}
       <section>
-        <h2 className="font-display text-2xl">A little celebration</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Look how much you've already done.</p>
+        <h2 className="font-display text-2xl">Wins so far 🎉</h2>
+        <p className="mt-1 text-sm text-muted-foreground">Every little tick counts. Look at all this magic.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Cheer icon={Gift} label="Presents sorted" value={bought} total={gifts.rows.length} pct={giftPct} />
-          <Cheer icon={PoundSterling} label={budget ? "Budget used" : "Budget"} value={`£${totalSpent.toFixed(0)}`} total={budget ? `£${budget.toFixed(0)}` : "—"} pct={budget ? Math.min(100, Math.round((totalSpent / budget) * 100)) : 0} />
-          <Cheer icon={Mail} label="Cards sent" value={cardsSent} total={cards.rows.length} pct={cardsPct} />
+          <Cheer icon={Gift} label="Pressies sorted" value={bought} total={gifts.rows.length} pct={giftPct} />
+          <Cheer icon={PoundSterling} label={budget ? "Pot spent" : "Budget"} value={`£${totalSpent.toFixed(0)}`} total={budget ? `£${budget.toFixed(0)}` : "—"} pct={budget ? Math.min(100, Math.round((totalSpent / budget) * 100)) : 0} />
+          <Cheer icon={Mail} label="Cards posted" value={cardsSent} total={cards.rows.length} pct={cardsPct} />
           <Cheer icon={ListChecks} label="Ticked off" value={tasksDone} total={todos.rows.length} pct={tasksPct} />
         </div>
       </section>
 
       {/* Tiny secondary links */}
       <section className="flex flex-wrap gap-2 pt-2">
-        <TinyLink to="/planner/setup" icon={Settings2}>Personalise my Christmas</TinyLink>
-        <TinyLink to="/planner/people" icon={Users}>My people</TinyLink>
-        <TinyLink to="/planner/timeline" icon={CalendarRange}>Timeline</TinyLink>
-        <TinyLink to="/planner/reminders" icon={BellRing}>Reminders</TinyLink>
+        <TinyLink to="/planner/setup" icon={Settings2}>Tweak my Christmas</TinyLink>
+        <TinyLink to="/planner/people" icon={Users}>My humans</TinyLink>
+        <TinyLink to="/planner/timeline" icon={CalendarRange}>The plan</TinyLink>
+        <TinyLink to="/planner/reminders" icon={BellRing}>Nudges</TinyLink>
       </section>
     </div>
   );
 }
 
 function pickCheer({ bought, giftsTotal, wrapped, overallReady, overdue }: { bought: number; giftsTotal: number; wrapped: number; overallReady: number; overdue: number }): string {
-  if (overallReady >= 90) return "You're basically Mrs Claus — Christmas is nearly wrapped up 🌟";
-  if (overallReady >= 70) return "You're well ahead of most people — beautifully done ✨";
-  if (bought >= 10) return `${bought} presents sorted — you're smashing it 🎁`;
-  if (wrapped >= 5) return `${wrapped} wrapped and ready under the tree 🎀`;
-  if (giftsTotal > 0) return "Your Christmas is coming together beautifully 🎄";
-  if (overdue > 0) return "A gentle nudge or two — no stress, we've got time 💛";
-  return "Fancy planning something festive today? ✨";
+  if (overallReady >= 90) return "You're basically Mrs Claus — nearly there 🌟";
+  if (overallReady >= 70) return "Miles ahead of the rest of us — absolute legend ✨";
+  if (bought >= 10) return `${bought} pressies sorted. You're on fire 🎁`;
+  if (wrapped >= 5) return `${wrapped} wrapped and ready to sparkle under the tree 🎀`;
+  if (giftsTotal > 0) return "Bit by bit — this Christmas is coming together 🎄";
+  if (overdue > 0) return "A couple of gentle nudges — nothing scary, promise 💛";
+  return "Right, shall we sprinkle a bit of Christmas magic? ✨";
 }
 
 function friendlyDate(iso: string, today: string): string {
@@ -263,12 +269,14 @@ function VillageCard({
   body,
   to,
   gradient,
+  comingSoon,
 }: {
   emoji: string;
   title: string;
   body: string;
   to: string;
   gradient: string;
+  comingSoon?: boolean;
 }) {
   return (
     <Link
@@ -280,6 +288,11 @@ function VillageCard({
         className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-30 blur-2xl transition group-hover:opacity-60"
         style={{ background: gradient }}
       />
+      {comingSoon && (
+        <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.13_0.03_245_/_0.8)] px-2.5 py-0.5 text-[9px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
+          <Sparkles className="h-2.5 w-2.5" /> Coming soon
+        </span>
+      )}
       <div className="relative">
         <span className="grid h-12 w-12 place-items-center rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] text-2xl">
           {emoji}
@@ -287,7 +300,7 @@ function VillageCard({
         <h3 className="mt-4 font-display text-xl leading-tight">{title}</h3>
         <p className="mt-1 text-sm text-muted-foreground">{body}</p>
         <p className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
-          Open <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
+          {comingSoon ? "Sneak a peek" : "Open"} <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
         </p>
       </div>
     </Link>
