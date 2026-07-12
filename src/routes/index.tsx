@@ -12,6 +12,12 @@ import cardPlan from "@/assets/card-plan.jpg";
 import cardInspire from "@/assets/card-inspire.jpg";
 import cardMagic from "@/assets/card-magic.jpg";
 import cardSave from "@/assets/card-save.jpg";
+import cardEntertainment from "@/assets/card-entertainment.jpg";
+import cardFood from "@/assets/card-food.jpg";
+import cardTeachers from "@/assets/card-teachers.jpg";
+import cardPets from "@/assets/card-pets.jpg";
+import cardReminders from "@/assets/card-reminders.jpg";
+import cardAssistant from "@/assets/card-assistant.jpg";
 
 import {
   Sparkles,
@@ -24,6 +30,8 @@ import {
   Crown,
   BellRing,
   TreePine,
+  PawPrint,
+  BookOpen,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -83,6 +91,7 @@ const features = [
     title: "Never Miss Christmas",
     body: "Timely nudges through the year: book Santa, panto, markets, afternoon teas, order the turkey, post the last cards.",
     tag: "Signature feature",
+    image: cardReminders,
     to: "planner-reminders" as const,
   },
   {
@@ -103,12 +112,14 @@ const features = [
     icon: Film,
     title: "Christmas Entertainment",
     body: "Films, TV, playlists, family games and quiz packs to make evenings sparkle.",
+    image: cardEntertainment,
     to: "/entertainment" as const,
   },
   {
     icon: ChefHat,
     title: "Christmas Food",
     body: "Recipes, dinner planner, cooking timeline, shopping lists, leftovers and festive drinks.",
+    image: cardFood,
     to: "/food" as const,
   },
   {
@@ -119,9 +130,24 @@ const features = [
     to: "/days-out" as const,
   },
   {
+    icon: PawPrint,
+    title: "Christmas for Pets",
+    body: "Pet outfits, festive photo ideas, dog-friendly days out, safe treats and stocking gifts for the whole furry family.",
+    image: cardPets,
+    to: "/pets" as const,
+  },
+  {
+    icon: BookOpen,
+    title: "Christmas for Teachers",
+    body: "Ready-to-run lessons, colouring, worksheets, crafts, quizzes and assembly ideas for every year group.",
+    image: cardTeachers,
+    to: "/teachers" as const,
+  },
+  {
     icon: Bot,
     title: "AI Christmas Assistant",
     body: "Ask anything: gift ideas for Dad, dinner plans, film picks, quiz builders, days out — right when you need it.",
+    image: cardAssistant,
     to: "/assistant" as const,
   },
 ];
