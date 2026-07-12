@@ -41,6 +41,7 @@ interface ReminderRow extends BaseRow { done: boolean; remind_on: string; title:
 function PlannerOverview() {
   const { user } = useAuth();
   const { settings } = usePlannerSettings(user?.id);
+  const { people } = usePeople(user?.id);
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
