@@ -103,7 +103,7 @@ function PlannerOverview() {
             </p>
           </div>
           <Link
-            to="/planner/gifts"
+            to="/planner/list"
             className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
             style={{ background: "var(--gradient-gold)" }}
           >
