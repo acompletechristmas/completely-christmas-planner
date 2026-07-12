@@ -9,7 +9,9 @@ export const Route = createFileRoute("/assistant")({
       { name: "description", content: "Ask anything: gift ideas, dinner plans, film picks, quiz builders and days out — right when you need it." },
       { property: "og:title", content: "AI Christmas Assistant — A Complete Christmas" },
       { property: "og:description", content: "Your always-on festive helper." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/assistant" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/assistant" }],
   }),
   component: AssistantPage,
 });

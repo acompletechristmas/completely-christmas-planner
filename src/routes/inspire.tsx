@@ -9,7 +9,9 @@ export const Route = createFileRoute("/inspire")({
       { name: "description", content: "Winter wonderland decor themes, table settings, tree ideas, Elf on the Shelf and Christmas Eve boxes." },
       { property: "og:title", content: "Christmas Inspiration — A Complete Christmas" },
       { property: "og:description", content: "Curated magical ideas to bring your Christmas to life." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/inspire" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/inspire" }],
   }),
   component: InspirePage,
 });

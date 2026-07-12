@@ -139,6 +139,39 @@ export type Database = {
           },
         ]
       }
+      partner_enquiries: {
+        Row: {
+          budget: string | null
+          company: string
+          contact_name: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          website: string | null
+        }
+        Insert: {
+          budget?: string | null
+          company: string
+          contact_name: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          website?: string | null
+        }
+        Update: {
+          budget?: string | null
+          company?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       people: {
         Row: {
           avatar_url: string | null
@@ -433,6 +466,36 @@ export type Database = {
           title?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      waitlist: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          interests: string[] | null
+          name: string | null
+          postcode: string | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          interests?: string[] | null
+          name?: string | null
+          postcode?: string | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          interests?: string[] | null
+          name?: string | null
+          postcode?: string | null
+          source?: string | null
         }
         Relationships: []
       }

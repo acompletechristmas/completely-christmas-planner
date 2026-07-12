@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VipRouteImport } from './routes/vip'
 import { Route as SaveRouteImport } from './routes/save'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as InspireRouteImport } from './routes/inspire'
 import { Route as GiftFinderRouteImport } from './routes/gift-finder'
 import { Route as FoodRouteImport } from './routes/food'
@@ -43,6 +44,11 @@ const VipRoute = VipRouteImport.update({
 const SaveRoute = SaveRouteImport.update({
   id: '/save',
   path: '/save',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InspireRoute = InspireRouteImport.update({
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/partners': typeof PartnersRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/partners': typeof PartnersRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/teachers/$category': typeof TeachersCategoryRoute
@@ -231,6 +239,7 @@ export interface FileRoutesById {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/partners': typeof PartnersRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
@@ -259,6 +268,7 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/partners'
     | '/save'
     | '/vip'
     | '/planner'
@@ -285,6 +295,7 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/partners'
     | '/save'
     | '/vip'
     | '/teachers/$category'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/partners'
     | '/save'
     | '/vip'
     | '/_authenticated/planner'
@@ -338,6 +350,7 @@ export interface RootRouteChildren {
   FoodRoute: typeof FoodRoute
   GiftFinderRoute: typeof GiftFinderRoute
   InspireRoute: typeof InspireRoute
+  PartnersRoute: typeof PartnersRoute
   SaveRoute: typeof SaveRoute
   VipRoute: typeof VipRoute
   TeachersCategoryRoute: typeof TeachersCategoryRoute
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       path: '/save'
       fullPath: '/save'
       preLoaderRoute: typeof SaveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inspire': {
@@ -588,6 +608,7 @@ const rootRouteChildren: RootRouteChildren = {
   FoodRoute: FoodRoute,
   GiftFinderRoute: GiftFinderRoute,
   InspireRoute: InspireRoute,
+  PartnersRoute: PartnersRoute,
   SaveRoute: SaveRoute,
   VipRoute: VipRoute,
   TeachersCategoryRoute: TeachersCategoryRoute,

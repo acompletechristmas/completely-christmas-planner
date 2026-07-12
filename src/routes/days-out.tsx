@@ -9,7 +9,9 @@ export const Route = createFileRoute("/days-out")({
       { name: "description", content: "Find Santa's grottos, pantomimes, Christmas markets, light trails and festive days out near you." },
       { property: "og:title", content: "Christmas Magic Near Me — A Complete Christmas" },
       { property: "og:description", content: "Postcode-powered festive discovery, so nothing magical passes you by." },
+      { property: "og:url", content: "https://acompletechristmas.co.uk/days-out" },
     ],
+    links: [{ rel: "canonical", href: "https://acompletechristmas.co.uk/days-out" }],
   }),
   component: DaysOutPage,
 });
