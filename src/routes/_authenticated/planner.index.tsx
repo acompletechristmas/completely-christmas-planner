@@ -25,6 +25,9 @@ export const Route = createFileRoute("/_authenticated/planner/")({
 interface GiftRow extends BaseRow {
   price: number | null;
   status: "idea" | "bought" | "wrapped" | "given";
+  person_id: string | null;
+  recipient: string | null;
+  item: string | null;
 }
 interface CardRow extends BaseRow { sent: boolean }
 interface TodoRow extends BaseRow {
