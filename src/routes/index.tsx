@@ -73,45 +73,53 @@ const features = [
     title: "Christmas Planner",
     body: "Gift planner, budget, present & wrap tracker, cards, meal planner, shopping lists, family calendar — everything saves automatically.",
     image: giftsImg,
+    to: "planner" as const,
   },
   {
     icon: BellRing,
     title: "Never Miss Christmas",
     body: "Timely nudges through the year: book Santa, panto, markets, afternoon teas, order the turkey, post the last cards.",
     tag: "Signature feature",
+    to: "planner-reminders" as const,
   },
   {
     icon: Bot,
     title: "AI Gift Finder",
     body: "Answer a few questions and get thoughtful, personal gift ideas — from stocking fillers to luxury.",
     image: giftsImg,
+    to: "/gift-finder" as const,
   },
   {
     icon: TreePine,
     title: "Christmas Inspiration",
     body: "Decor themes, table settings, outdoor lights, crafts, DIY gifts, Christmas Eve boxes and Elf ideas.",
     image: inspirationImg,
+    to: "/inspire" as const,
   },
   {
     icon: Film,
     title: "Christmas Entertainment",
     body: "Films, TV, playlists, family games and quiz packs to make evenings sparkle.",
+    to: "/entertainment" as const,
   },
   {
     icon: ChefHat,
     title: "Christmas Food",
     body: "Recipes, dinner planner, cooking timeline, shopping lists, leftovers and festive drinks.",
+    to: "/food" as const,
   },
   {
     icon: MapPin,
     title: "Christmas Days Out",
     body: "Enter your postcode to find Santa experiences, markets, light trails, ice skating and festive stays nearby.",
     image: marketImg,
+    to: "/days-out" as const,
   },
   {
     icon: Bot,
     title: "AI Christmas Assistant",
     body: "Ask anything: gift ideas for Dad, dinner plans, film picks, quiz builders, days out — right when you need it.",
+    to: "/assistant" as const,
   },
 ];
 
