@@ -149,11 +149,11 @@ function Home() {
           </span>
         </a>
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
-          <a className="transition hover:text-foreground" href="#planner">Planner</a>
-          <a className="transition hover:text-foreground" href="#never-miss">Never Miss</a>
-          <a className="transition hover:text-foreground" href="#inspire">Inspire</a>
-          <a className="transition hover:text-foreground" href="#days-out">Days Out</a>
-          <a className="transition hover:text-foreground" href="#vip">VIP</a>
+          <Link className="transition hover:text-foreground" to={planLink}>Planner</Link>
+          <Link className="transition hover:text-foreground" to="/inspire">Inspire</Link>
+          <Link className="transition hover:text-foreground" to="/days-out">Days Out</Link>
+          <Link className="transition hover:text-foreground" to="/save">Save</Link>
+          <Link className="transition hover:text-foreground" to="/vip">VIP</Link>
         </nav>
         <Link
           to={planLink}
