@@ -2,35 +2,40 @@ import { createFileRoute, Link, Outlet, useRouterState, useNavigate } from "@tan
 import { Snowfall } from "@/components/Snowfall";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Sparkles, LayoutDashboard, Gift, Mail, ListChecks, LogOut, BellRing, Users, CalendarRange, Settings2 } from "lucide-react";
+import { Sparkles, LogOut, Home } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
     meta: [
-      { title: "Christmas Planner — A Complete Christmas" },
-      { name: "description", content: "Your gifts, cards, budget and to-do list — all in one calm place." },
+      { title: "Your Christmas — A Complete Christmas" },
+      { name: "description", content: "Your cosy little Christmas HQ. Plan gifts, food, films and all the fun." },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: PlannerLayout,
 });
 
-const tabs: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
-  { to: "/planner", label: "Overview", icon: LayoutDashboard, exact: true },
-  { to: "/planner/timeline", label: "Timeline", icon: CalendarRange },
-  { to: "/planner/reminders", label: "Never Miss", icon: BellRing },
-  { to: "/planner/people", label: "People", icon: Users },
-  { to: "/planner/gifts", label: "Gifts", icon: Gift },
-  { to: "/planner/cards", label: "Cards", icon: Mail },
-  { to: "/planner/todos", label: "Tasks", icon: ListChecks },
-  { to: "/planner/setup", label: "Setup", icon: Settings2 },
-];
+function daysToChristmas(): number {
+  const now = new Date();
+  const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
+  const xmas = new Date(year, 11, 25);
+  return Math.max(0, Math.ceil((xmas.getTime() - now.getTime()) / 86400000));
+}
 
+function firstName(email?: string | null, meta?: Record<string, unknown> | null): string {
+  const name = (meta?.full_name as string | undefined) ?? (meta?.name as string | undefined);
+  if (name) return name.split(" ")[0];
+  if (email) return email.split("@")[0].replace(/[._-]/g, " ").split(" ")[0].replace(/^./, (c) => c.toUpperCase());
+  return "friend";
+}
 
 function PlannerLayout() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const onOverview = pathname === "/planner";
+  const name = firstName(user?.email, user?.user_metadata as Record<string, unknown> | null);
+  const sleeps = daysToChristmas();
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -49,7 +54,7 @@ function PlannerLayout() {
       {/* Top bar */}
       <header className="relative z-10 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.6)] backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/planner" className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] twinkle">
               <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
             </span>
@@ -57,10 +62,16 @@ function PlannerLayout() {
               A Complete <span className="gold-text">Christmas</span>
             </span>
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="hidden text-xs text-muted-foreground sm:inline">
-              {user?.email}
-            </span>
+          <div className="flex items-center gap-2">
+            {!onOverview && (
+              <Link
+                to="/planner"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] px-3 py-1.5 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:text-foreground"
+              >
+                <Home className="h-3.5 w-3.5" />
+                My Christmas
+              </Link>
+            )}
             <button
               onClick={handleSignOut}
               className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] px-3 py-1.5 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:text-foreground"
@@ -72,44 +83,24 @@ function PlannerLayout() {
         </div>
       </header>
 
-      {/* Hero strip */}
-      <section className="relative z-10 mx-auto max-w-7xl px-5 pt-10 sm:px-8 sm:pt-14">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-          Christmas Planner
-        </p>
-        <h1 className="mt-2 font-display text-4xl leading-tight sm:text-5xl">
-          Christmas, <span className="gold-text">completely</span> organised
-        </h1>
-        <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
-          Every change saves automatically to your account.
-        </p>
-
-        {/* Tabs */}
-        <nav className="mt-8 flex flex-wrap gap-2">
-          {tabs.map((t) => {
-            const active = t.exact ? pathname === t.to : pathname.startsWith(t.to);
-            const Icon = t.icon;
-            return (
-              <Link
-                key={t.to}
-                to={t.to}
-                className={
-                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition " +
-                  (active
-                    ? "border-[oklch(0.80_0.14_85_/_0.7)] bg-[oklch(0.80_0.14_85_/_0.12)] text-[color:var(--gold-soft)]"
-                    : "border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
-                }
-              >
-                <Icon className="h-4 w-4" />
-                {t.label}
-              </Link>
-            );
-          })}
-        </nav>
-      </section>
+      {/* Warm greeting strip — only on overview */}
+      {onOverview && (
+        <section className="relative z-10 mx-auto max-w-7xl px-5 pt-10 sm:px-8 sm:pt-14">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+            🎄 Only {sleeps} sleeps to go
+          </p>
+          <h1 className="mt-2 font-display text-4xl leading-tight sm:text-5xl">
+            Hi {name}, ready to sprinkle a little{" "}
+            <span className="gold-text">Christmas magic</span>?
+          </h1>
+          <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
+            Your cosy Christmas HQ. Tap around, tick things off, and enjoy the run-up.
+          </p>
+        </section>
+      )}
 
       {/* Content */}
-      <main className="relative z-10 mx-auto max-w-7xl px-5 pb-24 pt-10 sm:px-8">
+      <main className="relative z-10 mx-auto max-w-7xl px-5 pb-24 pt-8 sm:px-8 sm:pt-10">
         <Outlet />
       </main>
     </div>
