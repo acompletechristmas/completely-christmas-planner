@@ -74,26 +74,26 @@
   --aurora: oklch(0.72 0.14 195);          /* aurora teal */
   --midnight: oklch(0.22 0.06 260);        /* deep starry sky */
 
-  /* Semantic — starry winter night, magical but lighter */
-  --background: oklch(0.24 0.05 250);      /* deep icy midnight */
-  --foreground: oklch(0.98 0.01 240);      /* snow */
-  --card: oklch(0.30 0.05 245);
-  --card-foreground: oklch(0.98 0.01 240);
-  --popover: oklch(0.24 0.05 250);
-  --popover-foreground: oklch(0.98 0.01 240);
-  --primary: oklch(0.86 0.12 88);          /* champagne gold */
-  --primary-foreground: oklch(0.22 0.06 260);
-  --secondary: oklch(0.48 0.09 185);       /* frosted spruce */
-  --secondary-foreground: oklch(0.98 0.01 240);
-  --muted: oklch(0.36 0.04 240);
-  --muted-foreground: oklch(0.86 0.03 235);
-  --accent: oklch(0.72 0.14 195);          /* aurora */
-  --accent-foreground: oklch(0.22 0.06 260);
-  --destructive: oklch(0.62 0.20 27);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.72 0.06 230 / 35%);
-  --input: oklch(0.72 0.06 230 / 35%);
-  --ring: oklch(0.86 0.12 88 / 60%);
+  /* Semantic — softer twilight sky, lighter and airier */
+  --background: oklch(0.40 0.06 245);      /* lighter twilight blue */
+  --foreground: oklch(0.99 0.01 240);      /* snow */
+  --card: oklch(0.46 0.06 240);
+  --card-foreground: oklch(0.99 0.01 240);
+  --popover: oklch(0.40 0.06 245);
+  --popover-foreground: oklch(0.99 0.01 240);
+  --primary: oklch(0.88 0.12 88);          /* champagne gold */
+  --primary-foreground: oklch(0.28 0.06 260);
+  --secondary: oklch(0.55 0.10 190);       /* frosted spruce */
+  --secondary-foreground: oklch(0.99 0.01 240);
+  --muted: oklch(0.52 0.05 240);
+  --muted-foreground: oklch(0.94 0.02 235);
+  --accent: oklch(0.75 0.14 195);          /* aurora */
+  --accent-foreground: oklch(0.28 0.06 260);
+  --destructive: oklch(0.65 0.20 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.85 0.06 230 / 40%);
+  --input: oklch(0.85 0.06 230 / 40%);
+  --ring: oklch(0.88 0.12 88 / 60%);
 
   /* Gradients & shadows — aurora / snow */
   --gradient-hero: radial-gradient(
@@ -113,9 +113,9 @@
     ),
     linear-gradient(
       180deg,
-      oklch(0.20 0.05 258) 0%,
-      oklch(0.28 0.06 245) 60%,
-      oklch(0.22 0.05 250) 100%
+      oklch(0.38 0.06 258) 0%,
+      oklch(0.46 0.07 245) 60%,
+      oklch(0.40 0.06 250) 100%
     );
   --gradient-gold: linear-gradient(135deg, oklch(0.95 0.06 90) 0%, oklch(0.80 0.14 82) 100%);
   --gradient-cranberry: linear-gradient(135deg, oklch(0.62 0.16 22) 0%, oklch(0.38 0.12 18) 100%);
