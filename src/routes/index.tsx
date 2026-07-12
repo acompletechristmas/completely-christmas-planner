@@ -153,6 +153,7 @@ function Home() {
           <Link className="transition hover:text-foreground" to="/inspire">Inspire</Link>
           <Link className="transition hover:text-foreground" to="/days-out">Days Out</Link>
           <Link className="transition hover:text-foreground" to="/save">Save</Link>
+          <Link className="transition hover:text-foreground" to="/teachers">Teachers</Link>
           <Link className="transition hover:text-foreground" to="/vip">VIP</Link>
         </nav>
         <Link
