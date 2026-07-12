@@ -20,6 +20,9 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
+import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
+import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
 import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
@@ -82,6 +85,21 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeachersIndexRoute = TeachersIndexRouteImport.update({
+  id: '/teachers/',
+  path: '/teachers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeachersGenerateRoute = TeachersGenerateRouteImport.update({
+  id: '/teachers/generate',
+  path: '/teachers/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeachersCategoryRoute = TeachersCategoryRouteImport.update({
+  id: '/teachers/$category',
+  path: '/teachers/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
@@ -150,6 +168,9 @@ export interface FileRoutesByFullPath {
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
+  '/teachers/': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -170,6 +191,9 @@ export interface FileRoutesByTo {
   '/inspire': typeof InspireRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
+  '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
+  '/teachers': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
@@ -192,6 +216,9 @@ export interface FileRoutesById {
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/teachers/$category': typeof TeachersCategoryRoute
+  '/teachers/generate': typeof TeachersGenerateRoute
+  '/teachers/': typeof TeachersIndexRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -215,6 +242,9 @@ export interface FileRouteTypes {
     | '/save'
     | '/vip'
     | '/planner'
+    | '/teachers/$category'
+    | '/teachers/generate'
+    | '/teachers/'
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/people'
@@ -235,6 +265,9 @@ export interface FileRouteTypes {
     | '/inspire'
     | '/save'
     | '/vip'
+    | '/teachers/$category'
+    | '/teachers/generate'
+    | '/teachers'
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/reminders'
@@ -256,6 +289,9 @@ export interface FileRouteTypes {
     | '/save'
     | '/vip'
     | '/_authenticated/planner'
+    | '/teachers/$category'
+    | '/teachers/generate'
+    | '/teachers/'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
     | '/_authenticated/planner/people'
@@ -278,6 +314,9 @@ export interface RootRouteChildren {
   InspireRoute: typeof InspireRoute
   SaveRoute: typeof SaveRoute
   VipRoute: typeof VipRoute
+  TeachersCategoryRoute: typeof TeachersCategoryRoute
+  TeachersGenerateRoute: typeof TeachersGenerateRoute
+  TeachersIndexRoute: typeof TeachersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -357,6 +396,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/': {
+      id: '/teachers/'
+      path: '/teachers'
+      fullPath: '/teachers/'
+      preLoaderRoute: typeof TeachersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/generate': {
+      id: '/teachers/generate'
+      path: '/teachers/generate'
+      fullPath: '/teachers/generate'
+      preLoaderRoute: typeof TeachersGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/$category': {
+      id: '/teachers/$category'
+      path: '/teachers/$category'
+      fullPath: '/teachers/$category'
+      preLoaderRoute: typeof TeachersCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/planner': {
@@ -486,6 +546,9 @@ const rootRouteChildren: RootRouteChildren = {
   InspireRoute: InspireRoute,
   SaveRoute: SaveRoute,
   VipRoute: VipRoute,
+  TeachersCategoryRoute: TeachersCategoryRoute,
+  TeachersGenerateRoute: TeachersGenerateRoute,
+  TeachersIndexRoute: TeachersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

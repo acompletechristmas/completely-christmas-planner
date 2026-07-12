@@ -256,6 +256,93 @@ export type Database = {
         }
         Relationships: []
       }
+      resources: {
+        Row: {
+          category: string
+          content_html: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          difficulty: string | null
+          digital: boolean
+          file_url: string | null
+          group_type: string | null
+          id: string
+          is_premium: boolean
+          is_public: boolean
+          length_minutes: number | null
+          printable: boolean
+          setting: string | null
+          slug: string | null
+          source: string
+          subcategory: string | null
+          subject: string | null
+          tags: string[]
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          view_count: number
+          year_max: number | null
+          year_min: number | null
+        }
+        Insert: {
+          category: string
+          content_html?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          digital?: boolean
+          file_url?: string | null
+          group_type?: string | null
+          id?: string
+          is_premium?: boolean
+          is_public?: boolean
+          length_minutes?: number | null
+          printable?: boolean
+          setting?: string | null
+          slug?: string | null
+          source?: string
+          subcategory?: string | null
+          subject?: string | null
+          tags?: string[]
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          view_count?: number
+          year_max?: number | null
+          year_min?: number | null
+        }
+        Update: {
+          category?: string
+          content_html?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          difficulty?: string | null
+          digital?: boolean
+          file_url?: string | null
+          group_type?: string | null
+          id?: string
+          is_premium?: boolean
+          is_public?: boolean
+          length_minutes?: number | null
+          printable?: boolean
+          setting?: string | null
+          slug?: string | null
+          source?: string
+          subcategory?: string | null
+          subject?: string | null
+          tags?: string[]
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          view_count?: number
+          year_max?: number | null
+          year_min?: number | null
+        }
+        Relationships: []
+      }
       todos: {
         Row: {
           category: string
