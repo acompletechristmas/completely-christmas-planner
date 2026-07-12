@@ -269,12 +269,14 @@ function VillageCard({
   body,
   to,
   gradient,
+  comingSoon,
 }: {
   emoji: string;
   title: string;
   body: string;
   to: string;
   gradient: string;
+  comingSoon?: boolean;
 }) {
   return (
     <Link
@@ -286,6 +288,11 @@ function VillageCard({
         className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-30 blur-2xl transition group-hover:opacity-60"
         style={{ background: gradient }}
       />
+      {comingSoon && (
+        <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.13_0.03_245_/_0.8)] px-2.5 py-0.5 text-[9px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
+          <Sparkles className="h-2.5 w-2.5" /> Coming soon
+        </span>
+      )}
       <div className="relative">
         <span className="grid h-12 w-12 place-items-center rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] text-2xl">
           {emoji}
@@ -293,7 +300,7 @@ function VillageCard({
         <h3 className="mt-4 font-display text-xl leading-tight">{title}</h3>
         <p className="mt-1 text-sm text-muted-foreground">{body}</p>
         <p className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
-          Open <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
+          {comingSoon ? "Sneak a peek" : "Open"} <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
         </p>
       </div>
     </Link>
