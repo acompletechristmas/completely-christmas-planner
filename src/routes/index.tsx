@@ -42,26 +42,30 @@ const primaryActions = [
     title: "Plan My Christmas",
     desc: "Gifts, budget, food & lists — all in one place.",
     tone: "cranberry",
+    to: "planner" as const,
   },
   {
     icon: Sparkles,
     title: "Inspire Me",
     desc: "Trees, tables, traditions & Elf ideas.",
     tone: "pine",
+    to: "/inspire" as const,
   },
   {
     icon: MapPin,
     title: "Christmas Magic Near Me",
     desc: "Santa, markets, light trails & panto.",
     tone: "gold",
+    to: "/days-out" as const,
   },
   {
     icon: PiggyBank,
     title: "Save Money",
     desc: "Smart budgets, deals & clever swaps.",
     tone: "ember",
+    to: "/save" as const,
   },
-] as const;
+];
 
 const features = [
   {

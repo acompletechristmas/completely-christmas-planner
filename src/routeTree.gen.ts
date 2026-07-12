@@ -9,7 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VipRouteImport } from './routes/vip'
+import { Route as SaveRouteImport } from './routes/save'
+import { Route as InspireRouteImport } from './routes/inspire'
+import { Route as GiftFinderRouteImport } from './routes/gift-finder'
+import { Route as FoodRouteImport } from './routes/food'
+import { Route as EntertainmentRouteImport } from './routes/entertainment'
+import { Route as DaysOutRouteImport } from './routes/days-out'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
@@ -19,9 +27,49 @@ import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_aut
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 
+const VipRoute = VipRouteImport.update({
+  id: '/vip',
+  path: '/vip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SaveRoute = SaveRouteImport.update({
+  id: '/save',
+  path: '/save',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspireRoute = InspireRouteImport.update({
+  id: '/inspire',
+  path: '/inspire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GiftFinderRoute = GiftFinderRouteImport.update({
+  id: '/gift-finder',
+  path: '/gift-finder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoodRoute = FoodRouteImport.update({
+  id: '/food',
+  path: '/food',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntertainmentRoute = EntertainmentRouteImport.update({
+  id: '/entertainment',
+  path: '/entertainment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DaysOutRoute = DaysOutRouteImport.update({
+  id: '/days-out',
+  path: '/days-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -71,7 +119,15 @@ const AuthenticatedPlannerCardsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/days-out': typeof DaysOutRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/food': typeof FoodRoute
+  '/gift-finder': typeof GiftFinderRoute
+  '/inspire': typeof InspireRoute
+  '/save': typeof SaveRoute
+  '/vip': typeof VipRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
@@ -81,7 +137,15 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/days-out': typeof DaysOutRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/food': typeof FoodRoute
+  '/gift-finder': typeof GiftFinderRoute
+  '/inspire': typeof InspireRoute
+  '/save': typeof SaveRoute
+  '/vip': typeof VipRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
@@ -92,7 +156,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/days-out': typeof DaysOutRoute
+  '/entertainment': typeof EntertainmentRoute
+  '/food': typeof FoodRoute
+  '/gift-finder': typeof GiftFinderRoute
+  '/inspire': typeof InspireRoute
+  '/save': typeof SaveRoute
+  '/vip': typeof VipRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
@@ -104,7 +176,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistant'
     | '/auth'
+    | '/days-out'
+    | '/entertainment'
+    | '/food'
+    | '/gift-finder'
+    | '/inspire'
+    | '/save'
+    | '/vip'
     | '/planner'
     | '/planner/cards'
     | '/planner/gifts'
@@ -114,7 +194,15 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/auth'
+    | '/days-out'
+    | '/entertainment'
+    | '/food'
+    | '/gift-finder'
+    | '/inspire'
+    | '/save'
+    | '/vip'
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/reminders'
@@ -124,7 +212,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/assistant'
     | '/auth'
+    | '/days-out'
+    | '/entertainment'
+    | '/food'
+    | '/gift-finder'
+    | '/inspire'
+    | '/save'
+    | '/vip'
     | '/_authenticated/planner'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
@@ -136,16 +232,80 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
+  DaysOutRoute: typeof DaysOutRoute
+  EntertainmentRoute: typeof EntertainmentRoute
+  FoodRoute: typeof FoodRoute
+  GiftFinderRoute: typeof GiftFinderRoute
+  InspireRoute: typeof InspireRoute
+  SaveRoute: typeof SaveRoute
+  VipRoute: typeof VipRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vip': {
+      id: '/vip'
+      path: '/vip'
+      fullPath: '/vip'
+      preLoaderRoute: typeof VipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/save': {
+      id: '/save'
+      path: '/save'
+      fullPath: '/save'
+      preLoaderRoute: typeof SaveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspire': {
+      id: '/inspire'
+      path: '/inspire'
+      fullPath: '/inspire'
+      preLoaderRoute: typeof InspireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gift-finder': {
+      id: '/gift-finder'
+      path: '/gift-finder'
+      fullPath: '/gift-finder'
+      preLoaderRoute: typeof GiftFinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/food': {
+      id: '/food'
+      path: '/food'
+      fullPath: '/food'
+      preLoaderRoute: typeof FoodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entertainment': {
+      id: '/entertainment'
+      path: '/entertainment'
+      fullPath: '/entertainment'
+      preLoaderRoute: typeof EntertainmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/days-out': {
+      id: '/days-out'
+      path: '/days-out'
+      fullPath: '/days-out'
+      preLoaderRoute: typeof DaysOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -240,7 +400,15 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
+  DaysOutRoute: DaysOutRoute,
+  EntertainmentRoute: EntertainmentRoute,
+  FoodRoute: FoodRoute,
+  GiftFinderRoute: GiftFinderRoute,
+  InspireRoute: InspireRoute,
+  SaveRoute: SaveRoute,
+  VipRoute: VipRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
