@@ -30,6 +30,8 @@ const statuses: { value: GiftStatus; label: string }[] = [
 function GiftsPage() {
   const { user } = useAuth();
   const { rows, loading, addRow, removeRow, updateField, saving } = usePlannerList<GiftRow>("gifts", user?.id);
+  const { people } = usePeople(user?.id);
+
 
   const total = rows.reduce((s, r) => s + (Number(r.price) || 0), 0);
   const spent = rows
