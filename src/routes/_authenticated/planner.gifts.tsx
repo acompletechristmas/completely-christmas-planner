@@ -82,16 +82,36 @@ function GiftsPage() {
                 key={row.id}
                 className="grid grid-cols-1 gap-3 border-b border-[oklch(0.80_0.14_85_/_0.1)] px-4 py-3 last:border-b-0 md:grid-cols-[1.2fr_1.6fr_0.9fr_1fr_2fr_auto] md:items-center"
               >
-                <FieldInput
-                  value={row.recipient}
-                  placeholder="Who is it for?"
-                  onChange={(v) => updateField(row.id, "recipient", v)}
-                />
+                <div className="space-y-1.5">
+                  <select
+                    value={row.person_id ?? ""}
+                    onChange={(e) => {
+                      const pid = e.target.value || null;
+                      updateField(row.id, "person_id", pid);
+                      if (pid) {
+                        const p = people.find((x) => x.id === pid);
+                        if (p && !row.recipient) updateField(row.id, "recipient", p.name);
+                      }
+                    }}
+                    className="w-full rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.7)] px-3 py-1.5 text-xs text-foreground outline-none focus:border-[color:var(--gold)]"
+                  >
+                    <option value="">— Link to a person —</option>
+                    {people.map((p) => (
+                      <option key={p.id} value={p.id}>{p.name || "Unnamed"}</option>
+                    ))}
+                  </select>
+                  <FieldInput
+                    value={row.recipient}
+                    placeholder="Who is it for?"
+                    onChange={(v) => updateField(row.id, "recipient", v)}
+                  />
+                </div>
                 <FieldInput
                   value={row.item}
                   placeholder="What are you giving?"
                   onChange={(v) => updateField(row.id, "item", v)}
                 />
+
                 <div className="flex items-center gap-1">
                   <span className="text-sm text-muted-foreground">£</span>
                   <FieldInput
