@@ -44,7 +44,7 @@ function GeneratePage() {
   const search = Route.useSearch();
   const { user } = useAuth();
   // Prefer @tanstack/react-start's useServerFn; fall back to react-router's re-export.
-  const runGenerate = (useServerFnStart ?? useServerFn)(generateResource);
+  const runGenerate = useServerFn(generateResource);
 
   const [type, setType] = useState<string>("worksheet");
   const [topic, setTopic] = useState("");
