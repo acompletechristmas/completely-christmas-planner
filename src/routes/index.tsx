@@ -14,16 +14,13 @@ import cardMagic from "@/assets/card-magic.jpg";
 import cardSave from "@/assets/card-save.jpg";
 
 import {
-  Gift,
   Sparkles,
   MapPin,
-  PiggyBank,
   CalendarClock,
   ListChecks,
   ChefHat,
   Film,
   Bot,
-  Crown,
   BellRing,
   TreePine,
 } from "lucide-react";
