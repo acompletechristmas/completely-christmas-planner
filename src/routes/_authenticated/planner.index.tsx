@@ -118,99 +118,105 @@ function PlannerOverview() {
       {/* Christmas village — feature cards */}
       <section>
         <h2 className="font-display text-2xl sm:text-3xl">
-          Wander through your <span className="gold-text">Christmas village</span>
+          Have a wander round your <span className="gold-text">Christmas village</span>
         </h2>
-        <p className="mt-1 text-sm text-muted-foreground">Every corner has something lovely waiting.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Pop into any corner — there's something lovely in each one.</p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <VillageCard
             emoji="🎁"
-            title="Let's Buy Some Presents"
-            body={bought > 0 ? `${bought} sorted so far — keep going!` : "Start your list and find something special."}
+            title="Who am I buying for?"
+            body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
             to="/planner/gifts"
             gradient="var(--gradient-cranberry)"
           />
           <VillageCard
             emoji="👪"
-            title="Your Favourite People"
-            body="Keep track of who you're buying for."
+            title="My favourite humans"
+            body="Everyone you love, all in one place."
             to="/planner/people"
             gradient="var(--gradient-aurora)"
           />
           <VillageCard
             emoji="💷"
-            title="Where's the Money Going?"
+            title="Where's the money going?"
             body={budget != null && budgetLeft != null
-              ? (budgetLeft >= 0 ? `£${budgetLeft.toFixed(0)} still to spend` : `£${Math.abs(budgetLeft).toFixed(0)} over — worth a peek`)
-              : "Set a comfy budget for the season."}
+              ? (budgetLeft >= 0 ? `£${budgetLeft.toFixed(0)} left in the pot` : `£${Math.abs(budgetLeft).toFixed(0)} over — oops, worth a peek`)
+              : "Set a cosy little budget and we'll keep an eye."}
             to="/planner/setup"
             gradient="var(--gradient-gold)"
           />
           <VillageCard
             emoji="✅"
-            title="What's Next?"
-            body={overdue.length ? `${overdue.length} nudging you — no rush.` : "Your friendly little to-do list."}
+            title="Little things to do"
+            body={overdue.length ? `${overdue.length} waiting patiently — no panic.` : "Your friendly festive to-do list."}
             to="/planner/todos"
             gradient="var(--gradient-pine)"
           />
           <VillageCard
             emoji="✉️"
-            title="Cards & Messages"
-            body={cards.rows.length ? `${cardsSent}/${cards.rows.length} sent` : "Start your card list while it's on your mind."}
+            title="Cards & lovely notes"
+            body={cards.rows.length ? `${cardsSent}/${cards.rows.length} popped in the post` : "Jot them down while they're on your mind."}
             to="/planner/cards"
             gradient="var(--gradient-frost)"
           />
           <VillageCard
             emoji="🔔"
-            title="Never Miss a Moment"
-            body={nextReminder ? `Next: ${nextReminder.title}` : "The dates that always catch people out."}
+            title="Nudges from Santa's helpers"
+            body={nextReminder ? `Next up: ${nextReminder.title}` : "The dates that always sneak up on people."}
             to="/planner/reminders"
             gradient="var(--gradient-aurora)"
           />
           <VillageCard
             emoji="🗓"
-            title="Your Christmas Timeline"
-            body="What to focus on this month, all mapped out."
+            title="Your festive plan-of-attack"
+            body="A gentle month-by-month roadmap."
             to="/planner/timeline"
             gradient="var(--gradient-cranberry)"
           />
           <VillageCard
             emoji="🎄"
-            title="Make the House Sparkle"
-            body="Decorations, trees and cosy touches."
+            title="Make the house twinkle"
+            body="Trees, tables and cosy corners."
             to="/inspire"
             gradient="var(--gradient-pine)"
+            comingSoon
           />
           <VillageCard
             emoji="🍽"
-            title="Christmas Dinner"
-            body="Menus, timings and no last-minute panic."
+            title="Feed the whole crew"
+            body="Menus, timings, and zero panic at 3pm."
             to="/food"
             gradient="var(--gradient-cranberry)"
+            comingSoon
           />
           <VillageCard
             emoji="🎬"
-            title="Films & TV"
-            body="Cosy nights sorted."
+            title="Films, games & silly nights"
+            body="Cosy evenings, sorted."
             to="/entertainment"
             gradient="var(--gradient-frost)"
+            comingSoon
           />
           <VillageCard
             emoji="📍"
-            title="Days Out & Adventures"
-            body="Grottos, markets and magical trips."
+            title="Days out & mini adventures"
+            body="Grottos, markets and twinkly walks."
             to="/days-out"
             gradient="var(--gradient-aurora)"
+            comingSoon
           />
           <VillageCard
             emoji="✨"
-            title="Need Some Inspiration?"
-            body="Ideas, traditions and lovely little touches."
+            title="Give me a little inspo"
+            body="Ideas, traditions and lovely touches."
             to="/inspire"
             gradient="var(--gradient-gold)"
+            comingSoon
           />
         </div>
       </section>
+
 
       {/* Quick stats — celebratory */}
       <section>
