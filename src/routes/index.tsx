@@ -8,6 +8,10 @@ import heroTree from "@/assets/hero-tree.jpg";
 import inspirationImg from "@/assets/inspiration.jpg";
 import giftsImg from "@/assets/gifts.jpg";
 import marketImg from "@/assets/market.jpg";
+import cardPlan from "@/assets/card-plan.jpg";
+import cardInspire from "@/assets/card-inspire.jpg";
+import cardMagic from "@/assets/card-magic.jpg";
+import cardSave from "@/assets/card-save.jpg";
 
 import {
   Gift,
@@ -43,31 +47,27 @@ export const Route = createFileRoute("/")({
 
 const primaryActions = [
   {
-    icon: Gift,
+    image: cardPlan,
     title: "Plan My Christmas",
     desc: "Gifts, budget, food & lists — all in one place.",
-    tone: "cranberry",
     to: "planner" as const,
   },
   {
-    icon: Sparkles,
+    image: cardInspire,
     title: "Inspire Me",
     desc: "Trees, tables, traditions & Elf ideas.",
-    tone: "pine",
     to: "/inspire" as const,
   },
   {
-    icon: MapPin,
+    image: cardMagic,
     title: "Christmas Magic Near Me",
     desc: "Santa, markets, light trails & panto.",
-    tone: "gold",
     to: "/days-out" as const,
   },
   {
-    icon: PiggyBank,
+    image: cardSave,
     title: "Save Money",
     desc: "Smart budgets, deals & clever swaps.",
-    tone: "ember",
     to: "/save" as const,
   },
 ];
@@ -227,45 +227,39 @@ function Home() {
           className="rise-in mt-10 grid w-full max-w-4xl grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-4 sm:gap-4"
           style={{ animationDelay: "0.35s" }}
         >
-          {primaryActions.map(({ icon: Icon, title, desc, tone, to }) => (
+          {primaryActions.map(({ image, title, desc, to }) => (
             <Link
               key={title}
               to={to === "planner" ? planLink : to}
-              className="group relative flex flex-col items-start gap-2 overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] p-4 text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)] sm:p-5"
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.8)] text-left backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-glow-gold)]"
             >
-
-              <span
-                className={
-                  "grid h-10 w-10 place-items-center rounded-xl transition-transform duration-500 group-hover:scale-110 " +
-                  (tone === "cranberry"
-                    ? "text-[color:var(--ivory)]"
-                    : tone === "pine"
-                      ? "text-[color:var(--ivory)]"
-                      : tone === "gold"
-                        ? "text-[color:var(--primary-foreground)]"
-                        : "text-[color:var(--ivory)]")
-                }
-                style={{
-                  background:
-                    tone === "cranberry"
-                      ? "var(--gradient-cranberry)"
-                      : tone === "pine"
-                        ? "var(--gradient-pine)"
-                        : tone === "gold"
-                          ? "var(--gradient-gold)"
-                          : "linear-gradient(135deg, oklch(0.68 0.19 45), oklch(0.48 0.16 35))",
-                }}
-              >
-                <Icon className="h-5 w-5" />
-              </span>
-              <span className="font-display text-lg leading-tight text-foreground sm:text-xl">
-                {title}
-              </span>
-              <span className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                {desc}
-              </span>
+              <div className="relative h-28 overflow-hidden sm:h-32">
+                <img
+                  src={image}
+                  alt=""
+                  loading="lazy"
+                  width={768}
+                  height={768}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, oklch(0.12 0.03 245 / 0.15) 0%, oklch(0.12 0.03 245 / 0.55) 75%, oklch(0.26 0.04 245 / 0.9) 100%)",
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5 p-4 sm:p-5">
+                <span className="font-display text-lg leading-tight text-foreground sm:text-xl">
+                  {title}
+                </span>
+                <span className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                  {desc}
+                </span>
+              </div>
             </Link>
-
           ))}
         </div>
       </section>
