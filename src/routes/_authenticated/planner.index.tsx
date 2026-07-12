@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { usePlannerSettings } from "@/hooks/use-planner-settings";
+import { usePeople } from "@/hooks/use-people";
 import {
   Gift,
   Mail,
@@ -13,6 +14,8 @@ import {
   Users,
   Settings2,
   ArrowRight,
+  Check,
+  CircleDashed,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
@@ -22,6 +25,9 @@ export const Route = createFileRoute("/_authenticated/planner/")({
 interface GiftRow extends BaseRow {
   price: number | null;
   status: "idea" | "bought" | "wrapped" | "given";
+  person_id: string | null;
+  recipient: string | null;
+  item: string | null;
 }
 interface CardRow extends BaseRow { sent: boolean }
 interface TodoRow extends BaseRow {
@@ -35,6 +41,7 @@ interface ReminderRow extends BaseRow { done: boolean; remind_on: string; title:
 function PlannerOverview() {
   const { user } = useAuth();
   const { settings } = usePlannerSettings(user?.id);
+  const { people } = usePeople(user?.id);
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
@@ -67,8 +74,95 @@ function PlannerOverview() {
   // Warm, celebratory line
   const cheer = pickCheer({ bought, giftsTotal: gifts.rows.length, wrapped, overallReady, overdue: overdue.length });
 
+  // Per-person gift breakdown
+  const perPerson = people.map((p) => {
+    const theirs = gifts.rows.filter((g) => g.person_id === p.id);
+    const boughtCount = theirs.filter((g) => g.status !== "idea").length;
+    const wrappedCount = theirs.filter((g) => g.status === "wrapped" || g.status === "given").length;
+    const done = theirs.length > 0 && boughtCount >= theirs.length;
+    const started = boughtCount > 0;
+    const pct = theirs.length ? Math.round((boughtCount / theirs.length) * 100) : 0;
+    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started };
+  });
+  const peopleSorted = perPerson.filter((r) => r.done).length;
+  const peopleTotal = people.length;
+  const peoplePct = peopleTotal ? Math.round((peopleSorted / peopleTotal) * 100) : 0;
+
   return (
     <div className="rise-in space-y-10">
+      {/* My Gift List — hero */}
+      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🎁 My gift list</p>
+            <p className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
+              <span className="gold-text">{peopleSorted}</span> of {peopleTotal} {peopleTotal === 1 ? "person" : "people"} sorted
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {bought} of {gifts.rows.length} pressies bought · {wrapped} wrapped
+            </p>
+          </div>
+          <Link
+            to="/planner/gifts"
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            Open full list <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+          <div className="h-full rounded-full transition-all" style={{ width: `${peoplePct}%`, background: "var(--gradient-gold)" }} />
+        </div>
+
+        {peopleTotal === 0 ? (
+          <div className="mt-6 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] p-6 text-center">
+            <Sparkles className="mx-auto h-5 w-5 text-[color:var(--gold)]" />
+            <p className="mt-2 font-display text-lg">No one on your list yet</p>
+            <p className="mt-1 text-xs text-muted-foreground">Pop your favourite humans in and we'll track pressies for each one.</p>
+            <Link to="/planner/people" className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]">
+              Add someone <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+        ) : (
+          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started }) => (
+              <li key={person.id}>
+                <Link
+                  to="/planner/people/$personId"
+                  params={{ personId: person.id }}
+                  className="group flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.6)] p-3 transition hover:-translate-y-0.5 hover:border-[oklch(0.80_0.14_85_/_0.5)]"
+                >
+                  <span
+                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border ${done ? "border-[color:var(--gold)] bg-[oklch(0.80_0.14_85_/_0.15)]" : started ? "border-[oklch(0.80_0.14_85_/_0.4)]" : "border-[oklch(0.80_0.14_85_/_0.2)]"}`}
+                    aria-hidden
+                  >
+                    {done ? (
+                      <Check className="h-4 w-4 text-[color:var(--gold)]" />
+                    ) : (
+                      <CircleDashed className="h-4 w-4 text-[color:var(--gold-soft)]" />
+                    )}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <p className="truncate font-display text-base">{person.name || "Untitled"}</p>
+                      <p className={`shrink-0 text-xs ${done ? "text-[color:var(--gold)]" : "text-muted-foreground"}`}>
+                        {total === 0 ? "no ideas yet" : `${b}/${total}${w ? ` · ${w} wrapped` : ""}`}
+                      </p>
+                    </div>
+                    {person.relationship ? (
+                      <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
+                    ) : null}
+                    <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--gradient-gold)" }} />
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       {/* Celebration hero */}
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 md:col-span-2">
