@@ -463,13 +463,13 @@ function Home() {
                 Unlimited AI, exclusive planners, VIP competitions, early booking access,
                 members-only printables — and never an advert.
               </p>
-              <button
-                type="button"
+              <Link
+                to="/vip"
                 className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
                 style={{ background: "var(--gradient-gold)" }}
               >
                 <Crown className="h-4 w-4" /> Join VIP — Early access
-              </button>
+              </Link>
             </div>
             <ul className="grid gap-3 sm:grid-cols-2">
               {[
