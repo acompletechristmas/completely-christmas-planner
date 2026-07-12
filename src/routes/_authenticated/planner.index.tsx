@@ -86,29 +86,29 @@ function PlannerOverview() {
         </div>
 
         <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-6">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">✨ What's next?</p>
+          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">✨ Little nudge</p>
           {nextTask ? (
             <>
-              <p className="mt-2 font-display text-xl">{nextTask.title || "One little thing to tick off"}</p>
+              <p className="mt-2 font-display text-xl">{nextTask.title || "A tiny thing waiting for a tick"}</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                {nextTask.due_date ? friendlyDate(nextTask.due_date, todayIso) : "whenever you fancy"}
+                {nextTask.due_date ? friendlyDate(nextTask.due_date, todayIso) : "no rush, whenever"}
               </p>
               <Link
                 to="/planner/todos"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
               >
-                Tick it off <ArrowRight className="h-3 w-3" />
+                Sort it now <ArrowRight className="h-3 w-3" />
               </Link>
             </>
           ) : (
             <>
-              <p className="mt-2 font-display text-xl">You're all caught up 🌟</p>
-              <p className="mt-1 text-xs text-muted-foreground">Fancy planning something festive today?</p>
+              <p className="mt-2 font-display text-xl">Nothing waiting — go you 🌟</p>
+              <p className="mt-1 text-xs text-muted-foreground">Fancy dreaming up something festive?</p>
               <Link
                 to="/planner/todos"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
               >
-                Add something new <ArrowRight className="h-3 w-3" />
+                Add a little something <ArrowRight className="h-3 w-3" />
               </Link>
             </>
           )}
