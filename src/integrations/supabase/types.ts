@@ -55,43 +55,159 @@ export type Database = {
       }
       gifts: {
         Row: {
+          category: string | null
           created_at: string
+          delivered: boolean
+          given_by: string | null
           id: string
           item: string
           notes: string | null
+          opening_photo_url: string | null
+          person_id: string | null
+          photo_url: string | null
+          post_notes: string | null
           price: number | null
+          purchase_date: string | null
+          rating: string | null
           recipient: string
+          shop: string | null
           sort_order: number
           status: string
           updated_at: string
           url: string | null
           user_id: string
+          wrapped: boolean
+          year: number
         }
         Insert: {
+          category?: string | null
           created_at?: string
+          delivered?: boolean
+          given_by?: string | null
           id?: string
           item?: string
           notes?: string | null
+          opening_photo_url?: string | null
+          person_id?: string | null
+          photo_url?: string | null
+          post_notes?: string | null
           price?: number | null
+          purchase_date?: string | null
+          rating?: string | null
           recipient?: string
+          shop?: string | null
           sort_order?: number
           status?: string
           updated_at?: string
           url?: string | null
           user_id: string
+          wrapped?: boolean
+          year?: number
         }
         Update: {
+          category?: string | null
           created_at?: string
+          delivered?: boolean
+          given_by?: string | null
           id?: string
           item?: string
           notes?: string | null
+          opening_photo_url?: string | null
+          person_id?: string | null
+          photo_url?: string | null
+          post_notes?: string | null
           price?: number | null
+          purchase_date?: string | null
+          rating?: string | null
           recipient?: string
+          shop?: string | null
           sort_order?: number
           status?: string
           updated_at?: string
           url?: string | null
           user_id?: string
+          wrapped?: boolean
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gifts_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      people: {
+        Row: {
+          avatar_url: string | null
+          clothing_size: string | null
+          created_at: string
+          date_of_birth: string | null
+          favourite_books: string | null
+          favourite_characters: string | null
+          favourite_colours: string | null
+          favourite_films: string | null
+          favourite_games: string | null
+          favourite_shops: string | null
+          gift_budget: number | null
+          hobbies: string | null
+          id: string
+          name: string
+          notes: string | null
+          relationship: string | null
+          shoe_size: string | null
+          sort_order: number
+          updated_at: string
+          user_id: string
+          wishlist: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          clothing_size?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          favourite_books?: string | null
+          favourite_characters?: string | null
+          favourite_colours?: string | null
+          favourite_films?: string | null
+          favourite_games?: string | null
+          favourite_shops?: string | null
+          gift_budget?: number | null
+          hobbies?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          relationship?: string | null
+          shoe_size?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+          wishlist?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          clothing_size?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          favourite_books?: string | null
+          favourite_characters?: string | null
+          favourite_colours?: string | null
+          favourite_films?: string | null
+          favourite_games?: string | null
+          favourite_shops?: string | null
+          gift_budget?: number | null
+          hobbies?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          relationship?: string | null
+          shoe_size?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+          wishlist?: string | null
         }
         Relationships: []
       }
