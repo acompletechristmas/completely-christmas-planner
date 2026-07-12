@@ -12,6 +12,12 @@ import cardPlan from "@/assets/card-plan.jpg";
 import cardInspire from "@/assets/card-inspire.jpg";
 import cardMagic from "@/assets/card-magic.jpg";
 import cardSave from "@/assets/card-save.jpg";
+import cardEntertainment from "@/assets/card-entertainment.jpg";
+import cardFood from "@/assets/card-food.jpg";
+import cardTeachers from "@/assets/card-teachers.jpg";
+import cardPets from "@/assets/card-pets.jpg";
+import cardReminders from "@/assets/card-reminders.jpg";
+import cardAssistant from "@/assets/card-assistant.jpg";
 
 import {
   Sparkles,
