@@ -211,6 +211,63 @@ export type Database = {
         }
         Relationships: []
       }
+      planner_settings: {
+        Row: {
+          budget_total: number | null
+          created_at: string
+          decorates_indoor: boolean
+          decorates_outdoor: boolean
+          dietary_notes: string | null
+          is_hosting: boolean
+          is_travelling: boolean
+          notes: string | null
+          num_adults: number
+          num_children: number
+          planning_style: string
+          sends_cards: boolean
+          setup_completed: boolean
+          stress_free: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          budget_total?: number | null
+          created_at?: string
+          decorates_indoor?: boolean
+          decorates_outdoor?: boolean
+          dietary_notes?: string | null
+          is_hosting?: boolean
+          is_travelling?: boolean
+          notes?: string | null
+          num_adults?: number
+          num_children?: number
+          planning_style?: string
+          sends_cards?: boolean
+          setup_completed?: boolean
+          stress_free?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          budget_total?: number | null
+          created_at?: string
+          decorates_indoor?: boolean
+          decorates_outdoor?: boolean
+          dietary_notes?: string | null
+          is_hosting?: boolean
+          is_travelling?: boolean
+          notes?: string | null
+          num_adults?: number
+          num_children?: number
+          planning_style?: string
+          sends_cards?: boolean
+          setup_completed?: boolean
+          stress_free?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reminders: {
         Row: {
           category: string
