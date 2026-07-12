@@ -28,6 +28,7 @@ import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authen
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as AuthenticatedPlannerPeopleIndexRouteImport } from './routes/_authenticated/planner.people.index'
+import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 
 const VipRoute = VipRouteImport.update({
   id: '/vip',
@@ -130,6 +131,12 @@ const AuthenticatedPlannerPeopleIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedPlannerPeopleRoute,
   } as any)
+const AuthenticatedPlannerPeoplePersonIdRoute =
+  AuthenticatedPlannerPeoplePersonIdRouteImport.update({
+    id: '/$personId',
+    path: '/$personId',
+    getParentRoute: () => AuthenticatedPlannerPeopleRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner/': typeof AuthenticatedPlannerIndexRoute
+  '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
   '/planner/people/': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRoutesByTo {
@@ -167,6 +175,7 @@ export interface FileRoutesByTo {
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
+  '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRoutesById {
@@ -189,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
+  '/_authenticated/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
   '/_authenticated/planner/people/': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRouteTypes {
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/planner/reminders'
     | '/planner/todos'
     | '/planner/'
+    | '/planner/people/$personId'
     | '/planner/people/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/planner/reminders'
     | '/planner/todos'
     | '/planner'
+    | '/planner/people/$personId'
     | '/planner/people'
   id:
     | '__root__'
@@ -250,6 +262,7 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/reminders'
     | '/_authenticated/planner/todos'
     | '/_authenticated/planner/'
+    | '/_authenticated/planner/people/$personId'
     | '/_authenticated/planner/people/'
   fileRoutesById: FileRoutesById
 }
@@ -402,15 +415,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerPeopleIndexRouteImport
       parentRoute: typeof AuthenticatedPlannerPeopleRoute
     }
+    '/_authenticated/planner/people/$personId': {
+      id: '/_authenticated/planner/people/$personId'
+      path: '/$personId'
+      fullPath: '/planner/people/$personId'
+      preLoaderRoute: typeof AuthenticatedPlannerPeoplePersonIdRouteImport
+      parentRoute: typeof AuthenticatedPlannerPeopleRoute
+    }
   }
 }
 
 interface AuthenticatedPlannerPeopleRouteChildren {
+  AuthenticatedPlannerPeoplePersonIdRoute: typeof AuthenticatedPlannerPeoplePersonIdRoute
   AuthenticatedPlannerPeopleIndexRoute: typeof AuthenticatedPlannerPeopleIndexRoute
 }
 
 const AuthenticatedPlannerPeopleRouteChildren: AuthenticatedPlannerPeopleRouteChildren =
   {
+    AuthenticatedPlannerPeoplePersonIdRoute:
+      AuthenticatedPlannerPeoplePersonIdRoute,
     AuthenticatedPlannerPeopleIndexRoute: AuthenticatedPlannerPeopleIndexRoute,
   }
 
