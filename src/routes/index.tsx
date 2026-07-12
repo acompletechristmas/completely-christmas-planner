@@ -140,14 +140,14 @@ function Home() {
 
       {/* NAV */}
       <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-        <a href="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] twinkle">
             <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
           </span>
           <span className="font-display text-lg tracking-tight sm:text-xl">
             A Complete <span className="gold-text">Christmas</span>
           </span>
-        </a>
+        </Link>
         <nav className="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
           <Link className="transition hover:text-foreground" to={planLink}>Planner</Link>
           <Link className="transition hover:text-foreground" to="/inspire">Inspire</Link>
