@@ -26,6 +26,8 @@ import { Route as TeachersCategoryRouteImport } from './routes/teachers.$categor
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
 import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
+import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
+import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
 import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
 import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
@@ -119,6 +121,18 @@ const AuthenticatedPlannerTodosRoute =
     path: '/todos',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const AuthenticatedPlannerTimelineRoute =
+  AuthenticatedPlannerTimelineRouteImport.update({
+    id: '/timeline',
+    path: '/timeline',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerSetupRoute =
+  AuthenticatedPlannerSetupRouteImport.update({
+    id: '/setup',
+    path: '/setup',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerRemindersRoute =
   AuthenticatedPlannerRemindersRouteImport.update({
     id: '/reminders',
@@ -175,6 +189,8 @@ export interface FileRoutesByFullPath {
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
+  '/planner/setup': typeof AuthenticatedPlannerSetupRoute
+  '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner/': typeof AuthenticatedPlannerIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
@@ -197,6 +213,8 @@ export interface FileRoutesByTo {
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
+  '/planner/setup': typeof AuthenticatedPlannerSetupRoute
+  '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
@@ -223,6 +241,8 @@ export interface FileRoutesById {
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/_authenticated/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
+  '/_authenticated/planner/setup': typeof AuthenticatedPlannerSetupRoute
+  '/_authenticated/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
   '/_authenticated/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
@@ -249,6 +269,8 @@ export interface FileRouteTypes {
     | '/planner/gifts'
     | '/planner/people'
     | '/planner/reminders'
+    | '/planner/setup'
+    | '/planner/timeline'
     | '/planner/todos'
     | '/planner/'
     | '/planner/people/$personId'
@@ -271,6 +293,8 @@ export interface FileRouteTypes {
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/reminders'
+    | '/planner/setup'
+    | '/planner/timeline'
     | '/planner/todos'
     | '/planner'
     | '/planner/people/$personId'
@@ -296,6 +320,8 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/gifts'
     | '/_authenticated/planner/people'
     | '/_authenticated/planner/reminders'
+    | '/_authenticated/planner/setup'
+    | '/_authenticated/planner/timeline'
     | '/_authenticated/planner/todos'
     | '/_authenticated/planner/'
     | '/_authenticated/planner/people/$personId'
@@ -440,6 +466,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerTodosRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/timeline': {
+      id: '/_authenticated/planner/timeline'
+      path: '/timeline'
+      fullPath: '/planner/timeline'
+      preLoaderRoute: typeof AuthenticatedPlannerTimelineRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/setup': {
+      id: '/_authenticated/planner/setup'
+      path: '/setup'
+      fullPath: '/planner/setup'
+      preLoaderRoute: typeof AuthenticatedPlannerSetupRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/reminders': {
       id: '/_authenticated/planner/reminders'
       path: '/reminders'
@@ -507,6 +547,8 @@ interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
   AuthenticatedPlannerPeopleRoute: typeof AuthenticatedPlannerPeopleRouteWithChildren
   AuthenticatedPlannerRemindersRoute: typeof AuthenticatedPlannerRemindersRoute
+  AuthenticatedPlannerSetupRoute: typeof AuthenticatedPlannerSetupRoute
+  AuthenticatedPlannerTimelineRoute: typeof AuthenticatedPlannerTimelineRoute
   AuthenticatedPlannerTodosRoute: typeof AuthenticatedPlannerTodosRoute
   AuthenticatedPlannerIndexRoute: typeof AuthenticatedPlannerIndexRoute
 }
@@ -516,6 +558,8 @@ const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
   AuthenticatedPlannerPeopleRoute: AuthenticatedPlannerPeopleRouteWithChildren,
   AuthenticatedPlannerRemindersRoute: AuthenticatedPlannerRemindersRoute,
+  AuthenticatedPlannerSetupRoute: AuthenticatedPlannerSetupRoute,
+  AuthenticatedPlannerTimelineRoute: AuthenticatedPlannerTimelineRoute,
   AuthenticatedPlannerTodosRoute: AuthenticatedPlannerTodosRoute,
   AuthenticatedPlannerIndexRoute: AuthenticatedPlannerIndexRoute,
 }

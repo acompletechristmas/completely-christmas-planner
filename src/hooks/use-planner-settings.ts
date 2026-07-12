@@ -74,9 +74,12 @@ export function usePlannerSettings(userId: string | undefined) {
       setSaving(true);
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(async () => {
+        const patch = { [field]: value } as unknown as Parameters<
+          ReturnType<typeof supabase.from<"planner_settings">>["update"]
+        >[0];
         const { error } = await supabase
           .from("planner_settings")
-          .update({ [field]: value })
+          .update(patch)
           .eq("user_id", userId);
         setSaving(false);
         if (error) toast.error("Couldn't save");
