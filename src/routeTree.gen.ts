@@ -31,6 +31,7 @@ import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_auth
 import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
 import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
 import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
+import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as AuthenticatedPlannerPeopleIndexRouteImport } from './routes/_authenticated/planner.people.index'
@@ -151,6 +152,12 @@ const AuthenticatedPlannerPeopleRoute =
     path: '/people',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const AuthenticatedPlannerListRoute =
+  AuthenticatedPlannerListRouteImport.update({
+    id: '/list',
+    path: '/list',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerGiftsRoute =
   AuthenticatedPlannerGiftsRouteImport.update({
     id: '/gifts',
@@ -194,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/teachers/': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
@@ -220,6 +228,7 @@ export interface FileRoutesByTo {
   '/teachers': typeof TeachersIndexRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
@@ -248,6 +257,7 @@ export interface FileRoutesById {
   '/teachers/': typeof TeachersIndexRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/_authenticated/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/_authenticated/planner/setup': typeof AuthenticatedPlannerSetupRoute
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/teachers/'
     | '/planner/cards'
     | '/planner/gifts'
+    | '/planner/list'
     | '/planner/people'
     | '/planner/reminders'
     | '/planner/setup'
@@ -303,6 +314,7 @@ export interface FileRouteTypes {
     | '/teachers'
     | '/planner/cards'
     | '/planner/gifts'
+    | '/planner/list'
     | '/planner/reminders'
     | '/planner/setup'
     | '/planner/timeline'
@@ -330,6 +342,7 @@ export interface FileRouteTypes {
     | '/teachers/'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
+    | '/_authenticated/planner/list'
     | '/_authenticated/planner/people'
     | '/_authenticated/planner/reminders'
     | '/_authenticated/planner/setup'
@@ -514,6 +527,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerPeopleRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/list': {
+      id: '/_authenticated/planner/list'
+      path: '/list'
+      fullPath: '/planner/list'
+      preLoaderRoute: typeof AuthenticatedPlannerListRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/gifts': {
       id: '/_authenticated/planner/gifts'
       path: '/gifts'
@@ -565,6 +585,7 @@ const AuthenticatedPlannerPeopleRouteWithChildren =
 interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerCardsRoute: typeof AuthenticatedPlannerCardsRoute
   AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
+  AuthenticatedPlannerListRoute: typeof AuthenticatedPlannerListRoute
   AuthenticatedPlannerPeopleRoute: typeof AuthenticatedPlannerPeopleRouteWithChildren
   AuthenticatedPlannerRemindersRoute: typeof AuthenticatedPlannerRemindersRoute
   AuthenticatedPlannerSetupRoute: typeof AuthenticatedPlannerSetupRoute
@@ -576,6 +597,7 @@ interface AuthenticatedPlannerRouteChildren {
 const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerCardsRoute: AuthenticatedPlannerCardsRoute,
   AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
+  AuthenticatedPlannerListRoute: AuthenticatedPlannerListRoute,
   AuthenticatedPlannerPeopleRoute: AuthenticatedPlannerPeopleRouteWithChildren,
   AuthenticatedPlannerRemindersRoute: AuthenticatedPlannerRemindersRoute,
   AuthenticatedPlannerSetupRoute: AuthenticatedPlannerSetupRoute,
@@ -618,13 +640,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
