@@ -30,6 +30,8 @@ import {
   Crown,
   BellRing,
   TreePine,
+  PawPrint,
+  BookOpen,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
