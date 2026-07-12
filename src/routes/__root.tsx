@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "A Complete Christmas" },
-      { property: "og:url", content: "https://completechristmas.co.uk" },
+      { property: "og:url", content: "https://acompletechristmas.co.uk" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "A Complete Christmas — Your magical, stress-free Christmas" },
       { name: "twitter:description", content: "Plan gifts, food and traditions, discover magical festive days out, and never miss a booking again with A Complete Christmas." },
