@@ -1,5 +1,5 @@
-import { createFileRoute, Link, useServerFn } from "@tanstack/react-router";
-import { useServerFn as useServerFnStart } from "@tanstack/react-start";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { PageShell } from "@/components/PageShell";
 import { generateResource, type GenerateResourceResult } from "@/lib/teacher-resources.functions";
 import { TEACHER_CATEGORIES, findCategory } from "@/lib/teacher-categories";
