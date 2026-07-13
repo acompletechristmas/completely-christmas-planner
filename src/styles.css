@@ -182,11 +182,11 @@
 }
 @utility frost-text { color: var(--forest); }
 @utility aurora-text { color: var(--forest); }
-@utility gold-glow { }
-@utility twinkle { }
+@utility gold-glow { box-shadow: var(--shadow-soft); }
+@utility twinkle { opacity: 1; }
 @utility rise-in { animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
-@utility starfield { background-image: none; }
-@utility aurora-veil { background: transparent; }
+@utility starfield { background-image: none; opacity: 0; }
+@utility aurora-veil { background: transparent; opacity: 0; }
 @utility hairline-gold {
   background: linear-gradient(90deg, transparent, oklch(0.68 0.09 75 / 0.4), transparent);
   height: 1px;
