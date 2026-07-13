@@ -33,19 +33,20 @@ export function SiteNav() {
       className={
         "sticky top-0 z-40 transition-colors duration-300 " +
         (scrolled
-          ? "bg-[color:var(--cream)]/85 backdrop-blur-md border-b border-[color:var(--border)]"
+          ? "bg-[color:var(--midnight-deep)]/85 backdrop-blur-md border-b border-[color:var(--border)]"
           : "bg-transparent")
       }
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-[color:var(--forest)] text-[color:var(--cream)] font-display text-sm">
+          <span className="grid h-8 w-8 place-items-center rounded-full font-display text-sm text-[color:var(--midnight-deep)]" style={{ background: "var(--gradient-gold)" }}>
             C
           </span>
-          <span className="font-display text-[17px] tracking-tight text-[color:var(--ink)]">
-            A Complete <span className="italic text-[color:var(--forest)]">Christmas</span>
+          <span className="font-display text-[17px] tracking-tight text-[color:var(--cream)]">
+            A Complete <span className="gold-text not-italic">Christmas</span>
           </span>
         </Link>
+
 
         <nav className="hidden items-center gap-8 md:flex">
           {primary.map((item) => {
