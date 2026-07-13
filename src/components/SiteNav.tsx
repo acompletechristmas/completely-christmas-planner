@@ -58,9 +58,10 @@ export function SiteNav() {
                 className={
                   "text-[13.5px] font-medium tracking-tight transition-colors " +
                   (active
-                    ? "text-[color:var(--forest)]"
-                    : "text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]")
+                    ? "text-[color:var(--gold)]"
+                    : "text-[color:var(--muted-foreground)] hover:text-[color:var(--cream)]")
                 }
+
               >
                 {item.label}
               </Link>
