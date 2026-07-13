@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useRouterState, useNavigate } from "@tan
 import { Snowfall } from "@/components/Snowfall";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Sparkles, LogOut, Home } from "lucide-react";
+import { LogOut, Home } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
