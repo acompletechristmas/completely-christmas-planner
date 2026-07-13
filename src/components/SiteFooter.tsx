@@ -9,10 +9,11 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-[color:var(--forest)] text-[color:var(--cream)] font-display text-sm">C</span>
-            <span className="font-display text-[17px] tracking-tight">
-              A Complete <span className="italic text-[color:var(--forest)]">Christmas</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full font-display text-sm text-[color:var(--midnight-deep)]" style={{ background: "var(--gradient-gold)" }}>C</span>
+            <span className="font-display text-[17px] tracking-tight text-[color:var(--cream)]">
+              A Complete <span className="gold-text not-italic">Christmas</span>
             </span>
+
           </div>
           <p className="mt-4 max-w-xs text-sm text-[color:var(--muted-foreground)]">
             The UK's calm, thoughtful home for everything Christmas.
@@ -20,7 +21,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">Plan</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">Plan</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/planner" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">My planner</Link></li>
             <li><Link to="/gift-finder" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Gift finder</Link></li>
@@ -30,7 +31,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">Explore</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">Explore</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/inspire" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Inspiration</Link></li>
             <li><Link to="/days-out" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Days out</Link></li>
@@ -41,7 +42,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">More</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">More</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/assistant" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">AI assistant</Link></li>
             <li><Link to="/partners" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Partners</Link></li>
@@ -52,7 +53,7 @@ export function SiteFooter() {
                 onClick={toggle}
                 className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)] transition"
               >
-                Snowfall: <span className="text-[color:var(--forest)]">{enabled ? "on" : "off"}</span>
+                Snowfall: <span className="text-[color:var(--gold)]">{enabled ? "on" : "off"}</span>
               </button>
             </li>
           </ul>
