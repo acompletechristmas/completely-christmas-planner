@@ -43,18 +43,19 @@ function PlannerLayout() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[color:var(--cream)] text-[color:var(--ink)]">
-      <Snowfall count={18} />
+    <div className="relative min-h-screen text-[color:var(--foreground)]">
+      <Snowfall count={40} />
 
       {/* Top bar */}
-      <header className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--cream)]/85 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--midnight-deep)]/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <Link to="/planner" className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-[color:var(--forest)] text-[color:var(--cream)] font-display text-sm">C</span>
-            <span className="font-display text-[17px] tracking-tight">
-              A Complete <span className="italic text-[color:var(--forest)]">Christmas</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full font-display text-sm text-[color:var(--midnight-deep)]" style={{ background: "var(--gradient-gold)" }}>C</span>
+            <span className="font-display text-[17px] tracking-tight text-[color:var(--cream)]">
+              A Complete <span className="gold-text not-italic">Christmas</span>
             </span>
           </Link>
+
           <div className="flex items-center gap-2">
             {!onOverview && (
               <Link
