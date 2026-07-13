@@ -1,83 +1,63 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Snowfall } from "@/components/Snowfall";
+import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
 import type { ReactNode } from "react";
-import { useAuth } from "@/hooks/use-auth";
 
 interface PageShellProps {
   eyebrow?: string;
   title: ReactNode;
   intro?: ReactNode;
   children: ReactNode;
+  heroImage?: string;
 }
 
-export function PageShell({ eyebrow, title, intro, children }: PageShellProps) {
-  const { user } = useAuth();
+export function PageShell({ eyebrow, title, intro, children, heroImage }: PageShellProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <Snowfall count={60} />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{ background: "var(--gradient-hero)" }}
-      />
+    <div className="relative min-h-screen bg-[color:var(--cream)] text-[color:var(--ink)]">
+      <Snowfall count={20} />
+      <SiteNav />
 
-      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] twinkle">
-            <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
-          </span>
-          <span className="font-display text-lg tracking-tight sm:text-xl">
-            A Complete <span className="gold-text">Christmas</span>
-          </span>
-        </Link>
-        <Link
-          to={user ? "/planner" : "/auth"}
-          className="rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-4 py-2 text-xs font-medium tracking-wide text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.08)]"
-        >
-          {user ? "Open Planner" : "Sign in"}
-        </Link>
-      </header>
-
-      <section className="relative z-10 mx-auto max-w-5xl px-5 pt-6 pb-10 text-center sm:px-8 sm:pt-10">
+      <section className="relative z-10 mx-auto max-w-4xl px-5 pt-10 pb-8 sm:px-8 sm:pt-16 sm:pb-12">
         <Link
           to="/"
-          className="rise-in inline-flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-muted-foreground transition hover:text-[color:var(--gold-soft)]"
+          className="rise-in inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)] transition hover:text-[color:var(--forest)]"
         >
-          <ArrowLeft className="h-3 w-3" /> Back home
+          <ArrowLeft className="h-3 w-3" /> Back
         </Link>
         {eyebrow ? (
-          <p className="rise-in mt-6 text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          <p className="rise-in mt-8 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">
             {eyebrow}
           </p>
         ) : null}
         <h1
-          className="rise-in mt-4 font-display text-5xl leading-[1.02] tracking-tight sm:text-6xl md:text-7xl"
+          className="rise-in mt-4 font-display text-[44px] leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
           style={{ animationDelay: "0.05s" }}
         >
           {title}
         </h1>
         {intro ? (
           <p
-            className="rise-in mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg"
-            style={{ animationDelay: "0.15s" }}
+            className="rise-in mt-6 max-w-2xl text-[17px] leading-relaxed text-[color:var(--muted-foreground)]"
+            style={{ animationDelay: "0.12s" }}
           >
             {intro}
           </p>
         ) : null}
       </section>
 
-      <main className="relative z-10 mx-auto max-w-7xl px-5 pb-24 sm:px-8">{children}</main>
-
-      <footer className="relative z-10 border-t border-[oklch(0.80_0.14_85_/_0.15)]">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-8 text-xs text-muted-foreground sm:flex-row sm:px-8">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
-            <span className="font-display text-sm text-foreground">A Complete Christmas</span>
+      {heroImage ? (
+        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="overflow-hidden rounded-3xl">
+            <img src={heroImage} alt="" className="h-[280px] w-full object-cover sm:h-[420px]" />
           </div>
-          <p>Made with warmth · {new Date().getFullYear()}</p>
         </div>
-      </footer>
+      ) : null}
+
+      <main className="relative z-10 mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">{children}</main>
+
+      <SiteFooter />
     </div>
   );
 }
@@ -90,12 +70,12 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon: Icon, title, body }: FeatureCardProps) {
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.6)] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:shadow-[var(--shadow-card)]">
-      <span className="grid h-11 w-11 place-items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.8)]">
-        <Icon className="h-5 w-5 text-[color:var(--gold)]" />
+    <article className="group flex flex-col rounded-2xl border border-[color:var(--border)] bg-[color:var(--mist)] p-7 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]">
+      <span className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--forest)]/8 text-[color:var(--forest)]">
+        <Icon className="h-4.5 w-4.5" />
       </span>
-      <h3 className="mt-4 font-display text-2xl text-foreground">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{body}</p>
+      <h3 className="mt-5 font-display text-[22px] leading-tight tracking-tight text-[color:var(--ink)]">{title}</h3>
+      <p className="mt-2 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">{body}</p>
     </article>
   );
 }
@@ -107,11 +87,7 @@ interface CTAProps {
 
 export function GoldCTA({ to, children }: CTAProps) {
   return (
-    <Link
-      to={to}
-      className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
-      style={{ background: "var(--gradient-gold)" }}
-    >
+    <Link to={to} className="btn-primary">
       {children}
     </Link>
   );
@@ -119,8 +95,8 @@ export function GoldCTA({ to, children }: CTAProps) {
 
 export function ComingSoonBadge() {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-      <Sparkles className="h-3 w-3 twinkle" /> Santa's still wrapping this one
+    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--mist)] px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--forest)]">
+      <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--gold)]" /> Coming soon
     </span>
   );
 }
