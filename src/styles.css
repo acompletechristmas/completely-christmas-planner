@@ -53,8 +53,9 @@
   --color-gold-soft: var(--gold-soft);
   /* Back-compat aliases */
   --color-cranberry: var(--burgundy);
-  --color-holly: var(--forest);
-  --color-pine: var(--forest);
+  --color-holly: var(--forest-deep);
+  --color-pine: var(--forest-deep);
+
   --color-ivory: var(--cream);
   --color-ember: var(--burgundy);
   --color-frost: var(--mist);
