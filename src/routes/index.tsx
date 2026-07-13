@@ -74,9 +74,10 @@ function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[color:var(--cream)] text-[color:var(--ink)]">
-      <Snowfall count={22} />
+    <div className="relative min-h-screen text-[color:var(--foreground)]">
+      <Snowfall count={55} />
       <SiteNav />
+
 
       {/* HERO — editorial */}
       <section className="relative mx-auto max-w-7xl px-5 pt-10 pb-16 sm:px-8 sm:pt-16 sm:pb-24">
