@@ -161,7 +161,7 @@ function Home() {
 
       {/* NEVER MISS — signature feature strip */}
       <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-        <div className="overflow-hidden rounded-[32px] bg-[color:var(--forest)] text-[color:var(--cream)]">
+        <div className="overflow-hidden rounded-[32px] border border-[color:var(--border)] text-[color:var(--cream)]" style={{ background: "linear-gradient(135deg, oklch(0.22 0.06 155) 0%, oklch(0.16 0.04 245) 100%)" }}>
           <div className="grid gap-10 p-10 sm:p-14 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
               <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
