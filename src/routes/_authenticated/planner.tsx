@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useRouterState, useNavigate } from "@tan
 import { Snowfall } from "@/components/Snowfall";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { Sparkles, LogOut, Home } from "lucide-react";
+import { LogOut, Home } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
@@ -43,30 +43,23 @@ function PlannerLayout() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <Snowfall count={40} />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{ background: "var(--gradient-hero)" }}
-      />
+    <div className="relative min-h-screen bg-[color:var(--cream)] text-[color:var(--ink)]">
+      <Snowfall count={18} />
 
       {/* Top bar */}
-      <header className="relative z-10 border-b border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.6)] backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--cream)]/85 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <Link to="/planner" className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] twinkle">
-              <Sparkles className="h-3.5 w-3.5 text-[color:var(--gold)]" />
-            </span>
-            <span className="font-display text-base sm:text-lg">
-              A Complete <span className="gold-text">Christmas</span>
+          <Link to="/planner" className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-[color:var(--forest)] text-[color:var(--cream)] font-display text-sm">C</span>
+            <span className="font-display text-[17px] tracking-tight">
+              A Complete <span className="italic text-[color:var(--forest)]">Christmas</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">
             {!onOverview && (
               <Link
                 to="/planner"
-                className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] px-3 py-1.5 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:text-foreground"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3.5 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] transition hover:text-[color:var(--ink)] hover:border-[color:var(--forest)]"
               >
                 <Home className="h-3.5 w-3.5" />
                 My Christmas
@@ -74,7 +67,7 @@ function PlannerLayout() {
             )}
             <button
               onClick={handleSignOut}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] px-3 py-1.5 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:text-foreground"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3.5 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] transition hover:text-[color:var(--ink)] hover:border-[color:var(--forest)]"
             >
               <LogOut className="h-3.5 w-3.5" />
               Sign out
@@ -85,16 +78,15 @@ function PlannerLayout() {
 
       {/* Warm greeting strip — only on overview */}
       {onOverview && (
-        <section className="relative z-10 mx-auto max-w-7xl px-5 pt-10 sm:px-8 sm:pt-14">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-            🎄 Only {sleeps} sleeps to go
+        <section className="relative z-10 mx-auto max-w-7xl px-5 pt-12 sm:px-8 sm:pt-16">
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">
+            {sleeps} sleeps until Christmas
           </p>
-          <h1 className="mt-2 font-display text-4xl leading-tight sm:text-5xl">
-            Hi {name}, ready to sprinkle a little{" "}
-            <span className="gold-text">Christmas magic</span>?
+          <h1 className="mt-4 font-display text-4xl leading-tight tracking-tight sm:text-6xl">
+            Hi {name}, <span className="italic text-[color:var(--forest)]">welcome back</span>.
           </h1>
-          <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Your cosy Christmas HQ. Tap around, tick things off, and enjoy the run-up.
+          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[color:var(--muted-foreground)]">
+            Your quiet corner for gifts, food, and everything else. Take it a step at a time.
           </p>
         </section>
       )}

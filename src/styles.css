@@ -5,18 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * A Complete Christmas — Design System
- * Luxurious festive: deep reds, forest greens, gold, black.
- * All colors oklch.
- * Fonts: Caveat Brush (playful handwritten display, "lemon cake" vibe),
- *        Fredoka (rounded friendly body), Pacifico (script accents).
+ * A Complete Christmas — Editorial Design System
+ * Palette: cream, ink, forest, burgundy, warm gold, stone.
+ * Type:    Fraunces (display serif) + Inter Tight (body sans).
  * Loaded via <link> in __root.tsx head.
  */
 
 @theme inline {
-  --font-display: "Caveat Brush", "Fredoka", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Fredoka", ui-sans-serif, system-ui, sans-serif;
-  --font-script: "Pacifico", "Caveat Brush", cursive;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Fraunces", ui-serif, Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -45,90 +43,84 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-cranberry: var(--cranberry);
-  --color-holly: var(--holly);
-  --color-pine: var(--pine);
+  --color-cream: var(--cream);
+  --color-mist: var(--mist);
+  --color-stone: var(--stone);
+  --color-ink: var(--ink);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-burgundy: var(--burgundy);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
-  --color-ivory: var(--ivory);
-  --color-ember: var(--ember);
-  --color-frost: var(--frost);
-  --color-frost-deep: var(--frost-deep);
-  --color-aurora: var(--aurora);
-  --color-midnight: var(--midnight);
+  /* Back-compat aliases so existing usages keep working during transition */
+  --color-cranberry: var(--burgundy);
+  --color-holly: var(--forest);
+  --color-pine: var(--forest-deep);
+  --color-ivory: var(--cream);
+  --color-ember: var(--burgundy);
+  --color-frost: var(--mist);
+  --color-frost-deep: var(--stone);
+  --color-aurora: var(--forest);
+  --color-midnight: var(--ink);
 }
 
 :root {
-  --radius: 0.9rem;
+  --radius: 1rem;
 
-  /* Winter Wonderland palette */
-  --cranberry: oklch(0.62 0.16 22);        /* berry accent, softer */
-  --holly: oklch(0.55 0.12 155);           /* evergreen */
-  --pine: oklch(0.48 0.09 185);            /* frosted spruce */
-  --gold: oklch(0.86 0.12 88);             /* champagne gold */
-  --gold-soft: oklch(0.93 0.07 90);        /* warm starlight */
-  --ivory: oklch(0.98 0.01 240);           /* fresh snow */
-  --ember: oklch(0.72 0.16 45);            /* candlelight */
-  --frost: oklch(0.90 0.05 230);           /* icy frost */
-  --frost-deep: oklch(0.62 0.10 235);      /* deeper ice blue */
-  --aurora: oklch(0.72 0.14 195);          /* aurora teal */
-  --midnight: oklch(0.22 0.06 260);        /* deep starry sky */
+  /* Editorial Christmas palette */
+  --cream: oklch(0.965 0.012 82);          /* #F7F3EC page cream */
+  --mist: oklch(0.985 0.005 90);           /* elevated surface */
+  --stone: oklch(0.905 0.015 78);          /* card border / divider */
+  --ink: oklch(0.22 0.015 155);            /* near-black forest ink */
+  --forest: oklch(0.34 0.045 155);         /* #1F3A2E deep evergreen */
+  --forest-deep: oklch(0.26 0.04 155);
+  --burgundy: oklch(0.36 0.09 20);         /* #6B1F2A rich burgundy */
+  --gold: oklch(0.68 0.09 75);             /* warm restrained gold */
+  --gold-soft: oklch(0.78 0.07 78);
 
-  /* Semantic — softer twilight sky, lighter and airier */
-  --background: oklch(0.40 0.06 245);      /* lighter twilight blue */
-  --foreground: oklch(0.99 0.01 240);      /* snow */
-  --card: oklch(0.46 0.06 240);
-  --card-foreground: oklch(0.99 0.01 240);
-  --popover: oklch(0.40 0.06 245);
-  --popover-foreground: oklch(0.99 0.01 240);
-  --primary: oklch(0.88 0.12 88);          /* champagne gold */
-  --primary-foreground: oklch(0.28 0.06 260);
-  --secondary: oklch(0.55 0.10 190);       /* frosted spruce */
-  --secondary-foreground: oklch(0.99 0.01 240);
-  --muted: oklch(0.52 0.05 240);
-  --muted-foreground: oklch(0.94 0.02 235);
-  --accent: oklch(0.75 0.14 195);          /* aurora */
-  --accent-foreground: oklch(0.28 0.06 260);
-  --destructive: oklch(0.65 0.20 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.85 0.06 230 / 40%);
-  --input: oklch(0.85 0.06 230 / 40%);
-  --ring: oklch(0.88 0.12 88 / 60%);
+  /* Semantic mapping — cream page, ink text */
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: var(--mist);
+  --card-foreground: var(--ink);
+  --popover: var(--mist);
+  --popover-foreground: var(--ink);
+  --primary: var(--forest);
+  --primary-foreground: var(--cream);
+  --secondary: var(--stone);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.93 0.012 82);
+  --muted-foreground: oklch(0.44 0.015 155);
+  --accent: var(--burgundy);
+  --accent-foreground: var(--cream);
+  --destructive: oklch(0.55 0.20 27);
+  --destructive-foreground: var(--cream);
+  --border: oklch(0.88 0.015 78);
+  --input: oklch(0.88 0.015 78);
+  --ring: oklch(0.34 0.045 155 / 40%);
 
-  /* Gradients & shadows — aurora / snow */
+  /* Gradients & shadows — soft, editorial */
   --gradient-hero: radial-gradient(
-      ellipse at 20% -10%,
-      oklch(0.55 0.14 210 / 0.55) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 80% 10%,
-      oklch(0.60 0.14 300 / 0.35) 0%,
+      ellipse at 20% 0%,
+      oklch(0.93 0.03 82 / 0.6) 0%,
       transparent 55%
     ),
     radial-gradient(
-      ellipse at 50% 110%,
-      oklch(0.55 0.12 175 / 0.35) 0%,
+      ellipse at 90% 20%,
+      oklch(0.90 0.02 60 / 0.5) 0%,
       transparent 60%
-    ),
-    linear-gradient(
-      180deg,
-      oklch(0.38 0.06 258) 0%,
-      oklch(0.46 0.07 245) 60%,
-      oklch(0.40 0.06 250) 100%
     );
-  --gradient-gold: linear-gradient(135deg, oklch(0.95 0.06 90) 0%, oklch(0.80 0.14 82) 100%);
-  --gradient-cranberry: linear-gradient(135deg, oklch(0.62 0.16 22) 0%, oklch(0.38 0.12 18) 100%);
-  --gradient-pine: linear-gradient(135deg, oklch(0.58 0.10 185) 0%, oklch(0.34 0.08 200) 100%);
-  --gradient-frost: linear-gradient(135deg, oklch(0.95 0.03 235) 0%, oklch(0.75 0.09 220) 100%);
-  --gradient-aurora: linear-gradient(120deg, oklch(0.68 0.14 200) 0%, oklch(0.62 0.15 260) 45%, oklch(0.68 0.14 320) 100%);
+  --gradient-gold: linear-gradient(135deg, oklch(0.80 0.08 78) 0%, oklch(0.62 0.10 70) 100%);
+  --gradient-forest: linear-gradient(135deg, var(--forest) 0%, var(--forest-deep) 100%);
+  --gradient-burgundy: linear-gradient(135deg, var(--burgundy) 0%, oklch(0.28 0.08 20) 100%);
 
-  --shadow-glow-gold: 0 0 60px oklch(0.86 0.12 88 / 0.35), 0 0 20px oklch(0.86 0.12 88 / 0.28);
-  --shadow-glow-frost: 0 0 60px oklch(0.80 0.10 220 / 0.45), 0 0 22px oklch(0.90 0.05 230 / 0.4);
-  --shadow-warm: 0 20px 60px -20px oklch(0.62 0.16 22 / 0.45);
-  --shadow-card: 0 10px 40px -12px oklch(0.15 0.05 250 / 0.65);
+  --shadow-soft: 0 1px 2px oklch(0.22 0.015 155 / 0.06), 0 8px 24px -14px oklch(0.22 0.015 155 / 0.15);
+  --shadow-lift: 0 2px 4px oklch(0.22 0.015 155 / 0.08), 0 20px 40px -20px oklch(0.22 0.015 155 / 0.25);
+  --shadow-card: var(--shadow-soft);
+  --shadow-warm: var(--shadow-lift);
+  --shadow-glow-gold: var(--shadow-soft);
+  --shadow-glow-frost: var(--shadow-soft);
 }
-
 
 @layer base {
   * {
@@ -141,108 +133,104 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: 0.005em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     line-height: 1.05;
+    color: var(--foreground);
   }
-  .font-script {
-    font-family: var(--font-script);
-  }
+  p { line-height: 1.6; }
+  ::selection { background: var(--forest); color: var(--cream); }
 }
 
-
-/* Snowfall */
+/* Snowfall — softer, gentler */
 @keyframes snow-fall {
   0% { transform: translate3d(0, -10vh, 0); opacity: 0; }
-  10% { opacity: var(--snow-opacity, 0.8); }
-  90% { opacity: var(--snow-opacity, 0.8); }
+  10% { opacity: var(--snow-opacity, 0.5); }
+  90% { opacity: var(--snow-opacity, 0.5); }
   100% { transform: translate3d(var(--snow-drift, 20px), 110vh, 0); opacity: 0; }
 }
-@keyframes twinkle {
-  0%, 100% { opacity: 0.35; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 40px oklch(0.80 0.14 85 / 0.25), 0 0 12px oklch(0.80 0.14 85 / 0.35); }
-  50% { box-shadow: 0 0 80px oklch(0.80 0.14 85 / 0.45), 0 0 24px oklch(0.80 0.14 85 / 0.55); }
-}
 @keyframes rise {
-  0% { opacity: 0; transform: translateY(24px); }
+  0% { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @utility snowflake {
   position: absolute;
   top: 0;
-  color: oklch(0.98 0.01 240);
+  color: oklch(0.55 0.02 155);
   pointer-events: none;
   user-select: none;
   animation: snow-fall linear infinite;
-  filter: drop-shadow(0 0 6px oklch(0.95 0.03 235 / 0.85)) drop-shadow(0 0 12px oklch(0.80 0.10 220 / 0.5));
+  filter: drop-shadow(0 0 4px oklch(0.98 0.005 90 / 0.9));
+  opacity: 0.6;
 }
 
-@utility twinkle {
-  animation: twinkle 3.5s ease-in-out infinite;
-}
-
+/* Text treatments */
 @utility gold-text {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: oklch(0.55 0.10 70);
+  font-style: italic;
 }
-
-@utility frost-text {
-  background: var(--gradient-frost);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility aurora-text {
-  background: var(--gradient-aurora);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility gold-glow {
-  animation: glow-pulse 4s ease-in-out infinite;
-}
-
-@utility rise-in {
-  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@utility starfield {
-  background-image:
-    radial-gradient(1px 1px at 12% 22%, oklch(0.98 0.02 240 / 0.9), transparent 60%),
-    radial-gradient(1.5px 1.5px at 78% 14%, oklch(0.95 0.05 220 / 0.85), transparent 60%),
-    radial-gradient(1px 1px at 42% 68%, oklch(0.98 0.02 240 / 0.8), transparent 60%),
-    radial-gradient(2px 2px at 88% 82%, oklch(0.92 0.06 220 / 0.7), transparent 60%),
-    radial-gradient(1px 1px at 30% 90%, oklch(0.98 0.02 240 / 0.8), transparent 60%),
-    radial-gradient(1.5px 1.5px at 62% 40%, oklch(0.95 0.05 220 / 0.75), transparent 60%),
-    radial-gradient(1px 1px at 8% 76%, oklch(0.98 0.02 240 / 0.7), transparent 60%),
-    radial-gradient(1px 1px at 95% 48%, oklch(0.98 0.02 240 / 0.7), transparent 60%);
-  background-size: 100% 100%;
-  animation: twinkle 6s ease-in-out infinite;
-}
-
-@utility aurora-veil {
-  background:
-    radial-gradient(60% 40% at 50% 0%, oklch(0.60 0.14 210 / 0.35), transparent 70%),
-    radial-gradient(50% 35% at 20% 30%, oklch(0.58 0.15 300 / 0.25), transparent 70%),
-    radial-gradient(50% 35% at 85% 25%, oklch(0.65 0.14 170 / 0.28), transparent 70%);
-  filter: blur(20px);
-}
-
-
+@utility frost-text { color: var(--forest); }
+@utility aurora-text { color: var(--forest); }
+@utility gold-glow { box-shadow: var(--shadow-soft); }
+@utility twinkle { opacity: 1; }
+@utility rise-in { animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@utility starfield { background-image: none; opacity: 0; }
+@utility aurora-veil { background: transparent; opacity: 0; }
 @utility hairline-gold {
-  background: linear-gradient(90deg, transparent, oklch(0.80 0.14 85 / 0.6), transparent);
+  background: linear-gradient(90deg, transparent, oklch(0.68 0.09 75 / 0.4), transparent);
   height: 1px;
   width: 100%;
+}
+
+@utility ac-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: transform 300ms cubic-bezier(0.22,1,0.36,1), box-shadow 300ms;
+}
+@utility ac-card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--forest);
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 200ms, transform 200ms;
+  &:hover { background: var(--forest-deep); transform: translateY(-1px); }
+}
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--forest);
+  color: var(--forest);
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 200ms;
+  &:hover { background: oklch(0.34 0.045 155 / 0.06); }
 }
