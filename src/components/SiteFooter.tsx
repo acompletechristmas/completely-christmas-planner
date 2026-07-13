@@ -21,7 +21,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">Plan</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">Plan</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/planner" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">My planner</Link></li>
             <li><Link to="/gift-finder" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Gift finder</Link></li>
@@ -31,7 +31,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">Explore</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">Explore</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/inspire" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Inspiration</Link></li>
             <li><Link to="/days-out" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Days out</Link></li>
@@ -42,7 +42,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--forest)]">More</p>
+          <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">More</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/assistant" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">AI assistant</Link></li>
             <li><Link to="/partners" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Partners</Link></li>
@@ -53,7 +53,7 @@ export function SiteFooter() {
                 onClick={toggle}
                 className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)] transition"
               >
-                Snowfall: <span className="text-[color:var(--forest)]">{enabled ? "on" : "off"}</span>
+                Snowfall: <span className="text-[color:var(--gold)]">{enabled ? "on" : "off"}</span>
               </button>
             </li>
           </ul>
