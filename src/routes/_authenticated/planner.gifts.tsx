@@ -218,26 +218,41 @@ function PersonBuyingRow({
         </div>
 
         {/* Budget */}
-        <label className="block">
-          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Budget</span>
-          <div className="mt-1 flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] px-3 py-1.5">
-            <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
-            <input
-              type="number"
-              inputMode="decimal"
-              min={0}
-              value={budget}
-              onChange={(e) => saveBudget(e.target.value)}
-              placeholder="—"
-              className="w-full bg-transparent text-sm outline-none"
-            />
-            {person.gift_budget != null && spent > 0 && (
-              <span className="whitespace-nowrap text-[10px] text-muted-foreground">
-                £{spent.toFixed(0)} spent
-              </span>
-            )}
-          </div>
-        </label>
+        {(() => {
+          const bNum = person.gift_budget != null ? Number(person.gift_budget) : null;
+          const over = bNum != null && bNum > 0 && spent > bNum;
+          const pct = bNum && bNum > 0 ? Math.min(100, Math.round((spent / bNum) * 100)) : 0;
+          return (
+            <label className="block">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Budget</span>
+              <div className="mt-1 flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] px-3 py-1.5">
+                <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min={0}
+                  value={budget}
+                  onChange={(e) => saveBudget(e.target.value)}
+                  placeholder="—"
+                  className="w-full bg-transparent text-sm outline-none"
+                />
+                {bNum != null && (
+                  <span className={`whitespace-nowrap text-[10px] ${over ? "text-[color:var(--burgundy)]" : "text-muted-foreground"}`}>
+                    £{spent.toFixed(0)}{over ? " · over" : ""}
+                  </span>
+                )}
+              </div>
+              {bNum != null && bNum > 0 && (
+                <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${bNum.toFixed(0)}`}>
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{ width: `${pct}%`, background: over ? "var(--gradient-burgundy)" : "var(--gradient-forest)" }}
+                  />
+                </div>
+              )}
+            </label>
+          );
+        })()}
 
         {/* Ideas summary */}
         <div>
