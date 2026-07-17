@@ -113,7 +113,7 @@ function PlannerOverview() {
               {peopleBudgetTotal > 0 && (
                 <>
                   {" · "}
-                  <span className={peopleOverTotal ? "text-[color:var(--cranberry)]" : "text-[color:var(--gold-soft)]"}>
+                  <span className={peopleOverTotal ? "text-[color:var(--burgundy)]" : "text-[color:var(--gold-soft)]"}>
                     £{peopleSpentTotal.toFixed(0)} of £{peopleBudgetTotal.toFixed(0)}
                     {peopleOverCount > 0 && ` (${peopleOverCount} over)`}
                   </span>
@@ -173,7 +173,7 @@ function PlannerOverview() {
                         <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
                       ) : <span />}
                       {pBudget != null ? (
-                        <p className={`shrink-0 text-[11px] ${overBudget ? "text-[color:var(--cranberry)]" : "text-muted-foreground"}`}>
+                        <p className={`shrink-0 text-[11px] ${overBudget ? "text-[color:var(--burgundy)]" : "text-muted-foreground"}`}>
                           £{spent.toFixed(0)} / £{pBudget.toFixed(0)}{overBudget && " · over"}
                         </p>
                       ) : spent > 0 ? (
@@ -187,7 +187,7 @@ function PlannerOverview() {
                       <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${pBudget.toFixed(0)}`}>
                         <div
                           className="h-full rounded-full transition-all"
-                          style={{ width: `${Math.min(100, budgetPct)}%`, background: overBudget ? "var(--gradient-cranberry)" : "var(--gradient-pine)" }}
+                          style={{ width: `${Math.min(100, budgetPct)}%`, background: overBudget ? "var(--gradient-burgundy)" : "var(--gradient-forest)" }}
                         />
                       </div>
                     )}
@@ -258,7 +258,7 @@ function PlannerOverview() {
             title="Who am I buying for?"
             body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
             to="/planner/gifts"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
           />
           <VillageCard
             emoji="👪"
@@ -281,7 +281,7 @@ function PlannerOverview() {
             title="Little things to do"
             body={overdue.length ? `${overdue.length} waiting patiently — no panic.` : "Your friendly festive to-do list."}
             to="/planner/todos"
-            gradient="var(--gradient-pine)"
+            gradient="var(--gradient-forest)"
           />
           <VillageCard
             emoji="✉️"
@@ -302,14 +302,14 @@ function PlannerOverview() {
             title="Your festive plan-of-attack"
             body="A gentle month-by-month roadmap."
             to="/planner/timeline"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
           />
           <VillageCard
             emoji="🎄"
             title="Make the house twinkle"
             body="Trees, tables and cosy corners."
             to="/inspire"
-            gradient="var(--gradient-pine)"
+            gradient="var(--gradient-forest)"
             comingSoon
           />
           <VillageCard
@@ -317,7 +317,7 @@ function PlannerOverview() {
             title="Feed the whole crew"
             body="Menus, timings, and zero panic at 3pm."
             to="/food"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
             comingSoon
           />
           <VillageCard
