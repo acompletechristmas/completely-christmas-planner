@@ -74,19 +74,29 @@ function PlannerOverview() {
   // Warm, celebratory line
   const cheer = pickCheer({ bought, giftsTotal: gifts.rows.length, wrapped, overallReady, overdue: overdue.length });
 
-  // Per-person gift breakdown
+  // Per-person gift breakdown (with budget vs spent)
   const perPerson = people.map((p) => {
     const theirs = gifts.rows.filter((g) => g.person_id === p.id);
-    const boughtCount = theirs.filter((g) => g.status !== "idea").length;
+    const boughtGifts = theirs.filter((g) => g.status !== "idea");
+    const boughtCount = boughtGifts.length;
     const wrappedCount = theirs.filter((g) => g.status === "wrapped" || g.status === "given").length;
     const done = theirs.length > 0 && boughtCount >= theirs.length;
     const started = boughtCount > 0;
     const pct = theirs.length ? Math.round((boughtCount / theirs.length) * 100) : 0;
-    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started };
+    const spent = boughtGifts.reduce((s, g) => s + (Number(g.price) || 0), 0);
+    const pBudget = p.gift_budget != null ? Number(p.gift_budget) : null;
+    const budgetPct = pBudget && pBudget > 0 ? Math.min(150, Math.round((spent / pBudget) * 100)) : 0;
+    const overBudget = pBudget != null && pBudget > 0 && spent > pBudget;
+    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started, spent, budget: pBudget, budgetPct, overBudget };
   });
   const peopleSorted = perPerson.filter((r) => r.done).length;
   const peopleTotal = people.length;
   const peoplePct = peopleTotal ? Math.round((peopleSorted / peopleTotal) * 100) : 0;
+  const peopleBudgetTotal = perPerson.reduce((s, r) => s + (r.budget ?? 0), 0);
+  const peopleSpentTotal = perPerson.reduce((s, r) => s + r.spent, 0);
+  const peopleOverCount = perPerson.filter((r) => r.overBudget).length;
+  const peopleBudgetPct = peopleBudgetTotal > 0 ? Math.min(150, Math.round((peopleSpentTotal / peopleBudgetTotal) * 100)) : 0;
+  const peopleOverTotal = peopleBudgetTotal > 0 && peopleSpentTotal > peopleBudgetTotal;
 
   return (
     <div className="rise-in space-y-10">
