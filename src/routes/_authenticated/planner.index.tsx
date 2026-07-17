@@ -110,6 +110,15 @@ function PlannerOverview() {
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
               {bought} of {gifts.rows.length} pressies bought · {wrapped} wrapped
+              {peopleBudgetTotal > 0 && (
+                <>
+                  {" · "}
+                  <span className={peopleOverTotal ? "text-[color:var(--cranberry)]" : "text-[color:var(--gold-soft)]"}>
+                    £{peopleSpentTotal.toFixed(0)} of £{peopleBudgetTotal.toFixed(0)}
+                    {peopleOverCount > 0 && ` (${peopleOverCount} over)`}
+                  </span>
+                </>
+              )}
             </p>
           </div>
           <Link
