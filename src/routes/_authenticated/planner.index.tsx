@@ -74,19 +74,29 @@ function PlannerOverview() {
   // Warm, celebratory line
   const cheer = pickCheer({ bought, giftsTotal: gifts.rows.length, wrapped, overallReady, overdue: overdue.length });
 
-  // Per-person gift breakdown
+  // Per-person gift breakdown (with budget vs spent)
   const perPerson = people.map((p) => {
     const theirs = gifts.rows.filter((g) => g.person_id === p.id);
-    const boughtCount = theirs.filter((g) => g.status !== "idea").length;
+    const boughtGifts = theirs.filter((g) => g.status !== "idea");
+    const boughtCount = boughtGifts.length;
     const wrappedCount = theirs.filter((g) => g.status === "wrapped" || g.status === "given").length;
     const done = theirs.length > 0 && boughtCount >= theirs.length;
     const started = boughtCount > 0;
     const pct = theirs.length ? Math.round((boughtCount / theirs.length) * 100) : 0;
-    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started };
+    const spent = boughtGifts.reduce((s, g) => s + (Number(g.price) || 0), 0);
+    const pBudget = p.gift_budget != null ? Number(p.gift_budget) : null;
+    const budgetPct = pBudget && pBudget > 0 ? Math.min(150, Math.round((spent / pBudget) * 100)) : 0;
+    const overBudget = pBudget != null && pBudget > 0 && spent > pBudget;
+    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started, spent, budget: pBudget, budgetPct, overBudget };
   });
   const peopleSorted = perPerson.filter((r) => r.done).length;
   const peopleTotal = people.length;
   const peoplePct = peopleTotal ? Math.round((peopleSorted / peopleTotal) * 100) : 0;
+  const peopleBudgetTotal = perPerson.reduce((s, r) => s + (r.budget ?? 0), 0);
+  const peopleSpentTotal = perPerson.reduce((s, r) => s + r.spent, 0);
+  const peopleOverCount = perPerson.filter((r) => r.overBudget).length;
+  const peopleBudgetPct = peopleBudgetTotal > 0 ? Math.min(150, Math.round((peopleSpentTotal / peopleBudgetTotal) * 100)) : 0;
+  const peopleOverTotal = peopleBudgetTotal > 0 && peopleSpentTotal > peopleBudgetTotal;
 
   return (
     <div className="rise-in space-y-10">
@@ -100,6 +110,15 @@ function PlannerOverview() {
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
               {bought} of {gifts.rows.length} pressies bought · {wrapped} wrapped
+              {peopleBudgetTotal > 0 && (
+                <>
+                  {" · "}
+                  <span className={peopleOverTotal ? "text-[color:var(--burgundy)]" : "text-[color:var(--gold-soft)]"}>
+                    £{peopleSpentTotal.toFixed(0)} of £{peopleBudgetTotal.toFixed(0)}
+                    {peopleOverCount > 0 && ` (${peopleOverCount} over)`}
+                  </span>
+                </>
+              )}
             </p>
           </div>
           <Link
@@ -125,7 +144,7 @@ function PlannerOverview() {
           </div>
         ) : (
           <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started }) => (
+            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started, spent, budget: pBudget, budgetPct, overBudget }) => (
               <li key={person.id}>
                 <Link
                   to="/planner/people/$personId"
@@ -149,12 +168,29 @@ function PlannerOverview() {
                         {total === 0 ? "no ideas yet" : `${b}/${total}${w ? ` · ${w} wrapped` : ""}`}
                       </p>
                     </div>
-                    {person.relationship ? (
-                      <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
-                    ) : null}
+                    <div className="flex items-baseline justify-between gap-2">
+                      {person.relationship ? (
+                        <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
+                      ) : <span />}
+                      {pBudget != null ? (
+                        <p className={`shrink-0 text-[11px] ${overBudget ? "text-[color:var(--burgundy)]" : "text-muted-foreground"}`}>
+                          £{spent.toFixed(0)} / £{pBudget.toFixed(0)}{overBudget && " · over"}
+                        </p>
+                      ) : spent > 0 ? (
+                        <p className="shrink-0 text-[11px] text-muted-foreground">£{spent.toFixed(0)} spent</p>
+                      ) : null}
+                    </div>
                     <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--gradient-gold)" }} />
                     </div>
+                    {pBudget != null && pBudget > 0 && (
+                      <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${pBudget.toFixed(0)}`}>
+                        <div
+                          className="h-full rounded-full transition-all"
+                          style={{ width: `${Math.min(100, budgetPct)}%`, background: overBudget ? "var(--gradient-burgundy)" : "var(--gradient-forest)" }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </Link>
               </li>
@@ -222,7 +258,7 @@ function PlannerOverview() {
             title="Who am I buying for?"
             body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
             to="/planner/gifts"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
           />
           <VillageCard
             emoji="👪"
@@ -245,7 +281,7 @@ function PlannerOverview() {
             title="Little things to do"
             body={overdue.length ? `${overdue.length} waiting patiently — no panic.` : "Your friendly festive to-do list."}
             to="/planner/todos"
-            gradient="var(--gradient-pine)"
+            gradient="var(--gradient-forest)"
           />
           <VillageCard
             emoji="✉️"
@@ -266,14 +302,14 @@ function PlannerOverview() {
             title="Your festive plan-of-attack"
             body="A gentle month-by-month roadmap."
             to="/planner/timeline"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
           />
           <VillageCard
             emoji="🎄"
             title="Make the house twinkle"
             body="Trees, tables and cosy corners."
             to="/inspire"
-            gradient="var(--gradient-pine)"
+            gradient="var(--gradient-forest)"
             comingSoon
           />
           <VillageCard
@@ -281,7 +317,7 @@ function PlannerOverview() {
             title="Feed the whole crew"
             body="Menus, timings, and zero panic at 3pm."
             to="/food"
-            gradient="var(--gradient-cranberry)"
+            gradient="var(--gradient-burgundy)"
             comingSoon
           />
           <VillageCard
