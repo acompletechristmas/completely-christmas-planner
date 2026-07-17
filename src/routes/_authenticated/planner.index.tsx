@@ -144,7 +144,7 @@ function PlannerOverview() {
           </div>
         ) : (
           <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started }) => (
+            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started, spent, budget: pBudget, budgetPct, overBudget }) => (
               <li key={person.id}>
                 <Link
                   to="/planner/people/$personId"
@@ -168,12 +168,29 @@ function PlannerOverview() {
                         {total === 0 ? "no ideas yet" : `${b}/${total}${w ? ` · ${w} wrapped` : ""}`}
                       </p>
                     </div>
-                    {person.relationship ? (
-                      <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
-                    ) : null}
+                    <div className="flex items-baseline justify-between gap-2">
+                      {person.relationship ? (
+                        <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
+                      ) : <span />}
+                      {pBudget != null ? (
+                        <p className={`shrink-0 text-[11px] ${overBudget ? "text-[color:var(--cranberry)]" : "text-muted-foreground"}`}>
+                          £{spent.toFixed(0)} / £{pBudget.toFixed(0)}{overBudget && " · over"}
+                        </p>
+                      ) : spent > 0 ? (
+                        <p className="shrink-0 text-[11px] text-muted-foreground">£{spent.toFixed(0)} spent</p>
+                      ) : null}
+                    </div>
                     <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--gradient-gold)" }} />
                     </div>
+                    {pBudget != null && pBudget > 0 && (
+                      <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${pBudget.toFixed(0)}`}>
+                        <div
+                          className="h-full rounded-full transition-all"
+                          style={{ width: `${Math.min(100, budgetPct)}%`, background: overBudget ? "var(--gradient-cranberry)" : "var(--gradient-pine)" }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </Link>
               </li>
