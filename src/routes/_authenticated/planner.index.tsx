@@ -16,6 +16,8 @@ import {
   ArrowRight,
   Check,
   CircleDashed,
+  AlarmClock,
+
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
