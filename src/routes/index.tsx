@@ -3,7 +3,7 @@ import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowUpRight, Gift, ChefHat, Sparkles, MapPin, Film, PiggyBank, Bot, PawPrint, BookOpen, BellRing } from "lucide-react";
+import { ArrowUpRight, Gift, ChefHat, Sparkles, MapPin, Film, PiggyBank, Bot, PawPrint, BookOpen, BellRing, Gem } from "lucide-react";
 
 import heroTree from "@/assets/hero-tree.jpg";
 import cardPlan from "@/assets/card-plan.jpg";
