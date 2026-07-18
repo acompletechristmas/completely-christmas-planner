@@ -3,7 +3,7 @@ import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowUpRight, Gift, ChefHat, Sparkles, MapPin, Film, PiggyBank, Bot, PawPrint, BookOpen, BellRing } from "lucide-react";
+import { ArrowUpRight, Gift, ChefHat, Sparkles, MapPin, Film, PiggyBank, Bot, PawPrint, BookOpen, BellRing, Gem } from "lucide-react";
 
 import heroTree from "@/assets/hero-tree.jpg";
 import cardPlan from "@/assets/card-plan.jpg";
@@ -65,6 +65,7 @@ function Home() {
     { icon: PawPrint, title: "For pets", desc: "Outfits, treats, cosy tips.", to: "/pets", image: cardPets },
     { icon: BookOpen, title: "For teachers", desc: "Lessons, crafts, assemblies.", to: "/teachers", image: cardTeachers },
     { icon: Bot, title: "AI assistant", desc: "Ask anything, anytime.", to: "/assistant", image: cardAssistant },
+    { icon: Gem, title: "Coming soon", desc: "A peek at what's unwrapping next.", to: "/coming-soon", image: cardMagic },
   ];
 
   const thisWeek = [
