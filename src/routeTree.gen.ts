@@ -18,6 +18,7 @@ import { Route as GiftFinderRouteImport } from './routes/gift-finder'
 import { Route as FoodRouteImport } from './routes/food'
 import { Route as EntertainmentRouteImport } from './routes/entertainment'
 import { Route as DaysOutRouteImport } from './routes/days-out'
+import { Route as ComingSoonRouteImport } from './routes/coming-soon'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -81,6 +82,11 @@ const EntertainmentRoute = EntertainmentRouteImport.update({
 const DaysOutRoute = DaysOutRouteImport.update({
   id: '/days-out',
   path: '/days-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComingSoonRoute = ComingSoonRouteImport.update({
+  id: '/coming-soon',
+  path: '/coming-soon',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -193,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
@@ -251,6 +259,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
@@ -282,6 +291,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistant'
     | '/auth'
+    | '/coming-soon'
     | '/days-out'
     | '/entertainment'
     | '/food'
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistant'
     | '/auth'
+    | '/coming-soon'
     | '/days-out'
     | '/entertainment'
     | '/food'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/assistant'
     | '/auth'
+    | '/coming-soon'
     | '/days-out'
     | '/entertainment'
     | '/food'
@@ -370,6 +382,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
+  ComingSoonRoute: typeof ComingSoonRoute
   DaysOutRoute: typeof DaysOutRoute
   EntertainmentRoute: typeof EntertainmentRoute
   FoodRoute: typeof FoodRoute
@@ -447,6 +460,13 @@ declare module '@tanstack/react-router' {
       path: '/days-out'
       fullPath: '/days-out'
       preLoaderRoute: typeof DaysOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coming-soon': {
+      id: '/coming-soon'
+      path: '/coming-soon'
+      fullPath: '/coming-soon'
+      preLoaderRoute: typeof ComingSoonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -645,6 +665,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
+  ComingSoonRoute: ComingSoonRoute,
   DaysOutRoute: DaysOutRoute,
   EntertainmentRoute: EntertainmentRoute,
   FoodRoute: FoodRoute,
@@ -661,13 +682,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
