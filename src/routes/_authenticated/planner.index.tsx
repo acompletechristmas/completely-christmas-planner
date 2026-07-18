@@ -258,6 +258,69 @@ function PlannerOverview() {
         </div>
       </div>
 
+      {/* This week's nudges — reminders that actually fire */}
+      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.28)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🔔 This week's nudges</p>
+            <p className="mt-2 font-display text-2xl leading-tight sm:text-3xl">
+              {overdueReminders.length > 0
+                ? <><span className="text-[color:var(--burgundy)]">{overdueReminders.length}</span> waiting patiently{todayReminders.length ? `, ${todayReminders.length} for today` : ""}</>
+                : todayReminders.length > 0
+                ? <><span className="gold-text">{todayReminders.length}</span> {todayReminders.length === 1 ? "nudge" : "nudges"} for today</>
+                : weekReminders.length > 0
+                ? <><span className="gold-text">{weekReminders.length}</span> coming up this week</>
+                : <>All calm this week ✨</>
+              }
+            </p>
+          </div>
+          <Link
+            to="/planner/reminders"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
+          >
+            All nudges <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+
+        {reminders.rows.length === 0 ? (
+          <div className="mt-5 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] p-6 text-center">
+            <AlarmClock className="mx-auto h-5 w-5 text-[color:var(--gold)]" />
+            <p className="mt-2 font-display text-lg">No nudges yet</p>
+            <p className="mt-1 text-xs text-muted-foreground">Load the classic Christmas set — booking grottos, posting cards, ordering the turkey.</p>
+            <Link to="/planner/reminders" className="mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110" style={{ background: "var(--gradient-gold)" }}>
+              <Sparkles className="h-3 w-3" /> Load the classic set
+            </Link>
+          </div>
+        ) : thisWeek.length === 0 ? (
+          <p className="mt-4 text-sm text-muted-foreground">Nothing scheduled for the next 7 days. Next up: {nextReminder ? <span className="text-foreground">{nextReminder.title}</span> : "—"}</p>
+        ) : (
+          <ul className="mt-5 space-y-2">
+            {thisWeek.map((r) => {
+              const isOverdue = r.remind_on < todayIso;
+              const isToday = r.remind_on === todayIso;
+              return (
+                <li key={r.id} className="flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.6)] p-3">
+                  <button
+                    onClick={() => reminders.updateField(r.id, "done" as keyof ReminderRow, true as never)}
+                    aria-label="Mark done"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] transition hover:border-[color:var(--gold)] hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
+                  >
+                    <Check className="h-4 w-4 text-[color:var(--gold-soft)]" />
+                  </button>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-display text-base">{r.title || "Untitled nudge"}</p>
+                    <p className={`text-[11px] ${isOverdue ? "text-[color:var(--burgundy)]" : isToday ? "text-[color:var(--gold)]" : "text-muted-foreground"}`}>
+                      {isOverdue ? `Was due ${friendlyDate(r.remind_on, todayIso)}` : isToday ? "Today" : friendlyDate(r.remind_on, todayIso)}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </section>
+
+
       {/* Christmas village — feature cards */}
       <section>
         <h2 className="font-display text-2xl sm:text-3xl">
