@@ -73,6 +73,17 @@ function PlannerOverview() {
     .sort((a, b) => (a.due_date ?? "9999").localeCompare(b.due_date ?? "9999"))[0];
   const nextReminder = reminders.rows.filter((r) => !r.done).sort((a, b) => a.remind_on.localeCompare(b.remind_on))[0];
 
+  // "This week" nudges — overdue + today + next 7 days
+  const inSevenIso = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+  const activeReminders = reminders.rows
+    .filter((r) => !r.done)
+    .sort((a, b) => a.remind_on.localeCompare(b.remind_on));
+  const overdueReminders = activeReminders.filter((r) => r.remind_on < todayIso);
+  const todayReminders = activeReminders.filter((r) => r.remind_on === todayIso);
+  const weekReminders = activeReminders.filter((r) => r.remind_on > todayIso && r.remind_on <= inSevenIso);
+  const thisWeek = [...overdueReminders, ...todayReminders, ...weekReminders].slice(0, 6);
+
+
   // Warm, celebratory line
   const cheer = pickCheer({ bought, giftsTotal: gifts.rows.length, wrapped, overallReady, overdue: overdue.length });
 
