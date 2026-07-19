@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Countdown } from "@/components/Countdown";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowUpRight, Gift, ChefHat, Sparkles, MapPin, Film, PiggyBank, Bot, PawPrint, BookOpen, BellRing, Gem } from "lucide-react";
+import { ArrowUpRight, Gem } from "lucide-react";
 
-import heroTree from "@/assets/hero-tree.jpg";
 import cardPlan from "@/assets/card-plan.jpg";
 import cardInspire from "@/assets/card-inspire.jpg";
 import cardMagic from "@/assets/card-magic.jpg";
@@ -19,11 +19,17 @@ import cardAssistant from "@/assets/card-assistant.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "A Complete Christmas — Your calm, sorted Christmas" },
+      { title: "A Complete Christmas — Plan gifts, food, budget & days out" },
       {
         name: "description",
         content:
-          "The UK's calm, thoughtful home for everything Christmas. Plan gifts, food, days out and traditions — beautifully, in one place.",
+          "Your Christmas control centre. Plan gifts, budget, food, decorations, cards and days out — all in one calm, organised place.",
+      },
+      { property: "og:title", content: "A Complete Christmas — Your Christmas control centre" },
+      {
+        property: "og:description",
+        content:
+          "Plan gifts, budget, food, decorations, cards and days out — all in one calm, organised place.",
       },
       { property: "og:url", content: "https://acompletechristmas.co.uk/" },
     ],
@@ -32,217 +38,185 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function daysToChristmas(): number {
-  const now = new Date();
-  const year = now.getMonth() === 11 && now.getDate() > 25 ? now.getFullYear() + 1 : now.getFullYear();
-  const xmas = new Date(year, 11, 25);
-  return Math.max(0, Math.ceil((xmas.getTime() - now.getTime()) / 86400000));
-}
-
-interface Tile {
+interface Section {
   image: string;
-  eyebrow: string;
   title: string;
   desc: string;
   to: string;
+  badge?: string;
 }
 
 function Home() {
   const { user } = useAuth();
   const planLink = user ? "/planner" : "/auth";
-  const sleeps = daysToChristmas();
 
-  const starters: Tile[] = [
-    { image: cardPlan, eyebrow: "Plan", title: "Gifts, lists & budget", desc: "Everyone you're buying for, every idea, every receipt — in one calm place.", to: planLink },
-    { image: cardFood, eyebrow: "Cook", title: "The whole festive menu", desc: "From the shopping list to the leftovers — timed to the minute.", to: "/food" },
-    { image: cardMagic, eyebrow: "Do", title: "Days out & magic near you", desc: "Santa, markets, light trails, panto — filtered by postcode.", to: "/days-out" },
+  // Primary planning tools
+  const planningTools: Section[] = [
+    {
+      image: cardPlan,
+      title: "Gift Planner",
+      desc: "Track gift ideas, purchases, wrapping and who you've bought for.",
+      to: planLink,
+    },
+    {
+      image: cardSave,
+      title: "Christmas Budget",
+      desc: "Plan your spending, track costs and stay within your Christmas budget.",
+      to: planLink,
+    },
+    {
+      image: cardFood,
+      title: "Food & Recipes",
+      desc: "Menus, shopping lists and a cooking timeline for the big day.",
+      to: "/food",
+    },
+    {
+      image: cardMagic,
+      title: "Christmas Events & Days Out",
+      desc: "Santa's grottos, markets, panto and light trails near you.",
+      to: "/days-out",
+    },
   ];
 
-  const explore = [
-    { icon: Sparkles, title: "Inspiration", desc: "Trees, tables, traditions.", to: "/inspire", image: cardInspire },
-    { icon: Film, title: "Entertainment", desc: "Films, games, quizzes.", to: "/entertainment", image: cardEntertainment },
-    { icon: PiggyBank, title: "Save money", desc: "Budgets, deals, clever swaps.", to: "/save", image: cardSave },
-    { icon: PawPrint, title: "For pets", desc: "Outfits, treats, cosy tips.", to: "/pets", image: cardPets },
-    { icon: BookOpen, title: "For teachers", desc: "Lessons, crafts, assemblies.", to: "/teachers", image: cardTeachers },
-    { icon: Bot, title: "AI assistant", desc: "Ask anything, anytime.", to: "/assistant", image: cardAssistant },
-    { icon: Gem, title: "Coming soon", desc: "A peek at what's unwrapping next.", to: "/coming-soon", image: cardMagic },
-  ];
-
-  const thisWeek = [
-    { when: "This week", what: "Book Santa's grotto — the good ones go quickly." },
-    { when: "This month", what: "Reserve pantomime tickets before the school-holiday rush." },
-    { when: "Soon", what: "Order any personalised gifts — 6-week lead times are normal." },
+  // Everything else — magical extras & inspiration
+  const everythingElse: Section[] = [
+    {
+      image: cardInspire,
+      title: "Decorations & Traditions",
+      desc: "Ideas for the tree, the table and traditions to make your own.",
+      to: "/inspire",
+    },
+    {
+      image: cardEntertainment,
+      title: "Films, Music & Games",
+      desc: "Family films, festive playlists, quizzes and activities for every age.",
+      to: "/entertainment",
+    },
+    {
+      image: cardPets,
+      title: "Christmas for Pets",
+      desc: "Safe treats, cosy tips and gentle ways to include your animals.",
+      to: "/pets",
+    },
+    {
+      image: cardTeachers,
+      title: "Teachers & Schools",
+      desc: "Lesson plans, crafts and assembly ideas for the festive term.",
+      to: "/teachers",
+    },
+    {
+      image: cardAssistant,
+      title: "AI Christmas Assistant",
+      desc: "Ask any Christmas question and get a helpful, festive answer.",
+      to: "/assistant",
+    },
+    {
+      image: cardMagic,
+      title: "What's Coming Next",
+      desc: "A peek at the features unwrapping soon — join the list to hear first.",
+      to: "/coming-soon",
+      badge: "Soon",
+    },
   ];
 
   return (
     <div className="relative min-h-screen text-[color:var(--foreground)]">
-      <Snowfall count={55} />
+      <Snowfall count={70} />
       <SiteNav />
 
+      {/* HERO — Countdown as centrepiece */}
+      <section className="relative mx-auto max-w-5xl px-5 pt-10 pb-16 text-center sm:px-8 sm:pt-16 sm:pb-24">
+        <p className="rise-in text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          <Gem className="mr-2 inline h-3 w-3" /> A Complete Christmas
+        </p>
+        <h1 className="rise-in mt-5 font-display text-[38px] leading-[1.02] tracking-tight sm:text-[56px] md:text-[64px]" style={{ animationDelay: "0.05s" }}>
+          Christmas is coming.
+          <br />
+          <span className="italic text-[color:var(--forest)]">Let's make it magical.</span>
+        </h1>
 
-      {/* HERO — editorial */}
-      <section className="relative mx-auto max-w-7xl px-5 pt-10 pb-16 sm:px-8 sm:pt-16 sm:pb-24">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <div className="lg:col-span-6 rise-in">
-            <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">
-              {sleeps} sleeps until Christmas
-            </p>
-            <h1 className="mt-5 font-display text-[52px] leading-[1.02] tracking-tight sm:text-[68px] md:text-[80px]">
-              Your calm,<br />
-              sorted, <span className="italic text-[color:var(--forest)]">joyful</span><br />
-              Christmas.
-            </h1>
-            <p className="mt-7 max-w-lg text-[17px] leading-relaxed text-[color:var(--muted-foreground)]">
-              The one place for gifts, food, days out and traditions — beautifully organised, gently reminded, all year round.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link to={planLink} className="btn-primary">
-                {user ? "Open my planner" : "Start planning"}
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-              <Link to="/inspire" className="btn-ghost">Browse inspiration</Link>
-            </div>
-            <p className="mt-6 text-xs text-[color:var(--muted-foreground)]">
-              Free to start · No card needed · Built in the UK
-            </p>
-          </div>
-
-          <div className="lg:col-span-6 rise-in" style={{ animationDelay: "0.1s" }}>
-            <div className="relative overflow-hidden rounded-[28px] shadow-[var(--shadow-lift)]">
-              <img
-                src={heroTree}
-                alt="A softly lit Christmas tree at home"
-                className="h-[380px] w-full object-cover sm:h-[560px]"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* START HERE — 3 tiles */}
-      <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">Start here</p>
-            <h2 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-              How can we make your Christmas easier?
-            </h2>
-          </div>
-          <p className="max-w-sm text-[15px] text-[color:var(--muted-foreground)]">
-            Pick where the load is heaviest this year. You can jump between anything, anytime.
+        <div className="rise-in mt-10 sm:mt-14" style={{ animationDelay: "0.15s" }}>
+          <Countdown variant="hero" />
+          <p className="mt-6 text-[13px] uppercase tracking-[0.28em] text-[color:var(--muted-foreground)] sm:text-sm">
+            Until Christmas Day
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {starters.map((t) => (
-            <Link
-              key={t.title}
-              to={t.to}
-              className="group relative flex flex-col overflow-hidden rounded-3xl bg-[color:var(--mist)] border border-[color:var(--border)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={t.image}
-                  alt=""
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
-              <div className="flex flex-1 flex-col gap-2 p-7">
-                <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--forest)]">{t.eyebrow}</p>
-                <h3 className="font-display text-[26px] leading-tight tracking-tight">{t.title}</h3>
-                <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">{t.desc}</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--forest)]">
-                  Explore <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-              </div>
-            </Link>
+        <div className="rise-in mt-12 flex flex-wrap items-center justify-center gap-3" style={{ animationDelay: "0.25s" }}>
+          <Link to={planLink} className="btn-primary">
+            {user ? "Open my planner" : "Start planning free"}
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+          <Link to="/inspire" className="btn-ghost">Browse inspiration</Link>
+        </div>
+
+        <p className="rise-in mt-6 text-xs text-[color:var(--muted-foreground)]" style={{ animationDelay: "0.3s" }}>
+          Your Christmas control centre — gifts, budget, food, days out and more.
+        </p>
+      </section>
+
+      {/* WHAT THIS SITE IS — 3 pillars */}
+      <section className="relative mx-auto max-w-5xl px-5 pb-8 sm:px-8">
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            { t: "Organised", d: "Everything in one place — gifts, budget, food and lists." },
+            { t: "Reminded", d: "Gentle nudges so you never miss booking or posting deadlines." },
+            { t: "Magical", d: "Ideas, traditions and inspiration to make it feel special." },
+          ].map((x) => (
+            <div key={x.t} className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--mist)] p-5">
+              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">{x.t}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-[color:var(--muted-foreground)]">{x.d}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* NEVER MISS — signature feature strip */}
-      <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-        <div className="overflow-hidden rounded-[32px] border border-[color:var(--border)] text-[color:var(--cream)]" style={{ background: "linear-gradient(135deg, oklch(0.22 0.06 155) 0%, oklch(0.16 0.04 245) 100%)" }}>
-          <div className="grid gap-10 p-10 sm:p-14 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div>
-              <p className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-                <BellRing className="h-3.5 w-3.5" /> Signature feature
-              </p>
-              <h2 className="mt-4 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-                Never miss a single festive moment.
-              </h2>
-              <p className="mt-5 max-w-md text-[16px] leading-relaxed text-[color:var(--cream)]/80">
-                The best Santa grottos, panto tickets and afternoon teas sell out in July.
-                We'll gently nudge you at exactly the right moment — from booking markets in
-                September to posting the last cards in December.
-              </p>
-              <Link
-                to={user ? "/planner/reminders" : "/auth"}
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[color:var(--cream)] px-6 py-3 text-sm font-medium text-[color:var(--forest)] transition hover:bg-[color:var(--mist)]"
-              >
-                {user ? "See my timeline" : "Set up my reminders"}
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-            </div>
+      {/* PLANNING TOOLS */}
+      <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mb-10 text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">Plan your Christmas</p>
+          <h2 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
+            Your planning tools
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-[15px] text-[color:var(--muted-foreground)]">
+            Tap any section to get started. Everything saves automatically to your account.
+          </p>
+        </div>
 
-            <ul className="grid gap-3 sm:grid-cols-2">
-              {thisWeek.concat([
-                { when: "Nov", what: "Reserve your supermarket delivery slot." },
-                { when: "Dec 8", what: "Post the last second-class Christmas cards." },
-                { when: "Dec 20", what: "Collect the turkey. Chill the fizz." },
-                { when: "Dec 24", what: "Assemble the Christmas Eve box." },
-              ]).map((r) => (
-                <li key={r.what} className="rounded-2xl bg-[color:var(--cream)]/6 border border-[color:var(--cream)]/10 p-4">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">{r.when}</p>
-                  <p className="mt-2 text-[15px] leading-snug text-[color:var(--cream)]">{r.what}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {planningTools.map((t) => (
+            <SectionCard key={t.title} {...t} />
+          ))}
         </div>
       </section>
 
-      {/* EXPLORE */}
-      <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-        <div className="mb-12">
+      {/* EVERYTHING ELSE */}
+      <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mb-10 text-center">
           <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">Explore</p>
           <h2 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-            Everything you need.<br />
-            <span className="italic text-[color:var(--forest)]">Nothing you don't.</span>
+            Everything else festive
           </h2>
+          <p className="mx-auto mt-4 max-w-xl text-[15px] text-[color:var(--muted-foreground)]">
+            Ideas, entertainment and helpful extras to round out the season.
+          </p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {explore.map(({ icon: Icon, title, desc, to, image }) => (
-            <Link
-              key={title}
-              to={to}
-              className="group relative flex items-center gap-5 overflow-hidden rounded-2xl border border-[color:var(--border)] bg-[color:var(--mist)] p-4 pr-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
-            >
-              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
-                <img src={image} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2 text-[color:var(--forest)]">
-                  <Icon className="h-4 w-4" />
-                  <h3 className="font-display text-[20px] leading-tight tracking-tight text-[color:var(--ink)]">{title}</h3>
-                </div>
-                <p className="mt-1 text-[14px] leading-snug text-[color:var(--muted-foreground)]">{desc}</p>
-              </div>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-[color:var(--forest)] opacity-0 transition-all group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
+          {everythingElse.map((t) => (
+            <SectionCard key={t.title} {...t} compact />
           ))}
         </div>
       </section>
 
-      {/* Small closing note */}
-      <section className="relative mx-auto max-w-4xl px-5 py-24 text-center sm:px-8">
+      {/* Closing */}
+      <section className="relative mx-auto max-w-3xl px-5 py-20 text-center sm:px-8">
         <div className="mx-auto mb-6 h-px w-24 bg-[color:var(--gold)]/40" />
         <h2 className="font-display text-3xl leading-tight tracking-tight sm:text-4xl">
           Christmas, done <span className="italic text-[color:var(--forest)]">beautifully</span>.
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-[16px] leading-relaxed text-[color:var(--muted-foreground)]">
-          One quiet, thoughtful home for the season — so the whole family can enjoy it, not just organise it.
+          One calm, thoughtful home for the season — so the whole family can enjoy it, not just organise it.
         </p>
         <Link to={planLink} className="btn-primary mt-8">
           {user ? "Open my planner" : "Start planning free"}
@@ -252,5 +226,43 @@ function Home() {
 
       <SiteFooter />
     </div>
+  );
+}
+
+function SectionCard({
+  image,
+  title,
+  desc,
+  to,
+  badge,
+  compact,
+}: Section & { compact?: boolean }) {
+  return (
+    <Link
+      to={to}
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--mist)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+    >
+      <div className={`relative overflow-hidden ${compact ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
+        <img
+          src={image}
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+        />
+        {badge ? (
+          <span className="absolute right-3 top-3 rounded-full border border-[color:var(--gold)]/50 bg-black/40 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[color:var(--gold-soft)] backdrop-blur-sm">
+            {badge}
+          </span>
+        ) : null}
+      </div>
+      <div className="flex flex-1 flex-col gap-2 p-6">
+        <h3 className="font-display text-[22px] leading-tight tracking-tight text-[color:var(--ink)] sm:text-[24px]">
+          {title}
+        </h3>
+        <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">{desc}</p>
+        <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--forest)]">
+          Open <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </span>
+      </div>
+    </Link>
   );
 }
