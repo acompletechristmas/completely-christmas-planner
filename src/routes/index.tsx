@@ -241,7 +241,7 @@ function SectionCard({
   return (
     <Link
       to={to}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--mist)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+      className="magical-card group relative flex flex-col overflow-hidden rounded-3xl"
     >
       <div className={`relative overflow-hidden ${compact ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
         <img
