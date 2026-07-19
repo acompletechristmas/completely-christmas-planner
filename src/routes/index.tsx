@@ -260,7 +260,7 @@ function SectionCard({
           {title}
         </h3>
         <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">{desc}</p>
-        <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--forest)]">
+        <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--gold-soft)]">
           Open <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </div>
