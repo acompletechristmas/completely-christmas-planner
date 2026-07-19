@@ -306,3 +306,228 @@
   transition: background 200ms, border-color 200ms;
   &:hover { background: oklch(0.82 0.14 85 / 0.08); border-color: oklch(0.82 0.14 85 / 0.7); }
 }
+
+/* =============================================================
+   Homepage magical Christmas atmosphere (scoped to .home-magical)
+   ============================================================= */
+
+@keyframes bokeh-drift {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); opacity: 0.55; }
+  50% { transform: translate3d(-20px,-30px,0) scale(1.15); opacity: 0.9; }
+}
+@keyframes fairy-twinkle {
+  0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 3px oklch(0.88 0.11 88 / 0.6)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 10px oklch(0.88 0.11 88 / 0.95)); }
+}
+@keyframes countdown-halo {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.06); }
+}
+@keyframes gold-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.home-magical {
+  position: relative;
+  isolation: isolate;
+}
+/* Rich festive overlays — deep forest & burgundy blooms with warm gold glow */
+.home-magical::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(700px 500px at 50% 8%, oklch(0.82 0.14 85 / 0.22) 0%, transparent 70%),
+    radial-gradient(900px 700px at 10% 40%, oklch(0.35 0.12 155 / 0.55) 0%, transparent 65%),
+    radial-gradient(800px 600px at 95% 30%, oklch(0.40 0.16 25 / 0.35) 0%, transparent 65%),
+    radial-gradient(900px 700px at 80% 90%, oklch(0.30 0.10 155 / 0.5) 0%, transparent 65%);
+}
+/* Floating warm bokeh — fireside embers / bauble reflections */
+.home-magical::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(6px 6px at 18% 22%, oklch(0.88 0.11 88 / 0.55), transparent 70%),
+    radial-gradient(5px 5px at 82% 18%, oklch(0.88 0.11 88 / 0.45), transparent 70%),
+    radial-gradient(8px 8px at 30% 55%, oklch(0.70 0.18 25 / 0.35), transparent 70%),
+    radial-gradient(6px 6px at 72% 68%, oklch(0.88 0.11 88 / 0.4), transparent 70%),
+    radial-gradient(5px 5px at 12% 82%, oklch(0.88 0.11 88 / 0.4), transparent 70%),
+    radial-gradient(7px 7px at 90% 88%, oklch(0.70 0.18 25 / 0.35), transparent 70%);
+  filter: blur(1px);
+  animation: bokeh-drift 14s ease-in-out infinite;
+}
+.home-magical > * { position: relative; z-index: 1; }
+
+/* Fairy-light strand */
+.fairy-strand {
+  position: relative;
+  height: 44px;
+  width: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.fairy-strand::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 8px;
+  height: 22px;
+  background:
+    radial-gradient(circle at 5% 90%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 15% 60%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 25% 92%, oklch(0.70 0.18 25 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 35% 62%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 45% 92%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 55% 60%, oklch(0.70 0.18 25 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 65% 92%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 75% 62%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 85% 90%, oklch(0.70 0.18 25 / 0.9) 0 2.5px, transparent 3px),
+    radial-gradient(circle at 95% 62%, oklch(0.88 0.11 88 / 0.9) 0 2.5px, transparent 3px);
+  filter: drop-shadow(0 0 6px oklch(0.88 0.11 88 / 0.7));
+  animation: fairy-twinkle 3.4s ease-in-out infinite;
+}
+.fairy-strand::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 14px;
+  height: 12px;
+  background: linear-gradient(90deg, transparent, oklch(0.82 0.14 85 / 0.35), transparent);
+  filter: blur(0.5px);
+  mask: radial-gradient(ellipse 60% 100% at 50% 0%, black, transparent 70%);
+}
+
+/* Countdown halo */
+.countdown-halo {
+  position: relative;
+}
+.countdown-halo::before {
+  content: "";
+  position: absolute;
+  inset: -40px -20px;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at center, oklch(0.82 0.14 85 / 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 30% 60%, oklch(0.55 0.14 150 / 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 40%, oklch(0.58 0.18 25 / 0.15) 0%, transparent 60%);
+  filter: blur(20px);
+  animation: countdown-halo 6s ease-in-out infinite;
+}
+
+/* Magical card treatment — warm gold hairline + festive lift */
+.home-magical .magical-card {
+  background: linear-gradient(180deg, oklch(0.26 0.045 245 / 0.85), oklch(0.20 0.04 245 / 0.9));
+  border: 1px solid oklch(0.82 0.14 85 / 0.28);
+  box-shadow:
+    0 1px 0 oklch(0.98 0.01 90 / 0.06) inset,
+    0 20px 40px -24px oklch(0 0 0 / 0.6),
+    0 0 0 1px oklch(0.82 0.14 85 / 0.05);
+  transition: transform 400ms cubic-bezier(0.22,1,0.36,1), box-shadow 400ms, border-color 400ms;
+}
+.home-magical .magical-card:hover {
+  transform: translateY(-4px);
+  border-color: oklch(0.82 0.14 85 / 0.55);
+  box-shadow:
+    0 1px 0 oklch(0.98 0.01 90 / 0.1) inset,
+    0 30px 60px -20px oklch(0 0 0 / 0.7),
+    0 0 40px -8px oklch(0.82 0.14 85 / 0.4);
+}
+.home-magical .magical-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.88 0.11 88 / 0.7), transparent);
+  pointer-events: none;
+}
+
+/* Festive primary button — richer, warmer, invites the click */
+@utility btn-festive {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background:
+    linear-gradient(135deg, oklch(0.92 0.10 88) 0%, oklch(0.78 0.14 82) 45%, oklch(0.62 0.16 55) 100%);
+  color: oklch(0.16 0.03 245);
+  border-radius: 999px;
+  padding: 0.9rem 1.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.5) inset,
+    0 -1px 0 oklch(0.40 0.12 55 / 0.4) inset,
+    0 10px 30px -8px oklch(0.82 0.14 85 / 0.55),
+    0 0 24px oklch(0.82 0.14 85 / 0.35);
+  transition: transform 200ms, box-shadow 200ms, filter 200ms;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 35%, oklch(1 0 0 / 0.45) 50%, transparent 65%);
+    background-size: 200% 100%;
+    animation: gold-shimmer 4.5s linear infinite;
+    pointer-events: none;
+  }
+  &:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 0.55) inset,
+      0 14px 36px -8px oklch(0.82 0.14 85 / 0.7),
+      0 0 40px oklch(0.82 0.14 85 / 0.5);
+  }
+}
+@utility btn-festive-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid oklch(0.82 0.14 85 / 0.5);
+  color: oklch(0.98 0.01 90);
+  background: oklch(0.20 0.04 245 / 0.4);
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
+  padding: 0.9rem 1.75rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 200ms, border-color 200ms, box-shadow 200ms;
+  &:hover {
+    background: oklch(0.30 0.06 155 / 0.35);
+    border-color: oklch(0.82 0.14 85 / 0.8);
+    box-shadow: 0 0 24px -6px oklch(0.82 0.14 85 / 0.4);
+  }
+}
+
+/* Pillar cards — warmer ivory-on-forest treatment */
+.home-magical .pillar-card {
+  background: linear-gradient(180deg, oklch(0.30 0.07 155 / 0.55), oklch(0.22 0.05 155 / 0.65));
+  border: 1px solid oklch(0.82 0.14 85 / 0.25);
+  box-shadow: 0 1px 0 oklch(0.98 0.01 90 / 0.06) inset, 0 12px 30px -20px oklch(0 0 0 / 0.5);
+  position: relative;
+}
+.home-magical .pillar-card::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.88 0.11 88 / 0.8), transparent);
+}
+
+/* Section eyebrow — small holly divider */
+.holly-divider {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.holly-divider::before,
+.holly-divider::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.82 0.14 85 / 0.7), transparent);
+}

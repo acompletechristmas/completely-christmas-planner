@@ -120,34 +120,35 @@ function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen text-[color:var(--foreground)]">
-      <Snowfall count={70} />
+    <div className="home-magical relative min-h-screen text-[color:var(--foreground)]">
+      <Snowfall count={90} />
       <SiteNav />
 
       {/* HERO — Countdown as centrepiece */}
-      <section className="relative mx-auto max-w-5xl px-5 pt-10 pb-16 text-center sm:px-8 sm:pt-16 sm:pb-24">
+      <section className="relative mx-auto max-w-5xl px-5 pt-6 pb-16 text-center sm:px-8 sm:pt-10 sm:pb-24">
+        <div aria-hidden className="fairy-strand mx-auto mb-4 max-w-3xl" />
         <p className="rise-in text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-          <Gem className="mr-2 inline h-3 w-3" /> A Complete Christmas
+          <span className="holly-divider"><Gem className="h-3 w-3" /> A Complete Christmas</span>
         </p>
         <h1 className="rise-in mt-5 font-display text-[38px] leading-[1.02] tracking-tight sm:text-[56px] md:text-[64px]" style={{ animationDelay: "0.05s" }}>
           Christmas is coming.
           <br />
-          <span className="italic text-[color:var(--forest)]">Let's make it magical.</span>
+          <span className="italic gold-text">Let's make it magical.</span>
         </h1>
 
-        <div className="rise-in mt-10 sm:mt-14" style={{ animationDelay: "0.15s" }}>
+        <div className="rise-in countdown-halo mt-10 sm:mt-14" style={{ animationDelay: "0.15s" }}>
           <Countdown variant="hero" />
-          <p className="mt-6 text-[13px] uppercase tracking-[0.28em] text-[color:var(--muted-foreground)] sm:text-sm">
+          <p className="mt-6 text-[13px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)] sm:text-sm">
             Until Christmas Day
           </p>
         </div>
 
         <div className="rise-in mt-12 flex flex-wrap items-center justify-center gap-3" style={{ animationDelay: "0.25s" }}>
-          <Link to={planLink} className="btn-primary">
+          <Link to={planLink} className="btn-festive">
             {user ? "Open my planner" : "Start planning free"}
             <ArrowUpRight className="h-4 w-4" />
           </Link>
-          <Link to="/inspire" className="btn-ghost">Browse inspiration</Link>
+          <Link to="/inspire" className="btn-festive-ghost">Browse inspiration</Link>
         </div>
 
         <p className="rise-in mt-6 text-xs text-[color:var(--muted-foreground)]" style={{ animationDelay: "0.3s" }}>
@@ -163,9 +164,9 @@ function Home() {
             { t: "Reminded", d: "Gentle nudges so you never miss booking or posting deadlines." },
             { t: "Magical", d: "Ideas, traditions and inspiration to make it feel special." },
           ].map((x) => (
-            <div key={x.t} className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--mist)] p-5">
-              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">{x.t}</p>
-              <p className="mt-2 text-[14px] leading-relaxed text-[color:var(--muted-foreground)]">{x.d}</p>
+            <div key={x.t} className="pillar-card rounded-2xl p-5">
+              <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">{x.t}</p>
+              <p className="mt-2 text-[14px] leading-relaxed text-[color:var(--cream)]/85">{x.d}</p>
             </div>
           ))}
         </div>
@@ -174,9 +175,9 @@ function Home() {
       {/* PLANNING TOOLS */}
       <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <div className="mb-10 text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">Plan your Christmas</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]"><span className="holly-divider">Plan your Christmas</span></p>
           <h2 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-            Your planning tools
+            Your <span className="italic gold-text">planning tools</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] text-[color:var(--muted-foreground)]">
             Tap any section to get started. Everything saves automatically to your account.
@@ -193,9 +194,9 @@ function Home() {
       {/* EVERYTHING ELSE */}
       <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
         <div className="mb-10 text-center">
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">Explore</p>
+          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]"><span className="holly-divider">Explore</span></p>
           <h2 className="mt-3 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-            Everything else festive
+            Everything else <span className="italic gold-text">festive</span>
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] text-[color:var(--muted-foreground)]">
             Ideas, entertainment and helpful extras to round out the season.
@@ -211,14 +212,14 @@ function Home() {
 
       {/* Closing */}
       <section className="relative mx-auto max-w-3xl px-5 py-20 text-center sm:px-8">
-        <div className="mx-auto mb-6 h-px w-24 bg-[color:var(--gold)]/40" />
+        <div aria-hidden className="fairy-strand mx-auto mb-6 max-w-md" />
         <h2 className="font-display text-3xl leading-tight tracking-tight sm:text-4xl">
-          Christmas, done <span className="italic text-[color:var(--forest)]">beautifully</span>.
+          Christmas, done <span className="italic gold-text">beautifully</span>.
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-[16px] leading-relaxed text-[color:var(--muted-foreground)]">
           One calm, thoughtful home for the season — so the whole family can enjoy it, not just organise it.
         </p>
-        <Link to={planLink} className="btn-primary mt-8">
+        <Link to={planLink} className="btn-festive mt-8">
           {user ? "Open my planner" : "Start planning free"}
           <ArrowUpRight className="h-4 w-4" />
         </Link>
@@ -240,7 +241,7 @@ function SectionCard({
   return (
     <Link
       to={to}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-[color:var(--border)] bg-[color:var(--mist)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]"
+      className="magical-card group relative flex flex-col overflow-hidden rounded-3xl"
     >
       <div className={`relative overflow-hidden ${compact ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
         <img
@@ -259,7 +260,7 @@ function SectionCard({
           {title}
         </h3>
         <p className="text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">{desc}</p>
-        <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--forest)]">
+        <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--gold-soft)]">
           Open <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </div>
