@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Menu, X, UserCircle2 } from "lucide-react";
 
-const primary = [
+const primary: Array<{ to: string; label: string; auth?: boolean }> = [
   { to: "/", label: "Home" },
   { to: "/planner", label: "Planner", auth: true },
   { to: "/inspire", label: "Inspiration" },
   { to: "/days-out", label: "Days Out" },
   { to: "/food", label: "Food & Recipes" },
-] as const;
+];
 
 export function SiteNav() {
   const { user } = useAuth();
