@@ -62,16 +62,24 @@ export function Countdown({ variant = "inline" }: CountdownProps) {
 
   if (variant === "inline") {
     return (
-      <div className="flex items-center justify-center gap-3 sm:gap-5">
+      <div className="flex items-center justify-center gap-2.5 sm:gap-4">
         {items.map(([label, value]) => (
           <div
             key={label}
-            className="flex min-w-[64px] flex-col items-center rounded-xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-3 backdrop-blur-sm sm:min-w-[88px] sm:px-5 sm:py-4"
+            className="flex min-w-[64px] flex-col items-center rounded-2xl border px-3 py-3 sm:min-w-[88px] sm:px-5 sm:py-4"
+            style={{
+              borderColor: "oklch(0.86 0.11 85 / 0.55)",
+              background:
+                "linear-gradient(180deg, oklch(0.86 0.11 85 / 0.14), oklch(0.72 0.12 78 / 0.08))",
+              boxShadow:
+                "inset 0 1px 0 oklch(1 0 0 / 0.18), inset 0 0 24px oklch(0.86 0.11 85 / 0.15), 0 10px 30px -18px oklch(0.82 0.14 85 / 0.5)",
+              backdropFilter: "blur(14px) saturate(140%)",
+            }}
           >
             <span className="font-display text-3xl leading-none sm:text-5xl gold-text tabular-nums">
               {mounted ? String(value).padStart(2, "0") : "--"}
             </span>
-            <span className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:text-xs">
+            <span className="mt-1 text-[10px] uppercase tracking-[0.24em] sm:text-xs" style={{ color: "oklch(0.88 0.09 85 / 0.85)" }}>
               {label}
             </span>
           </div>
