@@ -8,8 +8,8 @@ interface SnowfallProps {
 }
 
 /**
- * Gentle editorial snowfall. Reads the user's preference from localStorage
- * (toggled via the footer control) and quietly renders nothing when off.
+ * Luxury editorial snowfall — larger, softly blurred flakes with a slight
+ * sideways drift, plus a scatter of warm gold sparkles.
  */
 export function Snowfall({ count = 28, force = false }: SnowfallProps) {
   const { enabled } = useSnowfall();
@@ -20,12 +20,31 @@ export function Snowfall({ count = 28, force = false }: SnowfallProps) {
         const x = Math.sin(i * 9301 + n * 49297) * 233280;
         return x - Math.floor(x);
       };
-      const size = 2 + rand(1) * 5;
+      // 4–12px flakes, larger ones fall slower for parallax feel
+      const size = 4 + rand(1) * 8;
       const left = rand(2) * 100;
-      const duration = 18 + rand(3) * 20;
+      // Bigger = slower, gentler descent
+      const duration = 22 + (12 - size) * 1.6 + rand(3) * 14;
       const delay = -rand(4) * duration;
-      const drift = (rand(5) - 0.5) * 120;
-      const opacity = 0.25 + rand(6) * 0.35;
+      const drift = (rand(5) - 0.5) * 160;
+      const opacity = 0.55 + rand(6) * 0.4;
+      return { size, left, duration, delay, drift, opacity, id: i };
+    });
+  }, [count]);
+
+  const sparkles = useMemo(() => {
+    const n = Math.max(4, Math.round(count * 0.12));
+    return Array.from({ length: n }, (_, i) => {
+      const rand = (k: number) => {
+        const x = Math.sin(i * 7307 + k * 1543) * 100000;
+        return x - Math.floor(x);
+      };
+      const size = 2 + rand(1) * 3;
+      const left = rand(2) * 100;
+      const duration = 26 + rand(3) * 18;
+      const delay = -rand(4) * duration;
+      const drift = (rand(5) - 0.5) * 100;
+      const opacity = 0.7 + rand(6) * 0.3;
       return { size, left, duration, delay, drift, opacity, id: i };
     });
   }, [count]);
@@ -39,19 +58,33 @@ export function Snowfall({ count = 28, force = false }: SnowfallProps) {
     >
       {flakes.map((f) => (
         <span
-          key={f.id}
+          key={`s-${f.id}`}
           className="snowflake"
           style={{
             left: `${f.left}%`,
-            fontSize: `${f.size}px`,
+            width: `${f.size}px`,
+            height: `${f.size}px`,
             animationDuration: `${f.duration}s`,
             animationDelay: `${f.delay}s`,
             ["--snow-drift" as string]: `${f.drift}px`,
             ["--snow-opacity" as string]: f.opacity,
           }}
-        >
-          •
-        </span>
+        />
+      ))}
+      {sparkles.map((f) => (
+        <span
+          key={`g-${f.id}`}
+          className="snow-sparkle"
+          style={{
+            left: `${f.left}%`,
+            width: `${f.size}px`,
+            height: `${f.size}px`,
+            animationDuration: `${f.duration}s`,
+            animationDelay: `${f.delay}s`,
+            ["--snow-drift" as string]: `${f.drift}px`,
+            ["--snow-opacity" as string]: f.opacity,
+          }}
+        />
       ))}
     </div>
   );
