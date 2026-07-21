@@ -80,13 +80,13 @@ function Home() {
           className="absolute inset-0 h-full w-full object-cover"
           fetchPriority="high"
         />
-        {/* Warm cinematic vignette */}
+        {/* Warm cinematic vignette + magical gold bloom over the tree */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0.15) 60%, rgba(10,20,15,0.85) 100%), radial-gradient(ellipse at 20% 40%, rgba(0,0,0,0.55), transparent 55%)",
+              "radial-gradient(ellipse at 72% 45%, oklch(0.86 0.13 82 / 0.28), transparent 55%), linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.08) 30%, rgba(0,0,0,0.12) 60%, rgba(10,20,15,0.85) 100%), radial-gradient(ellipse at 20% 40%, rgba(0,0,0,0.5), transparent 55%)",
           }}
         />
         <Snowfall count={120} force />
@@ -115,18 +115,40 @@ function Home() {
               Everything you need for the perfect Christmas — all in one beautiful place.
             </p>
 
-            {/* Countdown card */}
+            {/* Countdown card — frosted champagne-gold glass */}
             <div className="mt-10 max-w-lg">
-              <div className="rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-5 py-5 backdrop-blur-md sm:px-7 sm:py-6" style={{ boxShadow: "0 20px 60px -20px rgba(0,0,0,0.7), 0 0 40px -10px oklch(0.82 0.14 85 / 0.35)" }}>
-                <div className="mb-4 flex items-center justify-center gap-3 text-[color:var(--gold)]">
+              <div
+                className="relative overflow-hidden rounded-3xl px-5 py-5 sm:px-7 sm:py-6"
+                style={{
+                  border: "1px solid oklch(0.86 0.11 85 / 0.5)",
+                  background:
+                    "linear-gradient(180deg, oklch(0.88 0.11 85 / 0.16), oklch(0.70 0.12 78 / 0.08) 60%, oklch(0.55 0.10 70 / 0.10))",
+                  backdropFilter: "blur(20px) saturate(160%)",
+                  boxShadow:
+                    "inset 0 1px 0 oklch(1 0 0 / 0.22), inset 0 0 60px oklch(0.86 0.11 85 / 0.18), 0 30px 80px -30px rgba(0,0,0,0.75), 0 0 60px -10px oklch(0.82 0.14 85 / 0.45)",
+                }}
+              >
+                {/* soft inner bloom */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 -z-0"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 50% 0%, oklch(0.92 0.12 85 / 0.22), transparent 60%)",
+                  }}
+                />
+                <div className="relative mb-4 flex items-center justify-center gap-3 text-[color:var(--gold)]">
                   <span className="text-xs">✦</span>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.32em] sm:text-[11px]">
                     Countdown to Christmas
                   </span>
                   <span className="text-xs">✦</span>
                 </div>
-                <Countdown variant="inline" />
+                <div className="relative">
+                  <Countdown variant="inline" />
+                </div>
               </div>
+
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link to={planLink} className="btn-festive">

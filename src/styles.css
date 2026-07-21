@@ -219,12 +219,23 @@
 @utility snowflake {
   position: absolute;
   top: 0;
-  color: oklch(0.98 0.01 90);
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, oklch(1 0 0 / 0.95), oklch(0.98 0.01 90 / 0.55) 55%, transparent 75%);
   pointer-events: none;
   user-select: none;
   animation: snow-fall linear infinite;
-  filter: drop-shadow(0 0 6px oklch(0.98 0.01 90 / 0.9));
+  filter: blur(1.2px) drop-shadow(0 0 6px oklch(0.98 0.01 90 / 0.55));
   opacity: 0.85;
+}
+@utility snow-sparkle {
+  position: absolute;
+  top: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle, oklch(0.92 0.14 85 / 0.95), oklch(0.82 0.14 78 / 0.5) 50%, transparent 75%);
+  pointer-events: none;
+  animation: snow-fall linear infinite;
+  filter: blur(0.4px) drop-shadow(0 0 8px oklch(0.85 0.15 82 / 0.9));
+  opacity: 0.9;
 }
 
 /* Text treatments */
