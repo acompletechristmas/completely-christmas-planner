@@ -54,18 +54,18 @@ function Home() {
   const planLink = user ? "/planner" : "/auth";
 
   const tiles: Tile[] = [
-    { image: cardGifts, title: "Gift Planner", desc: "Plan, track & find the perfect gifts", to: planLink },
-    { image: cardDecorations, title: "Decorations", desc: "Ideas & inspiration for your home", to: "/inspire" },
-    { image: cardSanta, title: "Father Christmas", desc: "Letters, tracking & magic awaits", to: "/coming-soon" },
-    { image: cardFood, title: "Food & Recipes", desc: "Menus, recipes & festive treats", to: "/food" },
-    { image: cardFilms, title: "Films & TV", desc: "Your ultimate watch list", to: "/entertainment" },
-    { image: cardMusic, title: "Music & Playlists", desc: "Songs for every Christmas moment", to: "/entertainment" },
-    { image: cardDaysOut, title: "Days Out & Events", desc: "Magical places & experiences", to: "/days-out" },
-    { image: cardCrafts, title: "Crafts & Activities", desc: "Fun for kids & adults alike", to: "/teachers" },
-    { image: cardPlanner, title: "Christmas Planner", desc: "Your complete planning hub", to: planLink },
-    { image: cardBudget, title: "Budget Tracker", desc: "Stay on track & stress free", to: planLink },
-    { image: cardParty, title: "Party Ideas", desc: "Entertaining made easy", to: "/coming-soon" },
-    { image: cardTraditions, title: "Traditions", desc: "Create memories that last", to: "/inspire" },
+    { image: cardPlanner, title: "My Christmas Planner", desc: "Your personal Christmas HQ — one place for everything.", to: planLink },
+    { image: cardGifts, title: "Gift Planner", desc: "Track who you're buying for, budgets and wrapping.", to: planLink },
+    { image: cardDecorations, title: "Decorations", desc: "Ideas to make your home feel magical this year.", to: "/inspire" },
+    { image: cardFood, title: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love.", to: "/food" },
+    { image: cardDaysOut, title: "Christmas Activities", desc: "Markets, grottos, walks and days out near you.", to: "/days-out" },
+    { image: cardFilms, title: "Films & Music", desc: "Cosy films and playlists for every moment.", to: "/entertainment" },
+    { image: cardTraditions, title: "Traditions & Ideas", desc: "Little rituals that make Christmas feel like home.", to: "/inspire" },
+    { image: cardCrafts, title: "Teachers' Corner", desc: "Festive lessons, worksheets and classroom ideas.", to: "/teachers" },
+    { image: cardParty, title: "Christmas with Pets", desc: "Safe, joyful ways to include your furry family.", to: "/pets" },
+    { image: cardBudget, title: "Budget & Savings", desc: "Stay in control with clear budgets and gentle saving.", to: "/save" },
+    { image: cardSanta, title: "Advent & Countdown", desc: "Daily magic as we count down to the big day.", to: "/coming-soon" },
+    { image: cardMusic, title: "More Christmas Magic", desc: "New surprises unwrapping soon.", to: "/coming-soon" },
   ];
 
   return (
@@ -185,7 +185,7 @@ function Home() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-6 xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7 xl:grid-cols-4">
           {tiles.map((t) => (
             <TileCard key={t.title} {...t} />
           ))}
@@ -243,24 +243,34 @@ function TileCard({ image, title, desc, to }: Tile) {
   return (
     <Link
       to={to}
-      className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl border border-[color:var(--gold)]/30 transition-all duration-500 hover:border-[color:var(--gold)]/70 hover:-translate-y-1"
-      style={{ boxShadow: "0 20px 40px -20px rgba(0,0,0,0.5)" }}
+      className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 transition-all duration-500 hover:border-[color:var(--gold)]/70 hover:-translate-y-1.5"
+      style={{ boxShadow: "0 24px 50px -24px rgba(0,0,0,0.55)" }}
     >
       <img
         src={image}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] group-hover:scale-[1.06]"
         loading="lazy"
         width={1024}
         height={1024}
       />
-      {/* Gradient overlay */}
+      {/* Base gradient overlay */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.85) 100%)",
+            "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0.85) 100%)",
+        }}
+      />
+      {/* Frosted gold hover wash */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "linear-gradient(180deg, oklch(0.88 0.11 85 / 0.10), transparent 55%)",
+          backdropFilter: "blur(1px)",
         }}
       />
       {/* Top gold hairline */}
@@ -268,15 +278,31 @@ function TileCard({ image, title, desc, to }: Tile) {
         aria-hidden
         className="absolute inset-x-0 top-0 h-px opacity-70"
         style={{
-          background: "linear-gradient(90deg, transparent, oklch(0.88 0.11 88 / 0.8), transparent)",
+          background:
+            "linear-gradient(90deg, transparent, oklch(0.88 0.11 88 / 0.85), transparent)",
         }}
       />
 
-      <div className="relative z-10 px-4 pb-4 pt-6 text-center sm:px-5 sm:pb-5">
-        <h3 className="font-display text-[17px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[19px]" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
+      {/* Frosted caption panel */}
+      <div className="relative z-10 m-3 rounded-2xl px-5 pb-5 pt-4 text-center sm:m-4"
+        style={{
+          background:
+            "linear-gradient(180deg, oklch(0 0 0 / 0.28), oklch(0 0 0 / 0.55))",
+          border: "1px solid oklch(0.86 0.11 85 / 0.28)",
+          backdropFilter: "blur(10px) saturate(140%)",
+          boxShadow: "inset 0 1px 0 oklch(1 0 0 / 0.10)",
+        }}
+      >
+        <h3
+          className="font-display text-[18px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[20px]"
+          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.85)" }}
+        >
           {title}
         </h3>
-        <p className="mt-1.5 text-[11.5px] leading-snug text-[color:var(--cream)]/85 sm:text-[12.5px]" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}>
+        <p
+          className="mt-1.5 text-[12.5px] leading-snug text-[color:var(--cream)]/85 sm:text-[13px]"
+          style={{ textShadow: "0 1px 6px rgba(0,0,0,0.9)" }}
+        >
           {desc}
         </p>
       </div>
