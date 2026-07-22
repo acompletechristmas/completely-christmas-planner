@@ -185,7 +185,7 @@ function Home() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-6 xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7 xl:grid-cols-4">
           {tiles.map((t) => (
             <TileCard key={t.title} {...t} />
           ))}
