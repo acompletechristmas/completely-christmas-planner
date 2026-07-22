@@ -54,18 +54,18 @@ function Home() {
   const planLink = user ? "/planner" : "/auth";
 
   const tiles: Tile[] = [
-    { image: cardGifts, title: "Gift Planner", desc: "Plan, track & find the perfect gifts", to: planLink },
-    { image: cardDecorations, title: "Decorations", desc: "Ideas & inspiration for your home", to: "/inspire" },
-    { image: cardSanta, title: "Father Christmas", desc: "Letters, tracking & magic awaits", to: "/coming-soon" },
-    { image: cardFood, title: "Food & Recipes", desc: "Menus, recipes & festive treats", to: "/food" },
-    { image: cardFilms, title: "Films & TV", desc: "Your ultimate watch list", to: "/entertainment" },
-    { image: cardMusic, title: "Music & Playlists", desc: "Songs for every Christmas moment", to: "/entertainment" },
-    { image: cardDaysOut, title: "Days Out & Events", desc: "Magical places & experiences", to: "/days-out" },
-    { image: cardCrafts, title: "Crafts & Activities", desc: "Fun for kids & adults alike", to: "/teachers" },
-    { image: cardPlanner, title: "Christmas Planner", desc: "Your complete planning hub", to: planLink },
-    { image: cardBudget, title: "Budget Tracker", desc: "Stay on track & stress free", to: planLink },
-    { image: cardParty, title: "Party Ideas", desc: "Entertaining made easy", to: "/coming-soon" },
-    { image: cardTraditions, title: "Traditions", desc: "Create memories that last", to: "/inspire" },
+    { image: cardPlanner, title: "My Christmas Planner", desc: "Your personal Christmas HQ — one place for everything.", to: planLink },
+    { image: cardGifts, title: "Gift Planner", desc: "Track who you're buying for, budgets and wrapping.", to: planLink },
+    { image: cardDecorations, title: "Decorations", desc: "Ideas to make your home feel magical this year.", to: "/inspire" },
+    { image: cardFood, title: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love.", to: "/food" },
+    { image: cardDaysOut, title: "Christmas Activities", desc: "Markets, grottos, walks and days out near you.", to: "/days-out" },
+    { image: cardFilms, title: "Films & Music", desc: "Cosy films and playlists for every moment.", to: "/entertainment" },
+    { image: cardTraditions, title: "Traditions & Ideas", desc: "Little rituals that make Christmas feel like home.", to: "/inspire" },
+    { image: cardCrafts, title: "Teachers' Corner", desc: "Festive lessons, worksheets and classroom ideas.", to: "/teachers" },
+    { image: cardParty, title: "Christmas with Pets", desc: "Safe, joyful ways to include your furry family.", to: "/pets" },
+    { image: cardBudget, title: "Budget & Savings", desc: "Stay in control with clear budgets and gentle saving.", to: "/save" },
+    { image: cardSanta, title: "Advent & Countdown", desc: "Daily magic as we count down to the big day.", to: "/coming-soon" },
+    { image: cardMusic, title: "More Christmas Magic", desc: "New surprises unwrapping soon.", to: "/coming-soon" },
   ];
 
   return (
