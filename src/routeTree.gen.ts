@@ -13,6 +13,7 @@ import { Route as VipRouteImport } from './routes/vip'
 import { Route as SaveRouteImport } from './routes/save'
 import { Route as PetsRouteImport } from './routes/pets'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InspireRouteImport } from './routes/inspire'
 import { Route as GiftFinderRouteImport } from './routes/gift-finder'
 import { Route as FoodRouteImport } from './routes/food'
@@ -27,6 +28,8 @@ import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
 import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
 import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
 import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
@@ -36,6 +39,8 @@ import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authen
 import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as AuthenticatedPlannerPeopleIndexRouteImport } from './routes/_authenticated/planner.people.index'
 import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 
@@ -57,6 +62,11 @@ const PetsRoute = PetsRouteImport.update({
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InspireRoute = InspireRouteImport.update({
@@ -128,6 +138,18 @@ const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
   path: '/planner',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedPlannerIndexRoute =
   AuthenticatedPlannerIndexRouteImport.update({
     id: '/',
@@ -182,6 +204,17 @@ const AuthenticatedPlannerCardsRoute =
     path: '/cards',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPlannerPeopleIndexRoute =
   AuthenticatedPlannerPeopleIndexRouteImport.update({
     id: '/',
@@ -205,14 +238,19 @@ export interface FileRoutesByFullPath {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
@@ -235,13 +273,18 @@ export interface FileRoutesByTo {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers': typeof TeachersIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
@@ -265,14 +308,19 @@ export interface FileRoutesById {
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRoute
   '/inspire': typeof InspireRoute
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
   '/save': typeof SaveRoute
   '/vip': typeof VipRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
@@ -297,14 +345,19 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/mcp'
     | '/partners'
     | '/pets'
     | '/save'
     | '/vip'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/planner'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers/'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/list'
@@ -327,13 +380,18 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/mcp'
     | '/partners'
     | '/pets'
     | '/save'
     | '/vip'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
     | '/planner/gifts'
     | '/planner/list'
@@ -356,14 +414,19 @@ export interface FileRouteTypes {
     | '/food'
     | '/gift-finder'
     | '/inspire'
+    | '/mcp'
     | '/partners'
     | '/pets'
     | '/save'
     | '/vip'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/_authenticated/planner'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers/'
+    | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
     | '/_authenticated/planner/list'
@@ -388,13 +451,18 @@ export interface RootRouteChildren {
   FoodRoute: typeof FoodRoute
   GiftFinderRoute: typeof GiftFinderRoute
   InspireRoute: typeof InspireRoute
+  McpRoute: typeof McpRoute
   PartnersRoute: typeof PartnersRoute
   PetsRoute: typeof PetsRoute
   SaveRoute: typeof SaveRoute
   VipRoute: typeof VipRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   TeachersCategoryRoute: typeof TeachersCategoryRoute
   TeachersGenerateRoute: typeof TeachersGenerateRoute
   TeachersIndexRoute: typeof TeachersIndexRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -425,6 +493,13 @@ declare module '@tanstack/react-router' {
       path: '/partners'
       fullPath: '/partners'
       preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inspire': {
@@ -525,6 +600,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/planner/': {
       id: '/_authenticated/planner/'
       path: '/'
@@ -587,6 +676,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/planner/cards'
       preLoaderRoute: typeof AuthenticatedPlannerCardsRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/planner/people/': {
       id: '/_authenticated/planner/people/'
@@ -671,13 +774,19 @@ const rootRouteChildren: RootRouteChildren = {
   FoodRoute: FoodRoute,
   GiftFinderRoute: GiftFinderRoute,
   InspireRoute: InspireRoute,
+  McpRoute: McpRoute,
   PartnersRoute: PartnersRoute,
   PetsRoute: PetsRoute,
   SaveRoute: SaveRoute,
   VipRoute: VipRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   TeachersCategoryRoute: TeachersCategoryRoute,
   TeachersGenerateRoute: TeachersGenerateRoute,
   TeachersIndexRoute: TeachersIndexRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
