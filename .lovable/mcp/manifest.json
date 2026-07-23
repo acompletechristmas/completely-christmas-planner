@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://jmhverwmorjigiwnzifz.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "a-complete-christmas-mcp",
+      "version": "0.1.0",
+      "title": "A Complete Christmas"
+    },
+    "tools": [
+      {
+        "name": "list_people",
+        "title": "List people",
+        "description": "List everyone the signed-in user is planning Christmas for, with relationship and gift budget.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_gifts",
+        "title": "List gifts",
+        "description": "List Christmas gifts for the signed-in user. Optionally filter by year, person, or status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "year": {
+              "description": "Christmas year (defaults to current year).",
+              "type": "integer",
+              "minimum": 2000,
+              "maximum": 2100
+            },
+            "person_id": {
+              "description": "Only gifts for this person.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "status": {
+              "description": "Only gifts in this status.",
+              "type": "string",
+              "enum": [
+                "idea",
+                "bought",
+                "wrapped",
+                "given"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "add_gift_idea",
+        "title": "Add gift idea",
+        "description": "Add a new gift idea to the signed-in user's planner for a specific person.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "person_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "The recipient's person ID (from list_people)."
+            },
+            "item": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Short description of the gift."
+            },
+            "price": {
+              "description": "Estimated price in the user's currency.",
+              "type": "number",
+              "minimum": 0
+            },
+            "url": {
+              "description": "Optional link to where to buy.",
+              "type": "string",
+              "format": "uri"
+            },
+            "notes": {
+              "type": "string"
+            },
+            "year": {
+              "description": "Christmas year (defaults to current year).",
+              "type": "integer",
+              "minimum": 2000,
+              "maximum": 2100
+            }
+          },
+          "required": [
+            "person_id",
+            "item"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_reminders",
+        "title": "List reminders",
+        "description": "List upcoming Christmas reminders/nudges for the signed-in user.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "include_done": {
+              "description": "Include reminders already marked done (default false).",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
