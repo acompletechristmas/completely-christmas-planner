@@ -14,11 +14,23 @@ export const Route = createFileRoute("/auth")({
       { name: "robots", content: "noindex" },
     ],
   }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" ? s.next : undefined,
+  }),
   component: AuthPage,
 });
 
+// Only allow same-origin relative paths (no protocol-relative or absolute URLs).
+function safeNext(next: string | undefined): string {
+  if (!next) return "/planner";
+  if (!next.startsWith("/") || next.startsWith("//")) return "/planner";
+  return next;
+}
+
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const returnTo = safeNext(next);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,18 +39,18 @@ function AuthPage() {
   // Redirect if already signed in
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/planner" });
+      if (data.session) window.location.assign(returnTo);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_IN") navigate({ to: "/planner" });
+      if (event === "SIGNED_IN") window.location.assign(returnTo);
     });
     return () => sub.subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, returnTo]);
 
   async function handleGoogle() {
     setBusy(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.origin + returnTo,
     });
     if (result.error) {
       toast.error(result.error.message ?? "Google sign-in failed");
@@ -57,7 +69,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: { emailRedirectTo: window.location.origin + returnTo },
         });
         if (error) throw error;
         toast.success("Check your inbox to confirm your email.");
@@ -71,6 +83,7 @@ function AuthPage() {
       setBusy(false);
     }
   }
+
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-12"
