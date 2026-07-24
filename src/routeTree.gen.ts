@@ -37,6 +37,7 @@ import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authent
 import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
 import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
 import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
+import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
@@ -192,6 +193,12 @@ const AuthenticatedPlannerListRoute =
     path: '/list',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const AuthenticatedPlannerHelperRoute =
+  AuthenticatedPlannerHelperRouteImport.update({
+    id: '/helper',
+    path: '/helper',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerGiftsRoute =
   AuthenticatedPlannerGiftsRouteImport.update({
     id: '/gifts',
@@ -253,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
@@ -287,6 +295,7 @@ export interface FileRoutesByTo {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
@@ -323,6 +332,7 @@ export interface FileRoutesById {
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
+  '/_authenticated/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/_authenticated/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
@@ -360,6 +370,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
     | '/planner/gifts'
+    | '/planner/helper'
     | '/planner/list'
     | '/planner/people'
     | '/planner/reminders'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
     | '/planner/gifts'
+    | '/planner/helper'
     | '/planner/list'
     | '/planner/reminders'
     | '/planner/setup'
@@ -429,6 +441,7 @@ export interface FileRouteTypes {
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/planner/cards'
     | '/_authenticated/planner/gifts'
+    | '/_authenticated/planner/helper'
     | '/_authenticated/planner/list'
     | '/_authenticated/planner/people'
     | '/_authenticated/planner/reminders'
@@ -663,6 +676,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerListRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/helper': {
+      id: '/_authenticated/planner/helper'
+      path: '/helper'
+      fullPath: '/planner/helper'
+      preLoaderRoute: typeof AuthenticatedPlannerHelperRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/gifts': {
       id: '/_authenticated/planner/gifts'
       path: '/gifts'
@@ -728,6 +748,7 @@ const AuthenticatedPlannerPeopleRouteWithChildren =
 interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerCardsRoute: typeof AuthenticatedPlannerCardsRoute
   AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
+  AuthenticatedPlannerHelperRoute: typeof AuthenticatedPlannerHelperRoute
   AuthenticatedPlannerListRoute: typeof AuthenticatedPlannerListRoute
   AuthenticatedPlannerPeopleRoute: typeof AuthenticatedPlannerPeopleRouteWithChildren
   AuthenticatedPlannerRemindersRoute: typeof AuthenticatedPlannerRemindersRoute
@@ -740,6 +761,7 @@ interface AuthenticatedPlannerRouteChildren {
 const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerCardsRoute: AuthenticatedPlannerCardsRoute,
   AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
+  AuthenticatedPlannerHelperRoute: AuthenticatedPlannerHelperRoute,
   AuthenticatedPlannerListRoute: AuthenticatedPlannerListRoute,
   AuthenticatedPlannerPeopleRoute: AuthenticatedPlannerPeopleRouteWithChildren,
   AuthenticatedPlannerRemindersRoute: AuthenticatedPlannerRemindersRoute,

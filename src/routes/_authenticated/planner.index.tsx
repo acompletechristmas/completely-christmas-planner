@@ -330,12 +330,20 @@ function PlannerOverview() {
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <VillageCard
+            emoji="🪄"
+            title="AI Christmas helper"
+            body="Stuck for ideas? Santa's helper will dream some up."
+            to="/planner/helper"
+            gradient="var(--gradient-aurora)"
+          />
+          <VillageCard
             emoji="🎁"
             title="Who am I buying for?"
             body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
             to="/planner/gifts"
             gradient="var(--gradient-burgundy)"
           />
+
           <VillageCard
             emoji="👪"
             title="My favourite humans"
