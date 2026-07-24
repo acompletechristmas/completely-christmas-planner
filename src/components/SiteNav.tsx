@@ -8,7 +8,6 @@ type NavItem = { to: string; label: string; desc: string; auth?: boolean };
 export const navItems: NavItem[] = [
   { to: "/", label: "Home", desc: "Back to the start of the story." },
   { to: "/planner", label: "My Christmas Planner", desc: "Your personal Christmas HQ — one place for everything.", auth: true },
-  { to: "/planner", label: "Gift Planner", desc: "Track who you're buying for, budgets and wrapping.", auth: true },
   { to: "/inspire", label: "Decorations", desc: "Ideas to make your home feel magical this year." },
   { to: "/food", label: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love." },
   { to: "/days-out", label: "Christmas Activities", desc: "Markets, grottos, walks and days out near you." },
