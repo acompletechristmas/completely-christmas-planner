@@ -54,8 +54,7 @@ function Home() {
   const planLink = user ? "/planner" : "/auth";
 
   const tiles: Tile[] = [
-    { image: cardPlanner, title: "My Christmas Planner", desc: "Your personal Christmas HQ — one place for everything.", to: planLink },
-    { image: cardGifts, title: "Gift Planner", desc: "Track who you're buying for, budgets and wrapping.", to: planLink },
+    { image: cardPlanner, title: "My Christmas Planner", desc: "Your personal Christmas HQ — gifts, budgets and everything in one place.", to: planLink },
     { image: cardDecorations, title: "Decorations", desc: "Ideas to make your home feel magical this year.", to: "/inspire" },
     { image: cardFood, title: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love.", to: "/food" },
     { image: cardDaysOut, title: "Christmas Activities", desc: "Markets, grottos, walks and days out near you.", to: "/days-out" },
