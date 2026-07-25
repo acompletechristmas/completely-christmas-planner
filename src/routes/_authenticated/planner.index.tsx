@@ -1,565 +1,339 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { usePlannerSettings } from "@/hooks/use-planner-settings";
-import { usePeople } from "@/hooks/use-people";
 import {
   Gift,
-  Mail,
-  ListChecks,
-  PoundSterling,
-  BellRing,
   Sparkles,
-  CalendarRange,
-  Users,
-  Settings2,
+  UtensilsCrossed,
+  PartyPopper,
+  Mail,
+  Star,
+  Home,
+  ListChecks,
   ArrowRight,
   Check,
-  CircleDashed,
-  AlarmClock,
-
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
 });
 
 interface GiftRow extends BaseRow {
-  price: number | null;
   status: "idea" | "bought" | "wrapped" | "given";
-  person_id: string | null;
-  recipient: string | null;
-  item: string | null;
 }
 interface CardRow extends BaseRow { sent: boolean }
 interface TodoRow extends BaseRow {
-  title: string;
   done: boolean;
-  due_date: string | null;
   category: string | null;
 }
-interface ReminderRow extends BaseRow { done: boolean; remind_on: string; title: string }
+
+type StepKey =
+  | "gifts"
+  | "decorations"
+  | "food"
+  | "events"
+  | "cards"
+  | "traditions"
+  | "home"
+  | "checklist";
+
+interface Step {
+  key: StepKey;
+  number: number;
+  title: string;
+  tagline: string;
+  emoji: string;
+  icon: LucideIcon;
+  to: string;
+  gradient: string;
+  border: string;
+}
+
+const STEPS: Step[] = [
+  {
+    key: "gifts",
+    number: 1,
+    title: "Gifts",
+    tagline: "Who's on the list, what to buy, wrapped and ready.",
+    emoji: "🎁",
+    icon: Gift,
+    to: "/planner/list",
+    gradient: "linear-gradient(135deg, oklch(0.55 0.18 25), oklch(0.45 0.14 15))",
+    border: "oklch(0.80 0.14 25 / 0.45)",
+  },
+  {
+    key: "decorations",
+    number: 2,
+    title: "Decorations",
+    tagline: "Tree, lights, wreaths — every twinkle in one place.",
+    emoji: "✨",
+    icon: Sparkles,
+    to: "/planner/my",
+    gradient: "linear-gradient(135deg, oklch(0.80 0.14 85), oklch(0.65 0.12 60))",
+    border: "oklch(0.80 0.14 85 / 0.45)",
+  },
+  {
+    key: "food",
+    number: 3,
+    title: "Food",
+    tagline: "Menus, orders, mince pies and Christmas morning fizz.",
+    emoji: "🍰",
+    icon: UtensilsCrossed,
+    to: "/planner/my",
+    gradient: "linear-gradient(135deg, oklch(0.50 0.14 30), oklch(0.40 0.10 20))",
+    border: "oklch(0.80 0.14 40 / 0.4)",
+  },
+  {
+    key: "events",
+    number: 4,
+    title: "Events",
+    tagline: "Parties, grottos, carols and cosy nights out.",
+    emoji: "🎉",
+    icon: PartyPopper,
+    to: "/planner/my",
+    gradient: "linear-gradient(135deg, oklch(0.55 0.16 340), oklch(0.42 0.12 320))",
+    border: "oklch(0.75 0.14 340 / 0.4)",
+  },
+  {
+    key: "cards",
+    number: 5,
+    title: "Cards",
+    tagline: "Write, address, pop them in the post in time.",
+    emoji: "💌",
+    icon: Mail,
+    to: "/planner/cards",
+    gradient: "linear-gradient(135deg, oklch(0.55 0.12 150), oklch(0.42 0.10 155))",
+    border: "oklch(0.75 0.12 150 / 0.4)",
+  },
+  {
+    key: "traditions",
+    number: 6,
+    title: "Traditions",
+    tagline: "Elf, films, family calls — the sparkly bits.",
+    emoji: "⭐",
+    icon: Star,
+    to: "/planner/my",
+    gradient: "linear-gradient(135deg, oklch(0.60 0.14 280), oklch(0.42 0.12 265))",
+    border: "oklch(0.75 0.14 280 / 0.4)",
+  },
+  {
+    key: "home",
+    number: 7,
+    title: "Home Preparation",
+    tagline: "Guest beds, cosy corners, big clean before the day.",
+    emoji: "🏡",
+    icon: Home,
+    to: "/planner/my",
+    gradient: "linear-gradient(135deg, oklch(0.50 0.10 200), oklch(0.38 0.08 220))",
+    border: "oklch(0.75 0.12 210 / 0.4)",
+  },
+  {
+    key: "checklist",
+    number: 8,
+    title: "Final Checklist",
+    tagline: "The last-week sweep — nothing forgotten.",
+    emoji: "🌟",
+    icon: ListChecks,
+    to: "/planner/todos",
+    gradient: "linear-gradient(135deg, oklch(0.82 0.14 85), oklch(0.62 0.14 55))",
+    border: "oklch(0.85 0.14 85 / 0.55)",
+  },
+];
+
+// Which todo categories count toward each step
+const CATEGORY_MAP: Record<StepKey, string[]> = {
+  gifts: ["gifts", "wrapping"],
+  decorations: ["decorations"],
+  food: ["food"],
+  events: ["events", "travel"],
+  cards: ["cards"],
+  traditions: ["elf", "family", "school"],
+  home: [],
+  checklist: [],
+};
 
 function PlannerOverview() {
   const { user } = useAuth();
-  const { settings } = usePlannerSettings(user?.id);
-  const { people } = usePeople(user?.id);
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
-  const reminders = usePlannerList<ReminderRow>("reminders", user?.id);
 
-  const totalSpent = gifts.rows
-    .filter((g) => g.status !== "idea")
-    .reduce((sum, g) => sum + (Number(g.price) || 0), 0);
-  const bought = gifts.rows.filter((g) => g.status !== "idea").length;
-  const wrapped = gifts.rows.filter((g) => g.status === "wrapped" || g.status === "given").length;
-  const cardsSent = cards.rows.filter((c) => c.sent).length;
-  const tasksDone = todos.rows.filter((t) => t.done).length;
+  const stepProgress = (key: StepKey): { done: number; total: number; pct: number } => {
+    let done = 0;
+    let total = 0;
 
-  const giftPct = gifts.rows.length ? Math.round((bought / gifts.rows.length) * 100) : 0;
-  const wrapPct = bought ? Math.round((wrapped / bought) * 100) : 0;
-  const cardsPct = cards.rows.length ? Math.round((cardsSent / cards.rows.length) * 100) : 0;
-  const tasksPct = todos.rows.length ? Math.round((tasksDone / todos.rows.length) * 100) : 0;
-  const overallReady = Math.round(((giftPct + wrapPct + cardsPct + tasksPct) / 4) || 0);
+    if (key === "gifts") {
+      total += gifts.rows.length;
+      done += gifts.rows.filter((g) => g.status !== "idea").length;
+    }
+    if (key === "cards") {
+      total += cards.rows.length;
+      done += cards.rows.filter((c) => c.sent).length;
+    }
+    if (key === "checklist") {
+      total += todos.rows.length;
+      done += todos.rows.filter((t) => t.done).length;
+    } else {
+      const cats = CATEGORY_MAP[key];
+      if (cats.length) {
+        const bucket = todos.rows.filter((t) => t.category && cats.includes(t.category));
+        total += bucket.length;
+        done += bucket.filter((t) => t.done).length;
+      }
+    }
 
-  const budget = settings?.budget_total ?? null;
-  const budgetLeft = budget != null ? budget - totalSpent : null;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    return { done, total, pct };
+  };
 
-  const todayIso = new Date().toISOString().slice(0, 10);
-  const overdue = todos.rows.filter((t) => !t.done && t.due_date && t.due_date < todayIso);
-  const nextTask = todos.rows
-    .filter((t) => !t.done)
-    .sort((a, b) => (a.due_date ?? "9999").localeCompare(b.due_date ?? "9999"))[0];
-  const nextReminder = reminders.rows.filter((r) => !r.done).sort((a, b) => a.remind_on.localeCompare(b.remind_on))[0];
-
-  // "This week" nudges — overdue + today + next 7 days
-  const inSevenIso = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
-  const activeReminders = reminders.rows
-    .filter((r) => !r.done)
-    .sort((a, b) => a.remind_on.localeCompare(b.remind_on));
-  const overdueReminders = activeReminders.filter((r) => r.remind_on < todayIso);
-  const todayReminders = activeReminders.filter((r) => r.remind_on === todayIso);
-  const weekReminders = activeReminders.filter((r) => r.remind_on > todayIso && r.remind_on <= inSevenIso);
-  const thisWeek = [...overdueReminders, ...todayReminders, ...weekReminders].slice(0, 6);
-
-
-  // Warm, celebratory line
-  const cheer = pickCheer({ bought, giftsTotal: gifts.rows.length, wrapped, overallReady, overdue: overdue.length });
-
-  // Per-person gift breakdown (with budget vs spent)
-  const perPerson = people.map((p) => {
-    const theirs = gifts.rows.filter((g) => g.person_id === p.id);
-    const boughtGifts = theirs.filter((g) => g.status !== "idea");
-    const boughtCount = boughtGifts.length;
-    const wrappedCount = theirs.filter((g) => g.status === "wrapped" || g.status === "given").length;
-    const done = theirs.length > 0 && boughtCount >= theirs.length;
-    const started = boughtCount > 0;
-    const pct = theirs.length ? Math.round((boughtCount / theirs.length) * 100) : 0;
-    const spent = boughtGifts.reduce((s, g) => s + (Number(g.price) || 0), 0);
-    const pBudget = p.gift_budget != null ? Number(p.gift_budget) : null;
-    const budgetPct = pBudget && pBudget > 0 ? Math.min(150, Math.round((spent / pBudget) * 100)) : 0;
-    const overBudget = pBudget != null && pBudget > 0 && spent > pBudget;
-    return { person: p, total: theirs.length, bought: boughtCount, wrapped: wrappedCount, pct, done, started, spent, budget: pBudget, budgetPct, overBudget };
-  });
-  const peopleSorted = perPerson.filter((r) => r.done).length;
-  const peopleTotal = people.length;
-  const peoplePct = peopleTotal ? Math.round((peopleSorted / peopleTotal) * 100) : 0;
-  const peopleBudgetTotal = perPerson.reduce((s, r) => s + (r.budget ?? 0), 0);
-  const peopleSpentTotal = perPerson.reduce((s, r) => s + r.spent, 0);
-  const peopleOverCount = perPerson.filter((r) => r.overBudget).length;
-  const peopleBudgetPct = peopleBudgetTotal > 0 ? Math.min(150, Math.round((peopleSpentTotal / peopleBudgetTotal) * 100)) : 0;
-  const peopleOverTotal = peopleBudgetTotal > 0 && peopleSpentTotal > peopleBudgetTotal;
+  const perStep = STEPS.map((s) => ({ step: s, ...stepProgress(s.key) }));
+  const completedSteps = perStep.filter((s) => s.total > 0 && s.done >= s.total).length;
+  const startedSteps = perStep.filter((s) => s.done > 0).length;
+  const overallPct = Math.round(
+    perStep.reduce((sum, s) => sum + (s.total ? s.done / s.total : 0), 0) / STEPS.length * 100,
+  );
+  const nextStep = perStep.find((s) => s.total === 0 || s.done < s.total) ?? perStep[0];
 
   return (
     <div className="rise-in space-y-10">
-      {/* My Gift List — hero */}
-      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🎁 My gift list</p>
-            <p className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-              <span className="gold-text">{peopleSorted}</span> of {peopleTotal} {peopleTotal === 1 ? "person" : "people"} sorted
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {bought} of {gifts.rows.length} pressies bought · {wrapped} wrapped
-              {peopleBudgetTotal > 0 && (
-                <>
-                  {" · "}
-                  <span className={peopleOverTotal ? "text-[color:var(--burgundy)]" : "text-[color:var(--gold-soft)]"}>
-                    £{peopleSpentTotal.toFixed(0)} of £{peopleBudgetTotal.toFixed(0)}
-                    {peopleOverCount > 0 && ` (${peopleOverCount} over)`}
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-          <Link
-            to="/planner/list"
-            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            Open full list <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
-        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
-          <div className="h-full rounded-full transition-all" style={{ width: `${peoplePct}%`, background: "var(--gradient-gold)" }} />
-        </div>
+      {/* Welcome + overall progress */}
+      <section className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-40 blur-3xl"
+          style={{ background: "var(--gradient-gold)" }}
+        />
+        <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          🎄 Your guided Christmas plan
+        </p>
+        <h1 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
+          Christmas, <span className="italic gold-text">one gentle step</span> at a time
+        </h1>
+        <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
+          Eight little steps that walk you all the way from first pressie idea to the day itself.
+          Do them in order, or hop about — we'll keep everything cosy and saved for you.
+        </p>
 
-        {peopleTotal === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] p-6 text-center">
-            <Sparkles className="mx-auto h-5 w-5 text-[color:var(--gold)]" />
-            <p className="mt-2 font-display text-lg">No one on your list yet</p>
-            <p className="mt-1 text-xs text-muted-foreground">Pop your favourite humans in and we'll track pressies for each one.</p>
-            <Link to="/planner/people" className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]">
-              Add someone <ArrowRight className="h-3 w-3" />
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.5)] p-4">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Overall</p>
+            <p className="mt-1 font-display text-3xl leading-none gold-text">{overallPct}%</p>
+            <p className="mt-1 text-[11px] text-muted-foreground">of the way there</p>
+          </div>
+          <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.5)] p-4">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Steps sorted</p>
+            <p className="mt-1 font-display text-3xl leading-none">
+              <span className="gold-text">{completedSteps}</span>
+              <span className="text-muted-foreground text-2xl"> / {STEPS.length}</span>
+            </p>
+            <p className="mt-1 text-[11px] text-muted-foreground">{startedSteps} in progress</p>
+          </div>
+          <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.5)] p-4">
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Next up</p>
+            <p className="mt-1 truncate font-display text-lg">
+              {nextStep.step.emoji} {nextStep.step.title}
+            </p>
+            <Link
+              to={nextStep.step.to}
+              className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[color:var(--gold-soft)] hover:text-[color:var(--gold)]"
+            >
+              Start this step <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
-        ) : (
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {perPerson.map(({ person, total, bought: b, wrapped: w, pct, done, started, spent, budget: pBudget, budgetPct, overBudget }) => (
-              <li key={person.id}>
+        </div>
+
+        <div className="mt-6 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+          <div
+            className="h-full rounded-full transition-all"
+            style={{ width: `${overallPct}%`, background: "var(--gradient-gold)" }}
+          />
+        </div>
+      </section>
+
+      {/* The 8 steps */}
+      <section className="space-y-4">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-2xl sm:text-3xl">Your eight steps to a lovely Christmas</h2>
+          <span className="hidden text-xs text-muted-foreground sm:inline">Tap a step to open it</span>
+        </div>
+
+        <ol className="grid gap-4 sm:grid-cols-2">
+          {perStep.map(({ step, done, total, pct }) => {
+            const Icon = step.icon;
+            const complete = total > 0 && done >= total;
+            return (
+              <li key={step.key}>
                 <Link
-                  to="/planner/people/$personId"
-                  params={{ personId: person.id }}
-                  className="group flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.6)] p-3 transition hover:-translate-y-0.5 hover:border-[oklch(0.80_0.14_85_/_0.5)]"
+                  to={step.to}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-3xl border bg-[oklch(0.26_0.04_245_/_0.7)] p-5 transition hover:-translate-y-0.5 hover:brightness-110 sm:p-6"
+                  style={{ borderColor: step.border }}
                 >
-                  <span
-                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border ${done ? "border-[color:var(--gold)] bg-[oklch(0.80_0.14_85_/_0.15)]" : started ? "border-[oklch(0.80_0.14_85_/_0.4)]" : "border-[oklch(0.80_0.14_85_/_0.2)]"}`}
+                  <div
                     aria-hidden
-                  >
-                    {done ? (
-                      <Check className="h-4 w-4 text-[color:var(--gold)]" />
-                    ) : (
-                      <CircleDashed className="h-4 w-4 text-[color:var(--gold-soft)]" />
-                    )}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <p className="truncate font-display text-base">{person.name || "Untitled"}</p>
-                      <p className={`shrink-0 text-xs ${done ? "text-[color:var(--gold)]" : "text-muted-foreground"}`}>
-                        {total === 0 ? "no ideas yet" : `${b}/${total}${w ? ` · ${w} wrapped` : ""}`}
-                      </p>
+                    className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-30 blur-2xl transition-opacity group-hover:opacity-50"
+                    style={{ background: step.gradient }}
+                  />
+
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[oklch(0.80_0.14_85_/_0.4)] text-[color:var(--midnight-deep)] shadow-lg"
+                      style={{ background: step.gradient }}
+                    >
+                      <Icon className="h-6 w-6" />
+                      <span className="absolute -right-1.5 -top-1.5 grid h-6 w-6 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] bg-[oklch(0.13_0.03_245_/_0.9)] text-[10px] font-semibold text-[color:var(--gold-soft)]">
+                        {complete ? <Check className="h-3 w-3 text-[color:var(--gold)]" /> : step.number}
+                      </span>
                     </div>
-                    <div className="flex items-baseline justify-between gap-2">
-                      {person.relationship ? (
-                        <p className="truncate text-[11px] text-muted-foreground">{person.relationship}</p>
-                      ) : <span />}
-                      {pBudget != null ? (
-                        <p className={`shrink-0 text-[11px] ${overBudget ? "text-[color:var(--burgundy)]" : "text-muted-foreground"}`}>
-                          £{spent.toFixed(0)} / £{pBudget.toFixed(0)}{overBudget && " · over"}
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="font-display text-xl sm:text-2xl">
+                          {step.emoji} {step.title}
                         </p>
-                      ) : spent > 0 ? (
-                        <p className="shrink-0 text-[11px] text-muted-foreground">£{spent.toFixed(0)} spent</p>
-                      ) : null}
-                    </div>
-                    <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
-                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--gradient-gold)" }} />
-                    </div>
-                    {pBudget != null && pBudget > 0 && (
-                      <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${pBudget.toFixed(0)}`}>
-                        <div
-                          className="h-full rounded-full transition-all"
-                          style={{ width: `${Math.min(100, budgetPct)}%`, background: overBudget ? "var(--gradient-burgundy)" : "var(--gradient-forest)" }}
-                        />
+                        <p className={`shrink-0 text-[11px] ${complete ? "text-[color:var(--gold)]" : "text-muted-foreground"}`}>
+                          {total === 0 ? "not started" : `${done}/${total}`}
+                        </p>
                       </div>
-                    )}
+                      <p className="mt-1 text-sm text-muted-foreground">{step.tagline}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5">
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          width: `${pct}%`,
+                          background: complete ? "var(--gradient-gold)" : step.gradient,
+                        }}
+                      />
+                    </div>
+                    <div className="mt-3 flex items-center justify-between">
+                      <span className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
+                        Step {step.number} of {STEPS.length}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-[color:var(--gold-soft)] transition group-hover:text-[color:var(--gold)]">
+                        Open <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </div>
                   </div>
                 </Link>
               </li>
-            ))}
-          </ul>
-        )}
+            );
+          })}
+        </ol>
       </section>
 
-      {/* Celebration hero */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 md:col-span-2">
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Look at you go</p>
-          <p className="mt-2 font-display text-3xl leading-snug sm:text-4xl">
-            {cheer}
-          </p>
-          <div className="mt-5 flex items-baseline gap-3">
-            <span className="font-display text-5xl gold-text leading-none">{overallReady}%</span>
-            <span className="text-sm text-muted-foreground">of the way to a jingly Christmas</span>
-          </div>
-          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
-            <div className="h-full rounded-full transition-all" style={{ width: `${overallReady}%`, background: "var(--gradient-gold)" }} />
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-6">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">✨ Little nudge</p>
-          {nextTask ? (
-            <>
-              <p className="mt-2 font-display text-xl">{nextTask.title || "A tiny thing waiting for a tick"}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {nextTask.due_date ? friendlyDate(nextTask.due_date, todayIso) : "no rush, whenever"}
-              </p>
-              <Link
-                to="/planner/todos"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-              >
-                Sort it now <ArrowRight className="h-3 w-3" />
-              </Link>
-            </>
-          ) : (
-            <>
-              <p className="mt-2 font-display text-xl">Nothing waiting — go you 🌟</p>
-              <p className="mt-1 text-xs text-muted-foreground">Fancy dreaming up something festive?</p>
-              <Link
-                to="/planner/todos"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-              >
-                Add a little something <ArrowRight className="h-3 w-3" />
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* This week's nudges — reminders that actually fire */}
-      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.28)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🔔 This week's nudges</p>
-            <p className="mt-2 font-display text-2xl leading-tight sm:text-3xl">
-              {overdueReminders.length > 0
-                ? <><span className="text-[color:var(--burgundy)]">{overdueReminders.length}</span> waiting patiently{todayReminders.length ? `, ${todayReminders.length} for today` : ""}</>
-                : todayReminders.length > 0
-                ? <><span className="gold-text">{todayReminders.length}</span> {todayReminders.length === 1 ? "nudge" : "nudges"} for today</>
-                : weekReminders.length > 0
-                ? <><span className="gold-text">{weekReminders.length}</span> coming up this week</>
-                : <>All calm this week ✨</>
-              }
-            </p>
-          </div>
-          <Link
-            to="/planner/reminders"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.5)] px-4 py-2 text-xs font-medium text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-          >
-            All nudges <ArrowRight className="h-3 w-3" />
-          </Link>
-        </div>
-
-        {reminders.rows.length === 0 ? (
-          <div className="mt-5 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] p-6 text-center">
-            <AlarmClock className="mx-auto h-5 w-5 text-[color:var(--gold)]" />
-            <p className="mt-2 font-display text-lg">No nudges yet</p>
-            <p className="mt-1 text-xs text-muted-foreground">Load the classic Christmas set — booking grottos, posting cards, ordering the turkey.</p>
-            <Link to="/planner/reminders" className="mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110" style={{ background: "var(--gradient-gold)" }}>
-              <Sparkles className="h-3 w-3" /> Load the classic set
-            </Link>
-          </div>
-        ) : thisWeek.length === 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">Nothing scheduled for the next 7 days. Next up: {nextReminder ? <span className="text-foreground">{nextReminder.title}</span> : "—"}</p>
-        ) : (
-          <ul className="mt-5 space-y-2">
-            {thisWeek.map((r) => {
-              const isOverdue = r.remind_on < todayIso;
-              const isToday = r.remind_on === todayIso;
-              return (
-                <li key={r.id} className="flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.6)] p-3">
-                  <button
-                    onClick={() => reminders.updateField(r.id, "done" as keyof ReminderRow, true as never)}
-                    aria-label="Mark done"
-                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] transition hover:border-[color:var(--gold)] hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-                  >
-                    <Check className="h-4 w-4 text-[color:var(--gold-soft)]" />
-                  </button>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-display text-base">{r.title || "Untitled nudge"}</p>
-                    <p className={`text-[11px] ${isOverdue ? "text-[color:var(--burgundy)]" : isToday ? "text-[color:var(--gold)]" : "text-muted-foreground"}`}>
-                      {isOverdue ? `Was due ${friendlyDate(r.remind_on, todayIso)}` : isToday ? "Today" : friendlyDate(r.remind_on, todayIso)}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
-
-
-      {/* Christmas village — feature cards */}
-      <section>
-        <h2 className="font-display text-2xl sm:text-3xl">
-          Have a wander round your <span className="gold-text">Christmas village</span>
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">Pop into any corner — there's something lovely in each one.</p>
-
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <VillageCard
-            emoji="🪄"
-            title="AI Christmas helper"
-            body="Stuck for ideas? Santa's helper will dream some up."
-            to="/planner/helper"
-            gradient="var(--gradient-aurora)"
-          />
-          <VillageCard
-            emoji="🎁"
-            title="Who am I buying for?"
-            body={bought > 0 ? `${bought} sorted already — you legend!` : "Your gift list, one person at a time."}
-            to="/planner/gifts"
-            gradient="var(--gradient-burgundy)"
-          />
-
-          <VillageCard
-            emoji="👪"
-            title="My favourite humans"
-            body="Everyone you love, all in one place."
-            to="/planner/people"
-            gradient="var(--gradient-aurora)"
-          />
-          <VillageCard
-            emoji="💷"
-            title="Where's the money going?"
-            body={budget != null && budgetLeft != null
-              ? (budgetLeft >= 0 ? `£${budgetLeft.toFixed(0)} left in the pot` : `£${Math.abs(budgetLeft).toFixed(0)} over — oops, worth a peek`)
-              : "Set a cosy little budget and we'll keep an eye."}
-            to="/planner/setup"
-            gradient="var(--gradient-gold)"
-          />
-          <VillageCard
-            emoji="✅"
-            title="Little things to do"
-            body={overdue.length ? `${overdue.length} waiting patiently — no panic.` : "Your friendly festive to-do list."}
-            to="/planner/todos"
-            gradient="var(--gradient-forest)"
-          />
-          <VillageCard
-            emoji="✉️"
-            title="Cards & lovely notes"
-            body={cards.rows.length ? `${cardsSent}/${cards.rows.length} popped in the post` : "Jot them down while they're on your mind."}
-            to="/planner/cards"
-            gradient="var(--gradient-frost)"
-          />
-          <VillageCard
-            emoji="🔔"
-            title="Nudges from Santa's helpers"
-            body={nextReminder ? `Next up: ${nextReminder.title}` : "The dates that always sneak up on people."}
-            to="/planner/reminders"
-            gradient="var(--gradient-aurora)"
-          />
-          <VillageCard
-            emoji="🗓"
-            title="Your festive plan-of-attack"
-            body="A gentle month-by-month roadmap."
-            to="/planner/timeline"
-            gradient="var(--gradient-burgundy)"
-          />
-          <VillageCard
-            emoji="🎄"
-            title="Make the house twinkle"
-            body="Trees, tables and cosy corners."
-            to="/inspire"
-            gradient="var(--gradient-forest)"
-            comingSoon
-          />
-          <VillageCard
-            emoji="🍽"
-            title="Feed the whole crew"
-            body="Menus, timings, and zero panic at 3pm."
-            to="/food"
-            gradient="var(--gradient-burgundy)"
-            comingSoon
-          />
-          <VillageCard
-            emoji="🎬"
-            title="Films, games & silly nights"
-            body="Cosy evenings, sorted."
-            to="/entertainment"
-            gradient="var(--gradient-frost)"
-            comingSoon
-          />
-          <VillageCard
-            emoji="📍"
-            title="Days out & mini adventures"
-            body="Grottos, markets and twinkly walks."
-            to="/days-out"
-            gradient="var(--gradient-aurora)"
-            comingSoon
-          />
-          <VillageCard
-            emoji="✨"
-            title="Give me a little inspo"
-            body="Ideas, traditions and lovely touches."
-            to="/inspire"
-            gradient="var(--gradient-gold)"
-            comingSoon
-          />
-        </div>
-      </section>
-
-
-      {/* Quick stats — celebratory */}
-      <section>
-        <h2 className="font-display text-2xl">Wins so far 🎉</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Every little tick counts. Look at all this magic.</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Cheer icon={Gift} label="Pressies sorted" value={bought} total={gifts.rows.length} pct={giftPct} />
-          <Cheer icon={PoundSterling} label={budget ? "Pot spent" : "Budget"} value={`£${totalSpent.toFixed(0)}`} total={budget ? `£${budget.toFixed(0)}` : "—"} pct={budget ? Math.min(100, Math.round((totalSpent / budget) * 100)) : 0} />
-          <Cheer icon={Mail} label="Cards posted" value={cardsSent} total={cards.rows.length} pct={cardsPct} />
-          <Cheer icon={ListChecks} label="Ticked off" value={tasksDone} total={todos.rows.length} pct={tasksPct} />
-        </div>
-      </section>
-
-      {/* Tiny secondary links */}
-      <section className="flex flex-wrap gap-2 pt-2">
-        <TinyLink to="/planner/setup" icon={Settings2}>Tweak my Christmas</TinyLink>
-        <TinyLink to="/planner/people" icon={Users}>My humans</TinyLink>
-        <TinyLink to="/planner/timeline" icon={CalendarRange}>The plan</TinyLink>
-        <TinyLink to="/planner/reminders" icon={BellRing}>Nudges</TinyLink>
-      </section>
-    </div>
-  );
-}
-
-function pickCheer({ bought, giftsTotal, wrapped, overallReady, overdue }: { bought: number; giftsTotal: number; wrapped: number; overallReady: number; overdue: number }): string {
-  if (overallReady >= 90) return "You're basically Mrs Claus — nearly there 🌟";
-  if (overallReady >= 70) return "Miles ahead of the rest of us — absolute legend ✨";
-  if (bought >= 10) return `${bought} pressies sorted. You're on fire 🎁`;
-  if (wrapped >= 5) return `${wrapped} wrapped and ready to sparkle under the tree 🎀`;
-  if (giftsTotal > 0) return "Bit by bit — this Christmas is coming together 🎄";
-  if (overdue > 0) return "A couple of gentle nudges — nothing scary, promise 💛";
-  return "Right, shall we sprinkle a bit of Christmas magic? ✨";
-}
-
-function friendlyDate(iso: string, today: string): string {
-  if (iso === today) return "today";
-  if (iso < today) {
-    const d = Math.round((Date.parse(today) - Date.parse(iso)) / 86400000);
-    return `${d} day${d === 1 ? "" : "s"} ago`;
-  }
-  const d = Math.round((Date.parse(iso) - Date.parse(today)) / 86400000);
-  if (d === 1) return "tomorrow";
-  if (d < 7) return `in ${d} days`;
-  return new Date(iso).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
-}
-
-function VillageCard({
-  emoji,
-  title,
-  body,
-  to,
-  gradient,
-  comingSoon,
-}: {
-  emoji: string;
-  title: string;
-  body: string;
-  to: string;
-  gradient: string;
-  comingSoon?: boolean;
-}) {
-  return (
-    <Link
-      to={to}
-      className="group relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.7)] p-5 transition hover:-translate-y-0.5 hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:shadow-[var(--shadow-card)]"
-    >
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-30 blur-2xl transition group-hover:opacity-60"
-        style={{ background: gradient }}
-      />
-      {comingSoon && (
-        <span className="absolute right-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.13_0.03_245_/_0.8)] px-2.5 py-0.5 text-[9px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
-          <Sparkles className="h-2.5 w-2.5" /> Coming soon
-        </span>
-      )}
-      <div className="relative">
-        <span className="grid h-12 w-12 place-items-center rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] text-2xl">
-          {emoji}
-        </span>
-        <h3 className="mt-4 font-display text-xl leading-tight">{title}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{body}</p>
-        <p className="mt-4 inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.2em] text-[color:var(--gold-soft)]">
-          {comingSoon ? "Sneak a peek" : "Open"} <ArrowRight className="h-3 w-3 transition group-hover:translate-x-0.5" />
+      {/* Gentle footer note */}
+      <section className="rounded-3xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-5 text-center sm:p-6">
+        <Sparkles className="mx-auto h-5 w-5 text-[color:var(--gold)]" />
+        <p className="mt-2 font-display text-lg">No rush, no stress</p>
+        <p className="mx-auto mt-1 max-w-md text-xs text-muted-foreground sm:text-sm">
+          Everything you tap, tick or type is saved safely to your account — pick it back up
+          whenever the fairy lights call.
         </p>
-      </div>
-    </Link>
-  );
-}
-
-function Cheer({
-  icon: Icon,
-  label,
-  value,
-  total,
-  pct,
-}: {
-  icon: typeof Gift;
-  label: string;
-  value: number | string;
-  total: number | string;
-  pct: number;
-}) {
-  return (
-    <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-4">
-      <div className="flex items-center gap-2">
-        <span className="grid h-8 w-8 place-items-center rounded-lg border border-[oklch(0.80_0.14_85_/_0.3)]">
-          <Icon className="h-3.5 w-3.5 text-[color:var(--gold)]" />
-        </span>
-        <p className="text-xs text-muted-foreground">{label}</p>
-      </div>
-      <p className="mt-3 font-display text-2xl gold-text">
-        {value} <span className="text-sm text-muted-foreground">/ {total}</span>
-      </p>
-      <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
-        <div className="h-full rounded-full" style={{ width: `${Math.max(0, Math.min(100, pct))}%`, background: "var(--gradient-gold)" }} />
-      </div>
+      </section>
     </div>
-  );
-}
-
-function TinyLink({ to, icon: Icon, children }: { to: string; icon: typeof Gift; children: React.ReactNode }) {
-  return (
-    <Link
-      to={to}
-      className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-2 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground"
-    >
-      <Icon className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
-      {children}
-    </Link>
   );
 }
