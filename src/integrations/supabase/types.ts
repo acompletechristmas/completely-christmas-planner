@@ -440,6 +440,7 @@ export type Database = {
           done: boolean
           due_date: string | null
           id: string
+          notes: string | null
           sort_order: number
           title: string
           updated_at: string
@@ -451,6 +452,7 @@ export type Database = {
           done?: boolean
           due_date?: string | null
           id?: string
+          notes?: string | null
           sort_order?: number
           title?: string
           updated_at?: string
@@ -462,6 +464,7 @@ export type Database = {
           done?: boolean
           due_date?: string | null
           id?: string
+          notes?: string | null
           sort_order?: number
           title?: string
           updated_at?: string
