@@ -55,14 +55,17 @@ export type Database = {
       }
       gifts: {
         Row: {
+          arrived: boolean
           category: string | null
           created_at: string
           delivered: boolean
           given_by: string | null
+          hidden_location: string | null
           id: string
           item: string
           notes: string | null
           opening_photo_url: string | null
+          ordered: boolean
           person_id: string | null
           photo_url: string | null
           post_notes: string | null
@@ -80,14 +83,17 @@ export type Database = {
           year: number
         }
         Insert: {
+          arrived?: boolean
           category?: string | null
           created_at?: string
           delivered?: boolean
           given_by?: string | null
+          hidden_location?: string | null
           id?: string
           item?: string
           notes?: string | null
           opening_photo_url?: string | null
+          ordered?: boolean
           person_id?: string | null
           photo_url?: string | null
           post_notes?: string | null
@@ -105,14 +111,17 @@ export type Database = {
           year?: number
         }
         Update: {
+          arrived?: boolean
           category?: string | null
           created_at?: string
           delivered?: boolean
           given_by?: string | null
+          hidden_location?: string | null
           id?: string
           item?: string
           notes?: string | null
           opening_photo_url?: string | null
+          ordered?: boolean
           person_id?: string | null
           photo_url?: string | null
           post_notes?: string | null
@@ -174,10 +183,12 @@ export type Database = {
       }
       people: {
         Row: {
+          age_range: string | null
           avatar_url: string | null
           clothing_size: string | null
           created_at: string
           date_of_birth: string | null
+          dislikes: string | null
           favourite_books: string | null
           favourite_characters: string | null
           favourite_colours: string | null
@@ -187,7 +198,10 @@ export type Database = {
           gift_budget: number | null
           hobbies: string | null
           id: string
+          initial_ideas: string | null
           name: string
+          needs_card: boolean
+          needs_stocking: boolean
           notes: string | null
           relationship: string | null
           shoe_size: string | null
@@ -197,10 +211,12 @@ export type Database = {
           wishlist: string | null
         }
         Insert: {
+          age_range?: string | null
           avatar_url?: string | null
           clothing_size?: string | null
           created_at?: string
           date_of_birth?: string | null
+          dislikes?: string | null
           favourite_books?: string | null
           favourite_characters?: string | null
           favourite_colours?: string | null
@@ -210,7 +226,10 @@ export type Database = {
           gift_budget?: number | null
           hobbies?: string | null
           id?: string
+          initial_ideas?: string | null
           name?: string
+          needs_card?: boolean
+          needs_stocking?: boolean
           notes?: string | null
           relationship?: string | null
           shoe_size?: string | null
@@ -220,10 +239,12 @@ export type Database = {
           wishlist?: string | null
         }
         Update: {
+          age_range?: string | null
           avatar_url?: string | null
           clothing_size?: string | null
           created_at?: string
           date_of_birth?: string | null
+          dislikes?: string | null
           favourite_books?: string | null
           favourite_characters?: string | null
           favourite_colours?: string | null
@@ -233,7 +254,10 @@ export type Database = {
           gift_budget?: number | null
           hobbies?: string | null
           id?: string
+          initial_ideas?: string | null
           name?: string
+          needs_card?: boolean
+          needs_stocking?: boolean
           notes?: string | null
           relationship?: string | null
           shoe_size?: string | null
