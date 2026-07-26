@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { usePeople, calcAge, type Person } from "@/hooks/use-people";
@@ -12,19 +12,38 @@ import {
   Sparkles,
   Users,
   Gift as GiftIcon,
-  Check,
   Loader2,
-  ChevronDown,
-  ChevronUp,
-  History,
   PoundSterling,
   X,
+  Pencil,
+  Stamp,
+  Package,
+  ShoppingBag,
+  CheckCircle2,
+  Truck,
+  MapPin,
+  History,
+  ExternalLink,
 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
+  head: () => ({
+    meta: [
+      { title: "Step 1 · Who are you buying for? — A Complete Christmas" },
+      {
+        name: "description",
+        content:
+          "The gentle first step: add everyone on your Christmas list and plan their presents, budgets, cards and stockings — beautifully organised, all in one place.",
+      },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: BuyingForPage,
 });
+
+const CURRENT_YEAR = new Date().getFullYear();
+const LAST_YEAR = CURRENT_YEAR - 1;
 
 type GiftStatus = "idea" | "bought" | "wrapped" | "given";
 
@@ -37,15 +56,37 @@ interface GiftRow extends BaseRow {
   notes: string | null;
   person_id: string | null;
   year: number;
+  shop: string | null;
+  wrapped: boolean;
+  ordered: boolean;
+  arrived: boolean;
+  hidden_location: string | null;
 }
 
-const CURRENT_YEAR = new Date().getFullYear();
-const LAST_YEAR = CURRENT_YEAR - 1;
+/* Extra fields we added to the people table via migration. */
+type PersonExtras = Person & {
+  age_range: string | null;
+  dislikes: string | null;
+  initial_ideas: string | null;
+  needs_stocking: boolean;
+  needs_card: boolean;
+};
 
 function BuyingForPage() {
   const { user } = useAuth();
-  const { people, loading: peopleLoading } = usePeople(user?.id);
-  const { rows: gifts, loading: giftsLoading, addRow, removeRow, updateField, saving } = usePlannerList<GiftRow>("gifts", user?.id);
+  const { people, loading: peopleLoading, removePerson } = usePeople(user?.id);
+  const {
+    rows: gifts,
+    loading: giftsLoading,
+    addRow,
+    removeRow,
+    updateField,
+    saving,
+  } = usePlannerList<GiftRow>("gifts", user?.id);
+
+  const [addOpen, setAddOpen] = useState(false);
+  const [openPersonId, setOpenPersonId] = useState<string | null>(null);
+  const [editPersonId, setEditPersonId] = useState<string | null>(null);
 
   const loading = peopleLoading || giftsLoading;
 
@@ -60,391 +101,885 @@ function BuyingForPage() {
     return map;
   }, [gifts]);
 
-  const orphanGifts = useMemo(() => gifts.filter((g) => !g.person_id), [gifts]);
+  const openPerson = openPersonId ? (people.find((p) => p.id === openPersonId) as PersonExtras | undefined) : null;
+  const editPerson = editPersonId ? (people.find((p) => p.id === editPersonId) as PersonExtras | undefined) : null;
 
   return (
     <div className="rise-in space-y-8">
-      <header className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Let's begin</p>
-        <h1 className="mt-2 font-display text-3xl sm:text-4xl">
-          Who are you <span className="gold-text">buying for</span> this year?
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Everyone you love, all on one page. Set a little budget, jot down ideas (or let Santa's helper suggest some),
-          peek at what you gave last year, and tick things off as you wrap them up.
+      {/* Header */}
+      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-6 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
+        <p className="relative text-[11px] uppercase tracking-[0.32em] text-[color:var(--gold-soft)]">
+          Step 1 of your Christmas plan
         </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link
-            to="/planner/people"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
+        <h1 className="relative mt-2 font-display text-3xl leading-tight sm:text-4xl">
+          Who are you <span className="gold-text italic">buying for</span>?
+        </h1>
+        <p className="relative mt-3 max-w-2xl text-sm text-[color:var(--cream)]/85 sm:text-base">
+          Start by adding everyone you may need to buy for. You can organise presents, budgets, cards and stocking
+          fillers for each person — and we'll keep it all safe for next Christmas too.
+        </p>
+
+        <div className="relative mt-6 flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => setAddOpen(true)}
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110"
             style={{ background: "var(--gradient-gold)" }}
           >
-            <Plus className="h-4 w-4" /> Add someone
-          </Link>
-          <span className="ml-auto self-center text-xs text-muted-foreground">{saving ? "Saving…" : "All saved"}</span>
+            <Plus className="h-4 w-4" /> Add a person
+          </button>
+          {people.length > 0 && (
+            <p className="text-xs text-[color:var(--cream)]/70">
+              {people.length} {people.length === 1 ? "person" : "people"} on your list
+            </p>
+          )}
+          <span className="ml-auto text-[11px] text-[color:var(--cream)]/60">
+            {saving ? "Saving…" : "Everything's saved ✨"}
+          </span>
         </div>
       </header>
 
+      {/* Recipient grid */}
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading your list…</p>
       ) : people.length === 0 ? (
-        <EmptyPeople />
+        <EmptyState onAdd={() => setAddOpen(true)} />
       ) : (
-        <div className="space-y-4">
-          {people.map((person) => (
-            <PersonBuyingRow
-              key={person.id}
-              person={person}
-              thisYear={(giftsByPerson.get(person.id) ?? []).filter((g) => g.year === CURRENT_YEAR)}
-              lastYear={(giftsByPerson.get(person.id) ?? []).filter((g) => g.year === LAST_YEAR)}
-              onAddIdea={(item) =>
-                addRow({
-                  recipient: person.name,
-                  person_id: person.id,
-                  item,
-                  status: "idea",
-                  year: CURRENT_YEAR,
-                } as Partial<GiftRow>)
-              }
-              onUpdateGift={updateField}
-              onRemoveGift={removeRow}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {people.map((p) => (
+            <RecipientCard
+              key={p.id}
+              person={p as PersonExtras}
+              gifts={(giftsByPerson.get(p.id) ?? []).filter((g) => g.year === CURRENT_YEAR)}
+              onOpen={() => setOpenPersonId(p.id)}
+              onEdit={() => setEditPersonId(p.id)}
+              onDelete={() => {
+                if (confirm(`Remove ${p.name || "this person"} from your list? Their gifts stay in your history.`)) {
+                  void removePerson(p.id);
+                }
+              }}
             />
           ))}
         </div>
       )}
 
-      {orphanGifts.length > 0 && (
-        <section className="rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.4)] p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Gifts without a person</p>
-          <ul className="mt-3 space-y-2">
-            {orphanGifts.map((g) => (
-              <li key={g.id} className="flex items-center justify-between gap-3 text-sm">
-                <span>
-                  <span className="text-muted-foreground">{g.recipient || "—"}:</span> {g.item || "(untitled)"}
-                </span>
-                <button onClick={() => removeRow(g.id)} className="text-muted-foreground hover:text-[color:var(--cranberry)]">
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
+      {/* Modals */}
+      {addOpen && user && (
+        <PersonForm
+          title="Add a person to your Christmas list"
+          submitLabel="Add to my list"
+          userId={user.id}
+          onClose={() => setAddOpen(false)}
+          onSaved={() => setAddOpen(false)}
+        />
+      )}
+      {editPerson && (
+        <PersonForm
+          title={`Edit ${editPerson.name || "person"}`}
+          submitLabel="Save changes"
+          userId={editPerson.user_id}
+          initial={editPerson}
+          onClose={() => setEditPersonId(null)}
+          onSaved={() => setEditPersonId(null)}
+        />
+      )}
+      {openPerson && (
+        <PersonDrawer
+          person={openPerson}
+          allGifts={giftsByPerson.get(openPerson.id) ?? []}
+          onClose={() => setOpenPersonId(null)}
+          onEdit={() => {
+            setEditPersonId(openPerson.id);
+            setOpenPersonId(null);
+          }}
+          addRow={addRow}
+          updateField={updateField}
+          removeRow={removeRow}
+        />
       )}
     </div>
   );
 }
 
-function EmptyPeople() {
+/* ---------------------- Empty state ---------------------- */
+
+function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className="rounded-3xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
-      <Users className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
-      <h3 className="mt-4 font-display text-2xl">Start with the people you love</h3>
+    <div className="rounded-3xl border border-dashed border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/40 p-10 text-center">
+      <span
+        className="mx-auto grid h-14 w-14 place-items-center rounded-2xl"
+        style={{ background: "var(--gradient-gold)" }}
+      >
+        <Users className="h-6 w-6 text-[color:var(--forest-deep)]" />
+      </span>
+      <h3 className="mt-4 font-display text-2xl">Your list is a blank Christmas card</h3>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-        Add each person you're buying for and their Christmas list will build itself — budget, ideas, memories, all in one place.
+        Add your first person and we'll help you organise their presents, budget, card and stocking — one calm step at
+        a time.
       </p>
-      <Link
-        to="/planner/people"
-        className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
+      <button
+        onClick={onAdd}
+        className="mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
         style={{ background: "var(--gradient-gold)" }}
       >
         <Plus className="h-4 w-4" /> Add your first person
-      </Link>
+      </button>
     </div>
   );
 }
 
-function PersonBuyingRow({
+/* ---------------------- Recipient card ---------------------- */
+
+function RecipientCard({
   person,
-  thisYear,
-  lastYear,
-  onAddIdea,
-  onUpdateGift,
-  onRemoveGift,
+  gifts,
+  onOpen,
+  onEdit,
+  onDelete,
 }: {
-  person: Person;
-  thisYear: GiftRow[];
-  lastYear: GiftRow[];
-  onAddIdea: (item: string) => void;
-  onUpdateGift: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
-  onRemoveGift: (id: string) => void;
+  person: PersonExtras;
+  gifts: GiftRow[];
+  onOpen: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }) {
-  const [budget, setBudget] = useState<string>(person.gift_budget != null ? String(person.gift_budget) : "");
-  const [ideaText, setIdeaText] = useState("");
-  const [expanded, setExpanded] = useState(false);
-  const [aiOpen, setAiOpen] = useState(false);
-  const age = calcAge(person.date_of_birth);
-
-  const bought = thisYear.filter((g) => g.status !== "idea");
-  const wrappedCount = thisYear.filter((g) => g.status === "wrapped" || g.status === "given").length;
-  const allWrapped = bought.length > 0 && wrappedCount === bought.length;
+  const age = calcAge(person.date_of_birth) ?? person.age_range;
+  const budget = person.gift_budget != null ? Number(person.gift_budget) : null;
+  const bought = gifts.filter((g) => g.status !== "idea" || g.ordered);
   const spent = bought.reduce((s, g) => s + (Number(g.price) || 0), 0);
+  const remaining = budget != null ? Math.max(0, budget - spent) : null;
+  const over = budget != null && spent > budget;
 
-  const saveBudget = async (value: string) => {
-    setBudget(value);
-    const num = value === "" ? null : Number(value);
-    if (value !== "" && Number.isNaN(num as number)) return;
-    const { error } = await supabase.from("people").update({ gift_budget: num }).eq("id", person.id);
-    if (error) toast.error("Couldn't save budget");
-  };
+  const boughtCount = gifts.filter((g) => g.status === "bought" || g.status === "wrapped" || g.status === "given").length;
+  const arrivedCount = gifts.filter((g) => g.arrived).length;
+  const wrappedCount = gifts.filter((g) => g.wrapped || g.status === "wrapped" || g.status === "given").length;
+  const total = gifts.length;
 
-  const submitIdea = (e: React.FormEvent) => {
+  const budgetPct = budget && budget > 0 ? Math.min(100, Math.round((spent / budget) * 100)) : 0;
+
+  return (
+    <article
+      className="group relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--forest-deep)]/70 p-5 transition hover:-translate-y-0.5 hover:border-[color:var(--gold)]/60 hover:shadow-[0_20px_50px_-20px_oklch(0.15_0.05_155_/_0.7)]"
+    >
+      <button onClick={onOpen} className="absolute inset-0" aria-label={`Open ${person.name}`} />
+
+      <div className="relative flex items-start gap-3">
+        <span
+          className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl font-display text-lg text-[color:var(--forest-deep)]"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          {person.name?.[0]?.toUpperCase() || "?"}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate font-display text-lg leading-tight">{person.name || "Untitled"}</p>
+          <p className="truncate text-xs text-muted-foreground">
+            {person.relationship || "Christmas list"}
+            {age != null && age !== "" ? ` · ${age}` : ""}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {person.needs_stocking && <Tag icon={<Stamp className="h-3 w-3" />} label="Stocking" />}
+            {person.needs_card && <Tag icon={<GiftIcon className="h-3 w-3" />} label="Card" />}
+          </div>
+        </div>
+        <div className="relative z-10 flex shrink-0 gap-1 opacity-70 transition group-hover:opacity-100">
+          <IconBtn onClick={onEdit} label="Edit person">
+            <Pencil className="h-3.5 w-3.5" />
+          </IconBtn>
+          <IconBtn onClick={onDelete} label="Remove person" danger>
+            <Trash2 className="h-3.5 w-3.5" />
+          </IconBtn>
+        </div>
+      </div>
+
+      {/* Budget line */}
+      <div className="relative mt-4">
+        <div className="flex items-baseline justify-between text-[11px]">
+          <span className="uppercase tracking-[0.22em] text-muted-foreground">Budget</span>
+          <span className={over ? "text-[color:var(--burgundy)]" : "text-[color:var(--gold-soft)]"}>
+            £{spent.toFixed(0)}
+            {budget != null ? ` / £${budget.toFixed(0)}` : ""}
+            {over ? " · over" : ""}
+          </span>
+        </div>
+        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-black/25">
+          <div
+            className="h-full rounded-full transition-all"
+            style={{
+              width: `${budget ? budgetPct : 0}%`,
+              background: over ? "var(--gradient-burgundy)" : "var(--gradient-gold)",
+            }}
+          />
+        </div>
+        {remaining != null && (
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            {over ? "Over budget" : `£${remaining.toFixed(0)} still to spend`}
+          </p>
+        )}
+      </div>
+
+      {/* Progress chips */}
+      <div className="relative mt-4 grid grid-cols-4 gap-2 text-center">
+        <Stat label="Planned" value={total} icon={<GiftIcon className="h-3.5 w-3.5" />} />
+        <Stat label="Bought" value={boughtCount} of={total} icon={<ShoppingBag className="h-3.5 w-3.5" />} />
+        <Stat label="Arrived" value={arrivedCount} of={total} icon={<Truck className="h-3.5 w-3.5" />} />
+        <Stat label="Wrapped" value={wrappedCount} of={total} icon={<Package className="h-3.5 w-3.5" />} />
+      </div>
+    </article>
+  );
+}
+
+function Tag({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/10 px-2 py-0.5 text-[10px] uppercase tracking-[0.16em] text-[color:var(--gold-soft)]">
+      {icon}
+      {label}
+    </span>
+  );
+}
+
+function IconBtn({
+  children,
+  onClick,
+  label,
+  danger,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  label: string;
+  danger?: boolean;
+}) {
+  return (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      aria-label={label}
+      className={
+        "rounded-full border border-[color:var(--gold)]/30 bg-black/20 p-1.5 text-muted-foreground transition hover:text-foreground " +
+        (danger ? "hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]" : "hover:border-[color:var(--gold)]/70")
+      }
+    >
+      {children}
+    </button>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  of,
+  icon,
+}: {
+  label: string;
+  value: number;
+  of?: number;
+  icon: React.ReactNode;
+}) {
+  const done = of != null && of > 0 && value >= of;
+  return (
+    <div
+      className={
+        "rounded-xl border p-2 text-[10px] uppercase tracking-[0.14em] transition " +
+        (done
+          ? "border-[color:var(--pine-bright)]/60 bg-[color:var(--pine-bright)]/10 text-[color:var(--pine-bright)]"
+          : "border-[color:var(--gold)]/20 bg-black/20 text-muted-foreground")
+      }
+    >
+      <span className="mx-auto mb-1 grid h-5 w-5 place-items-center">{icon}</span>
+      <p className="font-display text-sm normal-case tracking-normal text-foreground">
+        {value}
+        {of != null ? <span className="text-muted-foreground">/{of}</span> : null}
+      </p>
+      <p>{label}</p>
+    </div>
+  );
+}
+
+/* ---------------------- Add / Edit person form ---------------------- */
+
+function PersonForm({
+  title,
+  submitLabel,
+  userId,
+  initial,
+  onClose,
+  onSaved,
+}: {
+  title: string;
+  submitLabel: string;
+  userId: string;
+  initial?: PersonExtras;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const [name, setName] = useState(initial?.name ?? "");
+  const [relationship, setRelationship] = useState(initial?.relationship ?? "");
+  const [ageRange, setAgeRange] = useState(initial?.age_range ?? "");
+  const [budget, setBudget] = useState<string>(initial?.gift_budget != null ? String(initial.gift_budget) : "");
+  const [interests, setInterests] = useState(initial?.hobbies ?? "");
+  const [dislikes, setDislikes] = useState(initial?.dislikes ?? "");
+  const [initialIdeas, setInitialIdeas] = useState(initial?.initial_ideas ?? "");
+  const [needsStocking, setNeedsStocking] = useState(initial?.needs_stocking ?? false);
+  const [needsCard, setNeedsCard] = useState(initial?.needs_card ?? false);
+  const [saving, setSaving] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ideaText.trim()) return;
-    onAddIdea(ideaText.trim());
-    setIdeaText("");
-  };
-
-  const toggleAllWrapped = () => {
-    const target: GiftStatus = allWrapped ? "bought" : "wrapped";
-    bought.forEach((g) => onUpdateGift(g.id, "status", target));
+    if (!name.trim()) {
+      toast.error("A name would be lovely ✨");
+      return;
+    }
+    setSaving(true);
+    const payload = {
+      name: name.trim(),
+      relationship: relationship.trim() || null,
+      age_range: ageRange.trim() || null,
+      gift_budget: budget === "" ? null : Number(budget),
+      hobbies: interests.trim() || null,
+      dislikes: dislikes.trim() || null,
+      initial_ideas: initialIdeas.trim() || null,
+      needs_stocking: needsStocking,
+      needs_card: needsCard,
+    };
+    let error;
+    if (initial) {
+      ({ error } = await supabase.from("people").update(payload as never).eq("id", initial.id));
+    } else {
+      ({ error } = await supabase
+        .from("people")
+        .insert({ user_id: userId, ...payload } as never));
+    }
+    setSaving(false);
+    if (error) {
+      toast.error("Couldn't save — please try again");
+      return;
+    }
+    toast.success(initial ? "Saved" : `${payload.name} added to your list ✨`);
+    onSaved();
   };
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.65)] transition hover:border-[oklch(0.80_0.14_85_/_0.4)]">
-      {/* Top summary row */}
-      <div className="grid gap-4 p-5 md:grid-cols-[1.2fr_0.9fr_1.6fr_1fr_auto] md:items-center">
-        {/* Person */}
-        <div className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] font-display text-lg gold-text">
-            {person.name?.[0]?.toUpperCase() || "?"}
-          </span>
-          <div>
-            <p className="font-display text-lg leading-tight">{person.name || "Untitled"}</p>
-            <p className="text-xs text-muted-foreground">
-              {person.relationship || "—"}
-              {age != null ? ` · ${age}` : ""}
-            </p>
-          </div>
+    <Modal onClose={onClose} title={title} eyebrow="A person on your list">
+      <form onSubmit={submit} className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field label="Name" required>
+            <input
+              autoFocus
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Auntie Rose"
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Relationship">
+            <input
+              value={relationship}
+              onChange={(e) => setRelationship(e.target.value)}
+              placeholder="Sister, Nephew, Best friend…"
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Age or age range">
+            <input
+              value={ageRange}
+              onChange={(e) => setAgeRange(e.target.value)}
+              placeholder="8, or 30s, or grown-up"
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Overall gift budget">
+            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+              <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
+              <input
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
+                placeholder="50"
+                className="w-full bg-transparent py-2 text-sm outline-none"
+              />
+            </div>
+          </Field>
         </div>
 
-        {/* Budget */}
-        {(() => {
-          const bNum = person.gift_budget != null ? Number(person.gift_budget) : null;
-          const over = bNum != null && bNum > 0 && spent > bNum;
-          const pct = bNum && bNum > 0 ? Math.min(100, Math.round((spent / bNum) * 100)) : 0;
-          return (
-            <label className="block">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Budget</span>
-              <div className="mt-1 flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] px-3 py-1.5">
-                <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
-                <input
-                  type="number"
-                  inputMode="decimal"
-                  min={0}
-                  value={budget}
-                  onChange={(e) => saveBudget(e.target.value)}
-                  placeholder="—"
-                  className="w-full bg-transparent text-sm outline-none"
-                />
-                {bNum != null && (
-                  <span className={`whitespace-nowrap text-[10px] ${over ? "text-[color:var(--burgundy)]" : "text-muted-foreground"}`}>
-                    £{spent.toFixed(0)}{over ? " · over" : ""}
-                  </span>
-                )}
-              </div>
-              {bNum != null && bNum > 0 && (
-                <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]" title={`£${spent.toFixed(0)} of £${bNum.toFixed(0)}`}>
-                  <div
-                    className="h-full rounded-full transition-all"
-                    style={{ width: `${pct}%`, background: over ? "var(--gradient-burgundy)" : "var(--gradient-forest)" }}
-                  />
-                </div>
-              )}
-            </label>
-          );
-        })()}
+        <Field label="Interests">
+          <input
+            value={interests}
+            onChange={(e) => setInterests(e.target.value)}
+            placeholder="Baking, hiking, mystery novels…"
+            className={inputCls}
+          />
+        </Field>
 
-        {/* Ideas summary */}
-        <div>
-          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Ideas & gifts this year</span>
-          <div className="mt-1 flex flex-wrap items-center gap-1.5">
-            {thisYear.length === 0 ? (
-              <span className="text-xs text-muted-foreground">Nothing yet — start below</span>
-            ) : (
-              thisYear.slice(0, 3).map((g) => (
-                <span
-                  key={g.id}
-                  className={
-                    "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs " +
-                    (g.status === "idea"
-                      ? "border-[oklch(0.80_0.14_85_/_0.25)] text-muted-foreground"
-                      : "border-[color:var(--pine)] text-[color:var(--pine)]")
-                  }
-                >
-                  {g.status !== "idea" && <Check className="h-3 w-3" />}
-                  <span className="max-w-[10rem] truncate">{g.item || "(untitled)"}</span>
-                </span>
-              ))
-            )}
-            {thisYear.length > 3 && (
-              <span className="text-[11px] text-muted-foreground">+{thisYear.length - 3} more</span>
-            )}
-          </div>
+        <Field label="Dislikes or things to avoid">
+          <input
+            value={dislikes}
+            onChange={(e) => setDislikes(e.target.value)}
+            placeholder="No perfume, allergic to nuts, doesn't drink…"
+            className={inputCls}
+          />
+        </Field>
+
+        <Field label="Initial gift ideas">
+          <textarea
+            value={initialIdeas}
+            onChange={(e) => setInitialIdeas(e.target.value)}
+            rows={3}
+            placeholder="A cosy scarf, that recipe book she mentioned, tickets to the pantomime…"
+            className={inputCls + " resize-none"}
+          />
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Rough notes are fine — you can turn them into proper gifts later.
+          </p>
+        </Field>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Toggle label="Needs a stocking" checked={needsStocking} onChange={setNeedsStocking} icon={<Stamp className="h-3.5 w-3.5" />} />
+          <Toggle label="Needs a Christmas card" checked={needsCard} onChange={setNeedsCard} icon={<GiftIcon className="h-3.5 w-3.5" />} />
         </div>
 
-        {/* Wrapped state */}
-        <div>
-          <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Wrapped</span>
+        <div className="flex items-center justify-end gap-2 pt-2">
           <button
-            onClick={toggleAllWrapped}
-            disabled={bought.length === 0}
-            className={
-              "mt-1 inline-flex w-full items-center justify-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition disabled:opacity-40 " +
-              (allWrapped
-                ? "border-[color:var(--pine)] bg-[oklch(0.55_0.14_150_/_0.15)] text-[color:var(--pine)]"
-                : "border-[oklch(0.80_0.14_85_/_0.3)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.6)]")
-            }
-            title={bought.length === 0 ? "Nothing bought yet" : allWrapped ? "Mark as un-wrapped" : "Mark all as wrapped"}
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-[color:var(--gold)]/25 px-4 py-2 text-xs text-muted-foreground transition hover:text-foreground"
           >
-            {allWrapped ? <Check className="h-3.5 w-3.5" /> : <GiftIcon className="h-3.5 w-3.5" />}
-            {bought.length === 0 ? "—" : `${wrappedCount}/${bought.length}`}
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 disabled:opacity-60"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+            {submitLabel}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
+}
+
+const inputCls =
+  "w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3 py-2 text-sm outline-none transition focus:border-[color:var(--gold)]/70";
+
+function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <span className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
+        {label}
+        {required && <span className="text-[color:var(--burgundy)]"> *</span>}
+      </span>
+      <div className="mt-1">{children}</div>
+    </label>
+  );
+}
+
+function Toggle({
+  label,
+  checked,
+  onChange,
+  icon,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  icon?: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className={
+        "flex items-center justify-between rounded-xl border px-3 py-2.5 text-sm transition " +
+        (checked
+          ? "border-[color:var(--gold)]/70 bg-[color:var(--gold)]/12 text-[color:var(--gold-soft)]"
+          : "border-[color:var(--gold)]/20 bg-black/20 text-muted-foreground hover:border-[color:var(--gold)]/50")
+      }
+    >
+      <span className="flex items-center gap-2">
+        {icon}
+        {label}
+      </span>
+      <span
+        className={
+          "grid h-5 w-9 place-items-start rounded-full p-0.5 transition " +
+          (checked ? "bg-[color:var(--gold)]" : "bg-white/15")
+        }
+      >
+        <span
+          className={
+            "h-4 w-4 rounded-full bg-white transition " + (checked ? "translate-x-4" : "translate-x-0")
+          }
+        />
+      </span>
+    </button>
+  );
+}
+
+/* ---------------------- Person drawer (detail view) ---------------------- */
+
+function PersonDrawer({
+  person,
+  allGifts,
+  onClose,
+  onEdit,
+  addRow,
+  updateField,
+  removeRow,
+}: {
+  person: PersonExtras;
+  allGifts: GiftRow[];
+  onClose: () => void;
+  onEdit: () => void;
+  addRow: (fields: Partial<GiftRow>) => Promise<void> | void;
+  updateField: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
+  removeRow: (id: string) => void;
+}) {
+  const [aiOpen, setAiOpen] = useState(false);
+  const thisYear = allGifts.filter((g) => g.year === CURRENT_YEAR);
+  const previousYears = allGifts.filter((g) => g.year < CURRENT_YEAR);
+
+  const addBlank = () =>
+    addRow({
+      recipient: person.name,
+      person_id: person.id,
+      item: "",
+      status: "idea",
+      year: CURRENT_YEAR,
+    } as Partial<GiftRow>);
+
+  return (
+    <Modal onClose={onClose} title={person.name || "Person"} eyebrow={person.relationship || "Christmas list"} wide>
+      <div className="flex flex-wrap items-center gap-2 pb-4">
+        <button
+          onClick={onEdit}
+          className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold)]/30 px-3 py-1.5 text-xs text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/10"
+        >
+          <Pencil className="h-3 w-3" /> Edit details
+        </button>
+        <button
+          onClick={() => setAiOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 px-3 py-1.5 text-xs text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/12"
+        >
+          <Sparkles className="h-3 w-3" /> AI gift ideas
+        </button>
+        <Link
+          to="/planner/people/$personId"
+          params={{ personId: person.id }}
+          onClick={onClose}
+          className="ml-auto inline-flex items-center gap-1 text-[11px] text-muted-foreground hover:text-[color:var(--gold-soft)]"
+        >
+          Full Christmas history <ExternalLink className="h-3 w-3" />
+        </Link>
+      </div>
+
+      {/* Person summary */}
+      <div className="grid gap-3 rounded-2xl border border-[color:var(--gold)]/20 bg-black/20 p-4 sm:grid-cols-2">
+        <SummaryLine label="Age" value={calcAge(person.date_of_birth)?.toString() || person.age_range || "—"} />
+        <SummaryLine label="Budget" value={person.gift_budget != null ? `£${Number(person.gift_budget).toFixed(0)}` : "—"} />
+        <SummaryLine label="Interests" value={person.hobbies || "—"} />
+        <SummaryLine label="Avoid" value={person.dislikes || "—"} />
+        {person.initial_ideas && (
+          <div className="sm:col-span-2">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Initial ideas</p>
+            <p className="mt-1 whitespace-pre-wrap text-sm text-foreground">{person.initial_ideas}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Gifts this year */}
+      <div className="mt-6">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-lg">Gifts for {CURRENT_YEAR}</h3>
+          <button
+            onClick={addBlank}
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            <Plus className="h-3.5 w-3.5" /> Add a gift
           </button>
         </div>
 
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          className="justify-self-end rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] p-2 text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)] hover:text-foreground"
-          aria-label={expanded ? "Collapse" : "Expand"}
-        >
-          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
+        {thisYear.length === 0 ? (
+          <p className="mt-3 rounded-xl border border-dashed border-[color:var(--gold)]/30 p-6 text-center text-sm text-muted-foreground">
+            No gifts yet. Add your first idea, or ask Santa's helper for suggestions ✨
+          </p>
+        ) : (
+          <ul className="mt-3 space-y-3">
+            {thisYear.map((g) => (
+              <GiftEditor key={g.id} gift={g} onUpdate={updateField} onRemove={removeRow} />
+            ))}
+          </ul>
+        )}
       </div>
 
-      {/* Expanded */}
-      {expanded && (
-        <div className="border-t border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.4)] p-5">
-          <div className="grid gap-6 lg:grid-cols-2">
-            {/* Ideas + this year gifts */}
-            <div>
-              <div className="flex items-center justify-between gap-3">
-                <h4 className="font-display text-base">Ideas & gifts this year</h4>
-                <button
-                  onClick={() => setAiOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-3 py-1.5 text-xs text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-                >
-                  <Sparkles className="h-3.5 w-3.5" /> AI ideas
-                </button>
-              </div>
-
-              <form onSubmit={submitIdea} className="mt-3 flex gap-2">
-                <input
-                  value={ideaText}
-                  onChange={(e) => setIdeaText(e.target.value)}
-                  placeholder="Add an idea or gift…"
-                  className="flex-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] px-4 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
-                />
-                <button
-                  type="submit"
-                  disabled={!ideaText.trim()}
-                  className="inline-flex items-center gap-1 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110 disabled:opacity-50"
-                  style={{ background: "var(--gradient-gold)" }}
-                >
-                  <Plus className="h-3.5 w-3.5" /> Add
-                </button>
-              </form>
-
-              <ul className="mt-4 space-y-2">
-                {thisYear.length === 0 ? (
-                  <li className="text-xs text-muted-foreground">Nothing yet. Add an idea above or ask Santa's helper ✨</li>
-                ) : (
-                  thisYear.map((g) => (
-                    <li
-                      key={g.id}
-                      className="flex items-center gap-2 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] p-2.5"
-                    >
-                      <select
-                        value={g.status}
-                        onChange={(e) => onUpdateGift(g.id, "status", e.target.value as GiftStatus)}
-                        className="rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] px-2 py-1 text-[11px]"
-                      >
-                        <option value="idea">Idea</option>
-                        <option value="bought">Bought</option>
-                        <option value="wrapped">Wrapped</option>
-                        <option value="given">Given</option>
-                      </select>
-                      <input
-                        value={g.item ?? ""}
-                        onChange={(e) => onUpdateGift(g.id, "item", e.target.value)}
-                        className="flex-1 bg-transparent text-sm outline-none"
-                      />
-                      <input
-                        type="number"
-                        min={0}
-                        placeholder="£"
-                        value={g.price ?? ""}
-                        onChange={(e) => onUpdateGift(g.id, "price", e.target.value === "" ? null : Number(e.target.value))}
-                        className="w-16 rounded-md border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.13_0.03_245_/_0.5)] px-2 py-1 text-xs outline-none"
-                      />
-                      <button
-                        onClick={() => onRemoveGift(g.id)}
-                        className="text-muted-foreground transition hover:text-[color:var(--cranberry)]"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </li>
-                  ))
-                )}
-              </ul>
-            </div>
-
-            {/* Last year */}
-            <div>
-              <h4 className="flex items-center gap-2 font-display text-base">
-                <History className="h-4 w-4 text-[color:var(--gold-soft)]" />
-                Last year ({LAST_YEAR})
-              </h4>
-              {lastYear.length === 0 ? (
-                <p className="mt-3 text-xs text-muted-foreground">
-                  No memory saved for last Christmas yet. Add one from{" "}
-                  <Link to="/planner/people/$personId" params={{ personId: person.id }} className="text-[color:var(--gold-soft)] underline">
-                    {person.name}'s profile
-                  </Link>
-                  .
-                </p>
-              ) : (
-                <ul className="mt-3 space-y-2">
-                  {lastYear.map((g) => (
-                    <li
-                      key={g.id}
-                      className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.5)] p-2.5 text-sm"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span>{g.item || "(untitled)"}</span>
-                        {g.price != null && (
-                          <span className="text-xs text-muted-foreground">£{Number(g.price).toFixed(0)}</span>
-                        )}
-                      </div>
-                      {g.notes && <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{g.notes}</p>}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <Link
-                to="/planner/people/$personId"
-                params={{ personId: person.id }}
-                className="mt-4 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-[color:var(--gold-soft)]"
+      {/* Previous years */}
+      {previousYears.length > 0 && (
+        <div className="mt-6">
+          <h3 className="flex items-center gap-2 font-display text-lg">
+            <History className="h-4 w-4 text-[color:var(--gold-soft)]" /> Previous presents
+          </h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            So you never accidentally give the same thing twice.
+          </p>
+          <ul className="mt-3 space-y-2">
+            {previousYears.map((g) => (
+              <li
+                key={g.id}
+                className="flex items-start justify-between gap-3 rounded-xl border border-[color:var(--gold)]/15 bg-black/20 p-3 text-sm"
               >
-                Open {person.name}'s Christmas history →
-              </Link>
-            </div>
-          </div>
+                <div>
+                  <p className="text-foreground">{g.item || "(untitled)"}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {g.year}
+                    {g.shop ? ` · ${g.shop}` : ""}
+                    {g.price != null ? ` · £${Number(g.price).toFixed(0)}` : ""}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
       {aiOpen && (
         <AiIdeasPanel
           person={person}
-          existingItems={[...thisYear, ...lastYear].map((g) => g.item).filter(Boolean)}
+          existingItems={allGifts.map((g) => g.item).filter(Boolean)}
           onClose={() => setAiOpen(false)}
           onPick={(idea) => {
-            onAddIdea(idea.item);
-            toast.success(`Added "${idea.item}" to ${person.name}'s ideas`);
+            addRow({
+              recipient: person.name,
+              person_id: person.id,
+              item: idea.item,
+              status: "idea",
+              year: CURRENT_YEAR,
+              price: idea.estimatedPrice ?? null,
+              notes: idea.reason ?? null,
+            } as Partial<GiftRow>);
+            toast.success(`Added "${idea.item}" to ${person.name}'s list`);
           }}
         />
       )}
-    </article>
+    </Modal>
   );
 }
+
+function SummaryLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
+      <p className="mt-0.5 text-sm text-foreground">{value}</p>
+    </div>
+  );
+}
+
+/* ---------------------- Gift editor row ---------------------- */
+
+function GiftEditor({
+  gift,
+  onUpdate,
+  onRemove,
+}: {
+  gift: GiftRow;
+  onUpdate: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
+  onRemove: (id: string) => void;
+}) {
+  return (
+    <li className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-4">
+      <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+        <input
+          value={gift.item ?? ""}
+          onChange={(e) => onUpdate(gift.id, "item", e.target.value)}
+          placeholder="Gift idea"
+          className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
+        />
+        <button
+          onClick={() => onRemove(gift.id)}
+          className="justify-self-end rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
+          aria-label="Delete gift"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </button>
+      </div>
+
+      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+        <input
+          value={gift.shop ?? ""}
+          onChange={(e) => onUpdate(gift.id, "shop", e.target.value || null)}
+          placeholder="Shop or website"
+          className={inputCls}
+        />
+        <input
+          value={gift.url ?? ""}
+          onChange={(e) => onUpdate(gift.id, "url", e.target.value || null)}
+          placeholder="Link (optional)"
+          className={inputCls}
+        />
+        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+          <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
+          <input
+            type="number"
+            min={0}
+            value={gift.price ?? ""}
+            onChange={(e) =>
+              onUpdate(gift.id, "price", e.target.value === "" ? null : Number(e.target.value))
+            }
+            placeholder="Price"
+            className="w-full bg-transparent py-2 text-sm outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <StatusChip
+          active={gift.status === "bought" || gift.status === "wrapped" || gift.status === "given"}
+          onClick={() =>
+            onUpdate(
+              gift.id,
+              "status",
+              gift.status === "idea" ? "bought" : gift.status === "bought" ? "idea" : gift.status,
+            )
+          }
+          icon={<ShoppingBag className="h-3.5 w-3.5" />}
+          label="Bought"
+        />
+        <StatusChip
+          active={gift.ordered}
+          onClick={() => onUpdate(gift.id, "ordered", !gift.ordered)}
+          icon={<CheckCircle2 className="h-3.5 w-3.5" />}
+          label="Ordered"
+        />
+        <StatusChip
+          active={gift.arrived}
+          onClick={() => onUpdate(gift.id, "arrived", !gift.arrived)}
+          icon={<Truck className="h-3.5 w-3.5" />}
+          label="Arrived"
+        />
+        <StatusChip
+          active={gift.wrapped}
+          onClick={() => {
+            const next = !gift.wrapped;
+            onUpdate(gift.id, "wrapped", next);
+            if (next && gift.status === "bought") onUpdate(gift.id, "status", "wrapped");
+          }}
+          icon={<Package className="h-3.5 w-3.5" />}
+          label="Wrapped"
+        />
+      </div>
+
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+          <MapPin className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
+          <input
+            value={gift.hidden_location ?? ""}
+            onChange={(e) => onUpdate(gift.id, "hidden_location", e.target.value || null)}
+            placeholder="Hidden or stored where?"
+            className="w-full bg-transparent py-2 text-sm outline-none"
+          />
+        </div>
+        <input
+          value={gift.notes ?? ""}
+          onChange={(e) => onUpdate(gift.id, "notes", e.target.value || null)}
+          placeholder="Notes"
+          className={inputCls}
+        />
+      </div>
+    </li>
+  );
+}
+
+function StatusChip({
+  active,
+  onClick,
+  icon,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition " +
+        (active
+          ? "border-[color:var(--pine-bright)]/70 bg-[color:var(--pine-bright)]/15 text-[color:var(--pine-bright)]"
+          : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
+      }
+    >
+      {icon}
+      {label}
+    </button>
+  );
+}
+
+/* ---------------------- Reusable modal ---------------------- */
+
+function Modal({
+  children,
+  onClose,
+  title,
+  eyebrow,
+  wide,
+}: {
+  children: React.ReactNode;
+  onClose: () => void;
+  title: string;
+  eyebrow?: string;
+  wide?: boolean;
+}) {
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 backdrop-blur-sm sm:items-center sm:p-6"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={
+          "flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-gradient-to-b from-[color:var(--forest-deep)] to-[oklch(0.18_0.04_155)] sm:rounded-3xl " +
+          (wide ? "sm:max-w-3xl" : "sm:max-w-xl")
+        }
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-[color:var(--gold)]/15 p-5">
+          <div>
+            {eyebrow && (
+              <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">{eyebrow}</p>
+            )}
+            <h2 className="mt-0.5 font-display text-2xl">{title}</h2>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:text-foreground"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="overflow-y-auto p-5">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------- AI ideas panel ---------------------- */
 
 function AiIdeasPanel({
   person,
@@ -452,7 +987,7 @@ function AiIdeasPanel({
   onClose,
   onPick,
 }: {
-  person: Person;
+  person: PersonExtras;
   existingItems: string[];
   onClose: () => void;
   onPick: (idea: GiftIdea) => void;
@@ -481,7 +1016,7 @@ function AiIdeasPanel({
           clothingSize: person.clothing_size,
           shoeSize: person.shoe_size,
           wishlist: person.wishlist,
-          notes: person.notes,
+          notes: [person.notes, person.dislikes ? `Avoid: ${person.dislikes}` : null].filter(Boolean).join(" · ") || null,
           budget: person.gift_budget,
           avoid: existingItems,
         },
@@ -495,80 +1030,67 @@ function AiIdeasPanel({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 backdrop-blur-sm sm:items-center">
-      <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245)]">
-        <div className="flex items-center justify-between border-b border-[oklch(0.80_0.14_85_/_0.15)] p-5">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Santa's helper</p>
-            <h3 className="font-display text-xl">Ideas for {person.name}</h3>
-          </div>
-          <button onClick={onClose} className="rounded-full p-2 text-muted-foreground hover:text-foreground">
-            <X className="h-4 w-4" />
+    <Modal onClose={onClose} title={`Ideas for ${person.name}`} eyebrow="Santa's helper">
+      {!ideas && !loading && !error && (
+        <div className="text-center">
+          <Sparkles className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
+          <p className="mx-auto mt-3 max-w-xs text-sm text-muted-foreground">
+            We'll suggest thoughtful gifts based on {person.name}'s profile, budget and previous years.
+          </p>
+          <button
+            onClick={run}
+            className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            <Sparkles className="h-4 w-4" /> Sprinkle some ideas
           </button>
         </div>
-        <div className="max-h-[60vh] overflow-y-auto p-5">
-          {!ideas && !loading && !error && (
-            <div className="text-center">
-              <Sparkles className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
-              <p className="mx-auto mt-3 max-w-xs text-sm text-muted-foreground">
-                We'll suggest gift ideas based on {person.name}'s profile, budget and last year's gifts.
-              </p>
-              <button
-                onClick={run}
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
-                style={{ background: "var(--gradient-gold)" }}
-              >
-                <Sparkles className="h-4 w-4" /> Sprinkle some ideas
-              </button>
-            </div>
-          )}
-          {loading && (
-            <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground">
-              <Loader2 className="h-4 w-4 animate-spin" /> Whispering to Santa…
-            </div>
-          )}
-          {error && (
-            <div className="rounded-xl border border-[color:var(--cranberry)] bg-[oklch(0.55_0.15_25_/_0.15)] p-3 text-sm text-[color:var(--cranberry)]">
-              {error}
-            </div>
-          )}
-          {ideas && (
-            <ul className="space-y-3">
-              {ideas.map((idea, i) => (
-                <li
-                  key={i}
-                  className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.7)] p-4"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="font-display text-base">{idea.item}</p>
-                      <p className="mt-1 text-xs text-muted-foreground">{idea.reason}</p>
-                      {idea.estimatedPrice != null && (
-                        <p className="mt-1 text-[11px] text-[color:var(--gold-soft)]">≈ £{idea.estimatedPrice}</p>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => onPick(idea)}
-                      className="shrink-0 inline-flex items-center gap-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] px-3 py-1.5 text-xs text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.12)]"
-                    >
-                      <Plus className="h-3 w-3" /> Add
-                    </button>
-                  </div>
-                </li>
-              ))}
-              <li>
-                <button
-                  onClick={run}
-                  disabled={loading}
-                  className="w-full rounded-full border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] py-2 text-xs text-muted-foreground transition hover:border-[oklch(0.80_0.14_85_/_0.6)]"
-                >
-                  Get more ideas
-                </button>
-              </li>
-            </ul>
-          )}
+      )}
+      {loading && (
+        <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" /> Whispering to Santa…
         </div>
-      </div>
-    </div>
+      )}
+      {error && (
+        <div className="rounded-xl border border-[color:var(--burgundy)] bg-[color:var(--burgundy)]/10 p-3 text-sm text-[color:var(--burgundy)]">
+          {error}
+        </div>
+      )}
+      {ideas && (
+        <ul className="space-y-3">
+          {ideas.map((idea, i) => (
+            <li
+              key={i}
+              className="rounded-2xl border border-[color:var(--gold)]/25 bg-black/20 p-4"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-display text-base">{idea.item}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{idea.reason}</p>
+                  {idea.estimatedPrice != null && (
+                    <p className="mt-1 text-[11px] text-[color:var(--gold-soft)]">≈ £{idea.estimatedPrice}</p>
+                  )}
+                </div>
+                <button
+                  onClick={() => onPick(idea)}
+                  className="shrink-0 inline-flex items-center gap-1 rounded-full border border-[color:var(--gold)]/40 px-3 py-1.5 text-xs text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/12"
+                >
+                  <Plus className="h-3 w-3" /> Add
+                </button>
+              </div>
+            </li>
+          ))}
+          <li>
+            <button
+              onClick={run}
+              disabled={loading}
+              className="w-full rounded-full border border-dashed border-[color:var(--gold)]/30 py-2 text-xs text-muted-foreground transition hover:border-[color:var(--gold)]/60"
+            >
+              Get more ideas
+            </button>
+          </li>
+        </ul>
+      )}
+    </Modal>
   );
 }
