@@ -34,6 +34,28 @@ function SetupPage() {
         </p>
       </div>
 
+      <Section title="Who are you planning Christmas for?">
+        <p className="-mt-1 text-xs text-muted-foreground">
+          Pick everything that fits — we'll gently tailor your suggestions. You can change these any time.
+        </p>
+        <MultiChipField
+          options={HOUSEHOLD_TYPES}
+          values={settings.household_types}
+          onChange={(next) => update("household_types", next)}
+        />
+      </Section>
+
+      <Section title="How are you celebrating?">
+        <p className="-mt-1 text-xs text-muted-foreground">
+          Choose any that apply — hosting, visiting, or somewhere in between.
+        </p>
+        <MultiChipField
+          options={CELEBRATION_STYLES}
+          values={settings.celebration_style}
+          onChange={(next) => update("celebration_style", next)}
+        />
+      </Section>
+
       <Section title="Who you're planning for">
         <div className="grid gap-4 sm:grid-cols-2">
           <NumberField label="Adults" value={settings.num_adults} onChange={(v) => update("num_adults", v)} />
