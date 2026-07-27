@@ -17,6 +17,8 @@ export interface PlannerSettings {
   stress_free: boolean;
   setup_completed: boolean;
   notes: string | null;
+  household_types: string[];
+  celebration_style: string[];
 }
 
 const DEFAULTS: Omit<PlannerSettings, "user_id"> = {
@@ -33,6 +35,8 @@ const DEFAULTS: Omit<PlannerSettings, "user_id"> = {
   stress_free: false,
   setup_completed: false,
   notes: null,
+  household_types: [],
+  celebration_style: [],
 };
 
 export function usePlannerSettings(userId: string | undefined) {
