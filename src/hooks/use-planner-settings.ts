@@ -62,7 +62,7 @@ export function usePlannerSettings(userId: string | undefined) {
         await supabase.from("planner_settings").insert(seed);
         setSettings(seed);
       } else {
-        setSettings(data as PlannerSettings);
+        setSettings({ ...DEFAULTS, ...(data as Partial<PlannerSettings>), user_id: userId });
       }
       setLoading(false);
     })();
