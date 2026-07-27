@@ -169,3 +169,42 @@ function ToggleField({ label, value, onChange }: { label: string; value: boolean
     </label>
   );
 }
+
+function MultiChipField({
+  options,
+  values,
+  onChange,
+}: {
+  options: { value: string; label: string; emoji: string }[];
+  values: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const toggle = (v: string) => {
+    onChange(values.includes(v) ? values.filter((x) => x !== v) : [...values, v]);
+  };
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((o) => {
+        const active = values.includes(o.value);
+        return (
+          <button
+            key={o.value}
+            type="button"
+            onClick={() => toggle(o.value)}
+            aria-pressed={active}
+            className={
+              "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm transition " +
+              (active
+                ? "border-[oklch(0.80_0.14_85_/_0.7)] bg-[oklch(0.80_0.14_85_/_0.14)] text-[color:var(--gold-soft)] shadow-[inset_0_0_0_1px_oklch(0.80_0.14_85_/_0.25)]"
+                : "border-[oklch(0.80_0.14_85_/_0.2)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
+            }
+          >
+            <span aria-hidden>{o.emoji}</span>
+            <span>{o.label}</span>
+            {active && <Check className="h-3.5 w-3.5 text-[color:var(--gold)]" />}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
