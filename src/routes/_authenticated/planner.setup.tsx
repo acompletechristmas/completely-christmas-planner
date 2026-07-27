@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerSettings } from "@/hooks/use-planner-settings";
 import { Sparkles, Check } from "lucide-react";
+import { HOUSEHOLD_TYPES, CELEBRATION_STYLES } from "@/lib/household-options";
 
 export const Route = createFileRoute("/_authenticated/planner/setup")({
   component: SetupPage,
