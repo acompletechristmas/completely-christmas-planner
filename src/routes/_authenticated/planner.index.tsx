@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
+import { usePlannerSettings } from "@/hooks/use-planner-settings";
+import { HOUSEHOLD_TYPES, CELEBRATION_STYLES } from "@/lib/household-options";
 import {
   Gift,
   Sparkles,
@@ -12,6 +14,7 @@ import {
   ListChecks,
   ArrowRight,
   Check,
+  Settings2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
