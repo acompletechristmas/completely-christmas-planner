@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
+import { usePlannerSettings } from "@/hooks/use-planner-settings";
+import { HOUSEHOLD_TYPES, CELEBRATION_STYLES } from "@/lib/household-options";
 import {
   Gift,
   Sparkles,
@@ -12,6 +14,7 @@ import {
   ListChecks,
   ArrowRight,
   Check,
+  Settings2,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -158,6 +161,10 @@ function PlannerOverview() {
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
+  const { settings } = usePlannerSettings(user?.id);
+
+  const householdChoices = HOUSEHOLD_TYPES.filter((o) => settings?.household_types?.includes(o.value));
+  const styleChoices = CELEBRATION_STYLES.filter((o) => settings?.celebration_style?.includes(o.value));
 
   const stepProgress = (key: StepKey): { done: number; total: number; pct: number } => {
     let done = 0;
@@ -197,6 +204,79 @@ function PlannerOverview() {
 
   return (
     <div className="rise-in space-y-10">
+      {/* Personalised welcome — driven by setup answers */}
+      {(householdChoices.length > 0 || styleChoices.length > 0) ? (
+        <section className="relative overflow-hidden rounded-3xl border border-[oklch(0.55_0.14_155_/_0.4)] bg-[oklch(0.22_0.05_155_/_0.55)] p-6 sm:p-7">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full opacity-30 blur-3xl"
+            style={{ background: "var(--gradient-gold)" }}
+          />
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Your kind of Christmas</p>
+              <h2 className="mt-2 font-display text-2xl sm:text-3xl">
+                Tailored for <span className="italic gold-text">you</span>
+              </h2>
+            </div>
+            <Link
+              to="/planner/setup"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] px-3 py-1.5 text-[11px] text-[color:var(--gold-soft)] transition hover:bg-[oklch(0.80_0.14_85_/_0.1)]"
+            >
+              <Settings2 className="h-3.5 w-3.5" /> Edit
+            </Link>
+          </div>
+
+          {householdChoices.length > 0 && (
+            <div className="mt-5">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Planning for</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {householdChoices.map((o) => (
+                  <span key={o.value} className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.13_0.03_245_/_0.55)] px-3 py-1 text-xs">
+                    <span aria-hidden>{o.emoji}</span>{o.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {styleChoices.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">This year</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {styleChoices.map((o) => (
+                  <span key={o.value} className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.13_0.03_245_/_0.55)] px-3 py-1 text-xs">
+                    <span aria-hidden>{o.emoji}</span>{o.label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <ul className="mt-5 space-y-1.5 text-sm text-muted-foreground">
+            {[...householdChoices, ...styleChoices].slice(0, 3).map((o) => (
+              <li key={`hint-${o.value}`} className="flex gap-2">
+                <span aria-hidden className="text-[color:var(--gold)]">•</span>
+                <span>{o.hint}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : settings && !settings.setup_completed ? (
+        <section className="rounded-3xl border border-dashed border-[oklch(0.80_0.14_85_/_0.4)] bg-[oklch(0.22_0.05_155_/_0.4)] p-5 sm:p-6">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Make it yours</p>
+          <p className="mt-2 font-display text-xl">Tell us who your Christmas is for</p>
+          <p className="mt-1 text-sm text-muted-foreground">A few quick answers and we'll tailor the whole planner to your household.</p>
+          <Link
+            to="/planner/setup"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            Personalise my planner <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </section>
+      ) : null}
+
       {/* Welcome + overall progress */}
       <section className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-8">
         <div

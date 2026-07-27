@@ -271,10 +271,12 @@ export type Database = {
       planner_settings: {
         Row: {
           budget_total: number | null
+          celebration_style: string[]
           created_at: string
           decorates_indoor: boolean
           decorates_outdoor: boolean
           dietary_notes: string | null
+          household_types: string[]
           is_hosting: boolean
           is_travelling: boolean
           notes: string | null
@@ -289,10 +291,12 @@ export type Database = {
         }
         Insert: {
           budget_total?: number | null
+          celebration_style?: string[]
           created_at?: string
           decorates_indoor?: boolean
           decorates_outdoor?: boolean
           dietary_notes?: string | null
+          household_types?: string[]
           is_hosting?: boolean
           is_travelling?: boolean
           notes?: string | null
@@ -307,10 +311,12 @@ export type Database = {
         }
         Update: {
           budget_total?: number | null
+          celebration_style?: string[]
           created_at?: string
           decorates_indoor?: boolean
           decorates_outdoor?: boolean
           dietary_notes?: string | null
+          household_types?: string[]
           is_hosting?: boolean
           is_travelling?: boolean
           notes?: string | null

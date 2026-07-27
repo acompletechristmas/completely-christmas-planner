@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerSettings } from "@/hooks/use-planner-settings";
 import { Sparkles, Check } from "lucide-react";
+import { HOUSEHOLD_TYPES, CELEBRATION_STYLES } from "@/lib/household-options";
 
 export const Route = createFileRoute("/_authenticated/planner/setup")({
   component: SetupPage,
@@ -32,6 +33,28 @@ function SetupPage() {
           Every question is optional. Skip anything that doesn't apply — you can change your answers any time.
         </p>
       </div>
+
+      <Section title="Who are you planning Christmas for?">
+        <p className="-mt-1 text-xs text-muted-foreground">
+          Pick everything that fits — we'll gently tailor your suggestions. You can change these any time.
+        </p>
+        <MultiChipField
+          options={HOUSEHOLD_TYPES}
+          values={settings.household_types}
+          onChange={(next) => update("household_types", next)}
+        />
+      </Section>
+
+      <Section title="How are you celebrating?">
+        <p className="-mt-1 text-xs text-muted-foreground">
+          Choose any that apply — hosting, visiting, or somewhere in between.
+        </p>
+        <MultiChipField
+          options={CELEBRATION_STYLES}
+          values={settings.celebration_style}
+          onChange={(next) => update("celebration_style", next)}
+        />
+      </Section>
 
       <Section title="Who you're planning for">
         <div className="grid gap-4 sm:grid-cols-2">
@@ -144,5 +167,44 @@ function ToggleField({ label, value, onChange }: { label: string; value: boolean
         className="h-4 w-4 accent-[color:var(--gold)]"
       />
     </label>
+  );
+}
+
+function MultiChipField({
+  options,
+  values,
+  onChange,
+}: {
+  options: { value: string; label: string; emoji: string }[];
+  values: string[];
+  onChange: (next: string[]) => void;
+}) {
+  const toggle = (v: string) => {
+    onChange(values.includes(v) ? values.filter((x) => x !== v) : [...values, v]);
+  };
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((o) => {
+        const active = values.includes(o.value);
+        return (
+          <button
+            key={o.value}
+            type="button"
+            onClick={() => toggle(o.value)}
+            aria-pressed={active}
+            className={
+              "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm transition " +
+              (active
+                ? "border-[oklch(0.80_0.14_85_/_0.7)] bg-[oklch(0.80_0.14_85_/_0.14)] text-[color:var(--gold-soft)] shadow-[inset_0_0_0_1px_oklch(0.80_0.14_85_/_0.25)]"
+                : "border-[oklch(0.80_0.14_85_/_0.2)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
+            }
+          >
+            <span aria-hidden>{o.emoji}</span>
+            <span>{o.label}</span>
+            {active && <Check className="h-3.5 w-3.5 text-[color:var(--gold)]" />}
+          </button>
+        );
+      })}
+    </div>
   );
 }
