@@ -161,6 +161,10 @@ function PlannerOverview() {
   const gifts = usePlannerList<GiftRow>("gifts", user?.id);
   const cards = usePlannerList<CardRow>("cards", user?.id);
   const todos = usePlannerList<TodoRow>("todos", user?.id);
+  const { settings } = usePlannerSettings(user?.id);
+
+  const householdChoices = HOUSEHOLD_TYPES.filter((o) => settings?.household_types?.includes(o.value));
+  const styleChoices = CELEBRATION_STYLES.filter((o) => settings?.celebration_style?.includes(o.value));
 
   const stepProgress = (key: StepKey): { done: number; total: number; pct: number } => {
     let done = 0;
