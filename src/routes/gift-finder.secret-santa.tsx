@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageShell } from "@/components/PageShell";
-import { ArrowLeft, ExternalLink, Bookmark, Sparkles, Gift } from "lucide-react";
+import { ArrowLeft, ExternalLink, Bookmark, Sparkles, Gift, Save, Loader2, X, Plus } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { usePeople } from "@/hooks/use-people";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   filterSecretSantaGifts,
   type GiftStyle,
@@ -52,6 +56,8 @@ const STYLES: { id: GiftStyle; label: string }[] = [
 ];
 
 function SecretSantaPage() {
+  const { user } = useAuth();
+  const { people, addPerson, refetch: refetchPeople } = usePeople(user?.id);
   const [budget, setBudget] = useState<BudgetChoice | null>(null);
   const [customBudget, setCustomBudget] = useState("");
   const [recipient, setRecipient] = useState<RecipientType | null>(null);
@@ -59,6 +65,8 @@ function SecretSantaPage() {
   const [interests, setInterests] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [savedToPlanner, setSavedToPlanner] = useState<Set<string>>(new Set());
+  const [saveTarget, setSaveTarget] = useState<SecretSantaGift | null>(null);
 
   const canSubmit =
     budget !== null &&
@@ -179,6 +187,18 @@ function SecretSantaPage() {
                     >
                       <Bookmark className="h-4 w-4" /> {isSaved ? "Saved" : "Save idea"}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setSaveTarget(g)}
+                      className={`inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition ${
+                        savedToPlanner.has(g.id)
+                          ? "border-[color:var(--forest)] bg-[color:var(--forest)]/10 text-[color:var(--forest)]"
+                          : "border-[color:var(--gold)] bg-[color:var(--forest)]/5 text-[color:var(--forest)] hover:bg-[color:var(--forest)]/10"
+                      }`}
+                    >
+                      <Save className="h-4 w-4" />
+                      {savedToPlanner.has(g.id) ? "Saved to Gift Planner" : "Save to my Gift Planner"}
+                    </button>
                   </div>
                 </li>
               );
@@ -191,6 +211,21 @@ function SecretSantaPage() {
             Back to Gift Finder
           </Link>
         </div>
+
+        {saveTarget && (
+          <SaveToPlannerModal
+            gift={saveTarget}
+            user={user}
+            people={people}
+            addPerson={addPerson}
+            refetchPeople={refetchPeople}
+            onClose={() => setSaveTarget(null)}
+            onSaved={(giftId) => {
+              setSavedToPlanner((prev) => new Set(prev).add(giftId));
+              setSaveTarget(null);
+            }}
+          />
+        )}
       </PageShell>
     );
   }
@@ -339,5 +374,200 @@ function SecretSantaPage() {
         </Link>
       </form>
     </PageShell>
+  );
+}
+
+function SaveToPlannerModal({
+  gift,
+  user,
+  people,
+  addPerson,
+  refetchPeople,
+  onClose,
+  onSaved,
+}: {
+  gift: SecretSantaGift;
+  user: ReturnType<typeof useAuth>["user"];
+  people: ReturnType<typeof usePeople>["people"];
+  addPerson: ReturnType<typeof usePeople>["addPerson"];
+  refetchPeople: ReturnType<typeof usePeople>["refetch"];
+  onClose: () => void;
+  onSaved: (giftId: string) => void;
+}) {
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [newName, setNewName] = useState("");
+  const [addingNew, setAddingNew] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const price = gift.minPrice === gift.maxPrice ? gift.minPrice : Math.round((gift.minPrice + gift.maxPrice) / 2);
+  const href = gift.affiliateUrl ?? gift.externalUrl ?? null;
+
+  async function handleSave() {
+    if (!user) return;
+    setSaving(true);
+    try {
+      let personId = selectedId;
+      let recipientName = people.find((p) => p.id === personId)?.name ?? "";
+      if (addingNew) {
+        if (!newName.trim()) {
+          toast.error("Give the new person a name.");
+          setSaving(false);
+          return;
+        }
+        const created = await addPerson(newName.trim());
+        if (!created) {
+          setSaving(false);
+          return;
+        }
+        personId = created.id;
+        recipientName = created.name;
+        void refetchPeople();
+      }
+      if (!personId) {
+        toast.error("Choose who this gift is for.");
+        setSaving(false);
+        return;
+      }
+      const noteBits = [`From Secret Santa: ${gift.name}`, gift.description];
+      const { error } = await supabase.from("gifts").insert({
+        user_id: user.id,
+        person_id: personId,
+        recipient: recipientName,
+        item: gift.name,
+        url: href,
+        price,
+        status: "idea",
+        notes: noteBits.filter(Boolean).join("\n\n"),
+        year: new Date().getFullYear(),
+        ordered: false,
+        arrived: false,
+        wrapped: false,
+      });
+      if (error) {
+        console.error("[secret-santa] save failed", error);
+        toast.error("Couldn't save to Gift Planner");
+        setSaving(false);
+        return;
+      }
+      toast.success(`Saved "${gift.name}" to ${recipientName || "your Gift Planner"}`);
+      onSaved(gift.id);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 p-0 sm:items-center sm:p-4"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex max-h-[92dvh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-[color:var(--mist)] sm:rounded-3xl"
+      >
+        <div className="flex items-center justify-between border-b border-[color:var(--border)] px-5 py-4">
+          <h3 className="font-display text-lg text-[color:var(--ink)]">Save to Gift Planner</h3>
+          <button onClick={onClose} className="rounded-full p-1 text-[color:var(--ink)] hover:bg-black/5">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
+          <p className="text-[13px] text-[color:var(--muted-foreground)]">
+            Saving <strong className="text-[color:var(--ink)]">{gift.name}</strong> (£{price}) as a Secret Santa idea.
+          </p>
+
+          {!user ? (
+            <div className="rounded-2xl border border-[color:var(--border)] bg-white p-4 text-center text-sm">
+              <p className="text-[color:var(--ink)]">Sign in to save Secret Santa gifts to your planner.</p>
+              <Link
+                to="/auth"
+                className="mt-3 inline-flex min-h-[44px] items-center justify-center rounded-full px-5 text-sm font-semibold text-[color:var(--primary-foreground)]"
+                style={{ background: "var(--gradient-gold)" }}
+              >
+                Sign in
+              </Link>
+            </div>
+          ) : (
+            <>
+              {people.length > 0 && !addingNew && (
+                <div>
+                  <label className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+                    Who is it for?
+                  </label>
+                  <div className="mt-2 grid gap-2">
+                    {people.map((p) => (
+                      <button
+                        type="button"
+                        key={p.id}
+                        onClick={() => setSelectedId(p.id)}
+                        className={`min-h-[44px] rounded-2xl border px-4 text-left text-sm transition ${
+                          selectedId === p.id
+                            ? "border-[color:var(--gold)] bg-[color:var(--forest)]/10 text-[color:var(--ink)]"
+                            : "border-[color:var(--border)] bg-white text-[color:var(--ink)] hover:border-[color:var(--forest)]"
+                        }`}
+                      >
+                        {p.name || "Unnamed"}
+                        {p.relationship ? (
+                          <span className="ml-2 text-xs text-[color:var(--muted-foreground)]">{p.relationship}</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {addingNew ? (
+                <div>
+                  <label className="text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)]">
+                    New person's name
+                  </label>
+                  <input
+                    autoFocus
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="e.g. Sam from work"
+                    className="mt-2 min-h-[48px] w-full rounded-full border border-[color:var(--border)] bg-white px-5 text-[15px] focus:border-[color:var(--gold)] focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAddingNew(false);
+                      setNewName("");
+                    }}
+                    className="mt-2 text-xs text-[color:var(--muted-foreground)] underline"
+                  >
+                    Choose an existing person instead
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAddingNew(true);
+                    setSelectedId("");
+                  }}
+                  className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border border-dashed border-[color:var(--gold)]/60 px-4 text-sm font-medium text-[color:var(--ink)] hover:bg-[color:var(--forest)]/5"
+                >
+                  <Plus className="h-4 w-4" /> Add a new person
+                </button>
+              )}
+            </>
+          )}
+        </div>
+        {user && (
+          <div className="border-t border-[color:var(--border)] bg-white px-5 py-4">
+            <button
+              type="button"
+              disabled={saving || (!addingNew && !selectedId) || (addingNew && !newName.trim())}
+              onClick={handleSave}
+              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-[color:var(--primary-foreground)] disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ background: "var(--gradient-gold)" }}
+            >
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              Save to Gift Planner
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

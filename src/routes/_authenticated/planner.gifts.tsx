@@ -134,8 +134,42 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
+      {/* 0. Choose a gift tool — main selection */}
+      <section aria-label="Choose a gift tool" className="space-y-3">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-xl sm:text-2xl">
+            <span className="gold-text italic">Gifts</span> — choose a tool
+          </h2>
+          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">3 ways to plan</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <GiftToolCard
+            icon={<Users className="h-5 w-5" />}
+            title="Gift Planner"
+            desc="Keep track of who you are buying for, what you plan to buy, what has been ordered, received and wrapped."
+            cta="You're here"
+            current
+            to="#gift-planner"
+          />
+          <GiftToolCard
+            icon={<Sparkles className="h-5 w-5" />}
+            title="Gift Finder"
+            desc="Find thoughtful and personalised gift ideas for different people, interests and budgets."
+            cta="Open Gift Finder"
+            to="/gift-finder"
+          />
+          <GiftToolCard
+            icon={<GiftIcon className="h-5 w-5" />}
+            title="Secret Santa"
+            desc="Find Secret Santa gift ideas by budget and save them to your Gift Planner."
+            cta="Open Secret Santa"
+            to="/gift-finder/secret-santa"
+          />
+        </div>
+      </section>
+
       {/* 1. Title + short explanation */}
-      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
+      <header id="gift-planner" className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
         <p className="relative text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
           Your Christmas list
@@ -311,6 +345,62 @@ function SummaryStat({ value, label }: { value: number | string; label: string }
       <p className="font-display text-2xl text-[color:var(--gold-soft)]">{value}</p>
       <p className="mt-0.5 text-[11px] text-muted-foreground">{label}</p>
     </div>
+  );
+}
+
+function GiftToolCard({
+  icon,
+  title,
+  desc,
+  cta,
+  to,
+  current,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  cta: string;
+  to: string;
+  current?: boolean;
+}) {
+  const isExternal = to.startsWith("#");
+  const className = `group flex h-full flex-col rounded-2xl border p-4 text-left transition ${
+    current
+      ? "border-[color:var(--gold)] bg-[color:var(--forest-deep)]/70 shadow-[0_10px_30px_-15px_oklch(0.82_0.14_85_/_0.6)]"
+      : "border-[color:var(--gold)]/30 bg-[color:var(--forest-deep)]/50 hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/70"
+  }`;
+  const inner = (
+    <>
+      <div className="flex items-center gap-2">
+        <span
+          className="grid h-9 w-9 place-items-center rounded-xl text-[color:var(--forest-deep)]"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          {icon}
+        </span>
+        <h3 className="font-display text-lg">{title}</h3>
+      </div>
+      <p className="mt-2 flex-1 text-[13px] leading-relaxed text-[color:var(--cream)]/80">{desc}</p>
+      <span
+        className={`mt-3 inline-flex items-center gap-1 text-sm font-semibold ${
+          current ? "text-[color:var(--gold-soft)]" : "text-[color:var(--gold)]"
+        }`}
+      >
+        {cta} <span aria-hidden>→</span>
+      </span>
+    </>
+  );
+  if (isExternal) {
+    return (
+      <a href={to} className={className}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link to={to} className={className}>
+      {inner}
+    </Link>
   );
 }
 
