@@ -211,6 +211,21 @@ function SecretSantaPage() {
             Back to Gift Finder
           </Link>
         </div>
+
+        {saveTarget && (
+          <SaveToPlannerModal
+            gift={saveTarget}
+            user={user}
+            people={people}
+            addPerson={addPerson}
+            refetchPeople={refetchPeople}
+            onClose={() => setSaveTarget(null)}
+            onSaved={(giftId) => {
+              setSavedToPlanner((prev) => new Set(prev).add(giftId));
+              setSaveTarget(null);
+            }}
+          />
+        )}
       </PageShell>
     );
   }
