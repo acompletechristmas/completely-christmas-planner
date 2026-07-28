@@ -134,8 +134,42 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
+      {/* 0. Choose a gift tool — main selection */}
+      <section aria-label="Choose a gift tool" className="space-y-3">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-xl sm:text-2xl">
+            <span className="gold-text italic">Gifts</span> — choose a tool
+          </h2>
+          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">3 ways to plan</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <GiftToolCard
+            icon={<Users className="h-5 w-5" />}
+            title="Gift Planner"
+            desc="Keep track of who you are buying for, what you plan to buy, what has been ordered, received and wrapped."
+            cta="You're here"
+            current
+            to="#gift-planner"
+          />
+          <GiftToolCard
+            icon={<Sparkles className="h-5 w-5" />}
+            title="Gift Finder"
+            desc="Find thoughtful and personalised gift ideas for different people, interests and budgets."
+            cta="Open Gift Finder"
+            to="/gift-finder"
+          />
+          <GiftToolCard
+            icon={<GiftIcon className="h-5 w-5" />}
+            title="Secret Santa"
+            desc="Find Secret Santa gift ideas by budget and save them to your Gift Planner."
+            cta="Open Secret Santa"
+            to="/gift-finder/secret-santa"
+          />
+        </div>
+      </section>
+
       {/* 1. Title + short explanation */}
-      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
+      <header id="gift-planner" className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
         <p className="relative text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
           Your Christmas list
