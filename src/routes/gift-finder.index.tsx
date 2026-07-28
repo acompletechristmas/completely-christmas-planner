@@ -25,31 +25,68 @@ const bits = [
 ];
 
 function GiftFinderPage() {
+  const gifts = [
+    {
+      to: "/planner/gifts",
+      eyebrow: "Live",
+      title: "Gift Planner",
+      desc: "Track who you're buying for, budgets and what's wrapped.",
+      cta: "Open Gift Planner",
+      icon: Gift,
+    },
+    {
+      to: "/gift-finder/secret-santa",
+      eyebrow: "Live",
+      title: "Secret Santa Gifts",
+      desc: "Find thoughtful, funny or unusual Secret Santa presents by budget.",
+      cta: "Find Secret Santa gifts",
+      icon: Snowflake,
+    },
+  ] as const;
+
   return (
     <PageShell
-      eyebrow="AI Gift Finder"
-      title={<><span className="block">The perfect gift,</span><span className="block gold-text">quietly conjured</span></>}
-      intro="Tell us about the person. We'll suggest gifts they'll actually love — and remember why you chose it."
+      eyebrow="Gifts"
+      title={<><span className="block">Everything gifts,</span><span className="block gold-text">in one place</span></>}
+      intro="Pick a tool below. Each one works on its own — no AI needed."
     >
-      <section className="mb-12 rounded-2xl border-2 border-[color:var(--gold)]/60 bg-[oklch(0.26_0.04_245_/_0.85)] p-6 backdrop-blur-sm sm:p-8">
-        <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Live now</p>
-        <h2 className="mt-2 font-display text-[26px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[32px]">
-          Secret Santa Gift Finder
-        </h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
-          Find a brilliant Secret Santa present for any budget.
-        </p>
-        <Link
-          to="/gift-finder/secret-santa"
-          className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110 sm:w-auto"
-          style={{ background: "var(--gradient-gold)" }}
-        >
-          <Snowflake className="h-4 w-4" /> Find a Secret Santa gift <ArrowRight className="h-4 w-4" />
-        </Link>
+      <section aria-labelledby="gifts-tools" className="mb-14">
+        <h2 id="gifts-tools" className="sr-only">Gift tools</h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {gifts.map((g) => (
+            <Link
+              key={g.to}
+              to={g.to}
+              className="group flex flex-col rounded-2xl border-2 border-[color:var(--gold)]/50 bg-[oklch(0.26_0.04_245_/_0.85)] p-6 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:brightness-110 sm:p-7"
+            >
+              <div className="flex items-center gap-2 text-[color:var(--gold-soft)]">
+                <g.icon className="h-4 w-4" />
+                <span className="text-[11px] font-medium uppercase tracking-[0.24em]">{g.eyebrow}</span>
+              </div>
+              <h3 className="mt-3 font-display text-[24px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[28px]">
+                {g.title}
+              </h3>
+              <p className="mt-2 flex-1 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
+                {g.desc}
+              </p>
+              <span
+                className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[color:var(--primary-foreground)] gold-glow transition group-hover:brightness-110"
+                style={{ background: "var(--gradient-gold)" }}
+              >
+                {g.cta} <ArrowRight className="h-4 w-4" />
+              </span>
+            </Link>
+          ))}
+        </div>
       </section>
 
-
+      <div className="mb-6 flex items-center justify-center gap-3">
+        <span className="h-px flex-1 max-w-[80px] bg-[color:var(--gold)]/30" />
+        <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">AI Gift Finder</span>
+        <span className="h-px flex-1 max-w-[80px] bg-[color:var(--gold)]/30" />
+      </div>
       <div className="mb-10 flex justify-center"><ComingSoonBadge /></div>
+
 
 
       <div className="mx-auto mb-12 max-w-xl rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 backdrop-blur-sm">
