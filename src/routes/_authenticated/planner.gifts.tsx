@@ -295,7 +295,9 @@ function BuyingForPage() {
             setOpenPersonId(null);
           }}
           addRow={addRow}
+          updateField={updateField}
           removeRow={removeRow}
+
         />
       )}
     </div>
