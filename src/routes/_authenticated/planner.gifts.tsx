@@ -222,6 +222,13 @@ function BuyingForPage() {
           <Plus className="h-5 w-5" /> Add person
         </button>
         <button
+          onClick={() => openAddGift("idea")}
+          disabled={people.length === 0}
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+        >
+          <Lightbulb className="h-5 w-5" /> Add gift idea
+        </button>
+        <button
           onClick={() => openAddGift("present")}
           disabled={people.length === 0}
           className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
@@ -233,12 +240,6 @@ function BuyingForPage() {
           className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
         >
           <Sparkles className="h-5 w-5" /> Find gift ideas
-        </Link>
-        <Link
-          to="/planner/outings"
-          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
-        >
-          <CalendarDays className="h-5 w-5" /> Find an event
         </Link>
       </div>
       {people.length === 0 && (
