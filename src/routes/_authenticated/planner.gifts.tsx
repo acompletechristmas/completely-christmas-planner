@@ -817,7 +817,14 @@ function IdeaRow({
   };
 
   return (
-    <li className="rounded-xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-3">
+    <li
+      className="rounded-xl border p-3"
+      style={{
+        background: "oklch(0.99 0.01 88 / 0.95)",
+        borderColor: "oklch(0.65 0.11 70 / 0.5)",
+        color: "oklch(0.20 0.03 245)",
+      }}
+    >
       {editing ? (
         <div className="space-y-2">
           <input
@@ -860,40 +867,61 @@ function IdeaRow({
       ) : (
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="truncate font-medium text-foreground">{gift.item}</p>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
+            <p className="truncate text-sm font-bold" style={{ color: "oklch(0.18 0.03 245)" }}>
+              {gift.item}
+            </p>
+            <p className="mt-0.5 text-[11px]" style={{ color: "oklch(0.35 0.03 60)" }}>
               {gift.price != null ? `≈ £${Number(gift.price).toFixed(0)}` : "No price yet"}
               {gift.shop ? ` · ${gift.shop}` : ""}
             </p>
             {gift.notes && (
-              <p className="mt-1 line-clamp-2 text-[12px] text-[color:var(--cream)]/80">{gift.notes}</p>
+              <p className="mt-1 line-clamp-2 text-[12px]" style={{ color: "oklch(0.30 0.02 60)" }}>
+                {gift.notes}
+              </p>
             )}
             {gift.url && (
               <a
                 href={gift.url.startsWith("http") ? gift.url : `https://${gift.url}`}
                 target="_blank"
                 rel="noopener noreferrer nofollow"
-                className="mt-1 inline-flex items-center gap-1 text-[11px] text-[color:var(--gold-soft)] hover:underline"
+                className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium hover:underline"
+                style={{ color: "oklch(0.40 0.14 65)" }}
               >
                 <ExternalLink className="h-3 w-3" /> Open link
               </a>
             )}
           </div>
-          <div className="flex shrink-0 flex-col gap-1.5">
+          <div className="flex shrink-0 flex-col items-end gap-1.5">
             <button
               onClick={onChoose}
-              className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
+              className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-bold text-[color:var(--forest-deep)] shadow-sm transition hover:brightness-110"
               style={{ background: "var(--gradient-gold)" }}
             >
               Choose this present
             </button>
             <div className="flex justify-end gap-1">
-              <IconBtn onClick={() => setEditing(true)} label="Edit">
+              <button
+                onClick={() => setEditing(true)}
+                aria-label="Edit"
+                className="rounded-full border p-1.5 text-[11px] transition hover:bg-black/5"
+                style={{
+                  borderColor: "oklch(0.55 0.08 60 / 0.4)",
+                  color: "oklch(0.35 0.04 60)",
+                }}
+              >
                 <Pencil className="h-3 w-3" />
-              </IconBtn>
-              <IconBtn onClick={handleDelete} label="Delete" danger>
+              </button>
+              <button
+                onClick={handleDelete}
+                aria-label="Delete"
+                className="rounded-full border p-1.5 text-[11px] transition hover:bg-black/5"
+                style={{
+                  borderColor: "oklch(0.55 0.14 25 / 0.5)",
+                  color: "oklch(0.42 0.14 25)",
+                }}
+              >
                 <Trash2 className="h-3 w-3" />
-              </IconBtn>
+              </button>
             </div>
           </div>
         </div>
