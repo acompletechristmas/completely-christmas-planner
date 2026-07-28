@@ -1383,32 +1383,38 @@ function QuickGiftForm({
   const [item, setItem] = useState("");
   const [price, setPrice] = useState<string>("");
   const [shop, setShop] = useState("");
-  const [status, setStatus] = useState<GiftStatus>("idea");
+  const [url, setUrl] = useState("");
+  const [status, setStatus] = useState<UiStatus>("idea");
   const [saving, setSaving] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (saving) return;
     if (!personId) {
       toast.error("Pick a person first");
       return;
     }
     if (!item.trim()) {
-      toast.error("Give the gift a name or note ✨");
+      toast.error("Give the gift a name ✨");
       return;
     }
     const person = people.find((p) => p.id === personId);
     setSaving(true);
-    await onSave({
-      recipient: person?.name ?? "",
-      person_id: personId,
-      item: item.trim(),
-      shop: shop.trim() || null,
-      price: price === "" ? null : Number(price),
-      status,
-      year: CURRENT_YEAR,
-    } as Partial<GiftRow>);
-    setSaving(false);
-    toast.success("Gift added ✨");
+    try {
+      await onSave({
+        recipient: person?.name ?? "",
+        person_id: personId,
+        item: item.trim(),
+        shop: shop.trim() || null,
+        url: url.trim() || null,
+        price: price === "" ? null : Number(price),
+        year: CURRENT_YEAR,
+        ...statusFieldChanges(status),
+      } as Partial<GiftRow>);
+      toast.success("Gift added ✨");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const lockedPerson = lockedPersonId ? people.find((p) => p.id === lockedPersonId) : null;
