@@ -29,8 +29,8 @@ function GiftFinderPage() {
     {
       to: "/planner/gifts",
       eyebrow: "Live",
-      title: "Gift Planner",
-      desc: "Track who you're buying for, budgets and what's wrapped.",
+      title: "My Gift Planner",
+      desc: "Keep track of who you're buying for, gift ideas, spending and wrapping.",
       cta: "Open Gift Planner",
       icon: Gift,
     },
@@ -38,9 +38,17 @@ function GiftFinderPage() {
       to: "/gift-finder/secret-santa",
       eyebrow: "Live",
       title: "Secret Santa Gifts",
-      desc: "Find thoughtful, funny or unusual Secret Santa presents by budget.",
+      desc: "Find funny, thoughtful or unusual Secret Santa gifts by budget.",
       cta: "Find Secret Santa gifts",
       icon: Snowflake,
+    },
+    {
+      to: "#ai-gift-finder",
+      eyebrow: "Coming soon",
+      title: "Gift Finder",
+      desc: "Find thoughtful gifts based on the person, their interests and your budget.",
+      cta: "Preview Gift Finder",
+      icon: Search,
     },
   ] as const;
 
