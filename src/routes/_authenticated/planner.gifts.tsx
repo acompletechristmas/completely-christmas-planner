@@ -1256,14 +1256,16 @@ function AiIdeasPanel({
 
 function QuickGiftForm({
   people,
+  lockedPersonId,
   onClose,
   onSave,
 }: {
   people: PersonExtras[];
+  lockedPersonId?: string | null;
   onClose: () => void;
   onSave: (fields: Partial<GiftRow>) => Promise<void> | void;
 }) {
-  const [personId, setPersonId] = useState<string>(people[0]?.id ?? "");
+  const [personId, setPersonId] = useState<string>(lockedPersonId ?? people[0]?.id ?? "");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState<string>("");
   const [shop, setShop] = useState("");
@@ -1274,6 +1276,10 @@ function QuickGiftForm({
     e.preventDefault();
     if (!personId) {
       toast.error("Pick a person first");
+      return;
+    }
+    if (!item.trim()) {
+      toast.error("Give the gift a name or note ✨");
       return;
     }
     const person = people.find((p) => p.id === personId);
@@ -1290,6 +1296,9 @@ function QuickGiftForm({
     setSaving(false);
     toast.success("Gift added ✨");
   };
+
+  const lockedPerson = lockedPersonId ? people.find((p) => p.id === lockedPersonId) : null;
+
 
   return (
     <Modal
