@@ -244,7 +244,11 @@ function BuyingForPage() {
           submitLabel="Add person"
           userId={user.id}
           onClose={() => setAddOpen(false)}
-          onSaved={() => setAddOpen(false)}
+          onSaved={(row) => {
+            if (row) upsertLocal(row);
+            void refetchPeople();
+            setAddOpen(false);
+          }}
         />
       )}
       {editPerson && (
@@ -254,16 +258,25 @@ function BuyingForPage() {
           userId={editPerson.user_id}
           initial={editPerson}
           onClose={() => setEditPersonId(null)}
-          onSaved={() => setEditPersonId(null)}
+          onSaved={(row) => {
+            if (row) upsertLocal(row);
+            void refetchPeople();
+            setEditPersonId(null);
+          }}
         />
       )}
       {addGiftOpen && user && (
         <QuickGiftForm
           people={people as PersonExtras[]}
-          onClose={() => setAddGiftOpen(false)}
+          lockedPersonId={lockedGiftPersonId}
+          onClose={() => {
+            setAddGiftOpen(false);
+            setLockedGiftPersonId(null);
+          }}
           onSave={async (fields) => {
             await addRow(fields);
             setAddGiftOpen(false);
+            setLockedGiftPersonId(null);
           }}
         />
       )}
@@ -276,7 +289,11 @@ function BuyingForPage() {
             setEditPersonId(openPerson.id);
             setOpenPersonId(null);
           }}
-          addRow={addRow}
+          onAddGift={() => {
+            setLockedGiftPersonId(openPerson.id);
+            setAddGiftOpen(true);
+            setOpenPersonId(null);
+          }}
           updateField={updateField}
           removeRow={removeRow}
         />
@@ -284,6 +301,7 @@ function BuyingForPage() {
     </div>
   );
 }
+
 
 function SummaryStat({ value, label }: { value: number | string; label: string }) {
   return (
