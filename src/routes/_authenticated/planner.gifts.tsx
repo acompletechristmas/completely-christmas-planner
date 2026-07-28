@@ -992,6 +992,32 @@ function SummaryLine({ label, value }: { label: string; value: string }) {
 
 /* ---------------------- Gift editor row ---------------------- */
 
+const UI_STATUSES = ["idea", "ordered", "received", "wrapped", "given"] as const;
+type UiStatus = (typeof UI_STATUSES)[number];
+
+function computeUiStatus(g: GiftRow): UiStatus {
+  if (g.status === "given") return "given";
+  if (g.wrapped || g.status === "wrapped") return "wrapped";
+  if (g.arrived) return "received";
+  if (g.ordered || g.status === "bought") return "ordered";
+  return "idea";
+}
+
+function statusFieldChanges(s: UiStatus): Partial<GiftRow> {
+  switch (s) {
+    case "idea":
+      return { status: "idea", ordered: false, arrived: false, wrapped: false };
+    case "ordered":
+      return { status: "bought", ordered: true, arrived: false, wrapped: false };
+    case "received":
+      return { status: "bought", ordered: true, arrived: true, wrapped: false };
+    case "wrapped":
+      return { status: "wrapped", ordered: true, arrived: true, wrapped: true };
+    case "given":
+      return { status: "given", ordered: true, arrived: true, wrapped: true };
+  }
+}
+
 function GiftEditor({
   gift,
   onUpdate,
@@ -1001,22 +1027,72 @@ function GiftEditor({
   onUpdate: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   onRemove: (id: string) => void;
 }) {
+  const [item, setItem] = useState(gift.item ?? "");
+  useEffect(() => {
+    setItem(gift.item ?? "");
+  }, [gift.item]);
+
+  const currentStatus = computeUiStatus(gift);
+
+  const applyStatus = (s: UiStatus) => {
+    const changes = statusFieldChanges(s);
+    (Object.keys(changes) as (keyof GiftRow)[]).forEach((k) => {
+      onUpdate(gift.id, k, changes[k] as GiftRow[typeof k]);
+    });
+  };
+
+  const commitItem = () => {
+    const trimmed = item.trim();
+    if (trimmed.length === 0) {
+      toast.error("Give the gift a name ✨");
+      setItem(gift.item ?? "");
+      return;
+    }
+    if (trimmed !== (gift.item ?? "")) onUpdate(gift.id, "item", trimmed);
+  };
+
+  const handleDelete = () => {
+    if (confirm(`Remove "${gift.item || "this gift"}"? This cannot be undone.`)) {
+      onRemove(gift.id);
+    }
+  };
+
   return (
     <li className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-4">
       <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
         <input
-          value={gift.item ?? ""}
-          onChange={(e) => onUpdate(gift.id, "item", e.target.value)}
-          placeholder="Gift idea"
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+          onBlur={commitItem}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              (e.target as HTMLInputElement).blur();
+            }
+          }}
+          placeholder="Gift name (required)"
           className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
         />
-        <button
-          onClick={() => onRemove(gift.id)}
-          className="justify-self-end rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
-          aria-label="Delete gift"
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </button>
+        <div className="flex items-center gap-2 justify-self-end">
+          {gift.url && (
+            <a
+              href={gift.url.startsWith("http") ? gift.url : `https://${gift.url}`}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--gold)]/60 hover:text-[color:var(--gold-soft)]"
+              aria-label="Open product link"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          )}
+          <button
+            onClick={handleDelete}
+            className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
+            aria-label="Delete gift"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -1029,7 +1105,7 @@ function GiftEditor({
         <input
           value={gift.url ?? ""}
           onChange={(e) => onUpdate(gift.id, "url", e.target.value || null)}
-          placeholder="Link (optional)"
+          placeholder="Product link (optional)"
           className={inputCls}
         />
         <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
@@ -1047,41 +1123,32 @@ function GiftEditor({
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        <StatusChip
-          active={gift.status === "bought" || gift.status === "wrapped" || gift.status === "given"}
-          onClick={() =>
-            onUpdate(
-              gift.id,
-              "status",
-              gift.status === "idea" ? "bought" : gift.status === "bought" ? "idea" : gift.status,
-            )
-          }
-          icon={<ShoppingBag className="h-3.5 w-3.5" />}
-          label="Bought"
-        />
-        <StatusChip
-          active={gift.ordered}
-          onClick={() => onUpdate(gift.id, "ordered", !gift.ordered)}
-          icon={<CheckCircle2 className="h-3.5 w-3.5" />}
-          label="Ordered"
-        />
-        <StatusChip
-          active={gift.arrived}
-          onClick={() => onUpdate(gift.id, "arrived", !gift.arrived)}
-          icon={<Truck className="h-3.5 w-3.5" />}
-          label="Arrived"
-        />
-        <StatusChip
-          active={gift.wrapped}
-          onClick={() => {
-            const next = !gift.wrapped;
-            onUpdate(gift.id, "wrapped", next);
-            if (next && gift.status === "bought") onUpdate(gift.id, "status", "wrapped");
-          }}
-          icon={<Package className="h-3.5 w-3.5" />}
-          label="Wrapped"
-        />
+      {/* 5-status segmented control */}
+      <div className="mt-3">
+        <p className="mb-1.5 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
+          Status
+        </p>
+        <div className="grid grid-cols-5 gap-1.5">
+          {UI_STATUSES.map((s) => {
+            const active = currentStatus === s;
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => applyStatus(s)}
+                aria-pressed={active}
+                className={
+                  "min-h-[40px] rounded-xl border px-1.5 py-1 text-[11px] capitalize transition " +
+                  (active
+                    ? "border-[color:var(--pine-bright)]/70 bg-[color:var(--pine-bright)]/15 text-[color:var(--pine-bright)] font-semibold"
+                    : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
+                }
+              >
+                {s}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -1105,32 +1172,6 @@ function GiftEditor({
   );
 }
 
-function StatusChip({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition " +
-        (active
-          ? "border-[color:var(--pine-bright)]/70 bg-[color:var(--pine-bright)]/15 text-[color:var(--pine-bright)]"
-          : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
-      }
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
 
 /* ---------------------- Reusable modal ---------------------- */
 
