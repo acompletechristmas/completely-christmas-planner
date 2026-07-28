@@ -530,7 +530,7 @@ function RecipientCard({
 
   const planned = presents.reduce((s, g) => s + (Number(g.price) || 0), 0);
   const spent = presents.filter((g) => g.ordered).reduce((s, g) => s + (Number(g.price) || 0), 0);
-  void budget; // used below via budget references
+  
 
   const boughtCount = presents.filter((g) => g.ordered).length;
   const receivedCount = presents.filter((g) => g.arrived).length;
