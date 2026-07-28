@@ -20,6 +20,7 @@ import { Route as FoodRouteImport } from './routes/food'
 import { Route as EntertainmentRouteImport } from './routes/entertainment'
 import { Route as DaysOutRouteImport } from './routes/days-out'
 import { Route as ComingSoonRouteImport } from './routes/coming-soon'
+import { Route as BuildRouteImport } from './routes/build'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -99,6 +100,11 @@ const DaysOutRoute = DaysOutRouteImport.update({
 const ComingSoonRoute = ComingSoonRouteImport.update({
   id: '/coming-soon',
   path: '/coming-soon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuildRoute = BuildRouteImport.update({
+  id: '/build',
+  path: '/build',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/build': typeof BuildRoute
   '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/build': typeof BuildRoute
   '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
@@ -319,6 +327,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/build': typeof BuildRoute
   '/coming-soon': typeof ComingSoonRoute
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
@@ -358,6 +367,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistant'
     | '/auth'
+    | '/build'
     | '/coming-soon'
     | '/days-out'
     | '/entertainment'
@@ -395,6 +405,7 @@ export interface FileRouteTypes {
     | '/'
     | '/assistant'
     | '/auth'
+    | '/build'
     | '/coming-soon'
     | '/days-out'
     | '/entertainment'
@@ -431,6 +442,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/assistant'
     | '/auth'
+    | '/build'
     | '/coming-soon'
     | '/days-out'
     | '/entertainment'
@@ -470,6 +482,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
+  BuildRoute: typeof BuildRoute
   ComingSoonRoute: typeof ComingSoonRoute
   DaysOutRoute: typeof DaysOutRoute
   EntertainmentRoute: typeof EntertainmentRoute
@@ -567,6 +580,13 @@ declare module '@tanstack/react-router' {
       path: '/coming-soon'
       fullPath: '/coming-soon'
       preLoaderRoute: typeof ComingSoonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/build': {
+      id: '/build'
+      path: '/build'
+      fullPath: '/build'
+      preLoaderRoute: typeof BuildRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -811,6 +831,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
+  BuildRoute: BuildRoute,
   ComingSoonRoute: ComingSoonRoute,
   DaysOutRoute: DaysOutRoute,
   EntertainmentRoute: EntertainmentRoute,
