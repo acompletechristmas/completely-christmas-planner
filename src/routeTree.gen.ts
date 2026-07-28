@@ -28,6 +28,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
 import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
+import { Route as GiftFinderSecretSantaRouteImport } from './routes/gift-finder.secret-santa'
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
@@ -140,6 +141,11 @@ const TeachersCategoryRoute = TeachersCategoryRouteImport.update({
   id: '/teachers/$category',
   path: '/teachers/$category',
   getParentRoute: () => rootRouteImport,
+} as any)
+const GiftFinderSecretSantaRoute = GiftFinderSecretSantaRouteImport.update({
+  id: '/secret-santa',
+  path: '/secret-santa',
+  getParentRoute: () => GiftFinderRoute,
 } as any)
 const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
   id: '/planner',
@@ -256,7 +262,7 @@ export interface FileRoutesByFullPath {
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
-  '/gift-finder': typeof GiftFinderRoute
+  '/gift-finder': typeof GiftFinderRouteWithChildren
   '/inspire': typeof InspireRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
@@ -266,6 +272,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
@@ -294,7 +301,7 @@ export interface FileRoutesByTo {
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
-  '/gift-finder': typeof GiftFinderRoute
+  '/gift-finder': typeof GiftFinderRouteWithChildren
   '/inspire': typeof InspireRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
@@ -303,6 +310,7 @@ export interface FileRoutesByTo {
   '/vip': typeof VipRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers': typeof TeachersIndexRoute
@@ -332,7 +340,7 @@ export interface FileRoutesById {
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
-  '/gift-finder': typeof GiftFinderRoute
+  '/gift-finder': typeof GiftFinderRouteWithChildren
   '/inspire': typeof InspireRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
@@ -342,6 +350,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/planner': typeof AuthenticatedPlannerRouteWithChildren
+  '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/teachers/': typeof TeachersIndexRoute
@@ -382,6 +391,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/planner'
+    | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers/'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/vip'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers'
@@ -457,6 +468,7 @@ export interface FileRouteTypes {
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/_authenticated/planner'
+    | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
     | '/teachers/'
@@ -487,7 +499,7 @@ export interface RootRouteChildren {
   DaysOutRoute: typeof DaysOutRoute
   EntertainmentRoute: typeof EntertainmentRoute
   FoodRoute: typeof FoodRoute
-  GiftFinderRoute: typeof GiftFinderRoute
+  GiftFinderRoute: typeof GiftFinderRouteWithChildren
   InspireRoute: typeof InspireRoute
   McpRoute: typeof McpRoute
   PartnersRoute: typeof PartnersRoute
@@ -637,6 +649,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teachers/$category'
       preLoaderRoute: typeof TeachersCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/gift-finder/secret-santa': {
+      id: '/gift-finder/secret-santa'
+      path: '/secret-santa'
+      fullPath: '/gift-finder/secret-santa'
+      preLoaderRoute: typeof GiftFinderSecretSantaRouteImport
+      parentRoute: typeof GiftFinderRoute
     }
     '/_authenticated/planner': {
       id: '/_authenticated/planner'
@@ -826,6 +845,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface GiftFinderRouteChildren {
+  GiftFinderSecretSantaRoute: typeof GiftFinderSecretSantaRoute
+}
+
+const GiftFinderRouteChildren: GiftFinderRouteChildren = {
+  GiftFinderSecretSantaRoute: GiftFinderSecretSantaRoute,
+}
+
+const GiftFinderRouteWithChildren = GiftFinderRoute._addFileChildren(
+  GiftFinderRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -836,7 +867,7 @@ const rootRouteChildren: RootRouteChildren = {
   DaysOutRoute: DaysOutRoute,
   EntertainmentRoute: EntertainmentRoute,
   FoodRoute: FoodRoute,
-  GiftFinderRoute: GiftFinderRoute,
+  GiftFinderRoute: GiftFinderRouteWithChildren,
   InspireRoute: InspireRoute,
   McpRoute: McpRoute,
   PartnersRoute: PartnersRoute,
