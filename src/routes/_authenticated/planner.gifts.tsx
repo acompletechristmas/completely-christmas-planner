@@ -942,10 +942,12 @@ const PROGRESS: { key: "ordered" | "arrived" | "wrapped" | "sent" | "given"; lab
 
 function PresentEditor({
   gift,
+  zebra,
   onUpdate,
   onRemove,
 }: {
   gift: GiftRow;
+  zebra?: boolean;
   onUpdate: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   onRemove: (id: string) => void;
 }) {
@@ -978,7 +980,15 @@ function PresentEditor({
   };
 
   return (
-    <li className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-4">
+    <li
+      className="rounded-2xl border p-4"
+      style={{
+        background: zebra
+          ? "oklch(0.22 0.06 155 / 0.65)"
+          : "oklch(0.16 0.05 155 / 0.75)",
+        borderColor: "oklch(0.55 0.14 155 / 0.35)",
+      }}
+    >
       <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <input
           value={item}
