@@ -15,6 +15,7 @@ const STARTERS: { label: string; q: string }[] = [
 
 export function HelpButton() {
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -25,28 +26,43 @@ export function HelpButton() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Hide the floating help button whenever another modal locks body scroll,
+  // so it can never cover a form field or action button.
+  useEffect(() => {
+    const check = () => setModalOpen(document.body.style.overflow === "hidden");
+    check();
+    const obs = new MutationObserver(check);
+    obs.observe(document.body, { attributes: true, attributeFilter: ["style"] });
+    return () => obs.disconnect();
+  }, []);
+
   const go = (q: string) => {
     setOpen(false);
     navigate({ to: "/assistant", search: { q } as never });
   };
 
+
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="How can I help you?"
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-[13px] font-medium text-[color:var(--midnight-deep)] shadow-2xl transition hover:brightness-110 sm:bottom-6 sm:right-6"
-        style={{
-          background: "linear-gradient(180deg, oklch(0.90 0.12 85), oklch(0.72 0.13 78))",
-          border: "1px solid oklch(0.86 0.11 85 / 0.7)",
-          boxShadow: "0 12px 40px -12px oklch(0.82 0.14 85 / 0.6)",
-        }}
-      >
-        <Sparkles className="h-4 w-4" />
-        <span className="hidden sm:inline">How can I help you?</span>
-        <span className="sm:hidden">Help</span>
-      </button>
+      {!modalOpen && (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="How can I help you?"
+          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-[13px] font-medium text-[color:var(--midnight-deep)] shadow-2xl transition hover:brightness-110 sm:bottom-6 sm:right-6"
+          style={{
+            background: "linear-gradient(180deg, oklch(0.90 0.12 85), oklch(0.72 0.13 78))",
+            border: "1px solid oklch(0.86 0.11 85 / 0.7)",
+            boxShadow: "0 12px 40px -12px oklch(0.82 0.14 85 / 0.6)",
+          }}
+        >
+          <Sparkles className="h-4 w-4" />
+          <span className="hidden sm:inline">How can I help you?</span>
+          <span className="sm:hidden">Help</span>
+        </button>
+      )}
+
+
 
       {open ? (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center" role="dialog" aria-modal="true">
