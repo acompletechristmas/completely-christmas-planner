@@ -1501,17 +1501,25 @@ function QuickGiftForm({
             </div>
           </Field>
         </div>
+        <Field label="Product link (optional)">
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://…"
+            className={inputCls}
+          />
+        </Field>
         <Field label="Status">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {(["idea", "bought", "wrapped", "given"] as GiftStatus[]).map((s) => (
+          <div className="grid grid-cols-5 gap-1.5">
+            {UI_STATUSES.map((s) => (
               <button
                 type="button"
                 key={s}
                 onClick={() => setStatus(s)}
                 className={
-                  "min-h-[44px] rounded-xl border px-3 py-2 text-xs capitalize transition " +
+                  "min-h-[44px] rounded-xl border px-1.5 py-2 text-[11px] capitalize transition " +
                   (status === s
-                    ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)]"
+                    ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)] font-semibold"
                     : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/50")
                 }
               >
