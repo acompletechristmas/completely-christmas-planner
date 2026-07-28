@@ -96,18 +96,23 @@ function BuyingForPage() {
 
   const loading = peopleLoading || giftsLoading;
 
+  const namedGifts = useMemo(
+    () => gifts.filter((g) => (g.item ?? "").trim().length > 0),
+    [gifts],
+  );
+
   const giftsByPerson = useMemo(() => {
     const map = new Map<string, GiftRow[]>();
-    for (const g of gifts) {
+    for (const g of namedGifts) {
       if (!g.person_id) continue;
       const arr = map.get(g.person_id) ?? [];
       arr.push(g);
       map.set(g.person_id, arr);
     }
     return map;
-  }, [gifts]);
+  }, [namedGifts]);
 
-  const thisYearGifts = useMemo(() => gifts.filter((g) => g.year === CURRENT_YEAR), [gifts]);
+  const thisYearGifts = useMemo(() => namedGifts.filter((g) => g.year === CURRENT_YEAR), [namedGifts]);
   const ideaCount = thisYearGifts.length;
   const boughtCount = thisYearGifts.filter(
     (g) => g.status === "bought" || g.status === "wrapped" || g.status === "given",
@@ -134,41 +139,7 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
-      {/* 0. Choose a gift tool — main selection */}
-      <section aria-label="Choose a gift tool" className="space-y-3">
-        <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-xl sm:text-2xl">
-            <span className="gold-text italic">Gifts</span> — choose a tool
-          </h2>
-          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">3 ways to plan</p>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <GiftToolCard
-            icon={<Users className="h-5 w-5" />}
-            title="Gift Planner"
-            desc="Keep track of who you are buying for, what you plan to buy, what has been ordered, received and wrapped."
-            cta="You're here"
-            current
-            to="#gift-planner"
-          />
-          <GiftToolCard
-            icon={<Sparkles className="h-5 w-5" />}
-            title="Gift Finder"
-            desc="Find thoughtful and personalised gift ideas for different people, interests and budgets."
-            cta="Open Gift Finder"
-            to="/gift-finder"
-          />
-          <GiftToolCard
-            icon={<GiftIcon className="h-5 w-5" />}
-            title="Secret Santa"
-            desc="Find Secret Santa gift ideas by budget and save them to your Gift Planner."
-            cta="Open Secret Santa"
-            to="/gift-finder/secret-santa"
-          />
-        </div>
-      </section>
-
-      {/* 1. Title + short explanation */}
+      {/* 1. Title */}
       <header id="gift-planner" className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
         <p className="relative text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
@@ -182,11 +153,11 @@ function BuyingForPage() {
         </p>
       </header>
 
-      {/* 2 & 3. Primary actions — full-width, stacked on mobile */}
-      <div className="grid gap-3 sm:grid-cols-2">
+      {/* 2. Primary actions — 4 buttons at the top */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         <button
           onClick={() => setAddOpen(true)}
-          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-base font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
           style={{ background: "var(--gradient-gold)" }}
         >
           <Plus className="h-5 w-5" /> Add a person
@@ -194,10 +165,22 @@ function BuyingForPage() {
         <button
           onClick={() => setAddGiftOpen(true)}
           disabled={people.length === 0}
-          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-5 py-3 text-base font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
         >
           <GiftIcon className="h-5 w-5" /> Add a gift
         </button>
+        <Link
+          to="/gift-finder"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
+        >
+          <Sparkles className="h-5 w-5" /> Gift Finder
+        </Link>
+        <Link
+          to="/gift-finder/secret-santa"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
+        >
+          <GiftIcon className="h-5 w-5" /> Secret Santa
+        </Link>
       </div>
       {people.length === 0 && (
         <p className="-mt-2 text-center text-xs text-muted-foreground">
@@ -1009,6 +992,32 @@ function SummaryLine({ label, value }: { label: string; value: string }) {
 
 /* ---------------------- Gift editor row ---------------------- */
 
+const UI_STATUSES = ["idea", "ordered", "received", "wrapped", "given"] as const;
+type UiStatus = (typeof UI_STATUSES)[number];
+
+function computeUiStatus(g: GiftRow): UiStatus {
+  if (g.status === "given") return "given";
+  if (g.wrapped || g.status === "wrapped") return "wrapped";
+  if (g.arrived) return "received";
+  if (g.ordered || g.status === "bought") return "ordered";
+  return "idea";
+}
+
+function statusFieldChanges(s: UiStatus): Partial<GiftRow> {
+  switch (s) {
+    case "idea":
+      return { status: "idea", ordered: false, arrived: false, wrapped: false };
+    case "ordered":
+      return { status: "bought", ordered: true, arrived: false, wrapped: false };
+    case "received":
+      return { status: "bought", ordered: true, arrived: true, wrapped: false };
+    case "wrapped":
+      return { status: "wrapped", ordered: true, arrived: true, wrapped: true };
+    case "given":
+      return { status: "given", ordered: true, arrived: true, wrapped: true };
+  }
+}
+
 function GiftEditor({
   gift,
   onUpdate,
@@ -1018,22 +1027,72 @@ function GiftEditor({
   onUpdate: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   onRemove: (id: string) => void;
 }) {
+  const [item, setItem] = useState(gift.item ?? "");
+  useEffect(() => {
+    setItem(gift.item ?? "");
+  }, [gift.item]);
+
+  const currentStatus = computeUiStatus(gift);
+
+  const applyStatus = (s: UiStatus) => {
+    const changes = statusFieldChanges(s);
+    (Object.keys(changes) as (keyof GiftRow)[]).forEach((k) => {
+      onUpdate(gift.id, k, changes[k] as GiftRow[typeof k]);
+    });
+  };
+
+  const commitItem = () => {
+    const trimmed = item.trim();
+    if (trimmed.length === 0) {
+      toast.error("Give the gift a name ✨");
+      setItem(gift.item ?? "");
+      return;
+    }
+    if (trimmed !== (gift.item ?? "")) onUpdate(gift.id, "item", trimmed);
+  };
+
+  const handleDelete = () => {
+    if (confirm(`Remove "${gift.item || "this gift"}"? This cannot be undone.`)) {
+      onRemove(gift.id);
+    }
+  };
+
   return (
     <li className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-4">
       <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
         <input
-          value={gift.item ?? ""}
-          onChange={(e) => onUpdate(gift.id, "item", e.target.value)}
-          placeholder="Gift idea"
+          value={item}
+          onChange={(e) => setItem(e.target.value)}
+          onBlur={commitItem}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              (e.target as HTMLInputElement).blur();
+            }
+          }}
+          placeholder="Gift name (required)"
           className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
         />
-        <button
-          onClick={() => onRemove(gift.id)}
-          className="justify-self-end rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
-          aria-label="Delete gift"
-        >
-          <Trash2 className="h-3.5 w-3.5" />
-        </button>
+        <div className="flex items-center gap-2 justify-self-end">
+          {gift.url && (
+            <a
+              href={gift.url.startsWith("http") ? gift.url : `https://${gift.url}`}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--gold)]/60 hover:text-[color:var(--gold-soft)]"
+              aria-label="Open product link"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          )}
+          <button
+            onClick={handleDelete}
+            className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
+            aria-label="Delete gift"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -1046,7 +1105,7 @@ function GiftEditor({
         <input
           value={gift.url ?? ""}
           onChange={(e) => onUpdate(gift.id, "url", e.target.value || null)}
-          placeholder="Link (optional)"
+          placeholder="Product link (optional)"
           className={inputCls}
         />
         <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
@@ -1064,41 +1123,32 @@ function GiftEditor({
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2">
-        <StatusChip
-          active={gift.status === "bought" || gift.status === "wrapped" || gift.status === "given"}
-          onClick={() =>
-            onUpdate(
-              gift.id,
-              "status",
-              gift.status === "idea" ? "bought" : gift.status === "bought" ? "idea" : gift.status,
-            )
-          }
-          icon={<ShoppingBag className="h-3.5 w-3.5" />}
-          label="Bought"
-        />
-        <StatusChip
-          active={gift.ordered}
-          onClick={() => onUpdate(gift.id, "ordered", !gift.ordered)}
-          icon={<CheckCircle2 className="h-3.5 w-3.5" />}
-          label="Ordered"
-        />
-        <StatusChip
-          active={gift.arrived}
-          onClick={() => onUpdate(gift.id, "arrived", !gift.arrived)}
-          icon={<Truck className="h-3.5 w-3.5" />}
-          label="Arrived"
-        />
-        <StatusChip
-          active={gift.wrapped}
-          onClick={() => {
-            const next = !gift.wrapped;
-            onUpdate(gift.id, "wrapped", next);
-            if (next && gift.status === "bought") onUpdate(gift.id, "status", "wrapped");
-          }}
-          icon={<Package className="h-3.5 w-3.5" />}
-          label="Wrapped"
-        />
+      {/* 5-status segmented control */}
+      <div className="mt-3">
+        <p className="mb-1.5 text-[10px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
+          Status
+        </p>
+        <div className="grid grid-cols-5 gap-1.5">
+          {UI_STATUSES.map((s) => {
+            const active = currentStatus === s;
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => applyStatus(s)}
+                aria-pressed={active}
+                className={
+                  "min-h-[40px] rounded-xl border px-1.5 py-1 text-[11px] capitalize transition " +
+                  (active
+                    ? "border-[color:var(--pine-bright)]/70 bg-[color:var(--pine-bright)]/15 text-[color:var(--pine-bright)] font-semibold"
+                    : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
+                }
+              >
+                {s}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -1122,32 +1172,6 @@ function GiftEditor({
   );
 }
 
-function StatusChip({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition " +
-        (active
-          ? "border-[color:var(--pine-bright)]/70 bg-[color:var(--pine-bright)]/15 text-[color:var(--pine-bright)]"
-          : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
-      }
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
 
 /* ---------------------- Reusable modal ---------------------- */
 
@@ -1359,32 +1383,38 @@ function QuickGiftForm({
   const [item, setItem] = useState("");
   const [price, setPrice] = useState<string>("");
   const [shop, setShop] = useState("");
-  const [status, setStatus] = useState<GiftStatus>("idea");
+  const [url, setUrl] = useState("");
+  const [status, setStatus] = useState<UiStatus>("idea");
   const [saving, setSaving] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (saving) return;
     if (!personId) {
       toast.error("Pick a person first");
       return;
     }
     if (!item.trim()) {
-      toast.error("Give the gift a name or note ✨");
+      toast.error("Give the gift a name ✨");
       return;
     }
     const person = people.find((p) => p.id === personId);
     setSaving(true);
-    await onSave({
-      recipient: person?.name ?? "",
-      person_id: personId,
-      item: item.trim(),
-      shop: shop.trim() || null,
-      price: price === "" ? null : Number(price),
-      status,
-      year: CURRENT_YEAR,
-    } as Partial<GiftRow>);
-    setSaving(false);
-    toast.success("Gift added ✨");
+    try {
+      await onSave({
+        recipient: person?.name ?? "",
+        person_id: personId,
+        item: item.trim(),
+        shop: shop.trim() || null,
+        url: url.trim() || null,
+        price: price === "" ? null : Number(price),
+        year: CURRENT_YEAR,
+        ...statusFieldChanges(status),
+      } as Partial<GiftRow>);
+      toast.success("Gift added ✨");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const lockedPerson = lockedPersonId ? people.find((p) => p.id === lockedPersonId) : null;
@@ -1471,17 +1501,25 @@ function QuickGiftForm({
             </div>
           </Field>
         </div>
+        <Field label="Product link (optional)">
+          <input
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://…"
+            className={inputCls}
+          />
+        </Field>
         <Field label="Status">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {(["idea", "bought", "wrapped", "given"] as GiftStatus[]).map((s) => (
+          <div className="grid grid-cols-5 gap-1.5">
+            {UI_STATUSES.map((s) => (
               <button
                 type="button"
                 key={s}
                 onClick={() => setStatus(s)}
                 className={
-                  "min-h-[44px] rounded-xl border px-3 py-2 text-xs capitalize transition " +
+                  "min-h-[44px] rounded-xl border px-1.5 py-2 text-[11px] capitalize transition " +
                   (status === s
-                    ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)]"
+                    ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)] font-semibold"
                     : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/50")
                 }
               >
