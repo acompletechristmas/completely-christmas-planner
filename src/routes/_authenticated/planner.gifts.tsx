@@ -348,6 +348,62 @@ function SummaryStat({ value, label }: { value: number | string; label: string }
   );
 }
 
+function GiftToolCard({
+  icon,
+  title,
+  desc,
+  cta,
+  to,
+  current,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  cta: string;
+  to: string;
+  current?: boolean;
+}) {
+  const isExternal = to.startsWith("#");
+  const className = `group flex h-full flex-col rounded-2xl border p-4 text-left transition ${
+    current
+      ? "border-[color:var(--gold)] bg-[color:var(--forest-deep)]/70 shadow-[0_10px_30px_-15px_oklch(0.82_0.14_85_/_0.6)]"
+      : "border-[color:var(--gold)]/30 bg-[color:var(--forest-deep)]/50 hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/70"
+  }`;
+  const inner = (
+    <>
+      <div className="flex items-center gap-2">
+        <span
+          className="grid h-9 w-9 place-items-center rounded-xl text-[color:var(--forest-deep)]"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          {icon}
+        </span>
+        <h3 className="font-display text-lg">{title}</h3>
+      </div>
+      <p className="mt-2 flex-1 text-[13px] leading-relaxed text-[color:var(--cream)]/80">{desc}</p>
+      <span
+        className={`mt-3 inline-flex items-center gap-1 text-sm font-semibold ${
+          current ? "text-[color:var(--gold-soft)]" : "text-[color:var(--gold)]"
+        }`}
+      >
+        {cta} <span aria-hidden>→</span>
+      </span>
+    </>
+  );
+  if (isExternal) {
+    return (
+      <a href={to} className={className}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link to={to} className={className}>
+      {inner}
+    </Link>
+  );
+}
+
 
 /* ---------------------- Empty state ---------------------- */
 
