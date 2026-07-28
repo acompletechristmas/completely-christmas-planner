@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { usePeople, calcAge, type Person } from "@/hooks/use-people";
@@ -85,8 +87,10 @@ function BuyingForPage() {
   } = usePlannerList<GiftRow>("gifts", user?.id);
 
   const [addOpen, setAddOpen] = useState(false);
+  const [addGiftOpen, setAddGiftOpen] = useState(false);
   const [openPersonId, setOpenPersonId] = useState<string | null>(null);
   const [editPersonId, setEditPersonId] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
   const loading = peopleLoading || giftsLoading;
 
@@ -101,52 +105,105 @@ function BuyingForPage() {
     return map;
   }, [gifts]);
 
+  const thisYearGifts = useMemo(() => gifts.filter((g) => g.year === CURRENT_YEAR), [gifts]);
+  const ideaCount = thisYearGifts.length;
+  const boughtCount = thisYearGifts.filter(
+    (g) => g.status === "bought" || g.status === "wrapped" || g.status === "given",
+  ).length;
+  const wrappedCount = thisYearGifts.filter(
+    (g) => g.wrapped || g.status === "wrapped" || g.status === "given",
+  ).length;
+  const totalSpent = thisYearGifts
+    .filter((g) => g.status !== "idea")
+    .reduce((s, g) => s + (Number(g.price) || 0), 0);
+
+  const filteredPeople = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return people;
+    return people.filter(
+      (p) =>
+        (p.name ?? "").toLowerCase().includes(q) ||
+        (p.relationship ?? "").toLowerCase().includes(q),
+    );
+  }, [people, search]);
+
   const openPerson = openPersonId ? (people.find((p) => p.id === openPersonId) as PersonExtras | undefined) : null;
   const editPerson = editPersonId ? (people.find((p) => p.id === editPersonId) as PersonExtras | undefined) : null;
 
   return (
-    <div className="rise-in space-y-8">
-      {/* Header */}
-      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-6 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
+    <div className="rise-in space-y-6 pb-28 sm:pb-16">
+      {/* 1. Title + short explanation */}
+      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
-        <p className="relative text-[11px] uppercase tracking-[0.32em] text-[color:var(--gold-soft)]">
-          Step 1 of your Christmas plan
+        <p className="relative text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          Your Christmas list
         </p>
         <h1 className="relative mt-2 font-display text-3xl leading-tight sm:text-4xl">
-          Who are you <span className="gold-text italic">buying for</span>?
+          My <span className="gold-text italic">Gift Planner</span>
         </h1>
-        <p className="relative mt-3 max-w-2xl text-sm text-[color:var(--cream)]/85 sm:text-base">
-          Start by adding everyone you may need to buy for. You can organise presents, budgets, cards and stocking
-          fillers for each person — and we'll keep it all safe for next Christmas too.
+        <p className="relative mt-2 max-w-2xl text-sm text-[color:var(--cream)]/85 sm:text-base">
+          Keep everyone, every idea and every present in one place.
         </p>
-
-        <div className="relative mt-6 flex flex-wrap items-center gap-3">
-          <button
-            onClick={() => setAddOpen(true)}
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            <Plus className="h-4 w-4" /> Add a person
-          </button>
-          {people.length > 0 && (
-            <p className="text-xs text-[color:var(--cream)]/70">
-              {people.length} {people.length === 1 ? "person" : "people"} on your list
-            </p>
-          )}
-          <span className="ml-auto text-[11px] text-[color:var(--cream)]/60">
-            {saving ? "Saving…" : "Everything's saved ✨"}
-          </span>
-        </div>
       </header>
 
-      {/* Recipient grid */}
+      {/* 2 & 3. Primary actions — full-width, stacked on mobile */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <button
+          onClick={() => setAddOpen(true)}
+          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-base font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110"
+          style={{ background: "var(--gradient-gold)" }}
+        >
+          <Plus className="h-5 w-5" /> Add a person
+        </button>
+        <button
+          onClick={() => setAddGiftOpen(true)}
+          disabled={people.length === 0}
+          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-5 py-3 text-base font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <GiftIcon className="h-5 w-5" /> Add a gift
+        </button>
+      </div>
+      {people.length === 0 && (
+        <p className="-mt-2 text-center text-xs text-muted-foreground">
+          Add someone first, then you can add gifts for them.
+        </p>
+      )}
+
+      {/* 4. Simple progress summary */}
+      {people.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <SummaryStat value={ideaCount} label={ideaCount === 1 ? "gift idea" : "gift ideas"} />
+          <SummaryStat value={boughtCount} label="bought" />
+          <SummaryStat value={wrappedCount} label="wrapped" />
+          <SummaryStat value={`£${totalSpent.toFixed(0)}`} label="spent" />
+        </div>
+      )}
+
+      {/* 5. Search */}
+      {people.length > 3 && (
+        <label className="flex items-center gap-2 rounded-2xl border border-[color:var(--gold)]/25 bg-black/20 px-4 py-3">
+          <span className="text-[color:var(--gold-soft)]">🔍</span>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name…"
+            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+          />
+        </label>
+      )}
+
+      {/* 6. Gift cards (one per person) */}
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading your list…</p>
       ) : people.length === 0 ? (
         <EmptyState onAdd={() => setAddOpen(true)} />
+      ) : filteredPeople.length === 0 ? (
+        <p className="rounded-2xl border border-dashed border-[color:var(--gold)]/25 p-6 text-center text-sm text-muted-foreground">
+          No one matches “{search}”.
+        </p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          {people.map((p) => (
+          {filteredPeople.map((p) => (
             <RecipientCard
               key={p.id}
               person={p as PersonExtras}
@@ -163,11 +220,26 @@ function BuyingForPage() {
         </div>
       )}
 
+      {/* 7. Bottom Add a gift */}
+      {people.length > 0 && (
+        <div className="pt-2">
+          <button
+            onClick={() => setAddGiftOpen(true)}
+            className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-5 py-3 text-base font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80"
+          >
+            <Plus className="h-5 w-5" /> Add another gift
+          </button>
+          <p className="mt-2 text-center text-[11px] text-muted-foreground">
+            {saving ? "Saving…" : "Everything's saved ✨"}
+          </p>
+        </div>
+      )}
+
       {/* Modals */}
       {addOpen && user && (
         <PersonForm
           title="Add a person to your Christmas list"
-          submitLabel="Add to my list"
+          submitLabel="Add person"
           userId={user.id}
           onClose={() => setAddOpen(false)}
           onSaved={() => setAddOpen(false)}
@@ -181,6 +253,16 @@ function BuyingForPage() {
           initial={editPerson}
           onClose={() => setEditPersonId(null)}
           onSaved={() => setEditPersonId(null)}
+        />
+      )}
+      {addGiftOpen && user && (
+        <QuickGiftForm
+          people={people as PersonExtras[]}
+          onClose={() => setAddGiftOpen(false)}
+          onSave={async (fields) => {
+            await addRow(fields);
+            setAddGiftOpen(false);
+          }}
         />
       )}
       {openPerson && (
@@ -200,6 +282,16 @@ function BuyingForPage() {
     </div>
   );
 }
+
+function SummaryStat({ value, label }: { value: number | string; label: string }) {
+  return (
+    <div className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-3 text-center">
+      <p className="font-display text-2xl text-[color:var(--gold-soft)]">{value}</p>
+      <p className="mt-0.5 text-[11px] text-muted-foreground">{label}</p>
+    </div>
+  );
+}
+
 
 /* ---------------------- Empty state ---------------------- */
 
@@ -739,7 +831,7 @@ function PersonDrawer({
                 className="flex items-start justify-between gap-3 rounded-xl border border-[color:var(--gold)]/15 bg-black/20 p-3 text-sm"
               >
                 <div>
-                  <p className="text-foreground">{g.item || "(untitled)"}</p>
+                  <p className="text-foreground">{g.item || "Gift idea not named yet"}</p>
                   <p className="text-[11px] text-muted-foreground">
                     {g.year}
                     {g.shop ? ` · ${g.shop}` : ""}
@@ -943,9 +1035,12 @@ function Modal({
   wide?: boolean;
   footer?: React.ReactNode;
 }) {
+  const bodyRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Reset scroll so the top of the form is always visible when a modal opens.
+    if (bodyRef.current) bodyRef.current.scrollTop = 0;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => {
@@ -954,34 +1049,37 @@ function Modal({
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 backdrop-blur-sm sm:items-center sm:p-6"
+      className="fixed inset-0 z-[100] flex items-stretch justify-center bg-black/70 p-0 backdrop-blur-sm sm:items-center sm:p-6"
       onClick={onClose}
     >
+
       <div
         onClick={(e) => e.stopPropagation()}
         className={
-          "flex h-[100dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-gradient-to-b from-[color:var(--forest-deep)] to-[oklch(0.18_0.04_155)] sm:h-auto sm:max-h-[92dvh] sm:rounded-3xl " +
+          "flex h-full max-h-[100dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-gradient-to-b from-[color:var(--forest-deep)] to-[oklch(0.18_0.04_155)] sm:h-auto sm:max-h-[90dvh] sm:rounded-3xl " +
           (wide ? "sm:max-w-3xl" : "sm:max-w-xl")
         }
       >
+
         <div className="flex shrink-0 items-start justify-between gap-4 border-b border-[color:var(--gold)]/15 p-5">
-          <div>
+          <div className="min-w-0">
             {eyebrow && (
               <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">{eyebrow}</p>
             )}
-            <h2 className="mt-0.5 font-display text-2xl">{title}</h2>
+            <h2 className="mt-0.5 truncate font-display text-2xl">{title}</h2>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:text-foreground"
+            className="shrink-0 rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:text-foreground"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">{children}</div>
+        <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">{children}</div>
+
         {footer && (
           <div
             className="shrink-0 border-t border-[color:var(--gold)]/15 bg-[color:var(--forest-deep)]/90 px-5 py-3 backdrop-blur"
@@ -991,9 +1089,11 @@ function Modal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
+
 
 /* ---------------------- AI ideas panel ---------------------- */
 
@@ -1107,6 +1207,143 @@ function AiIdeasPanel({
           </li>
         </ul>
       )}
+    </Modal>
+  );
+}
+
+/* ---------------------- Quick add-a-gift form ---------------------- */
+
+function QuickGiftForm({
+  people,
+  onClose,
+  onSave,
+}: {
+  people: PersonExtras[];
+  onClose: () => void;
+  onSave: (fields: Partial<GiftRow>) => Promise<void> | void;
+}) {
+  const [personId, setPersonId] = useState<string>(people[0]?.id ?? "");
+  const [item, setItem] = useState("");
+  const [price, setPrice] = useState<string>("");
+  const [shop, setShop] = useState("");
+  const [status, setStatus] = useState<GiftStatus>("idea");
+  const [saving, setSaving] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!personId) {
+      toast.error("Pick a person first");
+      return;
+    }
+    const person = people.find((p) => p.id === personId);
+    setSaving(true);
+    await onSave({
+      recipient: person?.name ?? "",
+      person_id: personId,
+      item: item.trim(),
+      shop: shop.trim() || null,
+      price: price === "" ? null : Number(price),
+      status,
+      year: CURRENT_YEAR,
+    } as Partial<GiftRow>);
+    setSaving(false);
+    toast.success("Gift added ✨");
+  };
+
+  return (
+    <Modal
+      onClose={onClose}
+      title="Add a gift"
+      eyebrow="Quick add"
+      footer={
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-[48px] rounded-full border border-[color:var(--gold)]/25 px-4 py-2 text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            form="quick-gift-form"
+            disabled={saving}
+            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 disabled:opacity-60"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+            Add gift
+          </button>
+        </div>
+      }
+    >
+      <form id="quick-gift-form" onSubmit={submit} className="space-y-4">
+        <Field label="For">
+          <select
+            value={personId}
+            onChange={(e) => setPersonId(e.target.value)}
+            className={inputCls}
+          >
+            {people.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name || "Untitled"}
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Gift">
+          <input
+            autoFocus
+            value={item}
+            onChange={(e) => setItem(e.target.value)}
+            placeholder="What's the gift?"
+            className={inputCls}
+          />
+        </Field>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field label="Shop or website">
+            <input
+              value={shop}
+              onChange={(e) => setShop(e.target.value)}
+              placeholder="Amazon, John Lewis…"
+              className={inputCls}
+            />
+          </Field>
+          <Field label="Price">
+            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+              <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
+              <input
+                type="number"
+                inputMode="decimal"
+                min={0}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="20"
+                className="w-full bg-transparent py-2 text-sm outline-none"
+              />
+            </div>
+          </Field>
+        </div>
+        <Field label="Status">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {(["idea", "bought", "wrapped", "given"] as GiftStatus[]).map((s) => (
+              <button
+                type="button"
+                key={s}
+                onClick={() => setStatus(s)}
+                className={
+                  "min-h-[44px] rounded-xl border px-3 py-2 text-xs capitalize transition " +
+                  (status === s
+                    ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)]"
+                    : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/50")
+                }
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </Field>
+      </form>
     </Modal>
   );
 }
