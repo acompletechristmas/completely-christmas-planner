@@ -39,6 +39,7 @@ import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_auth
 import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
 import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
 import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
+import { Route as AuthenticatedPlannerOutingsRouteImport } from './routes/_authenticated/planner.outings'
 import { Route as AuthenticatedPlannerMyRouteImport } from './routes/_authenticated/planner.my'
 import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
 import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
@@ -206,6 +207,12 @@ const AuthenticatedPlannerPeopleRoute =
     path: '/people',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const AuthenticatedPlannerOutingsRoute =
+  AuthenticatedPlannerOutingsRouteImport.update({
+    id: '/outings',
+    path: '/outings',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerMyRoute = AuthenticatedPlannerMyRouteImport.update({
   id: '/my',
   path: '/my',
@@ -290,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/my': typeof AuthenticatedPlannerMyRoute
+  '/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
@@ -328,6 +336,7 @@ export interface FileRoutesByTo {
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/my': typeof AuthenticatedPlannerMyRoute
+  '/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
@@ -369,6 +378,7 @@ export interface FileRoutesById {
   '/_authenticated/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
   '/_authenticated/planner/my': typeof AuthenticatedPlannerMyRoute
+  '/_authenticated/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/_authenticated/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/_authenticated/planner/setup': typeof AuthenticatedPlannerSetupRoute
@@ -411,6 +421,7 @@ export interface FileRouteTypes {
     | '/planner/helper'
     | '/planner/list'
     | '/planner/my'
+    | '/planner/outings'
     | '/planner/people'
     | '/planner/reminders'
     | '/planner/setup'
@@ -449,6 +460,7 @@ export interface FileRouteTypes {
     | '/planner/helper'
     | '/planner/list'
     | '/planner/my'
+    | '/planner/outings'
     | '/planner/reminders'
     | '/planner/setup'
     | '/planner/timeline'
@@ -489,6 +501,7 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/helper'
     | '/_authenticated/planner/list'
     | '/_authenticated/planner/my'
+    | '/_authenticated/planner/outings'
     | '/_authenticated/planner/people'
     | '/_authenticated/planner/reminders'
     | '/_authenticated/planner/setup'
@@ -737,6 +750,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerPeopleRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/outings': {
+      id: '/_authenticated/planner/outings'
+      path: '/outings'
+      fullPath: '/planner/outings'
+      preLoaderRoute: typeof AuthenticatedPlannerOutingsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/my': {
       id: '/_authenticated/planner/my'
       path: '/my'
@@ -826,6 +846,7 @@ interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerHelperRoute: typeof AuthenticatedPlannerHelperRoute
   AuthenticatedPlannerListRoute: typeof AuthenticatedPlannerListRoute
   AuthenticatedPlannerMyRoute: typeof AuthenticatedPlannerMyRoute
+  AuthenticatedPlannerOutingsRoute: typeof AuthenticatedPlannerOutingsRoute
   AuthenticatedPlannerPeopleRoute: typeof AuthenticatedPlannerPeopleRouteWithChildren
   AuthenticatedPlannerRemindersRoute: typeof AuthenticatedPlannerRemindersRoute
   AuthenticatedPlannerSetupRoute: typeof AuthenticatedPlannerSetupRoute
@@ -840,6 +861,7 @@ const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerHelperRoute: AuthenticatedPlannerHelperRoute,
   AuthenticatedPlannerListRoute: AuthenticatedPlannerListRoute,
   AuthenticatedPlannerMyRoute: AuthenticatedPlannerMyRoute,
+  AuthenticatedPlannerOutingsRoute: AuthenticatedPlannerOutingsRoute,
   AuthenticatedPlannerPeopleRoute: AuthenticatedPlannerPeopleRouteWithChildren,
   AuthenticatedPlannerRemindersRoute: AuthenticatedPlannerRemindersRoute,
   AuthenticatedPlannerSetupRoute: AuthenticatedPlannerSetupRoute,
