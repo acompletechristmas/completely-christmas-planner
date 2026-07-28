@@ -350,24 +350,43 @@ function PlannerOverview() {
       </section>
 
 
-      {/* 2. Outings & Events */}
-      <section className="space-y-3">
-        <div className="flex items-end justify-between">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-              Outings &amp; Events
+      {/* 2. Outings & Events — Things We'd Love to Do */}
+      <section
+        className="relative space-y-3 overflow-hidden rounded-3xl border p-5 sm:p-6"
+        style={{
+          background:
+            "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.85), oklch(0.17 0.06 155 / 0.92))",
+          borderColor: "oklch(0.55 0.14 155 / 0.4)",
+          boxShadow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
+        }}
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-6 top-0 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent, oklch(0.85 0.09 90 / 0.8), transparent)",
+          }}
+        />
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+              <CalendarDays className="h-3 w-3" /> DAYS OUT &amp; EVENTS
             </p>
-            <h2 className="mt-1 font-display text-2xl sm:text-3xl">What you've booked in</h2>
+            <h2 className="mt-1 font-display text-2xl sm:text-3xl">Things We'd Love to Do</h2>
+            <p className="mt-1 text-sm text-[color:var(--cream)]/75">
+              Grottos, panto, carols, family trips — all in the diary.
+            </p>
           </div>
           <Link
             to="/planner/outings"
-            className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--gold)]/30 px-3 py-1.5 text-xs text-[color:var(--gold-soft)] hover:border-[color:var(--gold)]"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-black/25 px-3 py-1.5 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
           >
-            <Plus className="h-3 w-3" /> Add outing
+            View outings <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
         {upcomingOutings.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-[color:var(--forest-deep)]/40 p-6 text-center text-sm text-muted-foreground">
+          <div className="rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
             No outings saved yet.{" "}
             <Link to="/planner/outings" className="text-[color:var(--gold-soft)] hover:underline">
               Add your first
@@ -379,7 +398,7 @@ function PlannerOverview() {
             {upcomingOutings.map((o) => (
               <li
                 key={o.id}
-                className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-4"
+                className="rounded-2xl border border-[color:var(--gold)]/20 bg-black/25 p-4"
               >
                 <p className="font-display text-base">{o.name}</p>
                 <p className="mt-0.5 text-[11px] text-muted-foreground">
@@ -402,8 +421,8 @@ function PlannerOverview() {
       {/* 3. Budget overview */}
       <section className="space-y-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-            Budget
+          <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+            <PoundSterling className="h-3 w-3" /> BUDGET
           </p>
           <h2 className="mt-1 font-display text-2xl sm:text-3xl">What you've spent</h2>
         </div>
@@ -446,38 +465,69 @@ function PlannerOverview() {
         </div>
       </section>
 
-      {/* 4. Other planning sections */}
+      {/* 4. Other planning sections — each with its own muted Christmas identity */}
       <section className="space-y-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-            Other bits
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+            THE REST OF CHRISTMAS
           </p>
           <h2 className="mt-1 font-display text-2xl sm:text-3xl">Round out your Christmas</h2>
         </div>
-        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SECTIONS.map((s) => {
             const Icon = s.icon;
             return (
               <li key={s.key}>
                 <Link
                   to={s.to}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border bg-[oklch(0.26_0.04_245_/_0.7)] p-4 transition hover:-translate-y-0.5"
-                  style={{ borderColor: s.border }}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+                  style={{
+                    background: s.bg,
+                    borderColor: s.border,
+                    boxShadow: s.glow,
+                  }}
                 >
-                  <div className="flex items-center gap-3">
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-4 top-0 h-px"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)`,
+                    }}
+                  />
+                  <div className="flex items-start gap-3">
                     <div
-                      className="grid h-11 w-11 place-items-center rounded-xl text-[color:var(--midnight-deep)]"
-                      style={{ background: s.gradient }}
+                      className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
+                      style={{
+                        borderColor: s.accent,
+                        background: "oklch(0 0 0 / 0.3)",
+                      }}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-5 w-5" style={{ color: s.iconTint }} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-display text-lg">
-                        {s.emoji} {s.title}
+                      <p
+                        className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+                        style={{ color: s.iconTint }}
+                      >
+                        {s.eyebrow}
                       </p>
-                      <p className="mt-0.5 truncate text-xs text-muted-foreground">{s.tagline}</p>
+                      <p className="mt-0.5 font-display text-lg leading-tight text-[color:var(--cream)]">
+                        {s.title}
+                      </p>
                     </div>
-                    <ArrowRight className="h-4 w-4 text-[color:var(--gold-soft)] transition group-hover:translate-x-0.5" />
+                  </div>
+                  <p className="mt-3 text-xs text-[color:var(--cream)]/70">{s.tagline}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span
+                      className="inline-flex items-center gap-1 text-xs font-semibold"
+                      style={{ color: s.iconTint }}
+                    >
+                      {s.action}
+                      <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                    </span>
+                    <span className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60" style={{ borderColor: s.border }}>
+                      Coming soon
+                    </span>
                   </div>
                 </Link>
               </li>
@@ -485,6 +535,7 @@ function PlannerOverview() {
           })}
         </ol>
       </section>
+
 
       {/* 5. Personalisation (below main content — not a barrier) */}
       {(householdChoices.length > 0 || styleChoices.length > 0) && (
