@@ -460,8 +460,33 @@ function PersonForm({
   };
 
   return (
-    <Modal onClose={onClose} title={title} eyebrow="A person on your list">
-      <form onSubmit={submit} className="space-y-4">
+    <Modal
+      onClose={onClose}
+      title={title}
+      eyebrow="A person on your list"
+      footer={
+        <div className="flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-[color:var(--gold)]/25 px-4 py-2 text-xs text-muted-foreground transition hover:text-foreground"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            form="person-form"
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 disabled:opacity-60"
+            style={{ background: "var(--gradient-gold)" }}
+          >
+            {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+            {submitLabel}
+          </button>
+        </div>
+      }
+    >
+      <form id="person-form" onSubmit={submit} className="space-y-4">
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Name" required>
             <input
@@ -538,25 +563,6 @@ function PersonForm({
         <div className="grid gap-3 sm:grid-cols-2">
           <Toggle label="Needs a stocking" checked={needsStocking} onChange={setNeedsStocking} icon={<Stamp className="h-3.5 w-3.5" />} />
           <Toggle label="Needs a Christmas card" checked={needsCard} onChange={setNeedsCard} icon={<GiftIcon className="h-3.5 w-3.5" />} />
-        </div>
-
-        <div className="flex items-center justify-end gap-2 pt-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-[color:var(--gold)]/25 px-4 py-2 text-xs text-muted-foreground transition hover:text-foreground"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={saving}
-            className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 disabled:opacity-60"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-            {submitLabel}
-          </button>
         </div>
       </form>
     </Modal>
