@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star } from "lucide-react";
+import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star, Snowflake, ArrowRight } from "lucide-react";
+
 
 export const Route = createFileRoute("/gift-finder")({
   head: () => ({
