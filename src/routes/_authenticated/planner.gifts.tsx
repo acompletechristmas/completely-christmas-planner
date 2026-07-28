@@ -112,7 +112,7 @@ function BuyingForPage() {
     return map;
   }, [namedGifts]);
 
-  const thisYearGifts = useMemo(() => gifts.filter((g) => g.year === CURRENT_YEAR), [gifts]);
+  const thisYearGifts = useMemo(() => namedGifts.filter((g) => g.year === CURRENT_YEAR), [namedGifts]);
   const ideaCount = thisYearGifts.length;
   const boughtCount = thisYearGifts.filter(
     (g) => g.status === "bought" || g.status === "wrapped" || g.status === "given",
