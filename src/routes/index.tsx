@@ -175,20 +175,34 @@ function Home() {
         />
       </section>
 
+      {/* ============ WARM INTRO ============ */}
+      <section className="relative mx-auto max-w-3xl px-5 pt-16 pb-2 text-center sm:px-8 sm:pt-24">
+        <p className="mx-auto max-w-2xl font-display text-[20px] leading-relaxed text-[color:var(--cream)]/85 sm:text-[24px]">
+          Whether Christmas means excited young children, teenagers, grown-up children coming home,
+          friends, family, pets or a peaceful celebration for two — <span className="italic gold-text">we'll help you make it feel special.</span>
+        </p>
+      </section>
+
       {/* ============ EVERYTHING FOR CHRISTMAS ============ */}
-      <section className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
+      <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="mb-14 text-center">
           <div className="mb-3 flex items-center justify-center gap-3 text-[color:var(--gold)]">
             <span className="text-xs">✦</span>
             <span className="text-[11px] font-medium uppercase tracking-[0.28em]">
-              Explore
+              Two ways in
             </span>
             <span className="text-xs">✦</span>
           </div>
           <h2 className="font-display text-[34px] leading-tight tracking-tight sm:text-[48px]">
-            Everything for your <span className="italic gold-text">perfect Christmas</span>
+            <span className="italic gold-text">Plan it for me</span>, or let me explore
           </h2>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/build" className="btn-festive">Plan it for me</Link>
+            <a href="#explore" className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/50 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10">Let me explore</a>
+          </div>
         </div>
+
+        <div id="explore" className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7 xl:grid-cols-4">
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7 xl:grid-cols-4">
           {tiles.map((t) => (
