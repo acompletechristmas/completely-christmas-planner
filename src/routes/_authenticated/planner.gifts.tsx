@@ -928,12 +928,14 @@ function Modal({
   title,
   eyebrow,
   wide,
+  footer,
 }: {
   children: React.ReactNode;
   onClose: () => void;
   title: string;
   eyebrow?: string;
   wide?: boolean;
+  footer?: React.ReactNode;
 }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -954,11 +956,11 @@ function Modal({
       <div
         onClick={(e) => e.stopPropagation()}
         className={
-          "flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-gradient-to-b from-[color:var(--forest-deep)] to-[oklch(0.18_0.04_155)] sm:rounded-3xl " +
+          "flex h-[100dvh] w-full flex-col overflow-hidden rounded-t-3xl border border-[color:var(--gold)]/30 bg-gradient-to-b from-[color:var(--forest-deep)] to-[oklch(0.18_0.04_155)] sm:h-auto sm:max-h-[92dvh] sm:rounded-3xl " +
           (wide ? "sm:max-w-3xl" : "sm:max-w-xl")
         }
       >
-        <div className="flex items-start justify-between gap-4 border-b border-[color:var(--gold)]/15 p-5">
+        <div className="flex shrink-0 items-start justify-between gap-4 border-b border-[color:var(--gold)]/15 p-5">
           <div>
             {eyebrow && (
               <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">{eyebrow}</p>
@@ -973,7 +975,15 @@ function Modal({
             <X className="h-4 w-4" />
           </button>
         </div>
-        <div className="overflow-y-auto p-5">{children}</div>
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5">{children}</div>
+        {footer && (
+          <div
+            className="shrink-0 border-t border-[color:var(--gold)]/15 bg-[color:var(--forest-deep)]/90 px-5 py-3 backdrop-blur"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
+          >
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );
