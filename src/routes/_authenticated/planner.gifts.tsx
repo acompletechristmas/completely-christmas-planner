@@ -1329,18 +1329,25 @@ function QuickGiftForm({
     >
       <form id="quick-gift-form" onSubmit={submit} className="space-y-4">
         <Field label="For">
-          <select
-            value={personId}
-            onChange={(e) => setPersonId(e.target.value)}
-            className={inputCls}
-          >
-            {people.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name || "Untitled"}
-              </option>
-            ))}
-          </select>
+          {lockedPerson ? (
+            <div className={inputCls + " flex items-center bg-black/30 text-[color:var(--gold-soft)]"}>
+              {lockedPerson.name}
+            </div>
+          ) : (
+            <select
+              value={personId}
+              onChange={(e) => setPersonId(e.target.value)}
+              className={inputCls}
+            >
+              {people.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name || "Unnamed"}
+                </option>
+              ))}
+            </select>
+          )}
         </Field>
+
         <Field label="Gift">
           <input
             autoFocus
