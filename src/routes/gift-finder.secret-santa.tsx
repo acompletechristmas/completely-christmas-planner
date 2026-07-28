@@ -56,6 +56,8 @@ const STYLES: { id: GiftStyle; label: string }[] = [
 ];
 
 function SecretSantaPage() {
+  const { user } = useAuth();
+  const { people, addPerson, refetch: refetchPeople } = usePeople(user?.id);
   const [budget, setBudget] = useState<BudgetChoice | null>(null);
   const [customBudget, setCustomBudget] = useState("");
   const [recipient, setRecipient] = useState<RecipientType | null>(null);
@@ -63,6 +65,8 @@ function SecretSantaPage() {
   const [interests, setInterests] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [saved, setSaved] = useState<Set<string>>(new Set());
+  const [savedToPlanner, setSavedToPlanner] = useState<Set<string>>(new Set());
+  const [saveTarget, setSaveTarget] = useState<SecretSantaGift | null>(null);
 
   const canSubmit =
     budget !== null &&
