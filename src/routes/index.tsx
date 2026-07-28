@@ -55,14 +55,14 @@ function Home() {
 
   const tiles: Tile[] = [
     { image: cardPlanner, title: "My Christmas Planner", desc: "Your personal Christmas HQ — gifts, budgets and everything in one place.", to: planLink },
-    { image: cardDecorations, title: "Decorations", desc: "Ideas to make your home feel magical this year.", to: "/inspire" },
-    { image: cardFood, title: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love.", to: "/food" },
-    { image: cardDaysOut, title: "Christmas Activities", desc: "Markets, grottos, walks and days out near you.", to: "/days-out" },
+    { image: cardDecorations, title: "My Christmas Home", desc: "Decoration ideas to make your home feel magical this year.", to: "/inspire" },
+    { image: cardFood, title: "Food & Hosting", desc: "Menus, timings and festive recipes to cook with love.", to: "/food" },
+    { image: cardDaysOut, title: "Things We'd Love to Do", desc: "Markets, grottos, walks and days out near you.", to: "/days-out" },
     { image: cardFilms, title: "Films & Music", desc: "Cosy films and playlists for every moment.", to: "/entertainment" },
-    { image: cardTraditions, title: "Traditions & Ideas", desc: "Little rituals that make Christmas feel like home.", to: "/inspire" },
+    { image: cardTraditions, title: "Traditions & Special Moments", desc: "Little rituals that make Christmas feel like home.", to: "/inspire" },
     { image: cardCrafts, title: "Teachers' Corner", desc: "Festive lessons, worksheets and classroom ideas.", to: "/teachers" },
     { image: cardParty, title: "Christmas with Pets", desc: "Safe, joyful ways to include your furry family.", to: "/pets" },
-    { image: cardBudget, title: "Budget & Savings", desc: "Stay in control with clear budgets and gentle saving.", to: "/save" },
+    { image: cardBudget, title: "My Christmas Budget", desc: "Stay in control with clear budgets and gentle saving.", to: "/save" },
     { image: cardSanta, title: "Advent & Countdown", desc: "Daily magic as we count down to the big day.", to: "/coming-soon" },
     { image: cardMusic, title: "More Christmas Magic", desc: "New surprises unwrapping soon.", to: "/coming-soon" },
   ];
@@ -100,18 +100,17 @@ function Home() {
             </div>
 
             <h1
-              className="font-display text-[46px] leading-[0.98] tracking-tight sm:text-[72px] md:text-[88px]"
+              className="font-display text-[42px] leading-[1.02] tracking-tight sm:text-[64px] md:text-[76px]"
               style={{ textShadow: "0 4px 40px rgba(0,0,0,0.6)" }}
             >
-              Christmas
+              Let's create your
               <br />
-              is coming.
-              <br />
-              <span className="italic gold-text">Let's make it magical.</span>
+              <span className="italic gold-text">perfect Christmas.</span>
             </h1>
 
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-[color:var(--cream)]/90 sm:text-[17px]" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.7)" }}>
-              Everything you need for the perfect Christmas — all in one beautiful place.
+            <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-[color:var(--cream)]/90 sm:text-[17px]" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.7)" }}>
+              Tell us who you're celebrating with and what matters to you. We'll help you find ideas,
+              make plans, remember the important things and enjoy Christmas without all the stress.
             </p>
 
             {/* Countdown card — frosted champagne-gold glass */}
@@ -150,8 +149,15 @@ function Home() {
 
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Link to={planLink} className="btn-festive">
-                  Start Planning Christmas
+                <Link to="/build" className="btn-festive">
+                  Build My Christmas
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/coming-soon"
+                  className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/50 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
+                >
+                  Explore Christmas Ideas
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
