@@ -294,7 +294,7 @@ function BuyingForPage() {
             setAddGiftOpen(true);
             setOpenPersonId(null);
           }}
-          updateField={updateField}
+          addRow={addRow}
           removeRow={removeRow}
         />
       )}
