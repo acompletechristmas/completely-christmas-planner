@@ -617,6 +617,12 @@ function PersonForm({
       }
     >
       <form id="person-form" onSubmit={submit} className="space-y-4">
+        {errorMsg && (
+          <div className="rounded-xl border border-[color:var(--burgundy)] bg-[color:var(--burgundy)]/10 p-3 text-xs text-[color:var(--burgundy)]">
+            {errorMsg}
+          </div>
+        )}
+
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Name" required>
             <input
