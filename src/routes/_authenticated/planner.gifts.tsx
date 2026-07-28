@@ -20,8 +20,6 @@ import {
   Pencil,
   Stamp,
   ExternalLink,
-  ChevronDown,
-  ChevronUp,
   CalendarDays,
   Lightbulb,
   Package,
@@ -530,7 +528,7 @@ function RecipientCard({
 
   const planned = presents.reduce((s, g) => s + (Number(g.price) || 0), 0);
   const spent = presents.filter((g) => g.ordered).reduce((s, g) => s + (Number(g.price) || 0), 0);
-  const over = budget != null && spent > budget;
+  
 
   const boughtCount = presents.filter((g) => g.ordered).length;
   const receivedCount = presents.filter((g) => g.arrived).length;
@@ -548,61 +546,187 @@ function RecipientCard({
     toast.success(`Added to ${person.name || "this person"}'s presents`);
   };
 
+  // Stage detection — only counts when there's at least one chosen present
+  const hasPresents = presents.length > 0;
+  const allBought = hasPresents && boughtCount === presents.length;
+  const allWrapped = hasPresents && wrappedCount === presents.length;
+  const allGiven = hasPresents && givenCount === presents.length;
+
+  const stage: 1 | 2 | 3 | 4 = allGiven ? 4 : allWrapped ? 3 : allBought ? 2 : 1;
+  const isGold = stage >= 2;
+
+  const budgetPct = budget && budget > 0 ? Math.min(100, Math.round((spent / budget) * 100)) : 0;
+  const budgetTone =
+    budget == null
+      ? "neutral"
+      : spent > budget
+        ? "over"
+        : spent === budget
+          ? "exact"
+          : "under";
+  const barColor =
+    budgetTone === "over"
+      ? "oklch(0.55 0.19 25)"
+      : budgetTone === "exact"
+        ? "oklch(0.72 0.14 82)"
+        : "oklch(0.58 0.13 155)";
+
+  const cardBg = isGold
+    ? "linear-gradient(160deg, oklch(0.94 0.07 88) 0%, oklch(0.88 0.10 82) 55%, oklch(0.84 0.11 78) 100%)"
+    : "oklch(0.985 0.006 85)";
+  const borderCol = isGold ? "oklch(0.65 0.14 75 / 0.85)" : "oklch(0.78 0.10 82 / 0.55)";
+  const textInk = "oklch(0.22 0.04 260)";
+  const textMuted = "oklch(0.42 0.03 260)";
+
   return (
     <article
-      className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-[oklch(0.22_0.05_245_/_0.75)] shadow-[0_14px_40px_-20px_oklch(0_0_0_/_0.6)]"
+      className={
+        "group/card relative overflow-hidden rounded-[26px] border shadow-[0_20px_50px_-24px_oklch(0_0_0_/_0.75)] transition-all duration-500 " +
+        (isGold ? "sparkle-once" : "")
+      }
+      style={{ background: cardBg, borderColor: borderCol, color: textInk }}
     >
-      {/* Gold top accent bar — visually anchors each person card */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[3px]"
-        style={{ background: "var(--gradient-gold)" }}
-      />
-      {/* Collapsed / summary row */}
-      <div className="p-5 pt-6">
+      {/* Subtle snowflake texture on gold stages */}
+      {isGold && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 12% 22%, oklch(1 0 0 / 0.9) 0 1.2px, transparent 1.6px), radial-gradient(circle at 78% 18%, oklch(1 0 0 / 0.7) 0 1px, transparent 1.4px), radial-gradient(circle at 40% 78%, oklch(1 0 0 / 0.7) 0 1px, transparent 1.4px), radial-gradient(circle at 88% 68%, oklch(1 0 0 / 0.8) 0 1.4px, transparent 1.8px)",
+            backgroundSize: "180px 180px",
+          }}
+        />
+      )}
+
+      {/* Stage 3+: red satin ribbon with gold-edged bow in the top-right corner */}
+      {stage >= 3 && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -right-14 top-6 z-[1] w-56 rotate-45 select-none text-center"
+        >
+          <span
+            className="block py-1.5 text-[10px] font-semibold uppercase tracking-[0.24em] text-[oklch(0.98_0.02_60)] shadow-[0_6px_14px_-6px_oklch(0.25_0.15_25_/_0.7)]"
+            style={{
+              background:
+                "linear-gradient(180deg, oklch(0.52 0.20 22) 0%, oklch(0.42 0.22 22) 50%, oklch(0.36 0.20 22) 100%)",
+              borderTop: "1px solid oklch(0.82 0.14 82 / 0.9)",
+              borderBottom: "1px solid oklch(0.72 0.14 82 / 0.9)",
+            }}
+          >
+            Ready for Christmas
+          </span>
+        </span>
+      )}
+
+      {/* Stage 4: wax-seal badge */}
+      {stage >= 4 && (
+        <span
+          aria-hidden
+          className="absolute right-4 top-16 z-[2] grid h-14 w-14 place-items-center rounded-full text-[9px] font-bold uppercase leading-tight tracking-[0.08em] text-[oklch(0.98_0.03_60)] shadow-[0_6px_14px_-4px_oklch(0.25_0.15_25_/_0.6),inset_0_2px_3px_oklch(1_0_0_/_0.3),inset_0_-3px_5px_oklch(0.2_0.12_25_/_0.5)]"
+          style={{
+            background:
+              "radial-gradient(circle at 35% 30%, oklch(0.58 0.22 22) 0%, oklch(0.38 0.22 22) 60%, oklch(0.28 0.18 22) 100%)",
+            border: "2px solid oklch(0.78 0.14 82)",
+          }}
+        >
+          <span className="px-1 text-center">
+            Christmas
+            <br />
+            Complete ❤
+          </span>
+        </span>
+      )}
+
+      <div className="relative z-[1] p-5 sm:p-6">
+        {/* Header row: small avatar + name/relationship */}
         <div className="flex items-start gap-3">
           <span
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl font-display text-lg text-[color:var(--forest-deep)]"
-            style={{ background: "var(--gradient-gold)" }}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm font-semibold"
+            style={{
+              background: isGold ? "oklch(1 0 0 / 0.55)" : "oklch(0.96 0.02 85)",
+              color: "oklch(0.30 0.06 60)",
+              border: "1px solid oklch(0.72 0.12 82 / 0.5)",
+            }}
           >
             {person.name?.[0]?.toUpperCase() || "?"}
           </span>
-          <button onClick={onToggle} className="min-w-0 flex-1 text-left">
-            <p className="truncate font-display text-2xl leading-tight text-[color:var(--cream)]">
-              {person.name || "Unnamed"}
-            </p>
-            <p className="mt-0.5 text-xs text-[color:var(--cream)]/60">
-              {person.relationship || "Christmas list"}
-              {budget != null ? ` · £${budget.toFixed(0)} budget` : ""}
-            </p>
-            <p className="mt-1.5 text-[12px] font-medium text-[color:var(--cream)]/85">
-              £{spent.toFixed(0)}
-              {budget != null ? ` spent of £${budget.toFixed(0)}` : " spent"}
-              {over ? " · over budget" : ""}
-            </p>
-            <p className="mt-0.5 text-[11px] text-[color:var(--cream)]/60">
-              {presents.length} present{presents.length === 1 ? "" : "s"} · {boughtCount} bought · {wrappedCount} wrapped · {givenCount} given
-              {ideas.length > 0 ? ` · ${ideas.length} idea${ideas.length === 1 ? "" : "s"}` : ""}
-            </p>
-          </button>
-          <div className="flex shrink-0 flex-col items-end gap-1">
-            <button
-              onClick={onToggle}
-              className="rounded-full border border-[color:var(--gold)]/40 bg-black/30 p-2 text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
-              aria-label={expanded ? "Collapse" : "Expand"}
+          <div className="min-w-0 flex-1">
+            <h3
+              className="truncate font-display text-[26px] font-semibold leading-tight tracking-tight sm:text-[28px]"
+              style={{ color: textInk }}
             >
-              {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </button>
-            <div className="flex gap-1">
-              <IconBtn onClick={onEdit} label="Edit person">
-                <Pencil className="h-3.5 w-3.5" />
-              </IconBtn>
-              <IconBtn onClick={onDelete} label="Remove person" danger>
-                <Trash2 className="h-3.5 w-3.5" />
-              </IconBtn>
-            </div>
+              {person.name || "Unnamed"}
+            </h3>
+            <p className="mt-0.5 text-[13px] font-medium" style={{ color: textMuted }}>
+              {person.relationship || "Christmas list"}
+              {allGiven && <span className="ml-1.5 italic" style={{ color: "oklch(0.42 0.20 22)" }}>· All done!</span>}
+              {!allGiven && allBought && (
+                <span className="ml-1.5 font-semibold" style={{ color: "oklch(0.42 0.14 65)" }}>
+                  · {allWrapped ? "Wrapped & ready" : "All presents bought"}
+                </span>
+              )}
+            </p>
+          </div>
+          <div className="flex shrink-0 gap-1">
+            <IconBtn onClick={onEdit} label="Edit person">
+              <Pencil className="h-3.5 w-3.5" />
+            </IconBtn>
+            <IconBtn onClick={onDelete} label="Remove person" danger>
+              <Trash2 className="h-3.5 w-3.5" />
+            </IconBtn>
           </div>
         </div>
+
+        {/* Budget bar */}
+        <div className="mt-5">
+          <div className="flex items-baseline justify-between text-[11px] font-semibold uppercase tracking-[0.16em]" style={{ color: textMuted }}>
+            <span>Budget</span>
+            <span style={{ color: textInk }}>
+              {budget != null ? (
+                <>
+                  <span className="font-display text-[15px] tracking-normal normal-case">£{spent.toFixed(0)}</span>
+                  <span className="mx-1 opacity-60">of</span>
+                  <span className="font-display text-[15px] tracking-normal normal-case">£{budget.toFixed(0)}</span>
+                </>
+              ) : (
+                <span className="font-display text-[15px] tracking-normal normal-case">£{spent.toFixed(0)} spent</span>
+              )}
+            </span>
+          </div>
+          <div
+            className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full"
+            style={{ background: "oklch(0.90 0.02 85 / 0.85)" }}
+          >
+            <div
+              className="h-full rounded-full transition-[width] duration-700"
+              style={{ width: `${budget != null ? budgetPct : 0}%`, background: barColor }}
+            />
+          </div>
+        </div>
+
+        {/* Progress icons row */}
+        <div className="mt-4 grid grid-cols-4 gap-2 text-center">
+          <ProgressPip icon="🎁" value={presents.length} label="Presents" muted={textMuted} ink={textInk} />
+          <ProgressPip icon="✓" value={boughtCount} label="Bought" done={allBought} muted={textMuted} ink={textInk} accent="oklch(0.48 0.14 155)" />
+          <ProgressPip icon="🎀" value={wrappedCount} label="Wrapped" done={allWrapped} muted={textMuted} ink={textInk} accent="oklch(0.50 0.20 22)" />
+          <ProgressPip icon="❤" value={givenCount} label="Given" done={allGiven} muted={textMuted} ink={textInk} accent="oklch(0.45 0.22 22)" />
+        </div>
+
+        {/* View Gifts — premium outlined button */}
+        <button
+          onClick={onToggle}
+          aria-expanded={expanded}
+          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] px-5 py-2.5 text-[13px] font-semibold uppercase tracking-[0.12em] transition hover:shadow-[0_8px_20px_-10px_oklch(0.55_0.14_75_/_0.6)]"
+          style={{
+            borderColor: "oklch(0.55 0.14 75 / 0.85)",
+            color: "oklch(0.35 0.10 60)",
+            background: isGold ? "oklch(1 0 0 / 0.35)" : "transparent",
+          }}
+        >
+          {expanded ? "Hide gifts" : "View gifts"}
+          <span aria-hidden className="text-base leading-none">→</span>
+        </button>
       </div>
 
       {/* Expanded body */}
@@ -783,6 +907,50 @@ function IconBtn({
     </button>
   );
 }
+
+function ProgressPip({
+  icon,
+  value,
+  label,
+  done,
+  muted,
+  ink,
+  accent,
+}: {
+  icon: string;
+  value: number;
+  label: string;
+  done?: boolean;
+  muted: string;
+  ink: string;
+  accent?: string;
+}) {
+  const active = done && value > 0;
+  return (
+    <div
+      className="rounded-2xl border px-1 py-2 transition"
+      style={{
+        borderColor: active ? (accent ?? "oklch(0.55 0.14 75 / 0.6)") : "oklch(0.78 0.06 85 / 0.55)",
+        background: active ? "oklch(1 0 0 / 0.55)" : "oklch(1 0 0 / 0.35)",
+      }}
+    >
+      <div
+        className="flex items-center justify-center gap-1 text-[15px] leading-none"
+        style={{ color: active ? (accent ?? ink) : ink }}
+      >
+        <span aria-hidden>{icon}</span>
+        <span className="font-display text-[17px] font-semibold">{value}</span>
+      </div>
+      <p
+        className="mt-1 text-[10px] font-semibold uppercase tracking-[0.08em]"
+        style={{ color: active ? (accent ?? ink) : muted }}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
 
 /* ---------------------- Idea row ---------------------- */
 

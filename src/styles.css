@@ -542,3 +542,16 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, oklch(0.82 0.14 85 / 0.7), transparent);
 }
+
+/* Gift card — one gentle sparkle when a card transitions into a "gold" (all-bought+) state */
+@keyframes sparkle-once {
+  0%   { box-shadow: 0 0 0 0 oklch(0.88 0.14 82 / 0), 0 20px 50px -24px oklch(0 0 0 / 0.75); }
+  40%  { box-shadow: 0 0 0 10px oklch(0.88 0.14 82 / 0.35), 0 20px 50px -24px oklch(0 0 0 / 0.75); }
+  100% { box-shadow: 0 0 0 0 oklch(0.88 0.14 82 / 0), 0 20px 50px -24px oklch(0 0 0 / 0.75); }
+}
+.sparkle-once {
+  animation: sparkle-once 1400ms ease-out 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sparkle-once { animation: none; }
+}
