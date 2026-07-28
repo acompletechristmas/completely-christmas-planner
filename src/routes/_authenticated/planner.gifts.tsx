@@ -294,7 +294,61 @@ function BuyingForPage() {
         </label>
       )}
 
-      {/* People list */}
+      {/* Orphan gifts — must be assigned to a person */}
+      {orphanGifts.length > 0 && people.length > 0 && (
+        <section className="rounded-2xl border border-[color:var(--burgundy)]/60 bg-[color:var(--burgundy)]/10 p-4">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--burgundy)]">
+            Needs a person
+          </p>
+          <p className="mt-1 text-xs text-[color:var(--cream)]/85">
+            These gifts aren't linked to anyone yet. Pick who each one is for.
+          </p>
+          <ul className="mt-3 space-y-2">
+            {orphanGifts.map((g) => (
+              <li
+                key={g.id}
+                className="flex flex-col gap-2 rounded-xl border border-[color:var(--burgundy)]/40 bg-black/25 p-3 sm:flex-row sm:items-center"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-medium">{g.item}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    {g.is_idea ? "Idea" : "Present"}
+                    {g.price != null ? ` · £${Number(g.price).toFixed(0)}` : ""}
+                  </p>
+                </div>
+                <select
+                  defaultValue=""
+                  onChange={(e) => {
+                    const pid = e.target.value;
+                    if (!pid) return;
+                    const person = people.find((pp) => pp.id === pid);
+                    updateField(g.id, "person_id", pid);
+                    if (person) updateField(g.id, "recipient", person.name);
+                    toast.success(`Assigned to ${person?.name ?? "person"}`);
+                  }}
+                  className="rounded-lg border border-[color:var(--gold)]/30 bg-black/40 px-3 py-2 text-sm"
+                >
+                  <option value="">Assign to…</option>
+                  {people.map((pp) => (
+                    <option key={pp.id} value={pp.id}>
+                      {pp.name || "Unnamed"}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => {
+                    if (confirm(`Delete "${g.item}"?`)) void removeRow(g.id);
+                  }}
+                  className="rounded-lg border border-[color:var(--burgundy)]/50 px-3 py-2 text-xs text-[color:var(--burgundy)] hover:bg-[color:var(--burgundy)]/20"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading your list…</p>
       ) : people.length === 0 ? (
