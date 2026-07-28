@@ -26,6 +26,7 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
+import { Route as GiftFinderIndexRouteImport } from './routes/gift-finder.index'
 import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
 import { Route as GiftFinderSecretSantaRouteImport } from './routes/gift-finder.secret-santa'
@@ -131,6 +132,11 @@ const TeachersIndexRoute = TeachersIndexRouteImport.update({
   id: '/teachers/',
   path: '/teachers/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const GiftFinderIndexRoute = GiftFinderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GiftFinderRoute,
 } as any)
 const TeachersGenerateRoute = TeachersGenerateRouteImport.update({
   id: '/teachers/generate',
@@ -275,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
+  '/gift-finder/': typeof GiftFinderIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -301,7 +308,6 @@ export interface FileRoutesByTo {
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
-  '/gift-finder': typeof GiftFinderRouteWithChildren
   '/inspire': typeof InspireRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
@@ -313,6 +319,7 @@ export interface FileRoutesByTo {
   '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
+  '/gift-finder': typeof GiftFinderIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -353,6 +360,7 @@ export interface FileRoutesById {
   '/gift-finder/secret-santa': typeof GiftFinderSecretSantaRoute
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
+  '/gift-finder/': typeof GiftFinderIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -394,6 +402,7 @@ export interface FileRouteTypes {
     | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
+    | '/gift-finder/'
     | '/teachers/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -420,7 +429,6 @@ export interface FileRouteTypes {
     | '/days-out'
     | '/entertainment'
     | '/food'
-    | '/gift-finder'
     | '/inspire'
     | '/mcp'
     | '/partners'
@@ -432,6 +440,7 @@ export interface FileRouteTypes {
     | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
+    | '/gift-finder'
     | '/teachers'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -471,6 +480,7 @@ export interface FileRouteTypes {
     | '/gift-finder/secret-santa'
     | '/teachers/$category'
     | '/teachers/generate'
+    | '/gift-finder/'
     | '/teachers/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -635,6 +645,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teachers/'
       preLoaderRoute: typeof TeachersIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/gift-finder/': {
+      id: '/gift-finder/'
+      path: '/'
+      fullPath: '/gift-finder/'
+      preLoaderRoute: typeof GiftFinderIndexRouteImport
+      parentRoute: typeof GiftFinderRoute
     }
     '/teachers/generate': {
       id: '/teachers/generate'
@@ -847,10 +864,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface GiftFinderRouteChildren {
   GiftFinderSecretSantaRoute: typeof GiftFinderSecretSantaRoute
+  GiftFinderIndexRoute: typeof GiftFinderIndexRoute
 }
 
 const GiftFinderRouteChildren: GiftFinderRouteChildren = {
   GiftFinderSecretSantaRoute: GiftFinderSecretSantaRoute,
+  GiftFinderIndexRoute: GiftFinderIndexRoute,
 }
 
 const GiftFinderRouteWithChildren = GiftFinderRoute._addFileChildren(
