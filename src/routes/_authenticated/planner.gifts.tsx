@@ -145,6 +145,11 @@ function BuyingForPage() {
     return map;
   }, [namedGifts]);
 
+  const orphanGifts = useMemo(
+    () => namedGifts.filter((g) => !g.person_id),
+    [namedGifts],
+  );
+
   const totalPresents = namedGifts.filter((g) => g.is_chosen).length;
   const totalBought = namedGifts.filter((g) => g.is_chosen && g.ordered).length;
   const totalWrapped = namedGifts.filter((g) => g.is_chosen && g.wrapped).length;
