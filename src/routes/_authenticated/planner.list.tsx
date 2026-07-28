@@ -217,7 +217,7 @@ function FullGiftListPage() {
                 {/* Body */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline justify-between gap-2">
-                    <p className="truncate font-display text-base">{g.item || "(untitled)"}</p>
+                    <p className="truncate font-display text-base">{g.item || "Gift idea not named yet"}</p>
                     {g.price != null && (
                       <p className="shrink-0 text-xs text-muted-foreground">£{Number(g.price).toFixed(0)}</p>
                     )}

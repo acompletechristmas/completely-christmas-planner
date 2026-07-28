@@ -76,7 +76,7 @@ type PersonExtras = Person & {
 
 function BuyingForPage() {
   const { user } = useAuth();
-  const { people, loading: peopleLoading, removePerson } = usePeople(user?.id);
+  const { people, loading: peopleLoading, removePerson, upsertLocal, refetch: refetchPeople } = usePeople(user?.id);
   const {
     rows: gifts,
     loading: giftsLoading,
@@ -88,8 +88,10 @@ function BuyingForPage() {
 
   const [addOpen, setAddOpen] = useState(false);
   const [addGiftOpen, setAddGiftOpen] = useState(false);
+  const [lockedGiftPersonId, setLockedGiftPersonId] = useState<string | null>(null);
   const [openPersonId, setOpenPersonId] = useState<string | null>(null);
   const [editPersonId, setEditPersonId] = useState<string | null>(null);
+
   const [search, setSearch] = useState("");
 
   const loading = peopleLoading || giftsLoading;
@@ -242,7 +244,11 @@ function BuyingForPage() {
           submitLabel="Add person"
           userId={user.id}
           onClose={() => setAddOpen(false)}
-          onSaved={() => setAddOpen(false)}
+          onSaved={(row) => {
+            if (row) upsertLocal(row);
+            void refetchPeople();
+            setAddOpen(false);
+          }}
         />
       )}
       {editPerson && (
@@ -252,16 +258,25 @@ function BuyingForPage() {
           userId={editPerson.user_id}
           initial={editPerson}
           onClose={() => setEditPersonId(null)}
-          onSaved={() => setEditPersonId(null)}
+          onSaved={(row) => {
+            if (row) upsertLocal(row);
+            void refetchPeople();
+            setEditPersonId(null);
+          }}
         />
       )}
       {addGiftOpen && user && (
         <QuickGiftForm
           people={people as PersonExtras[]}
-          onClose={() => setAddGiftOpen(false)}
+          lockedPersonId={lockedGiftPersonId}
+          onClose={() => {
+            setAddGiftOpen(false);
+            setLockedGiftPersonId(null);
+          }}
           onSave={async (fields) => {
             await addRow(fields);
             setAddGiftOpen(false);
+            setLockedGiftPersonId(null);
           }}
         />
       )}
@@ -274,14 +289,21 @@ function BuyingForPage() {
             setEditPersonId(openPerson.id);
             setOpenPersonId(null);
           }}
+          onAddGift={() => {
+            setLockedGiftPersonId(openPerson.id);
+            setAddGiftOpen(true);
+            setOpenPersonId(null);
+          }}
           addRow={addRow}
           updateField={updateField}
           removeRow={removeRow}
+
         />
       )}
     </div>
   );
 }
+
 
 function SummaryStat({ value, label }: { value: number | string; label: string }) {
   return (
@@ -363,7 +385,7 @@ function RecipientCard({
           {person.name?.[0]?.toUpperCase() || "?"}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-lg leading-tight">{person.name || "Untitled"}</p>
+          <p className="truncate font-display text-lg leading-tight">{person.name || "Unnamed"}</p>
           <p className="truncate text-xs text-muted-foreground">
             {person.relationship || "Christmas list"}
             {age != null && age !== "" ? ` · ${age}` : ""}
@@ -503,7 +525,7 @@ function PersonForm({
   userId: string;
   initial?: PersonExtras;
   onClose: () => void;
-  onSaved: () => void;
+  onSaved: (row: Person | null) => void;
 }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [relationship, setRelationship] = useState(initial?.relationship ?? "");
@@ -515,9 +537,11 @@ function PersonForm({
   const [needsStocking, setNeedsStocking] = useState(initial?.needs_stocking ?? false);
   const [needsCard, setNeedsCard] = useState(initial?.needs_card ?? false);
   const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg(null);
     if (!name.trim()) {
       toast.error("A name would be lovely ✨");
       return;
@@ -534,22 +558,38 @@ function PersonForm({
       needs_stocking: needsStocking,
       needs_card: needsCard,
     };
+    let row: Person | null = null;
     let error;
     if (initial) {
-      ({ error } = await supabase.from("people").update(payload as never).eq("id", initial.id));
-    } else {
-      ({ error } = await supabase
+      const res = await supabase
         .from("people")
-        .insert({ user_id: userId, ...payload } as never));
+        .update(payload as never)
+        .eq("id", initial.id)
+        .select()
+        .single();
+      error = res.error;
+      row = (res.data as Person) ?? null;
+    } else {
+      const res = await supabase
+        .from("people")
+        .insert({ user_id: userId, ...payload } as never)
+        .select()
+        .single();
+      error = res.error;
+      row = (res.data as Person) ?? null;
     }
     setSaving(false);
     if (error) {
-      toast.error("Couldn't save — please try again");
+      console.error("[PersonForm] save failed", error);
+      const msg = error.message || "Couldn't save — please try again";
+      setErrorMsg(msg);
+      toast.error(msg);
       return;
     }
     toast.success(initial ? "Saved" : `${payload.name} added to your list ✨`);
-    onSaved();
+    onSaved(row);
   };
+
 
   return (
     <Modal
@@ -579,6 +619,12 @@ function PersonForm({
       }
     >
       <form id="person-form" onSubmit={submit} className="space-y-4">
+        {errorMsg && (
+          <div className="rounded-xl border border-[color:var(--burgundy)] bg-[color:var(--burgundy)]/10 p-3 text-xs text-[color:var(--burgundy)]">
+            {errorMsg}
+          </div>
+        )}
+
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Name" required>
             <input
@@ -725,6 +771,7 @@ function PersonDrawer({
   allGifts,
   onClose,
   onEdit,
+  onAddGift,
   addRow,
   updateField,
   removeRow,
@@ -733,6 +780,7 @@ function PersonDrawer({
   allGifts: GiftRow[];
   onClose: () => void;
   onEdit: () => void;
+  onAddGift: () => void;
   addRow: (fields: Partial<GiftRow>) => Promise<void> | void;
   updateField: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   removeRow: (id: string) => void;
@@ -741,14 +789,7 @@ function PersonDrawer({
   const thisYear = allGifts.filter((g) => g.year === CURRENT_YEAR);
   const previousYears = allGifts.filter((g) => g.year < CURRENT_YEAR);
 
-  const addBlank = () =>
-    addRow({
-      recipient: person.name,
-      person_id: person.id,
-      item: "",
-      status: "idea",
-      year: CURRENT_YEAR,
-    } as Partial<GiftRow>);
+
 
   return (
     <Modal onClose={onClose} title={person.name || "Person"} eyebrow={person.relationship || "Christmas list"} wide>
@@ -794,7 +835,7 @@ function PersonDrawer({
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg">Gifts for {CURRENT_YEAR}</h3>
           <button
-            onClick={addBlank}
+            onClick={onAddGift}
             className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
             style={{ background: "var(--gradient-gold)" }}
           >
@@ -1215,14 +1256,16 @@ function AiIdeasPanel({
 
 function QuickGiftForm({
   people,
+  lockedPersonId,
   onClose,
   onSave,
 }: {
   people: PersonExtras[];
+  lockedPersonId?: string | null;
   onClose: () => void;
   onSave: (fields: Partial<GiftRow>) => Promise<void> | void;
 }) {
-  const [personId, setPersonId] = useState<string>(people[0]?.id ?? "");
+  const [personId, setPersonId] = useState<string>(lockedPersonId ?? people[0]?.id ?? "");
   const [item, setItem] = useState("");
   const [price, setPrice] = useState<string>("");
   const [shop, setShop] = useState("");
@@ -1233,6 +1276,10 @@ function QuickGiftForm({
     e.preventDefault();
     if (!personId) {
       toast.error("Pick a person first");
+      return;
+    }
+    if (!item.trim()) {
+      toast.error("Give the gift a name or note ✨");
       return;
     }
     const person = people.find((p) => p.id === personId);
@@ -1249,6 +1296,9 @@ function QuickGiftForm({
     setSaving(false);
     toast.success("Gift added ✨");
   };
+
+  const lockedPerson = lockedPersonId ? people.find((p) => p.id === lockedPersonId) : null;
+
 
   return (
     <Modal
@@ -1279,18 +1329,25 @@ function QuickGiftForm({
     >
       <form id="quick-gift-form" onSubmit={submit} className="space-y-4">
         <Field label="For">
-          <select
-            value={personId}
-            onChange={(e) => setPersonId(e.target.value)}
-            className={inputCls}
-          >
-            {people.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name || "Untitled"}
-              </option>
-            ))}
-          </select>
+          {lockedPerson ? (
+            <div className={inputCls + " flex items-center bg-black/30 text-[color:var(--gold-soft)]"}>
+              {lockedPerson.name}
+            </div>
+          ) : (
+            <select
+              value={personId}
+              onChange={(e) => setPersonId(e.target.value)}
+              className={inputCls}
+            >
+              {people.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name || "Unnamed"}
+                </option>
+              ))}
+            </select>
+          )}
         </Field>
+
         <Field label="Gift">
           <input
             autoFocus
