@@ -41,24 +41,26 @@ export function usePeople(userId: string | undefined) {
   const [people, setPeople] = useState<Person[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const refetch = useCallback(async () => {
+    if (!userId) return;
+    const { data, error } = await supabase
+      .from("people")
+      .select("*")
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: true });
+    if (error) {
+      console.error("[usePeople] load failed", error);
+      toast.error("Couldn't load people");
+    } else {
+      setPeople((data ?? []) as Person[]);
+    }
+    setLoading(false);
+  }, [userId]);
+
   useEffect(() => {
     if (!userId) return;
-    let cancelled = false;
-    (async () => {
-      const { data, error } = await supabase
-        .from("people")
-        .select("*")
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: true });
-      if (cancelled) return;
-      if (error) toast.error("Couldn't load people");
-      else setPeople((data ?? []) as Person[]);
-      setLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [userId]);
+    void refetch();
+  }, [userId, refetch]);
 
   useEffect(() => {
     if (!userId) return;
@@ -101,13 +103,23 @@ export function usePeople(userId: string | undefined) {
         .select()
         .single();
       if (error) {
+        console.error("[usePeople] add failed", error);
         toast.error("Couldn't add person");
         return null;
       }
-      return data as Person;
+      const row = data as Person;
+      setPeople((prev) => (prev.some((p) => p.id === row.id) ? prev : [...prev, row]));
+      return row;
     },
     [userId],
   );
+
+  const upsertLocal = useCallback((row: Person) => {
+    setPeople((prev) => {
+      if (prev.some((p) => p.id === row.id)) return prev.map((p) => (p.id === row.id ? row : p));
+      return [...prev, row];
+    });
+  }, []);
 
   const removePerson = useCallback(async (id: string) => {
     setPeople((prev) => prev.filter((p) => p.id !== id));
@@ -115,8 +127,9 @@ export function usePeople(userId: string | undefined) {
     if (error) toast.error("Couldn't remove");
   }, []);
 
-  return { people, loading, addPerson, removePerson };
+  return { people, loading, addPerson, removePerson, refetch, upsertLocal };
 }
+
 
 export function usePerson(id: string | undefined, userId: string | undefined) {
   const [person, setPerson] = useState<Person | null>(null);
