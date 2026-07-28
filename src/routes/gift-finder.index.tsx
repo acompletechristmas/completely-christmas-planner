@@ -91,7 +91,7 @@ function GiftFinderPage() {
         </div>
       </section>
 
-      <div className="mb-6 flex items-center justify-center gap-3">
+      <div id="ai-gift-finder" className="mb-6 flex items-center justify-center gap-3 scroll-mt-20">
         <span className="h-px flex-1 max-w-[80px] bg-[color:var(--gold)]/30" />
         <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">AI Gift Finder</span>
         <span className="h-px flex-1 max-w-[80px] bg-[color:var(--gold)]/30" />
