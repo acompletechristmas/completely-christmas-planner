@@ -385,7 +385,7 @@ function RecipientCard({
           {person.name?.[0]?.toUpperCase() || "?"}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-lg leading-tight">{person.name || "Untitled"}</p>
+          <p className="truncate font-display text-lg leading-tight">{person.name || "Unnamed"}</p>
           <p className="truncate text-xs text-muted-foreground">
             {person.relationship || "Christmas list"}
             {age != null && age !== "" ? ` · ${age}` : ""}
