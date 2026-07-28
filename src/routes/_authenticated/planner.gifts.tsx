@@ -96,16 +96,21 @@ function BuyingForPage() {
 
   const loading = peopleLoading || giftsLoading;
 
+  const namedGifts = useMemo(
+    () => gifts.filter((g) => (g.item ?? "").trim().length > 0),
+    [gifts],
+  );
+
   const giftsByPerson = useMemo(() => {
     const map = new Map<string, GiftRow[]>();
-    for (const g of gifts) {
+    for (const g of namedGifts) {
       if (!g.person_id) continue;
       const arr = map.get(g.person_id) ?? [];
       arr.push(g);
       map.set(g.person_id, arr);
     }
     return map;
-  }, [gifts]);
+  }, [namedGifts]);
 
   const thisYearGifts = useMemo(() => gifts.filter((g) => g.year === CURRENT_YEAR), [gifts]);
   const ideaCount = thisYearGifts.length;
