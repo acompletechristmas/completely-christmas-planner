@@ -3,7 +3,7 @@ import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/P
 import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star, Snowflake, ArrowRight } from "lucide-react";
 
 
-export const Route = createFileRoute("/gift-finder")({
+export const Route = createFileRoute("/gift-finder/")({
   head: () => ({
     meta: [
       { title: "AI Gift Finder — A Complete Christmas" },
