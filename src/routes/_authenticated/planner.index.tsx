@@ -57,23 +57,132 @@ interface OutingRow extends BaseRow {
 
 interface Section {
   key: string;
+  eyebrow: string;
   title: string;
   tagline: string;
-  emoji: string;
+  action: string;
   icon: LucideIcon;
   to: string;
-  gradient: string;
+  bg: string;
+  accent: string;
   border: string;
+  iconTint: string;
+  glow: string;
 }
 
 const SECTIONS: Section[] = [
-  { key: "decorations", title: "Decorations", tagline: "Tree, lights, wreaths — every twinkle.", emoji: "✨", icon: Sparkles, to: "/planner/my", gradient: "linear-gradient(135deg, oklch(0.80 0.14 85), oklch(0.65 0.12 60))", border: "oklch(0.80 0.14 85 / 0.45)" },
-  { key: "food", title: "Food", tagline: "Menus, orders, mince pies.", emoji: "🍰", icon: UtensilsCrossed, to: "/planner/my", gradient: "linear-gradient(135deg, oklch(0.50 0.14 30), oklch(0.40 0.10 20))", border: "oklch(0.80 0.14 40 / 0.4)" },
-  { key: "cards", title: "Cards", tagline: "Write, address, post in time.", emoji: "💌", icon: Mail, to: "/planner/cards", gradient: "linear-gradient(135deg, oklch(0.55 0.12 150), oklch(0.42 0.10 155))", border: "oklch(0.75 0.12 150 / 0.4)" },
-  { key: "traditions", title: "Traditions", tagline: "Elf, films, family calls.", emoji: "⭐", icon: Star, to: "/planner/my", gradient: "linear-gradient(135deg, oklch(0.60 0.14 280), oklch(0.42 0.12 265))", border: "oklch(0.75 0.14 280 / 0.4)" },
-  { key: "home", title: "Home Preparation", tagline: "Guest beds, cosy corners, big clean.", emoji: "🏡", icon: Home, to: "/planner/my", gradient: "linear-gradient(135deg, oklch(0.50 0.10 200), oklch(0.38 0.08 220))", border: "oklch(0.75 0.12 210 / 0.4)" },
-  { key: "checklist", title: "Final Checklist", tagline: "The last-week sweep.", emoji: "🌟", icon: ListChecks, to: "/planner/todos", gradient: "linear-gradient(135deg, oklch(0.82 0.14 85), oklch(0.62 0.14 55))", border: "oklch(0.85 0.14 85 / 0.55)" },
-  { key: "events", title: "Events (parties)", tagline: "Parties, grottos, carols.", emoji: "🎉", icon: PartyPopper, to: "/planner/my", gradient: "linear-gradient(135deg, oklch(0.55 0.16 340), oklch(0.42 0.12 320))", border: "oklch(0.75 0.14 340 / 0.4)" },
+  {
+    key: "plans",
+    eyebrow: "YOUR MASTER PLAN",
+    title: "My Christmas Plans",
+    tagline: "Your master list — every to-do, ticked off in time.",
+    action: "View my plans",
+    icon: ListChecks,
+    to: "/planner/todos",
+    bg: "linear-gradient(160deg, oklch(0.24 0.09 350 / 0.85), oklch(0.17 0.07 350 / 0.92))",
+    accent: "oklch(0.86 0.09 88 / 0.75)",
+    border: "oklch(0.55 0.14 350 / 0.4)",
+    iconTint: "oklch(0.90 0.09 88)",
+    glow: "0 14px 40px -20px oklch(0.55 0.16 350 / 0.55)",
+  },
+  {
+    key: "home",
+    eyebrow: "HOME & DECORATIONS",
+    title: "My Christmas Home",
+    tagline: "Tree, lights, wreaths, guest beds, cosy corners.",
+    action: "View home ideas",
+    icon: Home,
+    to: "/planner/my",
+    bg: "linear-gradient(160deg, oklch(0.26 0.07 155 / 0.85), oklch(0.19 0.06 155 / 0.92))",
+    accent: "oklch(0.94 0.05 90 / 0.7)",
+    border: "oklch(0.55 0.14 155 / 0.35)",
+    iconTint: "oklch(0.94 0.05 90)",
+    glow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
+  },
+  {
+    key: "food",
+    eyebrow: "FOOD & HOSTING",
+    title: "Food & Hosting",
+    tagline: "Menus, orders, mince pies, the big day itself.",
+    action: "View food plans",
+    icon: UtensilsCrossed,
+    to: "/planner/my",
+    bg: "linear-gradient(160deg, oklch(0.28 0.11 25 / 0.82), oklch(0.19 0.09 25 / 0.92))",
+    accent: "oklch(0.86 0.10 88 / 0.7)",
+    border: "oklch(0.55 0.16 25 / 0.4)",
+    iconTint: "oklch(0.88 0.10 88)",
+    glow: "0 14px 40px -20px oklch(0.55 0.18 25 / 0.55)",
+  },
+  {
+    key: "films",
+    eyebrow: "FILMS & TV",
+    title: "Films & TV",
+    tagline: "The nights-in list — classics and comfort re-watches.",
+    action: "View films",
+    icon: Star,
+    to: "/planner/my",
+    bg: "linear-gradient(160deg, oklch(0.19 0.06 260 / 0.88), oklch(0.13 0.05 260 / 0.94))",
+    accent: "oklch(0.86 0.09 88 / 0.65)",
+    border: "oklch(0.50 0.10 260 / 0.4)",
+    iconTint: "oklch(0.88 0.10 88)",
+    glow: "0 14px 40px -20px oklch(0.45 0.12 260 / 0.55)",
+  },
+  {
+    key: "music",
+    eyebrow: "MUSIC & PLAYLISTS",
+    title: "Music & Playlists",
+    tagline: "Carols, jazz, singalongs — the soundtrack for the season.",
+    action: "View music",
+    icon: Sparkles,
+    to: "/planner/my",
+    bg: "linear-gradient(160deg, oklch(0.24 0.06 210 / 0.85), oklch(0.16 0.05 210 / 0.92))",
+    accent: "oklch(0.86 0.08 88 / 0.65)",
+    border: "oklch(0.50 0.10 210 / 0.4)",
+    iconTint: "oklch(0.88 0.09 88)",
+    glow: "0 14px 40px -20px oklch(0.45 0.12 210 / 0.55)",
+  },
+  {
+    key: "cards",
+    eyebrow: "CARDS & POST",
+    title: "Cards & Post",
+    tagline: "Write, address, post in time.",
+    action: "View cards",
+    icon: Mail,
+    to: "/planner/cards",
+    bg: "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.82), oklch(0.17 0.06 155 / 0.92))",
+    accent: "oklch(0.86 0.09 88 / 0.65)",
+    border: "oklch(0.50 0.12 155 / 0.4)",
+    iconTint: "oklch(0.88 0.10 88)",
+    glow: "0 14px 40px -20px oklch(0.50 0.14 155 / 0.5)",
+  },
+  {
+    key: "traditions",
+    eyebrow: "TRADITIONS",
+    title: "Traditions",
+    tagline: "Elf on the shelf, midnight mass, family calls.",
+    action: "View traditions",
+    icon: PartyPopper,
+    to: "/planner/my",
+    bg: "linear-gradient(160deg, oklch(0.24 0.10 300 / 0.82), oklch(0.17 0.08 300 / 0.92))",
+    accent: "oklch(0.86 0.09 88 / 0.65)",
+    border: "oklch(0.50 0.12 300 / 0.4)",
+    iconTint: "oklch(0.88 0.10 88)",
+    glow: "0 14px 40px -20px oklch(0.50 0.14 300 / 0.55)",
+  },
+  {
+    key: "checklist",
+    eyebrow: "LAST-WEEK SWEEP",
+    title: "Final Checklist",
+    tagline: "The final sweep so nothing's forgotten.",
+    action: "View checklist",
+    icon: ListChecks,
+    to: "/planner/todos",
+    bg: "linear-gradient(160deg, oklch(0.26 0.06 245 / 0.85), oklch(0.18 0.05 245 / 0.92))",
+    accent: "oklch(0.88 0.11 88 / 0.75)",
+    border: "oklch(0.55 0.10 245 / 0.4)",
+    iconTint: "oklch(0.88 0.11 88)",
+    glow: "0 14px 40px -20px oklch(0.82 0.14 85 / 0.5)",
+  },
 ];
 
 function PlannerOverview() {
