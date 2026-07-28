@@ -549,9 +549,17 @@ function RecipientCard({
   };
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--forest-deep)]/70">
+    <article
+      className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-[oklch(0.22_0.05_245_/_0.75)] shadow-[0_14px_40px_-20px_oklch(0_0_0_/_0.6)]"
+    >
+      {/* Gold top accent bar — visually anchors each person card */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[3px]"
+        style={{ background: "var(--gradient-gold)" }}
+      />
       {/* Collapsed / summary row */}
-      <div className="p-5">
+      <div className="p-5 pt-6">
         <div className="flex items-start gap-3">
           <span
             className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl font-display text-lg text-[color:var(--forest-deep)]"
@@ -560,30 +568,27 @@ function RecipientCard({
             {person.name?.[0]?.toUpperCase() || "?"}
           </span>
           <button onClick={onToggle} className="min-w-0 flex-1 text-left">
-            <p className="truncate font-display text-lg leading-tight">
+            <p className="truncate font-display text-2xl leading-tight text-[color:var(--cream)]">
               {person.name || "Unnamed"}
             </p>
-            <p className="truncate text-xs text-muted-foreground">
+            <p className="mt-0.5 text-xs text-[color:var(--cream)]/60">
               {person.relationship || "Christmas list"}
               {budget != null ? ` · £${budget.toFixed(0)} budget` : ""}
             </p>
-            <p className="mt-1.5 text-[12px] text-[color:var(--cream)]/85">
-              {presents.length} present{presents.length === 1 ? "" : "s"} · {boughtCount} bought · {receivedCount} received · {wrappedCount} wrapped · {givenCount} given
-              {ideas.length > 0 ? ` · ${ideas.length} idea${ideas.length === 1 ? "" : "s"}` : ""}
+            <p className="mt-1.5 text-[12px] font-medium text-[color:var(--cream)]/85">
+              £{spent.toFixed(0)}
+              {budget != null ? ` spent of £${budget.toFixed(0)}` : " spent"}
+              {over ? " · over budget" : ""}
             </p>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
-              <span className={over ? "text-[color:var(--burgundy)]" : ""}>
-                £{spent.toFixed(0)}
-                {budget != null ? ` of £${budget.toFixed(0)}` : ""} spent
-              </span>
-              {budget == null && planned > 0 ? ` · £${planned.toFixed(0)} planned` : ""}
-              {over ? " · over" : ""}
+            <p className="mt-0.5 text-[11px] text-[color:var(--cream)]/60">
+              {presents.length} present{presents.length === 1 ? "" : "s"} · {boughtCount} bought · {wrappedCount} wrapped · {givenCount} given
+              {ideas.length > 0 ? ` · ${ideas.length} idea${ideas.length === 1 ? "" : "s"}` : ""}
             </p>
           </button>
           <div className="flex shrink-0 flex-col items-end gap-1">
             <button
               onClick={onToggle}
-              className="rounded-full border border-[color:var(--gold)]/30 bg-black/20 p-2 text-muted-foreground transition hover:border-[color:var(--gold)]/70 hover:text-foreground"
+              className="rounded-full border border-[color:var(--gold)]/40 bg-black/30 p-2 text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
               aria-label={expanded ? "Collapse" : "Expand"}
             >
               {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -602,7 +607,7 @@ function RecipientCard({
 
       {/* Expanded body */}
       {expanded && (
-        <div className="space-y-5 border-t border-[color:var(--gold)]/15 bg-black/15 p-5">
+        <div className="space-y-5 border-t border-[color:var(--gold)]/15 bg-black/25 p-5">
           {/* Card actions */}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             <SmallAction onClick={onAddPresent} icon={<Package className="h-4 w-4" />} label="+ Add present" primary />
@@ -611,20 +616,52 @@ function RecipientCard({
             <SmallAction onClick={onEdit} icon={<Pencil className="h-4 w-4" />} label="Edit person" />
           </div>
 
-          {/* Gift Ideas */}
-          <section>
+          {/* Gift Ideas — pale champagne "suggestion" tint, dark text */}
+          <section
+            className="rounded-2xl border p-4"
+            style={{
+              background:
+                "linear-gradient(180deg, oklch(0.94 0.05 88 / 0.96), oklch(0.90 0.06 88 / 0.92))",
+              borderColor: "oklch(0.75 0.13 82 / 0.55)",
+              color: "oklch(0.20 0.03 245)",
+            }}
+          >
             <div className="flex items-center gap-2">
-              <Lightbulb className="h-4 w-4 text-[color:var(--gold-soft)]" />
-              <h4 className="font-display text-base">Gift Ideas</h4>
-              <span className="text-[11px] text-muted-foreground">
-                ({ideas.length}{filter !== "all" && filteredIdeas.length !== ideas.length ? ` · ${filteredIdeas.length} showing` : ""})
+              <Lightbulb className="h-4 w-4" style={{ color: "oklch(0.42 0.14 65)" }} />
+              <h4
+                className="font-sans text-sm font-bold uppercase tracking-[0.14em]"
+                style={{ color: "oklch(0.30 0.05 60)" }}
+              >
+                Gift Ideas
+              </h4>
+              <span className="text-[11px]" style={{ color: "oklch(0.35 0.03 60)" }}>
+                ({ideas.length}
+                {filter !== "all" && filteredIdeas.length !== ideas.length
+                  ? ` · ${filteredIdeas.length} showing`
+                  : ""}
+                )
+              </span>
+              <span
+                className="ml-auto rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em]"
+                style={{
+                  borderColor: "oklch(0.55 0.10 60 / 0.5)",
+                  color: "oklch(0.40 0.08 60)",
+                }}
+              >
+                Still deciding
               </span>
             </div>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
+            <p className="mt-0.5 text-[11px]" style={{ color: "oklch(0.35 0.02 60)" }}>
               Possibilities — nothing here counts as bought until you choose it.
             </p>
             {filteredIdeas.length === 0 ? (
-              <p className="mt-2 rounded-xl border border-dashed border-[color:var(--gold)]/25 p-4 text-center text-xs text-muted-foreground">
+              <p
+                className="mt-2 rounded-xl border border-dashed p-4 text-center text-xs"
+                style={{
+                  borderColor: "oklch(0.65 0.08 60 / 0.5)",
+                  color: "oklch(0.40 0.05 60)",
+                }}
+              >
                 {ideas.length === 0 ? "No ideas saved yet." : "No ideas match this filter."}
               </p>
             ) : (
@@ -642,28 +679,43 @@ function RecipientCard({
             )}
           </section>
 
-          {/* Presents */}
-          <section>
+          {/* Presents — deep forest, active/managed items */}
+          <section
+            className="rounded-2xl border p-4"
+            style={{
+              background:
+                "linear-gradient(180deg, oklch(0.24 0.08 155 / 0.9), oklch(0.18 0.07 155 / 0.95))",
+              borderColor: "oklch(0.55 0.14 155 / 0.45)",
+              boxShadow: "0 10px 30px -18px oklch(0 0 0 / 0.7)",
+            }}
+          >
             <div className="flex items-center gap-2">
               <Package className="h-4 w-4 text-[color:var(--gold-soft)]" />
-              <h4 className="font-display text-base">Presents</h4>
-              <span className="text-[11px] text-muted-foreground">
-                ({presents.length}{filter !== "all" && filteredPresents.length !== presents.length ? ` · ${filteredPresents.length} showing` : ""})
+              <h4 className="font-sans text-sm font-bold uppercase tracking-[0.14em] text-[color:var(--gold-soft)]">
+                Presents
+              </h4>
+              <span className="text-[11px] text-[color:var(--cream)]/60">
+                ({presents.length}
+                {filter !== "all" && filteredPresents.length !== presents.length
+                  ? ` · ${filteredPresents.length} showing`
+                  : ""}
+                )
               </span>
             </div>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
+            <p className="mt-0.5 text-[11px] text-[color:var(--cream)]/60">
               What you've chosen to buy. Tick each stage as it happens.
             </p>
             {filteredPresents.length === 0 ? (
-              <p className="mt-2 rounded-xl border border-dashed border-[color:var(--gold)]/25 p-4 text-center text-xs text-muted-foreground">
+              <p className="mt-2 rounded-xl border border-dashed border-[color:var(--gold)]/25 p-4 text-center text-xs text-[color:var(--cream)]/60">
                 {presents.length === 0 ? "No presents chosen yet." : "No presents match this filter."}
               </p>
             ) : (
               <ul className="mt-2 space-y-3">
-                {filteredPresents.map((g) => (
+                {filteredPresents.map((g, i) => (
                   <PresentEditor
                     key={g.id}
                     gift={g}
+                    zebra={i % 2 === 1}
                     onUpdate={updateField}
                     onRemove={removeRow}
                   />
