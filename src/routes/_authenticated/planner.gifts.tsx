@@ -523,7 +523,7 @@ function PersonForm({
   userId: string;
   initial?: PersonExtras;
   onClose: () => void;
-  onSaved: () => void;
+  onSaved: (row: Person | null) => void;
 }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [relationship, setRelationship] = useState(initial?.relationship ?? "");
@@ -535,9 +535,11 @@ function PersonForm({
   const [needsStocking, setNeedsStocking] = useState(initial?.needs_stocking ?? false);
   const [needsCard, setNeedsCard] = useState(initial?.needs_card ?? false);
   const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg(null);
     if (!name.trim()) {
       toast.error("A name would be lovely ✨");
       return;
@@ -554,22 +556,38 @@ function PersonForm({
       needs_stocking: needsStocking,
       needs_card: needsCard,
     };
+    let row: Person | null = null;
     let error;
     if (initial) {
-      ({ error } = await supabase.from("people").update(payload as never).eq("id", initial.id));
-    } else {
-      ({ error } = await supabase
+      const res = await supabase
         .from("people")
-        .insert({ user_id: userId, ...payload } as never));
+        .update(payload as never)
+        .eq("id", initial.id)
+        .select()
+        .single();
+      error = res.error;
+      row = (res.data as Person) ?? null;
+    } else {
+      const res = await supabase
+        .from("people")
+        .insert({ user_id: userId, ...payload } as never)
+        .select()
+        .single();
+      error = res.error;
+      row = (res.data as Person) ?? null;
     }
     setSaving(false);
     if (error) {
-      toast.error("Couldn't save — please try again");
+      console.error("[PersonForm] save failed", error);
+      const msg = error.message || "Couldn't save — please try again";
+      setErrorMsg(msg);
+      toast.error(msg);
       return;
     }
     toast.success(initial ? "Saved" : `${payload.name} added to your list ✨`);
-    onSaved();
+    onSaved(row);
   };
+
 
   return (
     <Modal
