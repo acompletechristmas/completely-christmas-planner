@@ -1,8 +1,8 @@
-import { createFileRoute, Link, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { Snowfall } from "@/components/Snowfall";
-import { supabase } from "@/integrations/supabase/client";
+import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
-import { LogOut, Home } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
@@ -31,55 +31,32 @@ function firstName(email?: string | null, meta?: Record<string, unknown> | null)
 
 function PlannerLayout() {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const onOverview = pathname === "/planner";
   const name = firstName(user?.email, user?.user_metadata as Record<string, unknown> | null);
   const sleeps = daysToChristmas();
 
-  async function handleSignOut() {
-    await supabase.auth.signOut();
-    navigate({ to: "/" });
-  }
-
   return (
     <div className="relative min-h-screen text-[color:var(--foreground)]">
       <Snowfall count={40} />
+      <SiteNav />
 
-      {/* Top bar */}
-      <header className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--midnight-deep)]/85 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <Link to="/planner" className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-full font-display text-sm text-[color:var(--midnight-deep)]" style={{ background: "var(--gradient-gold)" }}>C</span>
-            <span className="font-display text-[17px] tracking-tight text-[color:var(--cream)]">
-              A Complete <span className="gold-text not-italic">Christmas</span>
-            </span>
+      {/* Back to Planning HQ breadcrumb (not on overview) */}
+      {!onOverview && (
+        <div className="relative z-10 mx-auto max-w-7xl px-5 pt-24 sm:px-8 sm:pt-28">
+          <Link
+            to="/planner"
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--midnight-deep)]/60 px-3.5 py-1.5 text-xs font-medium text-[color:var(--cream)]/85 backdrop-blur-sm transition hover:border-[color:var(--gold)]/70 hover:text-[color:var(--cream)]"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Planning HQ
           </Link>
-
-          <div className="flex items-center gap-2">
-            {!onOverview && (
-              <Link
-                to="/planner"
-                className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3.5 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] transition hover:text-[color:var(--ink)] hover:border-[color:var(--forest)]"
-              >
-                <Home className="h-3.5 w-3.5" />
-                My Christmas
-              </Link>
-            )}
-            <button
-              onClick={handleSignOut}
-              className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3.5 py-1.5 text-xs font-medium text-[color:var(--muted-foreground)] transition hover:text-[color:var(--ink)] hover:border-[color:var(--forest)]"
-            >
-              <LogOut className="h-3.5 w-3.5" />
-              Sign out
-            </button>
-          </div>
         </div>
-      </header>
+      )}
 
       {/* Warm greeting strip — only on overview */}
       {onOverview && (
-        <section className="relative z-10 mx-auto max-w-7xl px-5 pt-12 sm:px-8 sm:pt-16">
+        <section className="relative z-10 mx-auto max-w-7xl px-5 pt-28 sm:px-8 sm:pt-32">
           <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">
             {sleeps} sleeps until Christmas
           </p>
