@@ -78,10 +78,24 @@ const SECTIONS: Section[] = [
 
 function PlannerOverview() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const { people, loading: peopleLoading } = usePeople(user?.id);
   const { rows: gifts } = usePlannerList<GiftRow>("gifts", user?.id);
   const { rows: outings } = usePlannerList<OutingRow>("outings", user?.id);
   const { settings } = usePlannerSettings(user?.id);
+
+  // One-time onboarding: send brand-new users to setup on their first visit.
+  // Once they've completed setup, added a person, or saved a gift, we never
+  // redirect again — Planning HQ opens directly.
+  const redirectedRef = useRef(false);
+  useEffect(() => {
+    if (redirectedRef.current) return;
+    if (!settings || peopleLoading) return;
+    if (settings.setup_completed) return;
+    if (people.length > 0 || gifts.length > 0) return;
+    redirectedRef.current = true;
+    void navigate({ to: "/planner/setup" });
+  }, [settings, peopleLoading, people.length, gifts.length, navigate]);
 
   const householdChoices = HOUSEHOLD_TYPES.filter((o) => settings?.household_types?.includes(o.value));
   const styleChoices = CELEBRATION_STYLES.filter((o) => settings?.celebration_style?.includes(o.value));
