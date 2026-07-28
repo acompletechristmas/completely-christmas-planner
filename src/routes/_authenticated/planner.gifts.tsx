@@ -88,8 +88,10 @@ function BuyingForPage() {
 
   const [addOpen, setAddOpen] = useState(false);
   const [addGiftOpen, setAddGiftOpen] = useState(false);
+  const [lockedGiftPersonId, setLockedGiftPersonId] = useState<string | null>(null);
   const [openPersonId, setOpenPersonId] = useState<string | null>(null);
   const [editPersonId, setEditPersonId] = useState<string | null>(null);
+
   const [search, setSearch] = useState("");
 
   const loading = peopleLoading || giftsLoading;
