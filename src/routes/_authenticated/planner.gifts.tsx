@@ -769,7 +769,7 @@ function PersonDrawer({
   allGifts,
   onClose,
   onEdit,
-  addRow,
+  onAddGift,
   updateField,
   removeRow,
 }: {
@@ -777,7 +777,7 @@ function PersonDrawer({
   allGifts: GiftRow[];
   onClose: () => void;
   onEdit: () => void;
-  addRow: (fields: Partial<GiftRow>) => Promise<void> | void;
+  onAddGift: () => void;
   updateField: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   removeRow: (id: string) => void;
 }) {
@@ -785,14 +785,6 @@ function PersonDrawer({
   const thisYear = allGifts.filter((g) => g.year === CURRENT_YEAR);
   const previousYears = allGifts.filter((g) => g.year < CURRENT_YEAR);
 
-  const addBlank = () =>
-    addRow({
-      recipient: person.name,
-      person_id: person.id,
-      item: "",
-      status: "idea",
-      year: CURRENT_YEAR,
-    } as Partial<GiftRow>);
 
   return (
     <Modal onClose={onClose} title={person.name || "Person"} eyebrow={person.relationship || "Christmas list"} wide>
