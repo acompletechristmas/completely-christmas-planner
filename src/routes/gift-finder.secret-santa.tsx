@@ -1,7 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageShell } from "@/components/PageShell";
-import { ArrowLeft, ExternalLink, Bookmark, Sparkles, Gift } from "lucide-react";
+import { ArrowLeft, ExternalLink, Bookmark, Sparkles, Gift, Save, Loader2, X, Plus } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { usePeople } from "@/hooks/use-people";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   filterSecretSantaGifts,
   type GiftStyle,
