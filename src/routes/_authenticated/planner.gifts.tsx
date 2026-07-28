@@ -770,6 +770,7 @@ function PersonDrawer({
   onClose,
   onEdit,
   onAddGift,
+  addRow,
   updateField,
   removeRow,
 }: {
@@ -778,12 +779,14 @@ function PersonDrawer({
   onClose: () => void;
   onEdit: () => void;
   onAddGift: () => void;
+  addRow: (fields: Partial<GiftRow>) => Promise<void> | void;
   updateField: <K extends keyof GiftRow>(id: string, field: K, value: GiftRow[K]) => void;
   removeRow: (id: string) => void;
 }) {
   const [aiOpen, setAiOpen] = useState(false);
   const thisYear = allGifts.filter((g) => g.year === CURRENT_YEAR);
   const previousYears = allGifts.filter((g) => g.year < CURRENT_YEAR);
+
 
 
   return (
