@@ -20,8 +20,6 @@ import {
   Pencil,
   Stamp,
   ExternalLink,
-  ChevronDown,
-  ChevronUp,
   CalendarDays,
   Lightbulb,
   Package,
