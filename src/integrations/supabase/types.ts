@@ -59,20 +59,28 @@ export type Database = {
           category: string | null
           created_at: string
           delivered: boolean
+          given: boolean
+          given_at: string | null
           given_by: string | null
           hidden_location: string | null
           id: string
+          is_chosen: boolean
+          is_idea: boolean
           item: string
           notes: string | null
           opening_photo_url: string | null
           ordered: boolean
+          ordered_at: string | null
           person_id: string | null
           photo_url: string | null
           post_notes: string | null
           price: number | null
           purchase_date: string | null
           rating: string | null
+          received_at: string | null
           recipient: string
+          sent: boolean
+          sent_at: string | null
           shop: string | null
           sort_order: number
           status: string
@@ -80,6 +88,7 @@ export type Database = {
           url: string | null
           user_id: string
           wrapped: boolean
+          wrapped_at: string | null
           year: number
         }
         Insert: {
@@ -87,20 +96,28 @@ export type Database = {
           category?: string | null
           created_at?: string
           delivered?: boolean
+          given?: boolean
+          given_at?: string | null
           given_by?: string | null
           hidden_location?: string | null
           id?: string
+          is_chosen?: boolean
+          is_idea?: boolean
           item?: string
           notes?: string | null
           opening_photo_url?: string | null
           ordered?: boolean
+          ordered_at?: string | null
           person_id?: string | null
           photo_url?: string | null
           post_notes?: string | null
           price?: number | null
           purchase_date?: string | null
           rating?: string | null
+          received_at?: string | null
           recipient?: string
+          sent?: boolean
+          sent_at?: string | null
           shop?: string | null
           sort_order?: number
           status?: string
@@ -108,6 +125,7 @@ export type Database = {
           url?: string | null
           user_id: string
           wrapped?: boolean
+          wrapped_at?: string | null
           year?: number
         }
         Update: {
@@ -115,20 +133,28 @@ export type Database = {
           category?: string | null
           created_at?: string
           delivered?: boolean
+          given?: boolean
+          given_at?: string | null
           given_by?: string | null
           hidden_location?: string | null
           id?: string
+          is_chosen?: boolean
+          is_idea?: boolean
           item?: string
           notes?: string | null
           opening_photo_url?: string | null
           ordered?: boolean
+          ordered_at?: string | null
           person_id?: string | null
           photo_url?: string | null
           post_notes?: string | null
           price?: number | null
           purchase_date?: string | null
           rating?: string | null
+          received_at?: string | null
           recipient?: string
+          sent?: boolean
+          sent_at?: string | null
           shop?: string | null
           sort_order?: number
           status?: string
@@ -136,6 +162,7 @@ export type Database = {
           url?: string | null
           user_id?: string
           wrapped?: boolean
+          wrapped_at?: string | null
           year?: number
         }
         Relationships: [
@@ -147,6 +174,66 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      outings: {
+        Row: {
+          attendees: string | null
+          booked: boolean
+          booking_url: string | null
+          completed: boolean
+          cost: number | null
+          created_at: string
+          event_date: string | null
+          event_time: string | null
+          id: string
+          location: string | null
+          name: string
+          notes: string | null
+          paid: boolean
+          planned: boolean
+          sort_order: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendees?: string | null
+          booked?: boolean
+          booking_url?: string | null
+          completed?: boolean
+          cost?: number | null
+          created_at?: string
+          event_date?: string | null
+          event_time?: string | null
+          id?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          paid?: boolean
+          planned?: boolean
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendees?: string | null
+          booked?: boolean
+          booking_url?: string | null
+          completed?: boolean
+          cost?: number | null
+          created_at?: string
+          event_date?: string | null
+          event_time?: string | null
+          id?: string
+          location?: string | null
+          name?: string
+          notes?: string | null
+          paid?: boolean
+          planned?: boolean
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       partner_enquiries: {
         Row: {
