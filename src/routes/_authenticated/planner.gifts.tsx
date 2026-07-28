@@ -134,41 +134,7 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
-      {/* 0. Choose a gift tool — main selection */}
-      <section aria-label="Choose a gift tool" className="space-y-3">
-        <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-xl sm:text-2xl">
-            <span className="gold-text italic">Gifts</span> — choose a tool
-          </h2>
-          <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">3 ways to plan</p>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <GiftToolCard
-            icon={<Users className="h-5 w-5" />}
-            title="Gift Planner"
-            desc="Keep track of who you are buying for, what you plan to buy, what has been ordered, received and wrapped."
-            cta="You're here"
-            current
-            to="#gift-planner"
-          />
-          <GiftToolCard
-            icon={<Sparkles className="h-5 w-5" />}
-            title="Gift Finder"
-            desc="Find thoughtful and personalised gift ideas for different people, interests and budgets."
-            cta="Open Gift Finder"
-            to="/gift-finder"
-          />
-          <GiftToolCard
-            icon={<GiftIcon className="h-5 w-5" />}
-            title="Secret Santa"
-            desc="Find Secret Santa gift ideas by budget and save them to your Gift Planner."
-            cta="Open Secret Santa"
-            to="/gift-finder/secret-santa"
-          />
-        </div>
-      </section>
-
-      {/* 1. Title + short explanation */}
+      {/* 1. Title */}
       <header id="gift-planner" className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-8 shadow-[0_20px_60px_-20px_oklch(0.15_0.05_155_/_0.6)]">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-[color:var(--gold)]/15 blur-3xl" />
         <p className="relative text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
@@ -182,11 +148,11 @@ function BuyingForPage() {
         </p>
       </header>
 
-      {/* 2 & 3. Primary actions — full-width, stacked on mobile */}
-      <div className="grid gap-3 sm:grid-cols-2">
+      {/* 2. Primary actions — 4 buttons at the top */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         <button
           onClick={() => setAddOpen(true)}
-          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-base font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
           style={{ background: "var(--gradient-gold)" }}
         >
           <Plus className="h-5 w-5" /> Add a person
@@ -194,10 +160,22 @@ function BuyingForPage() {
         <button
           onClick={() => setAddGiftOpen(true)}
           disabled={people.length === 0}
-          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-5 py-3 text-base font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
         >
           <GiftIcon className="h-5 w-5" /> Add a gift
         </button>
+        <Link
+          to="/gift-finder"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
+        >
+          <Sparkles className="h-5 w-5" /> Gift Finder
+        </Link>
+        <Link
+          to="/gift-finder/secret-santa"
+          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
+        >
+          <GiftIcon className="h-5 w-5" /> Secret Santa
+        </Link>
       </div>
       {people.length === 0 && (
         <p className="-mt-2 text-center text-xs text-muted-foreground">
