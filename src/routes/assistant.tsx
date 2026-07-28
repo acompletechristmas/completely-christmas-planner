@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
 import { Bot, MessagesSquare, Wand2, Lightbulb, ChefHat, Gift, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/assistant")({
+  validateSearch: z.object({ q: z.string().optional() }),
   head: () => ({
     meta: [
-      { title: "AI Christmas Assistant — A Complete Christmas" },
-      { name: "description", content: "Ask anything: gift ideas, dinner plans, film picks, quiz builders and days out — right when you need it." },
-      { property: "og:title", content: "AI Christmas Assistant — A Complete Christmas" },
+      { title: "How can I help you? — A Complete Christmas" },
+      { name: "description", content: "A gentle festive helper. Ask about gifts, dinner, films, days out and more." },
+      { property: "og:title", content: "How can I help you? — A Complete Christmas" },
       { property: "og:description", content: "Your always-on festive helper." },
       { property: "og:url", content: "https://acompletechristmas.co.uk/assistant" },
     ],
@@ -24,13 +26,22 @@ const bits = [
 ];
 
 function AssistantPage() {
+  const { q } = Route.useSearch();
   return (
     <PageShell
-      eyebrow="AI Christmas Assistant"
+      eyebrow="How can I help you?"
       title={<><span className="block">Ask, and</span><span className="block gold-text">Christmas answers</span></>}
       intro="A gentle, always-on helper for every last-minute question — from stocking fillers to timing the turkey."
     >
       <div className="mb-10 flex justify-center"><ComingSoonBadge /></div>
+
+      {q ? (
+        <div className="mx-auto mb-8 max-w-2xl rounded-2xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-5 backdrop-blur-sm">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">You asked</p>
+          <p className="mt-2 font-display text-lg text-foreground">"{q}"</p>
+          <p className="mt-2 text-xs text-muted-foreground">We're wrapping this helper for the season — it'll answer live very soon.</p>
+        </div>
+      ) : null}
 
       <div className="mx-auto mb-12 max-w-2xl rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 backdrop-blur-sm">
         <div className="mb-4 flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">

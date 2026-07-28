@@ -7,15 +7,16 @@ type NavItem = { to: string; label: string; desc: string; auth?: boolean };
 
 export const navItems: NavItem[] = [
   { to: "/", label: "Home", desc: "Back to the start of the story." },
+  { to: "/build", label: "Plan it for me", desc: "A gentle, guided journey to your perfect Christmas." },
   { to: "/planner", label: "My Christmas Planner", desc: "Your personal Christmas HQ — one place for everything.", auth: true },
-  { to: "/inspire", label: "Decorations", desc: "Ideas to make your home feel magical this year." },
-  { to: "/food", label: "Food & Recipes", desc: "Menus, timings and festive recipes to cook with love." },
-  { to: "/days-out", label: "Christmas Activities", desc: "Markets, grottos, walks and days out near you." },
+  { to: "/inspire", label: "My Christmas Home", desc: "Decoration ideas to make your home feel magical this year." },
+  { to: "/food", label: "Food & Hosting", desc: "Menus, timings and festive recipes to cook with love." },
+  { to: "/days-out", label: "Things We'd Love to Do", desc: "Markets, grottos, walks and days out near you." },
   { to: "/entertainment", label: "Films & Music", desc: "Cosy films and playlists for every moment." },
-  { to: "/inspire", label: "Traditions & Ideas", desc: "Little rituals that make Christmas feel like home." },
+  { to: "/inspire", label: "Traditions & Special Moments", desc: "Little rituals that make Christmas feel like home." },
   { to: "/teachers", label: "Teachers' Corner", desc: "Festive lessons, worksheets and classroom ideas." },
   { to: "/pets", label: "Christmas with Pets", desc: "Safe, joyful ways to include your furry family." },
-  { to: "/save", label: "Budget & Savings", desc: "Stay in control with clear budgets and gentle saving." },
+  { to: "/save", label: "My Christmas Budget", desc: "Stay in control with clear budgets and gentle saving." },
   { to: "/coming-soon", label: "Advent & Countdown", desc: "Daily magic as we count down to the big day." },
 ];
 
