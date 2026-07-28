@@ -833,7 +833,7 @@ function PersonDrawer({
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg">Gifts for {CURRENT_YEAR}</h3>
           <button
-            onClick={addBlank}
+            onClick={onAddGift}
             className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
             style={{ background: "var(--gradient-gold)" }}
           >
