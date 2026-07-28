@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star } from "lucide-react";
+import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star, Snowflake, ArrowRight } from "lucide-react";
+
 
 export const Route = createFileRoute("/gift-finder")({
   head: () => ({
@@ -30,7 +31,31 @@ function GiftFinderPage() {
       title={<><span className="block">The perfect gift,</span><span className="block gold-text">quietly conjured</span></>}
       intro="Tell us about the person. We'll suggest gifts they'll actually love — and remember why you chose it."
     >
+      <Link
+        to="/gift-finder/secret-santa"
+        className="group mb-10 block rounded-2xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[color:var(--gold)]"
+      >
+        <div className="flex items-start gap-4">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-[color:var(--midnight-deep)]" style={{ background: "var(--gradient-gold)" }}>
+            <Snowflake className="h-5 w-5" />
+          </span>
+          <div className="flex-1">
+            <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Live now</p>
+            <h3 className="mt-1 font-display text-[22px] leading-tight tracking-tight text-[color:var(--cream)]">
+              Secret Santa Gift Finder
+            </h3>
+            <p className="mt-1.5 text-[14px] leading-relaxed text-[color:var(--muted-foreground)]">
+              Find a brilliant Secret Santa present for any budget.
+            </p>
+            <span className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full px-5 text-sm font-semibold text-[color:var(--primary-foreground)]" style={{ background: "var(--gradient-gold)" }}>
+              Find a gift <ArrowRight className="h-4 w-4" />
+            </span>
+          </div>
+        </div>
+      </Link>
+
       <div className="mb-10 flex justify-center"><ComingSoonBadge /></div>
+
 
       <div className="mx-auto mb-12 max-w-xl rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 backdrop-blur-sm">
         <label className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Who is the gift for?</label>
