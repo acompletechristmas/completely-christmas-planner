@@ -60,31 +60,34 @@ function GiftFinderPage() {
     >
       <section aria-labelledby="gifts-tools" className="mb-14">
         <h2 id="gifts-tools" className="sr-only">Gift tools</h2>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {gifts.map((g) => (
-            <Link
-              key={g.to}
-              to={g.to}
-              className="group flex flex-col rounded-2xl border-2 border-[color:var(--gold)]/50 bg-[oklch(0.26_0.04_245_/_0.85)] p-6 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:brightness-110 sm:p-7"
-            >
-              <div className="flex items-center gap-2 text-[color:var(--gold-soft)]">
-                <g.icon className="h-4 w-4" />
-                <span className="text-[11px] font-medium uppercase tracking-[0.24em]">{g.eyebrow}</span>
-              </div>
-              <h3 className="mt-3 font-display text-[24px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[28px]">
-                {g.title}
-              </h3>
-              <p className="mt-2 flex-1 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
-                {g.desc}
-              </p>
-              <span
-                className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[color:var(--primary-foreground)] gold-glow transition group-hover:brightness-110"
-                style={{ background: "var(--gradient-gold)" }}
-              >
-                {g.cta} <ArrowRight className="h-4 w-4" />
-              </span>
-            </Link>
-          ))}
+        <div className="grid gap-5 sm:grid-cols-3">
+          {gifts.map((g) => {
+            const inner = (
+              <>
+                <div className="flex items-center gap-2 text-[color:var(--gold-soft)]">
+                  <g.icon className="h-4 w-4" />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.24em]">{g.eyebrow}</span>
+                </div>
+                <h3 className="mt-3 font-display text-[24px] leading-tight tracking-tight text-[color:var(--cream)] sm:text-[26px]">
+                  {g.title}
+                </h3>
+                <p className="mt-2 flex-1 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
+                  {g.desc}
+                </p>
+                <span
+                  className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full px-6 text-[15px] font-semibold text-[color:var(--primary-foreground)] gold-glow transition group-hover:brightness-110"
+                  style={{ background: "var(--gradient-gold)" }}
+                >
+                  {g.cta} <ArrowRight className="h-4 w-4" />
+                </span>
+              </>
+            );
+            const cls = "group flex flex-col rounded-2xl border-2 border-[color:var(--gold)]/50 bg-[oklch(0.26_0.04_245_/_0.85)] p-6 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:brightness-110 sm:p-7";
+            if (g.to.startsWith("#")) {
+              return <a key={g.to} href={g.to} className={cls}>{inner}</a>;
+            }
+            return <Link key={g.to} to={g.to} className={cls}>{inner}</Link>;
+          })}
         </div>
       </section>
 
