@@ -17,6 +17,7 @@ export const navItems: NavItem[] = [
   { to: "/teachers", label: "Teachers' Corner", desc: "Festive lessons, worksheets and classroom ideas." },
   { to: "/pets", label: "Christmas with Pets", desc: "Safe, joyful ways to include your furry family." },
   { to: "/save", label: "My Christmas Budget", desc: "Stay in control with clear budgets and gentle saving." },
+  { to: "/gift-finder/secret-santa", label: "Secret Santa Gifts", desc: "Quick gift ideas for any budget — sorted in a minute." },
   { to: "/coming-soon", label: "Advent & Countdown", desc: "Daily magic as we count down to the big day." },
 ];
 
