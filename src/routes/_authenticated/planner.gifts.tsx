@@ -76,7 +76,7 @@ type PersonExtras = Person & {
 
 function BuyingForPage() {
   const { user } = useAuth();
-  const { people, loading: peopleLoading, removePerson } = usePeople(user?.id);
+  const { people, loading: peopleLoading, removePerson, upsertLocal, refetch: refetchPeople } = usePeople(user?.id);
   const {
     rows: gifts,
     loading: giftsLoading,
