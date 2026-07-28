@@ -187,6 +187,18 @@ function SecretSantaPage() {
                     >
                       <Bookmark className="h-4 w-4" /> {isSaved ? "Saved" : "Save idea"}
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => setSaveTarget(g)}
+                      className={`inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-full border px-4 text-sm font-semibold transition ${
+                        savedToPlanner.has(g.id)
+                          ? "border-[color:var(--forest)] bg-[color:var(--forest)]/10 text-[color:var(--forest)]"
+                          : "border-[color:var(--gold)] bg-[color:var(--forest)]/5 text-[color:var(--forest)] hover:bg-[color:var(--forest)]/10"
+                      }`}
+                    >
+                      <Save className="h-4 w-4" />
+                      {savedToPlanner.has(g.id) ? "Saved to Gift Planner" : "Save to my Gift Planner"}
+                    </button>
                   </div>
                 </li>
               );
