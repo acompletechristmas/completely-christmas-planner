@@ -910,6 +910,50 @@ function IconBtn({
   );
 }
 
+function ProgressPip({
+  icon,
+  value,
+  label,
+  done,
+  muted,
+  ink,
+  accent,
+}: {
+  icon: string;
+  value: number;
+  label: string;
+  done?: boolean;
+  muted: string;
+  ink: string;
+  accent?: string;
+}) {
+  const active = done && value > 0;
+  return (
+    <div
+      className="rounded-2xl border px-1 py-2 transition"
+      style={{
+        borderColor: active ? (accent ?? "oklch(0.55 0.14 75 / 0.6)") : "oklch(0.78 0.06 85 / 0.55)",
+        background: active ? "oklch(1 0 0 / 0.55)" : "oklch(1 0 0 / 0.35)",
+      }}
+    >
+      <div
+        className="flex items-center justify-center gap-1 text-[15px] leading-none"
+        style={{ color: active ? (accent ?? ink) : ink }}
+      >
+        <span aria-hidden>{icon}</span>
+        <span className="font-display text-[17px] font-semibold">{value}</span>
+      </div>
+      <p
+        className="mt-1 text-[10px] font-semibold uppercase tracking-[0.08em]"
+        style={{ color: active ? (accent ?? ink) : muted }}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
+
 /* ---------------------- Idea row ---------------------- */
 
 function IdeaRow({
