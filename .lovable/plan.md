@@ -1,44 +1,37 @@
-## Plan
+## Plan — Build the "Midnight Luxury Mobile" People & Presents page
 
-I will fix this as one controlled correction, not another redesign.
+You've selected v2. I'll implement that direction faithfully — matching the header, action buttons, stats strip with gold ring, filter pills, three card states (cream / cream + orange corner / gold + red satin ribbon + wax seal), and the fixed bottom summary strip — and make it the single page shown for every gifts entry point.
 
-### 1. Make one approved People & Presents experience
-- Treat the approved picture as the only source for the Gifts / People & Presents screen.
-- Replace the current dark “Gift editor” feel with the approved structure:
-  - snowy premium header
-  - gold action buttons
-  - dark summary stats strip with circular progress
-  - five filter pills
-  - luxury white/champagne person cards
-  - red satin ribbon and wax seal states
-  - four-tile status summary footer
-- Remove wording that makes it feel like a secondary editor or “dark picture”.
+### 1. Rebuild the People & Presents board (`src/routes/_authenticated/planner.gifts.tsx`)
+- Rewrite the `BuyingForPage` component to match the selected v2 prototype exactly:
+  - Snowy header with village silhouettes, lamp glow, tree, gold "Christmas" script, "149 SLEEPS UNTIL CHRISTMAS", "Hi Lisa, welcome back" greeting.
+  - 2×2 action buttons: gold "Add person"; outlined "Add present", "Find gift ideas", "Find an event".
+  - Dark rounded stats strip with 5 stats + circular gold progress ring.
+  - Horizontal scroll filter pills: All people / To buy / To wrap / To send / All done (active in gold).
+  - Person cards with three visual states driven by real data:
+    - **To buy** — cream card, dark initials circle.
+    - **To wrap** — cream card, gold initials circle, orange corner flag.
+    - **All done** — gold gradient card, red satin ribbon, wax seal with initials.
+  - Fixed bottom 4-tile summary strip (Done / To Buy / To Wrap / To Send).
+- Preserve existing functionality: Add person modal, Add present modal, per-person expand, live updates, real counts and totals from the database.
+- Keep all links/actions working: Find gift ideas → `/gift-finder`; Find an event → `/planner/outings`; tapping a person → `/planner/people/$personId`.
 
-### 2. Put the same experience everywhere gifts are accessed
-- `/planner/people` will show the approved People & Presents page.
-- `/planner/gifts` will also show that same approved People & Presents page, so “Gifts” never opens a different old-looking screen.
-- Planning HQ gift links will open the approved page.
-- Main navigation “Gifts” will open the approved page.
-- Gift Finder / Secret Santa / Budget / Build links that currently point at the old gift editor will point to the approved page.
+### 2. Make every gift entry point land on this page
+- `/planner/people` and `/planner/gifts` already both render `BuyingForPage` — verify still true.
+- Update `src/routes/_authenticated/planner.index.tsx` (Planning HQ): replace the current dark doorway "My People & Presents" section with a compact link card that opens `/planner/people`, so HQ stops showing the old dark preview you screenshotted.
+- Check `SiteNav`, `save.tsx`, `build.tsx`, `gift-finder.index.tsx`, `gift-finder.secret-santa.tsx` — any "Gifts" or "People & Presents" link points to `/planner/people`.
 
-### 3. Keep gift actions practical on the approved page
-- “Add person” opens the add-person modal on the approved page.
-- “Add present” opens the add-present flow from the approved page, not a separate dark editor first.
-- “Find gift ideas” and “Secret Santa” remain available as clear buttons from the top action area.
-- Person cards continue linking to that person’s detailed gift page when someone wants deeper editing.
+### 3. Verification
+After building, open these routes on mobile and take screenshots:
+- `/planner` — HQ no longer shows old dark board; shows a clear entry card.
+- `/planner/people` — matches v2 prototype.
+- `/planner/gifts` — matches v2 prototype (same component).
+- `/gift-finder`, `/save`, `/build` — links to gifts open the v2 page.
 
-### 4. Match the approved visual more faithfully
-- Change the top area away from a plain dark card into a snowy, premium planner header like the mockup.
-- Make person cards read as luxury stationery: warm white by default, champagne gold when bought, red satin ribbon when wrapped, wax seal when complete.
-- Make the page feel like a Christmas planner board, not admin software.
-- Follow the Design Bible exactly: midnight blue background, snow-white cards, champagne gold, red only for ribbons/seals, elegant line icons.
+I'll report back with the screenshots so you can see the result before spending more credits on further tweaks.
 
-### 5. Verify the real paths
-After implementation I will check these routes:
-- `/planner/people`
-- `/planner/gifts`
-- `/planner`
-- `/gift-finder`
-- `/save`
-
-Success means every gifts/presents entry point visibly lands on the approved People & Presents experience, not the old dark editor or a generic dark card.
+### 4. What I will not do
+- No changes to homepage.
+- No changes to database schema, auth, or unrelated pages.
+- No new design directions.
+- No re-adding emoji or informal wording that contradicts the Design Bible.
