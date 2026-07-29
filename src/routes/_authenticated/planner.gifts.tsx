@@ -137,6 +137,14 @@ export function BuyingForPage() {
 
   const loading = peopleLoading || giftsLoading;
 
+  // Days until Christmas
+  const sleeps = useMemo(() => {
+    const now = new Date();
+    const xmas = new Date(now.getFullYear(), 11, 25);
+    if (now > xmas) xmas.setFullYear(xmas.getFullYear() + 1);
+    return Math.max(0, Math.ceil((xmas.getTime() - now.getTime()) / 86_400_000));
+  }, []);
+
   const namedGifts = useMemo(
     () => gifts.filter((g) => (g.item ?? "").trim().length > 0 && g.year === CURRENT_YEAR),
     [gifts],
