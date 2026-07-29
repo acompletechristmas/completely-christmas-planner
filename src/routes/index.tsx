@@ -77,7 +77,7 @@ function Home() {
       {/* =============== HERO =============== */}
       <section
         className="relative w-full"
-        style={{ height: "min(85svh, 820px)", minHeight: "85svh" }}
+        style={{ height: "min(72svh, 760px)", minHeight: "72svh" }}
       >
         <img
           src={heroVillage}
@@ -255,8 +255,9 @@ function SnowflakeGlyph() {
 }
 
 /* ============================================================
-   Countdown gift tag — luxury parchment tag with satin ribbon,
-   metal eyelet, holly sprig, wax seal, embossed border
+   Countdown gift tag — luxury parchment tag: clipped top corners,
+   parchment texture, brass eyelet at top, satin ribbon threaded
+   through eyelet, gold hairline border, wax seal, soft drop shadow
    ============================================================ */
 function CountdownGiftTag() {
   const { d, h, m, s, ready } = useCountdown();
@@ -266,78 +267,115 @@ function CountdownGiftTag() {
     ["MINS", m],
     ["SECS", s],
   ];
+
+  // Tag silhouette: rounded rectangle with both top corners clipped at 45°
+  const CLIP =
+    "polygon(22% 0, 78% 0, 100% 14%, 100% 96%, 96% 100%, 4% 100%, 0 96%, 0 14%)";
+
   return (
-    <div className="relative inline-block max-w-[20rem] sm:max-w-sm">
-      {/* Satin ribbon threaded through eyelet on the left */}
+    <div
+      className="relative inline-block"
+      style={{ width: "min(20rem, 88vw)" }}
+    >
+      {/* Ribbon threaded through the eyelet, draping to the sides */}
       <div
         aria-hidden
-        className="absolute -left-4 top-1/2 -translate-y-1/2 z-20 sm:-left-5"
-        style={{ filter: "drop-shadow(0 8px 14px rgba(0,0,0,0.55))" }}
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 z-30"
+        style={{
+          top: "-18px",
+          width: "200px",
+          height: "56px",
+          filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))",
+        }}
       >
         <SatinRibbon />
       </div>
 
-      {/* Parchment tag with shaped corner */}
+      {/* Parchment tag body */}
       <div
-        className="relative pl-10 pr-5 py-4 sm:pl-12 sm:pr-6 sm:py-5"
+        className="relative pt-9 pb-5 px-5 sm:pt-10 sm:pb-6 sm:px-6"
         style={{
+          clipPath: CLIP,
           background:
-            "radial-gradient(ellipse at 30% 15%, oklch(0.97 0.02 82) 0%, oklch(0.93 0.038 82) 55%, oklch(0.87 0.055 78) 100%)",
-          border: "1px solid oklch(0.68 0.10 78 / 0.7)",
-          boxShadow:
-            "inset 0 1px 0 oklch(1 0 0 / 0.7), inset 0 0 60px oklch(0.72 0.08 78 / 0.22), 0 22px 44px -18px rgba(0,0,0,0.75)",
+            "radial-gradient(ellipse at 30% 20%, oklch(0.97 0.024 82) 0%, oklch(0.93 0.04 82) 55%, oklch(0.86 0.06 76) 100%)",
           color: "oklch(0.32 0.14 30)",
-          /* Shaped tag: rounded on the right, angled corner on the top-left near the eyelet */
-          clipPath:
-            "polygon(6% 0, 100% 0, 100% 100%, 6% 100%, 0 82%, 0 18%)",
-          borderRadius: "18px",
+          filter: "drop-shadow(0 22px 30px rgba(0,0,0,0.55))",
         }}
       >
-        {/* Embossed inner border */}
+        {/* Parchment grain texture */}
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          style={{ mixBlendMode: "multiply", opacity: 0.35 }}
+        >
+          <defs>
+            <filter id="parchment-grain">
+              <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="7" />
+              <feColorMatrix
+                type="matrix"
+                values="0 0 0 0 0.35  0 0 0 0 0.24  0 0 0 0 0.10  0 0 0 0.55 0"
+              />
+            </filter>
+          </defs>
+          <rect width="100%" height="100%" filter="url(#parchment-grain)" />
+        </svg>
+
+        {/* Subtle warm vignette on the parchment */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-1.5 rounded-[14px]"
+          className="pointer-events-none absolute inset-0"
           style={{
-            border: "1px dashed oklch(0.60 0.10 78 / 0.35)",
+            background:
+              "radial-gradient(ellipse at 50% 100%, oklch(0.55 0.10 55 / 0.18), transparent 60%)",
           }}
         />
 
-        {/* Metal eyelet */}
+        {/* Gold hairline inner border following the clipped tag shape */}
         <div
           aria-hidden
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 sm:left-4"
+          className="pointer-events-none absolute inset-[6px]"
           style={{
-            width: "14px",
-            height: "14px",
+            clipPath: CLIP,
+            boxShadow: "inset 0 0 0 1px oklch(0.72 0.13 78 / 0.75)",
+          }}
+        />
+
+        {/* Brass eyelet at the top centre */}
+        <div
+          aria-hidden
+          className="absolute left-1/2 -translate-x-1/2 z-10"
+          style={{
+            top: "10px",
+            width: "16px",
+            height: "16px",
             borderRadius: "999px",
             background:
-              "radial-gradient(circle at 35% 30%, oklch(0.55 0.05 78) 0%, oklch(0.30 0.04 78) 60%, oklch(0.20 0.03 78) 100%)",
+              "radial-gradient(circle at 35% 30%, oklch(0.35 0.05 60) 0%, oklch(0.18 0.03 60) 65%, oklch(0.10 0.02 60) 100%)",
             boxShadow:
-              "inset 0 1px 2px rgba(0,0,0,0.7), 0 0 0 1.5px oklch(0.75 0.08 78 / 0.9), 0 0 0 2.5px oklch(0.45 0.05 78 / 0.6)",
+              "inset 0 1px 2px rgba(0,0,0,0.8), 0 0 0 1.5px oklch(0.68 0.12 78 / 0.95), 0 0 0 2.5px oklch(0.42 0.08 78 / 0.55), 0 1px 2px rgba(0,0,0,0.4)",
           }}
         />
 
-        {/* "Christmas is coming" + holly sprig */}
+        {/* Header line */}
         <div
-          className="flex items-center justify-center gap-1.5 font-display italic text-[13px] sm:text-[15px]"
+          className="relative text-center font-display italic text-[13px] sm:text-[15px]"
           style={{ color: "oklch(0.36 0.16 30)" }}
         >
-          <span>Christmas is coming</span>
-          <HollySprig />
+          Christmas is coming
         </div>
 
         {/* Countdown numbers */}
-        <div className="mt-1.5 grid grid-cols-4 gap-1 text-center">
+        <div className="relative mt-2 grid grid-cols-4 gap-1 text-center">
           {parts.map(([label, val]) => (
             <div key={label} className="flex flex-col items-center">
               <span
-                className="font-display tabular-nums text-[24px] leading-none sm:text-[30px]"
-                style={{ color: "oklch(0.38 0.17 30)" }}
+                className="font-display tabular-nums text-[26px] leading-none sm:text-[32px]"
+                style={{ color: "oklch(0.36 0.18 30)" }}
               >
                 {ready ? String(val).padStart(2, "0") : "--"}
               </span>
               <span
-                className="mt-1 text-[9px] tracking-[0.20em] sm:text-[10px]"
+                className="mt-1 text-[9px] tracking-[0.22em] sm:text-[10px]"
                 style={{ color: "oklch(0.46 0.10 30)" }}
               >
                 {label}
@@ -346,21 +384,27 @@ function CountdownGiftTag() {
           ))}
         </div>
 
-        {/* Wax seal centred */}
-        <div className="mt-2 flex items-center justify-center gap-2" aria-hidden>
-          <span className="h-px w-8" style={{ background: "oklch(0.55 0.10 30 / 0.5)" }} />
-          <WaxSeal />
-          <span className="h-px w-8" style={{ background: "oklch(0.55 0.10 30 / 0.5)" }} />
-        </div>
-
+        {/* Footer line + wax seal at lower right */}
         <p
-          className="mt-1.5 text-center font-display italic text-[11px] leading-tight sm:text-[13px]"
+          className="relative mt-3 pr-10 text-center font-display italic text-[11px] leading-tight sm:text-[13px]"
           style={{ color: "oklch(0.42 0.10 30)" }}
         >
           A little planning today
           <br />
           means more magic in December.
         </p>
+
+        <div
+          aria-hidden
+          className="absolute z-10"
+          style={{
+            right: "10px",
+            bottom: "10px",
+            filter: "drop-shadow(0 3px 4px rgba(0,0,0,0.45))",
+          }}
+        >
+          <WaxSeal />
+        </div>
       </div>
     </div>
   );
@@ -368,89 +412,83 @@ function CountdownGiftTag() {
 
 function SatinRibbon() {
   return (
-    <svg width="62" height="54" viewBox="0 0 62 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="200" height="56" viewBox="0 0 200 56" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="satin-red" x1="0" x2="1" y1="0" y2="1">
+        <linearGradient id="satin-red" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="oklch(0.68 0.22 25)" />
-          <stop offset="0.45" stopColor="oklch(0.48 0.22 25)" />
+          <stop offset="0.5" stopColor="oklch(0.48 0.22 25)" />
           <stop offset="1" stopColor="oklch(0.30 0.18 25)" />
         </linearGradient>
-        <linearGradient id="satin-hi" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0" stopColor="oklch(0.85 0.18 25 / 0.85)" />
-          <stop offset="1" stopColor="oklch(0.55 0.22 25 / 0.05)" />
+        <linearGradient id="satin-sheen" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="oklch(0.90 0.15 25 / 0)" />
+          <stop offset="0.5" stopColor="oklch(0.88 0.16 25 / 0.55)" />
+          <stop offset="1" stopColor="oklch(0.90 0.15 25 / 0)" />
         </linearGradient>
       </defs>
-      {/* Left loop */}
+      {/* Left tail draping down */}
       <path
-        d="M6 8 C 0 18, 4 26, 22 27 L 26 24 L 26 30 L 22 33 C 4 34, 0 44, 8 50 C 16 54, 26 40, 28 30 Z"
+        d="M92 22 C 70 26, 40 30, 18 52 L 4 46 C 30 22, 60 14, 90 12 Z"
         fill="url(#satin-red)"
       />
       <path
-        d="M6 8 C 0 18, 4 26, 22 27"
-        stroke="url(#satin-hi)"
-        strokeWidth="1.5"
+        d="M90 15 C 60 17, 32 24, 10 45"
+        stroke="url(#satin-sheen)"
+        strokeWidth="2"
         fill="none"
       />
-      {/* Right loop */}
+      {/* Right tail draping down */}
       <path
-        d="M56 8 C 62 18, 58 26, 40 27 L 36 24 L 36 30 L 40 33 C 58 34, 62 44, 54 50 C 46 54, 36 40, 34 30 Z"
+        d="M108 22 C 130 26, 160 30, 182 52 L 196 46 C 170 22, 140 14, 110 12 Z"
         fill="url(#satin-red)"
       />
-      {/* Knot */}
-      <rect x="26" y="20" width="10" height="14" rx="2.5" fill="oklch(0.40 0.22 25)" />
-      <rect x="26" y="21" width="10" height="3" fill="url(#satin-hi)" opacity="0.9" />
-      <rect x="26" y="30" width="10" height="1.5" fill="oklch(0.22 0.15 25)" opacity="0.7" />
-      {/* Ribbon tail */}
       <path
-        d="M28 34 L 26 52 L 34 50 L 36 34 Z"
-        fill="url(#satin-red)"
+        d="M110 15 C 140 17, 168 24, 190 45"
+        stroke="url(#satin-sheen)"
+        strokeWidth="2"
+        fill="none"
       />
-    </svg>
-  );
-}
-
-function HollySprig() {
-  return (
-    <svg width="18" height="16" viewBox="0 0 20 18" fill="none" aria-hidden>
-      <path
-        d="M2 9 C 4 5, 7 4, 9 6 C 8 8, 6 10, 3 11 Z"
-        fill="oklch(0.42 0.16 150)"
-        stroke="oklch(0.32 0.14 150)"
-        strokeWidth="0.5"
-      />
-      <path
-        d="M18 9 C 16 5, 13 4, 11 6 C 12 8, 14 10, 17 11 Z"
-        fill="oklch(0.42 0.16 150)"
-        stroke="oklch(0.32 0.14 150)"
-        strokeWidth="0.5"
-      />
-      <circle cx="9" cy="11" r="1.6" fill="oklch(0.55 0.22 25)" />
-      <circle cx="11" cy="12.5" r="1.4" fill="oklch(0.50 0.22 25)" />
-      <circle cx="8" cy="13" r="1.2" fill="oklch(0.55 0.22 25)" />
+      {/* Center knot around the eyelet */}
+      <rect x="90" y="10" width="20" height="20" rx="3" fill="oklch(0.42 0.22 25)" />
+      <rect x="90" y="12" width="20" height="4" fill="url(#satin-sheen)" opacity="0.9" />
+      <rect x="90" y="26" width="20" height="2" fill="oklch(0.22 0.15 25)" opacity="0.7" />
     </svg>
   );
 }
 
 function WaxSeal() {
   return (
-    <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden>
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden>
       <defs>
         <radialGradient id="wax" cx="35%" cy="30%">
-          <stop offset="0" stopColor="oklch(0.65 0.22 25)" />
-          <stop offset="0.5" stopColor="oklch(0.48 0.22 25)" />
-          <stop offset="1" stopColor="oklch(0.28 0.18 25)" />
+          <stop offset="0" stopColor="oklch(0.68 0.22 25)" />
+          <stop offset="0.55" stopColor="oklch(0.46 0.22 25)" />
+          <stop offset="1" stopColor="oklch(0.24 0.16 25)" />
         </radialGradient>
       </defs>
-      <circle cx="10" cy="10" r="8.5" fill="url(#wax)" stroke="oklch(0.22 0.15 25)" strokeWidth="0.5" />
-      {/* Embossed heart */}
+      {/* Irregular drips */}
       <path
-        d="M10 14 C 5 11, 5 7, 7.5 6.5 C 9 6.3, 10 7.5, 10 8 C 10 7.5, 11 6.3, 12.5 6.5 C 15 7, 15 11, 10 14 Z"
-        fill="oklch(0.28 0.18 25)"
-        opacity="0.6"
+        d="M17 2 C 22 2, 30 4, 31 12 C 32 20, 28 30, 20 31 C 12 32, 4 27, 3 18 C 2 9, 10 2, 17 2 Z"
+        fill="url(#wax)"
+        stroke="oklch(0.20 0.14 25)"
+        strokeWidth="0.5"
       />
+      {/* Embossed snowflake */}
+      <g
+        stroke="oklch(0.22 0.14 25)"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.75"
+        fill="none"
+      >
+        <path d="M17 8 v18 M8 17 h18 M11 11 l12 12 M23 11 l-12 12" />
+      </g>
+      <g stroke="oklch(0.88 0.12 25 / 0.35)" strokeWidth="0.6" strokeLinecap="round" fill="none">
+        <path d="M17 8 v18 M8 17 h18" transform="translate(0.5 -0.5)" />
+      </g>
     </svg>
   );
 }
+
 
 /* ============================================================
    Planner cards — cream stationery with premium line icons

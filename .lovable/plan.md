@@ -1,56 +1,44 @@
+## Goal
+Bring the homepage hero closer to the approved mockup with three targeted changes. No redesign, no scope creep.
 
-# Match homepage to approved mockup
+## 1. Recreate the village hero image
+Regenerate `src/assets/hero-village.jpg` with a prompt tuned to the approved mockup:
+- Wide snowy village street at dusk / early night, deep midnight-blue sky
+- Row of warm glowing shopfronts and cottages with lit windows and wreaths
+- Tall snow-dusted Christmas tree with warm fairy lights on the right
+- Ornate wrought-iron street lantern with a warm halo of light, gentle snowfall
+- Cinematic, painterly, luxury Christmas card feel — no people, no text, no logos
+- 1536×1024, standard quality for detail fidelity
 
-Fix the 9 annotated differences on `src/routes/index.tsx` (plus one CSS + one hero-image swap). Nothing else on the site changes. No functionality changes.
+Replace the existing file in place so all imports keep working. No layout changes to how the hero image is used.
 
-## The 9 fixes
+## 2. Faithful luxury gift-tag countdown
+Rebuild only the `CountdownGiftTag` component inside `src/routes/index.tsx`. Keep the same props, position, and countdown logic from `src/components/Countdown.tsx`.
 
-**1. Logo — flowing gold script for "Christmas"**
-`SiteNav`: replace the italic serif "Christmas" with a proper script face (Great Vibes, loaded via `<link>` in `__root.tsx`) painted with the existing gold gradient. "A Complete" stays small serif above it. Add the "PLAN IT. ENJOY IT. MAKE IT MAGICAL." micro-tagline under it on the homepage only (matches the desktop mock).
+Visual spec (matches approved mockup):
+- Parchment shape: rounded rectangle with both top corners clipped at 45° to form the classic tag silhouette
+- Parchment fill: layered cream gradient + subtle noise/grain via inline SVG `<filter>` (feTurbulence + feColorMatrix) for real texture, not a flat colour
+- Antique brass eyelet at the top: dark ring with inner shadow and a small highlight
+- Satin ribbon threaded through the eyelet: two draped tails as an inline SVG with a soft gold→deep-gold gradient and a subtle sheen highlight down the centre
+- Deep red wax seal in the lower-right of the tag: radial gradient, tiny embossed snowflake or "C" mark, soft cast shadow
+- Gold hairline inner border just inside the parchment edge following the clipped shape
+- Soft outer drop shadow so the tag lifts off the hero
+- Countdown numerals: existing serif display font, warm ink colour, tabular-nums; "DAYS HOURS MINUTES SECONDS" labels in small letterspaced caps beneath
 
-**2. Hero image — snowy village, tree, street lamp**
-The current `hero-room.jpg` is a fireplace close-up. Generate a new premium image matching the mock: night sky, illuminated Christmas tree centre-right, gothic snowy village + church spire behind, wrought-iron street lamp with red bow far right, presents at the base, deep midnight-blue palette. Save as `src/assets/hero-village.jpg` and swap the import.
+No new dependencies. All shapes done with SVG + CSS so it stays crisp on mobile.
 
-**3. "Christmas" headline — same script font**
-Replace the current italic serif treatment with Great Vibes at ~1.8× the "Plan your perfect" size, painted with the gold gradient + soft glow (as in the mock).
-
-**4. Decorative divider — gold lines + centred snowflake**
-Already close; tighten to two clean thin gold hairlines with a small gold snowflake glyph centred, matching the mock's proportions.
-
-**5. Countdown — luxury gift tag**
-Rebuild `CountdownGiftTag`:
-- Shaped tag silhouette using an SVG path (scalloped/rounded rectangle with the punched hole cutout, not a plain rounded div)
-- Parchment texture (subtle noise + warm cream gradient)
-- Satin ribbon threaded through the eyelet (SVG with highlight gradient, not a floating bow)
-- Small holly sprig beside "Christmas is coming" (matches mock)
-- Small wax seal (deep red circle with embossed heart) replacing the plain heart divider
-- Embossed inner border + soft drop shadow
-- Deep burgundy numerals in serif (already correct)
-
-**6. Button — softer luxury glow**
-Reduce the gold-fill intensity to a subtle brushed gradient with a thin gold hairline border and a soft outer glow only (no hard shine). Keep label + arrow.
-
-**7. Mobile: planner section higher on first screen**
-Currently the cream section is off-screen on 390px. Trim hero to `85svh` on mobile (keep 100svh desktop) and reduce hero bottom padding so the curved cream edge + "YOUR COMPLETE CHRISTMAS PLANNER" eyebrow are visible above the fold. Cards can still be tapped-to below.
-
-**8. Planner section heading — gold leaves + premium type**
-Replace the current green sprigs with gold laurel-leaf SVGs flanking the eyebrow. Eyebrow set in serif small-caps burgundy. Below it: thin gold hairline — small red heart — thin gold hairline (as in mock).
-
-**9. Planner card icons — premium muted outline icons**
-Redraw the four SVG icons (gift, tree, snowflake, heart) at heavier stroke weight with more detail (gift = ribbon crossing + bow loops, tree = tiered branches with a star, snowflake = 6 arms with barbs, heart = single elegant stroke). Use muted burgundy / forest / navy / burgundy tints per the mock.
-
-## Files touched
-
-- `src/routes/index.tsx` — hero image swap, headline font, divider, countdown rebuild, button softening, mobile heights, planner heading, four icon SVGs
-- `src/components/SiteNav.tsx` — logo script font + optional homepage tagline
-- `src/routes/__root.tsx` — add Great Vibes `<link>` preconnect + stylesheet
-- `src/styles.css` — add `--font-script` token + `.script-gold` utility (gold gradient + soft glow)
-- `src/assets/hero-village.jpg` — new generated image
+## 3. Reduce hero height
+In `src/routes/index.tsx`, lower the hero section height so the "Your Christmas planner" heading and the top edge of the four planner cards are visible in the initial viewport on a 390×844 mobile.
+- Mobile: `min-h-[72svh]` (was `85svh`)
+- Desktop (`sm:`): `min-h-[82vh]` (was `100vh`/current value)
+- Verify with a Playwright screenshot at 390×844 and 1280×800; adjust by ±4svh only if the planner heading is still fully below the fold.
 
 ## Out of scope
+- No changes to nav, divider, planner cards, fonts, or copy.
+- No changes to `Countdown.tsx` internals — only the visual wrapper in `index.tsx`.
+- No new routes, data, or dependencies.
 
-Bottom mobile tab bar, top nav sub-links (PLANNING HQ / PEOPLE & PRESENTS / etc. shown in the desktop mock) — flagging these as separate follow-ups because they touch global navigation and other routes. Confirm if you want them included in this pass.
-
-## Verification before I finish
-
-Screenshot the homepage at 390×844 (mobile) and 1440×900 (desktop) with Playwright and diff against the mockup for: logo script, headline script, tag shape, ribbon eyelet, wax seal, planner section visible above fold on mobile, four icon styles. Iterate only on the specific gap, not the whole page.
+## Verification
+- Screenshot mobile (390×844) and desktop (1280×800) after each of the three changes
+- Compare against the approved mockup for: village atmosphere, tag silhouette + ribbon + seal, planner heading visibility
+- Stop as soon as all three read correctly — no extra polish passes
