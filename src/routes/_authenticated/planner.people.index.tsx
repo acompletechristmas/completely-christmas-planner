@@ -428,19 +428,17 @@ function SummaryStat({
   label,
   pct,
   tone,
-  rawNumber,
 }: {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   value: string;
   label: string;
   pct: number;
   tone: keyof typeof TONE_BAR;
-  rawNumber?: boolean;
 }) {
   return (
     <div>
       <div className="flex items-baseline gap-2">
-        <span className="text-[color:var(--gold)]">{icon}</span>
+        {icon && <span className="text-[color:var(--gold)]">{icon}</span>}
         <span className="font-display text-2xl leading-none">{value}</span>
       </div>
       <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--muted-foreground)]">
