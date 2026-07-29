@@ -1,22 +1,23 @@
-## What's broken
+## Change
 
-On the homepage the "Let's start Christmas" button can't be clicked. The cream Planner section is painted on top of it, and the countdown gift-tag also sits over the button's area. Nothing else on the page is broken — this is purely a stacking/position bug in the hero.
+Replace the flat red ribbon on the countdown gift-tag with a proper red satin **bow** — two looped loops with a centre knot and two tails hanging down through the brass eyelet, matching the luxury Christmas-gift-bow look in the approved mockup.
 
-## Fix (one file, no design changes)
+## Where
 
-Edit only `src/routes/index.tsx`, hero section:
+Only `src/routes/index.tsx`, the `SatinRibbon` component (currently draws two draping tails + a small centre rectangle). Replace it with a bow-shaped SVG:
 
-1. Move the CTA up inside the hero so it sits directly under the intro copy — change the huge `mt-[18.5rem] sm:mt-[23rem] lg:mt-[7rem]` on the CTA wrapper to `mt-6 sm:mt-8`.
-2. Wrap the CTA `<Link>` in a `relative z-30` container so it always sits above the tag and the cream section's curved lip.
-3. Reposition the countdown gift-tag to the lower-right of the hero (`right-4 bottom-10 sm:right-10 sm:bottom-14 lg:right-[7%] lg:bottom-16`) with the same slight rotation — matches the approved mockup's "tag to the side" composition and clears the CTA.
-4. Add `pointer-events-none` to the vignette overlay div so no invisible layer catches clicks.
+- Two curved loops (left + right) rendered as filled paths with a `satin-red` gradient and a lighter `satin-sheen` highlight arcing across each loop.
+- A small centre knot (rounded rect, slightly darker red) covering the eyelet.
+- Two shorter tails with V-cut notched ends draping down past the top of the tag.
+- Same colour tokens already defined (`satin-red`, `satin-sheen`) so the palette stays consistent with the Design Bible (Rich Christmas Red used only for ribbons/bows/seals).
 
-No changes to: hero image, copy, fonts, colours, planner cards, cream section, or any other page.
+Also nudge the wrapper size/position around the bow so the loops sit centred above the tag without covering the countdown numbers:
+- Wrapper `top` moves from `-18px` to about `-26px`, `width` ~150–170px, `height` ~60px, keeping `drop-shadow` for depth.
 
-## Verification before I hand back
+## Not changing
 
-- Playwright at 390×844 and 1280×800: screenshot the hero and confirm CTA, tag, and planner cards are all visible with no overlap.
-- `elementFromPoint` at the CTA centre must return the `<a class="btn-luxury">`.
-- Click the CTA and confirm it navigates to `/build`.
+Parchment tag body, eyelet, wax seal, countdown numbers, copy, layout, or any other page.
 
-I will not touch anything else, and I won't regenerate any images.
+## Verification
+
+Playwright screenshot at 390×844 and 1280×800 focused on the tag to confirm the bow reads clearly as a bow (two loops + knot + tails), and the CTA remains clickable and unobstructed.

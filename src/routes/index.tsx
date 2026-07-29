@@ -277,14 +277,14 @@ function CountdownGiftTag() {
       className="relative inline-block"
       style={{ width: "clamp(16.75rem, 28vw, 19.5rem)" }}
     >
-      {/* Ribbon threaded through the eyelet, draping to the sides */}
+      {/* Red satin bow tied through the eyelet */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
-          top: "-18px",
-          width: "180px",
-          height: "50px",
+          top: "-26px",
+          width: "160px",
+          height: "64px",
           filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))",
         }}
       >
@@ -412,7 +412,7 @@ function CountdownGiftTag() {
 
 function SatinRibbon() {
   return (
-    <svg width="200" height="56" viewBox="0 0 200 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="160" height="64" viewBox="0 0 160 64" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="satin-red" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0" stopColor="oklch(0.68 0.22 25)" />
@@ -420,37 +420,71 @@ function SatinRibbon() {
           <stop offset="1" stopColor="oklch(0.30 0.18 25)" />
         </linearGradient>
         <linearGradient id="satin-sheen" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="oklch(0.90 0.15 25 / 0)" />
-          <stop offset="0.5" stopColor="oklch(0.88 0.16 25 / 0.55)" />
-          <stop offset="1" stopColor="oklch(0.90 0.15 25 / 0)" />
+          <stop offset="0" stopColor="oklch(0.92 0.14 25 / 0)" />
+          <stop offset="0.5" stopColor="oklch(0.90 0.16 25 / 0.7)" />
+          <stop offset="1" stopColor="oklch(0.92 0.14 25 / 0)" />
         </linearGradient>
+        <radialGradient id="knot-red" cx="50%" cy="50%" r="60%">
+          <stop offset="0" stopColor="oklch(0.52 0.22 25)" />
+          <stop offset="1" stopColor="oklch(0.28 0.18 25)" />
+        </radialGradient>
       </defs>
-      {/* Left tail draping down */}
+
+      {/* Left tail draping down with V-notch */}
       <path
-        d="M92 22 C 70 26, 40 30, 18 52 L 4 46 C 30 22, 60 14, 90 12 Z"
+        d="M74 30 L 60 62 L 52 56 L 56 46 L 46 52 L 44 40 Z"
         fill="url(#satin-red)"
       />
+      {/* Right tail draping down with V-notch */}
       <path
-        d="M90 15 C 60 17, 32 24, 10 45"
-        stroke="url(#satin-sheen)"
-        strokeWidth="2"
-        fill="none"
-      />
-      {/* Right tail draping down */}
-      <path
-        d="M108 22 C 130 26, 160 30, 182 52 L 196 46 C 170 22, 140 14, 110 12 Z"
+        d="M86 30 L 100 62 L 108 56 L 104 46 L 114 52 L 116 40 Z"
         fill="url(#satin-red)"
       />
+
+      {/* Left loop */}
       <path
-        d="M110 15 C 140 17, 168 24, 190 45"
-        stroke="url(#satin-sheen)"
-        strokeWidth="2"
+        d="M78 30 C 60 12, 20 12, 12 26 C 6 36, 24 42, 46 40 C 62 38, 74 34, 78 30 Z"
+        fill="url(#satin-red)"
+      />
+      {/* Left loop inner shadow */}
+      <path
+        d="M74 32 C 58 30, 36 34, 22 32"
+        stroke="oklch(0.24 0.16 25 / 0.55)"
+        strokeWidth="1.2"
         fill="none"
       />
-      {/* Center knot around the eyelet */}
-      <rect x="90" y="10" width="20" height="20" rx="3" fill="oklch(0.42 0.22 25)" />
-      <rect x="90" y="12" width="20" height="4" fill="url(#satin-sheen)" opacity="0.9" />
-      <rect x="90" y="26" width="20" height="2" fill="oklch(0.22 0.15 25)" opacity="0.7" />
+      {/* Left loop sheen */}
+      <path
+        d="M74 26 C 56 18, 30 20, 18 28"
+        stroke="url(#satin-sheen)"
+        strokeWidth="2.2"
+        fill="none"
+      />
+
+      {/* Right loop */}
+      <path
+        d="M82 30 C 100 12, 140 12, 148 26 C 154 36, 136 42, 114 40 C 98 38, 86 34, 82 30 Z"
+        fill="url(#satin-red)"
+      />
+      {/* Right loop inner shadow */}
+      <path
+        d="M86 32 C 102 30, 124 34, 138 32"
+        stroke="oklch(0.24 0.16 25 / 0.55)"
+        strokeWidth="1.2"
+        fill="none"
+      />
+      {/* Right loop sheen */}
+      <path
+        d="M86 26 C 104 18, 130 20, 142 28"
+        stroke="url(#satin-sheen)"
+        strokeWidth="2.2"
+        fill="none"
+      />
+
+      {/* Centre knot covering the eyelet */}
+      <rect x="70" y="22" width="20" height="18" rx="4" fill="url(#knot-red)" />
+      <rect x="70" y="24" width="20" height="3.5" rx="1.5" fill="url(#satin-sheen)" opacity="0.9" />
+      <rect x="70" y="37" width="20" height="1.6" fill="oklch(0.22 0.15 25)" opacity="0.7" />
     </svg>
   );
 }
