@@ -139,19 +139,26 @@ function Home() {
               Everything you need for a magical, stress-free Christmas.
             </p>
 
-            {/* Primary CTA */}
-            <div className="relative z-30 mt-6 sm:mt-8">
-              <Link to={startLink} className="btn-luxury">
-                <span aria-hidden style={{ color: "oklch(0.30 0.10 55)" }}>✦</span>
-                Let's start Christmas
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
           </div>
         </div>
 
+        {/* Primary CTA: locked below the tree, just above the cream planner section */}
+        <div className="absolute inset-x-0 bottom-[96px] z-30 flex justify-center px-5 sm:bottom-[118px]">
+          <Link
+            to={startLink}
+            className="btn-luxury min-h-[88px] w-[218px] justify-center px-6 py-4 text-center text-[14px] leading-snug sm:min-h-0 sm:w-auto sm:px-8 sm:py-4"
+          >
+            <span aria-hidden style={{ color: "oklch(0.30 0.10 55)" }}>✦</span>
+            <span className="flex flex-col items-center leading-[1.65]">
+              <span>Let's start</span>
+              <span>Christmas</span>
+            </span>
+            <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          </Link>
+        </div>
+
         {/* Countdown gift tag: smaller side element, matching the approved mockup composition */}
-        <div className="absolute right-4 bottom-10 z-20 origin-bottom-right -rotate-[3deg] sm:right-10 sm:bottom-14 lg:right-[7%] lg:bottom-16">
+        <div className="absolute left-5 top-[304px] z-20 origin-top-left -rotate-[5deg] scale-[0.64] sm:left-[8%] sm:top-[42%] sm:scale-[0.78] lg:left-[10%] lg:top-[44%] lg:scale-90">
           <CountdownGiftTag />
         </div>
 
