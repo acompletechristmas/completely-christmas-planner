@@ -158,7 +158,7 @@ function Home() {
         </div>
 
         {/* Countdown gift tag: smaller side element, matching the approved mockup composition */}
-        <div className="absolute left-3 top-[320px] z-20 origin-top-left -rotate-[5deg] scale-[0.64] sm:left-[8%] sm:top-[42%] sm:scale-[0.78] lg:left-[10%] lg:top-[44%] lg:scale-90">
+        <div className="absolute left-1 top-[334px] z-20 origin-top-left -rotate-[5deg] scale-[0.64] sm:left-[8%] sm:top-[42%] sm:scale-[0.78] lg:left-[10%] lg:top-[44%] lg:scale-90">
           <CountdownGiftTag />
         </div>
 
@@ -294,9 +294,9 @@ function CountdownGiftTag() {
         height={1024}
         className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
-          top: "6px",
-          width: "132px",
-          height: "46px",
+          top: "22px",
+          width: "120px",
+          height: "40px",
           objectFit: "contain",
           filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.55))",
         }}
