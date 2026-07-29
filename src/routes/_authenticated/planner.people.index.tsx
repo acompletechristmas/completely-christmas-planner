@@ -29,6 +29,8 @@ export const Route = createFileRoute("/_authenticated/planner/people/")({
         property: "og:description",
         content: "Your luxury People & Presents board with budgets, progress, ribbons and Christmas completion states.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),

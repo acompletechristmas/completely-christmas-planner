@@ -35,6 +35,14 @@ export const Route = createFileRoute("/_authenticated/planner/gifts")({
         content:
           "Detailed gift editing controls for your Christmas planner, linked from the main People & Presents board.",
       },
+      { property: "og:title", content: "Gift Editor — A Complete Christmas" },
+      {
+        property: "og:description",
+        content:
+          "Detailed gift editing controls for your Christmas planner, linked from the main People & Presents board.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
