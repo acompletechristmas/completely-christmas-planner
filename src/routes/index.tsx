@@ -76,8 +76,8 @@ function Home() {
 
       {/* =============== HERO =============== */}
       <section
-        className="relative w-full"
-        style={{ height: "min(85svh, 820px)", minHeight: "85svh" }}
+        className="relative w-full min-h-[72svh] sm:min-h-[82vh]"
+        style={{ height: "min(72svh, 720px)" }}
       >
         <img
           src={heroVillage}
