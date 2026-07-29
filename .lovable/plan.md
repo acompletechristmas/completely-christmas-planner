@@ -1,32 +1,27 @@
-## Fix visible bugs on `/planner/people` so it matches the mockup
+You’re right — this should have been done the first time.
 
-The page already has the correct structure (header + 4 action tiles, 6-stat strip with circular %, 5 filter tabs, stationery person cards, coloured footer). Three visible bugs are making it look wrong.
+The mistake was that I rebuilt the approved design on the `/planner/people` route, but I did not update all the places labelled “People & Presents”, “Gifts”, or “Presents” to send you there. So you were still being taken to older screens like `/planner` and `/planner/gifts`, which made it look like the approved picture had not been applied.
 
-### 1. "Spent" stat renders as "£ £40" (double £)
-- Cause: the icon slot passes a `£` span AND the value uses `gbp()` which already prefixes `£`.
-- Fix: drop the `£` icon span and let the value carry the currency, or replace the icon with a small `Banknote`/wallet lucide icon and keep `gbp()` for the value.
-- Mockup shows just `£420` with SPENT under it — no separate £ icon. Use no icon and `gbp()`.
+## Plan
 
-### 2. Pip labels overlap on mobile (`ADDEDBOUGHTWRAPPEDSENT/GIVEN`)
-- Cause: 4-column pip grid + long labels + tight card padding on 390px.
-- Fix on the person card:
-  - Shorten labels: `Added`, `Bought`, `Wrapped`, `Sent` (drop "/Given").
-  - Add `min-w-0` + `truncate` to each pip label wrapper, tighten letter-spacing, and reduce label size to 8px on mobile.
-  - Slightly reduce right-side spent block width on mobile so pips get more room.
+1. **Make People & Presents the main presents page**
+   - Update the global navigation “Gifts” link so it opens `/planner/people`.
+   - Update Planning HQ’s People & Presents buttons/cards so they open `/planner/people`.
+   - Update any “View gifts”, “Add person”, “Add present”, or presents entry links that currently send users to the wrong older view.
 
-### 3. Stage visuals don't match mockup for wrapped / all-done
-- Wrapped stage (all bought AND all wrapped, not sent) should show a **gold satin ribbon strip** across the right side of the card (as in Caroline's row).
-- All-done stage should show the **red wax seal + "For Christmas" corner banner** and the card should switch to gold gradient — currently triggers only when `sentGiven === added`, which is correct, but the ribbon corner also renders under it and clashes with the seal. Ensure the ribbon underlay is only rendered on wrapped-not-done cards.
-- Add a small `For Christmas` banner only to all-done cards (already present, keep).
+2. **Keep the existing gift editor, but make it secondary**
+   - `/planner/gifts` will remain available for the detailed editing controls.
+   - Add a clear route from the approved People & Presents page into the detailed gift editor only when needed.
 
-### 4. Small polish to match the mockup exactly
-- Filter tabs: match colour of the count number to the pill's tone even when inactive (currently already tone-tinted — verify red/orange/blue/green).
-- Status pill "To send" appears when everything is wrapped. Mockup uses this same pill — keep.
-- Footer tile counts already sum correctly — keep.
+3. **Remove the visual confusion on Planning HQ**
+   - Replace or simplify the older People & Presents preview on `/planner` so it no longer looks like a separate, outdated version of the page.
+   - Make it act as a doorway into the approved People & Presents experience.
 
-### Out of scope
-- No new data model changes, no navigation changes, no other routes touched.
-- Not changing Planning HQ. User reaches this page via the People & Presents tile on `/planner` or by URL `/planner/people`.
+4. **Verify the real user paths**
+   - Check that pressing “People & Presents”, “Gifts”, and presents-related links consistently lands on the approved picture-style page.
+   - Check mobile layout so the page is visibly the approved People & Presents design.
 
-### Files
-- `src/routes/_authenticated/planner.people.index.tsx` — only file touched.
+## Technical details
+
+- I’ll edit the existing route/link files only: `SiteNav`, `planner.index`, and the top navigation/actions around `planner.gifts` if needed.
+- I won’t change the database, gift statuses, or existing planner functionality.
