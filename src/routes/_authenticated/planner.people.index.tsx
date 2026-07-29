@@ -450,7 +450,7 @@ function SummaryStat({
           style={{ width: `${pct}%`, background: TONE_BAR[tone] }}
         />
       </div>
-      <p className="mt-1 text-[10px] text-[color:var(--muted-foreground)]">{rawNumber ? `${pct}%` : `${pct}%`}</p>
+      <p className="mt-1 text-[10px] text-[color:var(--muted-foreground)]">{pct}%</p>
     </div>
   );
 }
