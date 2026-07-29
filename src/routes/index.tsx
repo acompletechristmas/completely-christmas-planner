@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Snowfall } from "@/components/Snowfall";
@@ -348,7 +349,7 @@ function PlannerCard({
 }: {
   to: string;
   label: string;
-  icon: (p: { color: string }) => JSX.Element;
+  icon: (p: { color: string }) => ReactElement;
   tint: Tint;
 }) {
   const color = TINT[tint];
