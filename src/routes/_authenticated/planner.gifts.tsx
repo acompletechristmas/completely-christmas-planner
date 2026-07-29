@@ -213,37 +213,58 @@ export function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
-      <header className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 p-5 shadow-[0_24px_60px_-32px_oklch(0_0_0_/_0.85)] sm:p-7">
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 12% 18%, oklch(1 0 0 / 0.18) 0 1.2px, transparent 1.7px), radial-gradient(circle at 82% 22%, oklch(0.88 0.10 88 / 0.18) 0 1.4px, transparent 2px), linear-gradient(145deg, oklch(0.24 0.055 250 / 0.96), oklch(0.14 0.04 250 / 0.98) 60%, oklch(0.22 0.07 155 / 0.9))",
-            backgroundSize: "150px 150px, 210px 210px, auto",
-          }}
-        />
-        <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full border border-[color:var(--gold)]/15 bg-[color:var(--gold)]/8 blur-sm" />
-        <div className="relative z-[1]">
+      <header className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 shadow-[0_24px_60px_-32px_oklch(0_0_0_/_0.85)]">
+        {/* Snowy village banner — matches approved v2 mockup */}
+        <div className="relative h-40 overflow-hidden bg-[linear-gradient(180deg,oklch(0.16_0.05_245)_0%,oklch(0.10_0.04_245)_100%)] sm:h-48">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-between px-6 opacity-70">
+            <div className="relative h-16 w-14 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5">
+              <span className="absolute left-2 top-3 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.55)]" />
+              <span className="absolute left-2 top-7 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.35)]" />
+            </div>
+            <div className="relative h-20 w-16 rounded-t-md bg-[oklch(0.08_0.02_245)] border-b-2 border-white/5">
+              <span className="absolute left-4 top-4 h-2 w-2 bg-[oklch(0.90_0.16_88_/_0.75)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.7)]" />
+              <span className="absolute left-2 top-10 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.4)]" />
+            </div>
+            <div className="h-12 w-10 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5" />
+          </div>
+          <div className="pointer-events-none absolute bottom-4 left-6 flex flex-col items-center">
+            <span className="h-10 w-[3px] bg-[oklch(0.06_0.01_245)]" />
+            <span className="-mt-12 h-3 w-3 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_18px_6px_oklch(0.90_0.16_88_/_0.55)]" />
+          </div>
+          <div className="pointer-events-none absolute bottom-2 right-8">
+            <span
+              className="block h-0 w-0"
+              style={{
+                borderLeft: "20px solid transparent",
+                borderRight: "20px solid transparent",
+                borderBottom: "40px solid oklch(0.28 0.08 155)",
+              }}
+            />
+            <span className="absolute -top-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.9)]" />
+            <span className="absolute top-4 left-2 h-1 w-1 rounded-full bg-[oklch(0.65_0.20_25)]" />
+            <span className="absolute top-8 right-2 h-1 w-1 rounded-full bg-[oklch(0.90_0.14_88)]" />
+          </div>
+          <div className="relative z-[1] flex flex-col items-center pt-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+              {sleeps} sleeps until Christmas
+            </p>
+          </div>
+        </div>
+
+        {/* Header body — navy */}
+        <div className="relative bg-[oklch(0.09_0.04_245)] p-5 sm:p-7">
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
             <Users className="h-4 w-4" /> People &amp; Presents
           </p>
-          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h1 className="font-display text-4xl leading-tight sm:text-5xl">My People &amp; Presents</h1>
-              <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/82 sm:text-base">
-                Everyone you buy for, every idea, every present, and every wrapped little moment in one beautiful place.
-              </p>
-            </div>
-            <div className="hidden items-center gap-2 rounded-full border border-[color:var(--gold)]/25 bg-[color:var(--midnight-deep)]/45 px-4 py-2 text-xs text-[color:var(--gold-soft)] sm:flex">
-              <Snowflake className="h-4 w-4" /> Christmas list board
-            </div>
-          </div>
+          <h1 className="mt-2 font-display text-4xl leading-tight sm:text-5xl">My People &amp; Presents</h1>
+          <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/82 sm:text-base">
+            Everyone on your list — with every idea, present and price in one beautiful place.
+          </p>
 
           <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
             <button
               onClick={() => setAddOpen(true)}
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--midnight-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
               style={{ background: "var(--gradient-gold)" }}
             >
               <Plus className="h-5 w-5" /> Add person
@@ -251,25 +272,26 @@ export function BuyingForPage() {
             <button
               onClick={() => openAddGift("present")}
               disabled={people.length === 0}
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/55 bg-[color:var(--cream)]/10 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--cream)]/15 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/55 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
             >
               <Package className="h-5 w-5" /> Add present
             </button>
             <Link
               to="/gift-finder"
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/35 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10 sm:text-base"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 sm:text-base"
             >
               <Sparkles className="h-5 w-5" /> Gift Finder
             </Link>
             <Link
               to="/gift-finder/secret-santa"
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/35 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10 sm:text-base"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 sm:text-base"
             >
               <Snowflake className="h-5 w-5" /> Secret Santa
             </Link>
           </div>
         </div>
       </header>
+
       {people.length === 0 && (
         <p className="-mt-2 text-center text-xs text-muted-foreground">
           Add someone first, then you can add presents for them.
