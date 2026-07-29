@@ -139,7 +139,7 @@ function Home() {
             </p>
 
             {/* Primary CTA */}
-            <div className="mt-[15.5rem] sm:mt-[20.5rem] lg:mt-7">
+            <div className="mt-[18.5rem] sm:mt-[23rem] lg:mt-[7rem]">
               <Link to={startLink} className="btn-luxury">
                 <span aria-hidden style={{ color: "oklch(0.30 0.10 55)" }}>✦</span>
                 Let's start Christmas
@@ -150,7 +150,7 @@ function Home() {
         </div>
 
         {/* Countdown gift tag: smaller side element, matching the approved mockup composition */}
-        <div className="absolute left-4 bottom-[7.4rem] z-20 origin-bottom-left -rotate-[3deg] sm:left-12 sm:bottom-[7.8rem] lg:left-[7%] lg:bottom-[9.5rem]">
+        <div className="absolute left-4 bottom-[9.4rem] z-20 origin-bottom-left -rotate-[3deg] sm:left-12 sm:bottom-[9.2rem] lg:left-[7%] lg:bottom-[7rem]">
           <CountdownGiftTag />
         </div>
 
@@ -194,7 +194,7 @@ function Home() {
               style={{ color: "oklch(0.42 0.16 30)" }}
             >
               <GoldLaurel side="left" />
-              <span className="font-display tracking-[0.22em] text-[11px] sm:text-[13px] uppercase">
+              <span className="font-display tracking-[0.22em] text-[11px] sm:text-[13px] uppercase" style={{ color: "oklch(0.42 0.16 30)" }}>
                 Your Complete Christmas Planner
               </span>
               <GoldLaurel side="right" />
