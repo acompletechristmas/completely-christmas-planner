@@ -77,12 +77,12 @@ function Home() {
       {/* =============== HERO =============== */}
       <section
         className="relative w-full"
-        style={{ height: "min(72svh, 760px)", minHeight: "72svh" }}
+        style={{ height: "min(78svh, 780px)", minHeight: "620px" }}
       >
         <img
           src={heroVillage}
           alt="A magnificent Christmas tree lit with gold lights in a snowy European village at night, with a street lamp adorned with a red bow"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-[58%_center] sm:object-center"
           fetchPriority="high"
         />
         {/* Cinematic vignette to keep text legible on the left */}
@@ -91,22 +91,22 @@ function Home() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(4,10,20,0.55) 0%, rgba(4,10,20,0.15) 30%, rgba(4,10,20,0.05) 55%, rgba(4,10,20,0.55) 100%), radial-gradient(ellipse at 12% 45%, rgba(4,10,20,0.75), transparent 60%)",
+              "linear-gradient(180deg, rgba(4,10,20,0.48) 0%, rgba(4,10,20,0.10) 34%, rgba(4,10,20,0.04) 58%, rgba(4,10,20,0.62) 100%), linear-gradient(90deg, rgba(4,10,20,0.78) 0%, rgba(4,10,20,0.58) 28%, rgba(4,10,20,0.16) 48%, transparent 68%)",
           }}
         />
         <Snowfall count={60} force />
 
         {/* Hero content: text on the left */}
         <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-start px-5 pt-24 sm:px-10 sm:pt-32">
-          <div className="max-w-xl lg:max-w-2xl">
+          <div className="max-w-[21rem] sm:max-w-xl lg:max-w-2xl">
             <h1
-              className="font-display leading-[1.02] tracking-tight text-[30px] sm:text-[48px] lg:text-[60px]"
+              className="font-display leading-[1.02] tracking-tight text-[31px] sm:text-[48px] lg:text-[60px]"
               style={{ textShadow: "0 4px 40px rgba(0,0,0,0.75)" }}
             >
               Plan your perfect
             </h1>
             <div
-              className="script-gold leading-[0.85] text-[68px] sm:text-[120px] lg:text-[150px] -mt-1 sm:-mt-2"
+              className="script-gold leading-[0.85] text-[72px] sm:text-[120px] lg:text-[150px] -mt-1 sm:-mt-2"
               style={{ textShadow: "0 6px 40px rgba(0,0,0,0.6)" }}
             >
               Christmas
@@ -138,13 +138,8 @@ function Home() {
               Everything you need for a magical, stress-free Christmas.
             </p>
 
-            {/* Countdown gift tag */}
-            <div className="mt-5 sm:mt-7">
-              <CountdownGiftTag />
-            </div>
-
             {/* Primary CTA */}
-            <div className="mt-5 sm:mt-7">
+            <div className="mt-[15.5rem] sm:mt-[20.5rem] lg:mt-7">
               <Link to={startLink} className="btn-luxury">
                 <span aria-hidden style={{ color: "oklch(0.30 0.10 55)" }}>✦</span>
                 Let's start Christmas
@@ -152,6 +147,11 @@ function Home() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Countdown gift tag: smaller side element, matching the approved mockup composition */}
+        <div className="absolute left-4 bottom-[7.4rem] z-20 origin-bottom-left -rotate-[3deg] sm:left-12 sm:bottom-[7.8rem] lg:left-[7%] lg:bottom-[9.5rem]">
+          <CountdownGiftTag />
         </div>
 
         {/* Soft transition into cream planner section */}
@@ -275,7 +275,7 @@ function CountdownGiftTag() {
   return (
     <div
       className="relative inline-block"
-      style={{ width: "min(20rem, 88vw)" }}
+      style={{ width: "clamp(16.75rem, 28vw, 19.5rem)" }}
     >
       {/* Ribbon threaded through the eyelet, draping to the sides */}
       <div
@@ -283,8 +283,8 @@ function CountdownGiftTag() {
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
           top: "-18px",
-          width: "200px",
-          height: "56px",
+          width: "180px",
+          height: "50px",
           filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))",
         }}
       >
@@ -293,7 +293,7 @@ function CountdownGiftTag() {
 
       {/* Parchment tag body */}
       <div
-        className="relative pt-9 pb-5 px-5 sm:pt-10 sm:pb-6 sm:px-6"
+        className="relative px-4 pb-4 pt-8 sm:px-5 sm:pb-5 sm:pt-9"
         style={{
           clipPath: CLIP,
           background:
@@ -346,8 +346,8 @@ function CountdownGiftTag() {
           className="absolute left-1/2 -translate-x-1/2 z-10"
           style={{
             top: "10px",
-            width: "16px",
-            height: "16px",
+            width: "14px",
+            height: "14px",
             borderRadius: "999px",
             background:
               "radial-gradient(circle at 35% 30%, oklch(0.35 0.05 60) 0%, oklch(0.18 0.03 60) 65%, oklch(0.10 0.02 60) 100%)",
@@ -358,7 +358,7 @@ function CountdownGiftTag() {
 
         {/* Header line */}
         <div
-          className="relative text-center font-display italic text-[13px] sm:text-[15px]"
+          className="relative text-center font-display italic text-[13px] sm:text-[14px]"
           style={{ color: "oklch(0.36 0.16 30)" }}
         >
           Christmas is coming
@@ -369,13 +369,13 @@ function CountdownGiftTag() {
           {parts.map(([label, val]) => (
             <div key={label} className="flex flex-col items-center">
               <span
-                className="font-display tabular-nums text-[26px] leading-none sm:text-[32px]"
+                className="font-display tabular-nums text-[25px] leading-none sm:text-[30px]"
                 style={{ color: "oklch(0.36 0.18 30)" }}
               >
                 {ready ? String(val).padStart(2, "0") : "--"}
               </span>
               <span
-                className="mt-1 text-[9px] tracking-[0.22em] sm:text-[10px]"
+                className="mt-1 text-[8px] tracking-[0.2em] sm:text-[9px]"
                 style={{ color: "oklch(0.46 0.10 30)" }}
               >
                 {label}
@@ -386,7 +386,7 @@ function CountdownGiftTag() {
 
         {/* Footer line + wax seal at lower right */}
         <p
-          className="relative mt-3 pr-10 text-center font-display italic text-[11px] leading-tight sm:text-[13px]"
+          className="relative mt-3 pr-8 text-center font-display italic text-[10px] leading-tight sm:text-[12px]"
           style={{ color: "oklch(0.42 0.10 30)" }}
         >
           A little planning today
