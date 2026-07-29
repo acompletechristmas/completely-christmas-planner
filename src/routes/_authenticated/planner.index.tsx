@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { usePeople, type Person } from "@/hooks/use-people";
+import { usePeople } from "@/hooks/use-people";
 import { usePlannerSettings } from "@/hooks/use-planner-settings";
 import { HOUSEHOLD_TYPES, CELEBRATION_STYLES } from "@/lib/household-options";
 import {
@@ -264,24 +264,24 @@ function PlannerOverview() {
             </p>
           </div>
           <Link
-            to="/planner/gifts"
+            to="/planner/people"
             className="hidden shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 sm:inline-flex"
             style={{ background: "var(--gradient-gold)" }}
           >
-            View gifts <ArrowRight className="h-3.5 w-3.5" />
+            Open People &amp; Presents <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <Link
-            to="/planner/gifts"
+            to="/planner/people"
             className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
             style={{ background: "var(--gradient-gold)" }}
           >
             <Plus className="h-4 w-4" /> Add person
           </Link>
           <Link
-            to="/planner/gifts"
+            to="/planner/people"
             className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-black/25 px-3 py-2 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)]"
           >
             <Package className="h-4 w-4" /> Add present
@@ -310,39 +310,47 @@ function PlannerOverview() {
         {peopleLoading ? (
           <p className="text-sm text-muted-foreground">Loading your list…</p>
         ) : people.length === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[color:var(--gold)]/40 bg-black/25 p-8 text-center">
+          <Link
+            to="/planner/people"
+            className="block rounded-3xl border border-dashed border-[color:var(--gold)]/40 bg-black/25 p-8 text-center transition hover:border-[color:var(--gold)] hover:bg-black/35"
+          >
             <Users className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
             <p className="mt-3 font-display text-xl">Add your first person</p>
             <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground">
-              Once someone's on your list you can add ideas, choose presents and track progress.
+              Open the approved People &amp; Presents page to start your list.
             </p>
-            <Link
-              to="/planner/gifts"
+            <span
               className="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)]"
               style={{ background: "var(--gradient-gold)" }}
             >
-              <Plus className="h-4 w-4" /> Add a person
-            </Link>
-          </div>
+              <Plus className="h-4 w-4" /> Open People &amp; Presents
+            </span>
+          </Link>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2">
-            {people.slice(0, 8).map((p) => (
-              <PersonRow key={p.id} person={p} gifts={namedGifts.filter((g) => g.person_id === p.id)} />
-            ))}
-            {people.length > 0 && (
-              <Link
-                to="/planner/gifts"
-                className="flex min-h-[80px] items-center justify-center gap-2 rounded-2xl border border-dashed border-[color:var(--gold)]/40 bg-black/20 p-4 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-black/30"
+          <Link
+            to="/planner/people"
+            className="group block rounded-3xl border border-[color:var(--gold)]/35 bg-black/25 p-5 transition hover:border-[color:var(--gold)] hover:bg-black/35"
+          >
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-display text-2xl text-[color:var(--cream)]">Open the full People &amp; Presents board</p>
+                <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+                  This opens the approved luxury page with the snowy header, progress strip, filters, stationery cards, ribbons and wax seals.
+                </p>
+              </div>
+              <span
+                className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition group-hover:brightness-110"
+                style={{ background: "var(--gradient-gold)" }}
               >
-                View gifts <ArrowRight className="h-4 w-4" />
-              </Link>
-            )}
-          </div>
+                People &amp; Presents <ArrowRight className="h-4 w-4" />
+              </span>
+            </div>
+          </Link>
         )}
         {ideas.length > 0 && (
           <p className="text-xs text-muted-foreground">
             {ideas.length} gift idea{ideas.length === 1 ? "" : "s"} waiting to be chosen.{" "}
-            <Link to="/planner/gifts" className="text-[color:var(--gold-soft)] hover:underline">
+            <Link to="/planner/people" className="text-[color:var(--gold-soft)] hover:underline">
               Review ideas →
             </Link>
           </p>
@@ -590,125 +598,3 @@ function Chip({ label }: { label: string }) {
   );
 }
 
-function PersonRow({ person, gifts }: { person: Person; gifts: GiftRow[] }) {
-  const ideas = gifts.filter((g) => g.is_idea).length;
-  const presents = gifts.filter((g) => g.is_chosen);
-  const boughtCount = presents.filter((g) => g.ordered).length;
-  const wrappedCount = presents.filter((g) => g.wrapped).length;
-  const givenCount = presents.filter((g) => g.given || g.sent).length;
-  const spent = presents.filter((g) => g.ordered).reduce((s, g) => s + (Number(g.price) || 0), 0);
-  const budget = person.gift_budget != null ? Number(person.gift_budget) : null;
-
-  const hasPresents = presents.length > 0;
-  const allBought = hasPresents && boughtCount === presents.length;
-  const allWrapped = allBought && wrappedCount === presents.length;
-  const allCompleted = allWrapped && givenCount === presents.length;
-  const stage: 1 | 2 | 3 | 4 = allCompleted ? 4 : allWrapped ? 3 : allBought ? 2 : 1;
-  const isGold = stage >= 2;
-
-  const cardBg = isGold
-    ? "linear-gradient(160deg, oklch(0.94 0.07 88) 0%, oklch(0.88 0.10 82) 55%, oklch(0.84 0.11 78) 100%)"
-    : "oklch(0.985 0.006 85)";
-  const borderCol = isGold ? "oklch(0.65 0.14 75 / 0.85)" : "oklch(0.78 0.10 82 / 0.55)";
-  const textInk = "oklch(0.22 0.04 260)";
-  const textMuted = "oklch(0.42 0.03 260)";
-
-  const gbp = (n: number) =>
-    new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(n);
-
-  return (
-    <Link
-      to="/planner/gifts"
-      className={
-        "group relative block overflow-hidden rounded-2xl border p-4 shadow-[0_16px_40px_-24px_oklch(0_0_0_/_0.7)] transition-all duration-500 hover:-translate-y-0.5 " +
-        (isGold ? "sparkle-once" : "")
-      }
-      style={{ background: cardBg, borderColor: borderCol, color: textInk }}
-    >
-      {isGold && (
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 12% 22%, oklch(1 0 0 / 0.9) 0 1.2px, transparent 1.6px), radial-gradient(circle at 78% 18%, oklch(1 0 0 / 0.7) 0 1px, transparent 1.4px), radial-gradient(circle at 40% 78%, oklch(1 0 0 / 0.7) 0 1px, transparent 1.4px), radial-gradient(circle at 88% 68%, oklch(1 0 0 / 0.8) 0 1.4px, transparent 1.8px)",
-            backgroundSize: "160px 160px",
-          }}
-        />
-      )}
-      {stage >= 3 && (
-        <span aria-hidden className="pointer-events-none absolute -right-12 top-4 z-[1] w-44 rotate-45 select-none text-center">
-          <span
-            className="block py-1 text-[9px] font-semibold uppercase tracking-[0.22em] text-[oklch(0.98_0.02_60)]"
-            style={{
-              background:
-                "linear-gradient(180deg, oklch(0.52 0.20 22) 0%, oklch(0.42 0.22 22) 50%, oklch(0.36 0.20 22) 100%)",
-              borderTop: "1px solid oklch(0.82 0.14 82 / 0.9)",
-              borderBottom: "1px solid oklch(0.72 0.14 82 / 0.9)",
-            }}
-          >
-            Ready for Christmas
-          </span>
-        </span>
-      )}
-      {stage >= 4 && (
-        <span
-          aria-hidden
-          className="absolute right-3 top-12 z-[2] grid h-11 w-11 place-items-center rounded-full text-[7.5px] font-bold uppercase leading-tight tracking-[0.06em] text-[oklch(0.98_0.03_60)] shadow-[0_5px_12px_-4px_oklch(0.25_0.15_25_/_0.6),inset_0_2px_3px_oklch(1_0_0_/_0.3),inset_0_-3px_5px_oklch(0.2_0.12_25_/_0.5)]"
-          style={{
-            background:
-              "radial-gradient(circle at 35% 30%, oklch(0.58 0.22 22) 0%, oklch(0.38 0.22 22) 60%, oklch(0.28 0.18 22) 100%)",
-            border: "2px solid oklch(0.78 0.14 82)",
-          }}
-        >
-          <span className="px-0.5 text-center">
-            Christmas
-            <br />
-            Complete ❤
-          </span>
-        </span>
-      )}
-
-      <div className="relative z-[1] flex items-start gap-3">
-        <span
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full font-display text-base font-semibold"
-          style={{
-            background: isGold ? "oklch(1 0 0 / 0.55)" : "oklch(0.96 0.02 85)",
-            color: "oklch(0.30 0.06 60)",
-            border: "1px solid oklch(0.72 0.12 82 / 0.5)",
-          }}
-        >
-          {person.name?.[0]?.toUpperCase() || "?"}
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-[18px] font-semibold leading-tight" style={{ color: textInk }}>
-            {person.name || "Unnamed"}
-          </p>
-          <p className="mt-0.5 text-[11px] font-medium" style={{ color: textMuted }}>
-            {person.relationship ?? "Christmas list"}
-            {budget != null ? ` · ${gbp(budget)} budget` : ""}
-            {allCompleted && (
-              <span className="ml-1 italic" style={{ color: "oklch(0.42 0.20 22)" }}>
-                · All done!
-              </span>
-            )}
-            {!allCompleted && allBought && (
-              <span className="ml-1 font-semibold" style={{ color: "oklch(0.42 0.14 65)" }}>
-                · {allWrapped ? "Wrapped & ready" : "All bought"}
-              </span>
-            )}
-          </p>
-          <p className="mt-1.5 text-[11.5px]" style={{ color: textMuted }}>
-            {presents.length} present{presents.length === 1 ? "" : "s"} · {boughtCount} bought · {wrappedCount} wrapped · {givenCount} given
-            {ideas > 0 ? ` · ${ideas} idea${ideas === 1 ? "" : "s"}` : ""}
-          </p>
-          <p className="mt-0.5 flex items-center gap-1 text-[11px] font-semibold" style={{ color: "oklch(0.35 0.10 60)" }}>
-            <PoundSterling className="h-3 w-3" />
-            {gbp(spent).replace("£", "")}
-            {budget != null ? ` of ${gbp(budget)}` : ""} spent
-          </p>
-        </div>
-      </div>
-    </Link>
-  );
-}
