@@ -1,44 +1,57 @@
 ## Goal
-Bring the homepage hero closer to the approved mockup with three targeted changes. No redesign, no scope creep.
+Make the homepage match the approved image only. No new interpretation, no alternative design, no extra polish.
 
-## 1. Recreate the village hero image
-Regenerate `src/assets/hero-village.jpg` with a prompt tuned to the approved mockup:
-- Wide snowy village street at dusk / early night, deep midnight-blue sky
-- Row of warm glowing shopfronts and cottages with lit windows and wreaths
-- Tall snow-dusted Christmas tree with warm fairy lights on the right
-- Ornate wrought-iron street lantern with a warm halo of light, gentle snowfall
-- Cinematic, painterly, luxury Christmas card feel — no people, no text, no logos
-- 1536×1024, standard quality for detail fidelity
+## Important constraint
+A true exact visual match is only possible if the approved mockup image is used as the visual source. Rebuilding it from code and regenerated artwork can only approximate it, which is the problem you are rightly calling out.
 
-Replace the existing file in place so all imports keep working. No layout changes to how the hero image is used.
+## Plan
 
-## 2. Faithful luxury gift-tag countdown
-Rebuild only the `CountdownGiftTag` component inside `src/routes/index.tsx`. Keep the same props, position, and countdown logic from `src/components/Countdown.tsx`.
+### 1. Lock the approved image as the reference
+- Use `file_000000002e5c81f493ba94d0862b135d.png` as the single approved target.
+- Ignore the current generated hero direction if it differs from that image.
+- Treat the approved image as the source of truth for:
+  - Snowy village atmosphere
+  - Large lit Christmas tree as the main focal point
+  - Lantern on the right
+  - Small side countdown gift tag
+  - Hero proportions
+  - Planner section height and position
 
-Visual spec (matches approved mockup):
-- Parchment shape: rounded rectangle with both top corners clipped at 45° to form the classic tag silhouette
-- Parchment fill: layered cream gradient + subtle noise/grain via inline SVG `<filter>` (feTurbulence + feColorMatrix) for real texture, not a flat colour
-- Antique brass eyelet at the top: dark ring with inner shadow and a small highlight
-- Satin ribbon threaded through the eyelet: two draped tails as an inline SVG with a soft gold→deep-gold gradient and a subtle sheen highlight down the centre
-- Deep red wax seal in the lower-right of the tag: radial gradient, tiny embossed snowflake or "C" mark, soft cast shadow
-- Gold hairline inner border just inside the parchment edge following the clipped shape
-- Soft outer drop shadow so the tag lifts off the hero
-- Countdown numerals: existing serif display font, warm ink colour, tabular-nums; "DAYS HOURS MINUTES SECONDS" labels in small letterspaced caps beneath
+### 2. Restore the approved composition
+- Rework only the homepage hero layout so it follows the approved image:
+  - Tree dominates the right side.
+  - Village buildings glow behind the tree.
+  - Lantern sits on the right edge.
+  - Text sits on the left.
+  - Countdown gift tag is smaller and lower-left/side, not the main feature.
+  - Button sits below the tag.
+  - Cream planner section starts within the first viewport.
 
-No new dependencies. All shapes done with SVG + CSS so it stays crisp on mobile.
+### 3. Stop using speculative redesigns
+- Do not redesign the header, cards, planner section, fonts, wording, or theme beyond what is necessary to match the approved image.
+- Do not create a different Christmas scene.
+- Do not enlarge or centre the countdown tag.
+- Do not move the main visual focus away from the tree.
 
-## 3. Reduce hero height
-In `src/routes/index.tsx`, lower the hero section height so the "Your Christmas planner" heading and the top edge of the four planner cards are visible in the initial viewport on a 390×844 mobile.
-- Mobile: `min-h-[72svh]` (was `85svh`)
-- Desktop (`sm:`): `min-h-[82vh]` (was `100vh`/current value)
-- Verify with a Playwright screenshot at 390×844 and 1280×800; adjust by ±4svh only if the planner heading is still fully below the fold.
+### 4. Asset approach
+- Best match: use the approved mockup as the fixed visual reference while adjusting the real page to match it.
+- If the current `hero-village.jpg` cannot visually match the approved tree/village/lantern composition, replace it once with a new asset explicitly based on the approved image composition — not a new interpretation.
+- No repeated regeneration loops.
+
+### 5. Verification before claiming complete
+- Capture screenshots at:
+  - Mobile: 390×844
+  - Desktop: 1280×800
+- Compare against the approved image before saying it is done.
+- The fix is only complete if:
+  - The tree is clearly the main hero subject.
+  - The countdown tag is visibly smaller and off to the side.
+  - The snowy village and lantern are present.
+  - The first viewport composition matches the approved mockup.
 
 ## Out of scope
-- No changes to nav, divider, planner cards, fonts, or copy.
-- No changes to `Countdown.tsx` internals — only the visual wrapper in `index.tsx`.
-- No new routes, data, or dependencies.
-
-## Verification
-- Screenshot mobile (390×844) and desktop (1280×800) after each of the three changes
-- Compare against the approved mockup for: village atmosphere, tag silhouette + ribbon + seal, planner heading visibility
-- Stop as soon as all three read correctly — no extra polish passes
+- No new pages.
+- No navigation restructure.
+- No planner functionality changes.
+- No extra homepage sections.
+- No experimental style changes.
