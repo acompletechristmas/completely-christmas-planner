@@ -61,11 +61,14 @@ export function SiteNav() {
         }
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <Link to="/" aria-label="Go to homepage" className="flex flex-col leading-none">
+          <Link to="/" aria-label="Go to homepage" className="flex flex-col leading-[0.9]">
             <span className="font-display text-[15px] sm:text-[17px] tracking-wide text-[color:var(--cream)]">
               A Complete
             </span>
-            <span className="font-display italic text-[22px] sm:text-[28px] -mt-1 gold-text">
+            <span
+              className="script-gold text-[34px] sm:text-[44px] -mt-0.5"
+              style={{ lineHeight: 0.85 }}
+            >
               Christmas
             </span>
           </Link>
