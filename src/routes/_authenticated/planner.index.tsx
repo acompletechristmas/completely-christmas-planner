@@ -231,131 +231,144 @@ function PlannerOverview() {
       .slice(0, 5);
   }, [outings]);
 
+  // Days until Christmas — used for the snowy hero
+  const today = new Date();
+  const xmas = new Date(today.getFullYear(), 11, 25);
+  if (today > xmas) xmas.setFullYear(xmas.getFullYear() + 1);
+  const sleeps = Math.max(0, Math.ceil((xmas.getTime() - today.getTime()) / 86_400_000));
+  const firstName = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0]
+    ?? user?.email?.split("@")[0]
+    ?? "there";
+
   return (
     <div className="rise-in space-y-10">
-      {/* 1. People & Presents — the first useful screen */}
-      <section
-        className="relative space-y-4 overflow-hidden rounded-3xl border p-5 sm:p-6"
-        style={{
-          background:
-            "linear-gradient(160deg, oklch(0.20 0.06 250 / 0.85), oklch(0.14 0.05 250 / 0.92))",
-          borderColor: "oklch(0.55 0.10 250 / 0.4)",
-          boxShadow: "0 14px 40px -20px oklch(0.45 0.14 250 / 0.55)",
-        }}
-      >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-x-6 top-0 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, oklch(0.86 0.11 88 / 0.85), transparent)",
-          }}
-        />
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-              <Gift className="h-3 w-3" /> GIFTS &amp; PEOPLE
-            </p>
-            <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-              My People &amp; Presents
-            </h1>
-            <p className="mt-1 text-sm text-[color:var(--cream)]/75">
-              Everyone on your list — with every idea, present and price in one place.
+      {/* 1. People & Presents — snowy hero doorway matching the approved People & Presents look */}
+      <section className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 shadow-[0_24px_60px_-32px_oklch(0_0_0_/_0.85)]">
+        {/* Snowy village header */}
+        <div className="relative h-40 overflow-hidden bg-[linear-gradient(180deg,oklch(0.16_0.05_245)_0%,oklch(0.10_0.04_245)_100%)] sm:h-48">
+          {/* Village silhouettes */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-between px-6 opacity-70">
+            <div className="relative h-16 w-14 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5">
+              <span className="absolute left-2 top-3 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.55)]" />
+              <span className="absolute left-2 top-7 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.35)]" />
+            </div>
+            <div className="relative h-20 w-16 rounded-t-md bg-[oklch(0.08_0.02_245)] border-b-2 border-white/5">
+              <span className="absolute left-4 top-4 h-2 w-2 bg-[oklch(0.90_0.16_88_/_0.75)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.7)]" />
+              <span className="absolute left-2 top-10 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.4)]" />
+            </div>
+            <div className="h-12 w-10 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5" />
+          </div>
+          {/* Lamp glow */}
+          <div className="pointer-events-none absolute bottom-4 left-6 flex flex-col items-center">
+            <span className="h-10 w-[3px] bg-[oklch(0.06_0.01_245)]" />
+            <span className="-mt-12 h-3 w-3 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_18px_6px_oklch(0.90_0.16_88_/_0.55)]" />
+          </div>
+          {/* Christmas tree */}
+          <div className="pointer-events-none absolute bottom-2 right-8">
+            <span
+              className="block h-0 w-0"
+              style={{
+                borderLeft: "20px solid transparent",
+                borderRight: "20px solid transparent",
+                borderBottom: "40px solid oklch(0.28 0.08 155)",
+              }}
+            />
+            <span className="absolute -top-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.9)]" />
+            <span className="absolute top-4 left-2 h-1 w-1 rounded-full bg-[oklch(0.65_0.20_25)]" />
+            <span className="absolute top-8 right-2 h-1 w-1 rounded-full bg-[oklch(0.90_0.14_88)]" />
+          </div>
+          {/* Sleeps + greeting */}
+          <div className="relative z-[1] flex flex-col items-center pt-6 sm:pt-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+              {sleeps} sleeps until Christmas
             </p>
           </div>
-          <Link
-            to="/planner/people"
-            className="hidden shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110 sm:inline-flex"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            Open People &amp; Presents <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <Link
-            to="/planner/people"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            <Plus className="h-4 w-4" /> Add person
-          </Link>
-          <Link
-            to="/planner/people"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-black/25 px-3 py-2 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)]"
-          >
-            <Package className="h-4 w-4" /> Add present
-          </Link>
-          <Link
-            to="/gift-finder"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-black/20 px-3 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
-          >
-            <Sparkles className="h-4 w-4" /> Find gift ideas
-          </Link>
-          <Link
-            to="/planner/outings"
-            className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-black/20 px-3 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
-          >
-            <CalendarDays className="h-4 w-4" /> Find an event
-          </Link>
-        </div>
+        {/* Content on dark navy — matching v2 */}
+        <div className="relative bg-[oklch(0.09_0.04_245)] px-5 pb-6 pt-5 sm:px-7 sm:pt-6">
+          <h1 className="font-display text-3xl leading-tight sm:text-4xl">
+            Hi {firstName}, <span className="script-gold text-[38px] italic sm:text-[46px]">welcome back</span>
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/78">
+            Your quiet corner for gifts, food, and everything else. Take it a step at a time.
+          </p>
 
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <MiniStat value={presents.length} label={presents.length === 1 ? "present" : "presents"} />
-          <MiniStat value={bought.length} label="bought" />
-          <MiniStat value={wrapped.length} label="wrapped" />
-          <MiniStat value={`£${spent.toFixed(0)}`} label="spent" />
-        </div>
+          {/* Section eyebrow */}
+          <p className="mt-6 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+            <Gift className="h-3 w-3" /> GIFTS &amp; PEOPLE
+          </p>
+          <h2 className="mt-1.5 font-display text-2xl leading-tight sm:text-3xl">
+            My People &amp; Presents
+          </h2>
+          <p className="mt-1 text-sm text-[color:var(--cream)]/72">
+            Everyone on your list — with every idea, present and price in one place.
+          </p>
 
-        {peopleLoading ? (
-          <p className="text-sm text-muted-foreground">Loading your list…</p>
-        ) : people.length === 0 ? (
-          <Link
-            to="/planner/people"
-            className="block rounded-3xl border border-dashed border-[color:var(--gold)]/40 bg-black/25 p-8 text-center transition hover:border-[color:var(--gold)] hover:bg-black/35"
-          >
-            <Users className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
-            <p className="mt-3 font-display text-xl">Add your first person</p>
-            <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground">
-              Open the approved People &amp; Presents page to start your list.
-            </p>
-            <span
-              className="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)]"
+          {/* Action buttons — v2 order and treatment */}
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <Link
+              to="/planner/people"
+              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--midnight-deep)] transition hover:brightness-110"
               style={{ background: "var(--gradient-gold)" }}
             >
-              <Plus className="h-4 w-4" /> Open People &amp; Presents
-            </span>
-          </Link>
-        ) : (
+              <Plus className="h-4 w-4" /> Add person
+            </Link>
+            <Link
+              to="/planner/people"
+              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+            >
+              <Package className="h-4 w-4" /> Add present
+            </Link>
+            <Link
+              to="/gift-finder"
+              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+            >
+              <Sparkles className="h-4 w-4" /> Find gift ideas
+            </Link>
+            <Link
+              to="/planner/outings"
+              className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+            >
+              <CalendarDays className="h-4 w-4" /> Find an event
+            </Link>
+          </div>
+
+          {/* Mini stats */}
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <MiniStat value={presents.length} label={presents.length === 1 ? "present" : "presents"} />
+            <MiniStat value={bought.length} label="bought" />
+            <MiniStat value={wrapped.length} label="wrapped" />
+            <MiniStat value={`£${spent.toFixed(0)}`} label="spent" />
+          </div>
+
+          {/* Open full board */}
           <Link
             to="/planner/people"
-            className="group block rounded-3xl border border-[color:var(--gold)]/35 bg-black/25 p-5 transition hover:border-[color:var(--gold)] hover:bg-black/35"
+            className="mt-5 flex items-center justify-between gap-3 rounded-2xl border border-[color:var(--gold)]/35 bg-[color:var(--midnight-deep)]/50 px-5 py-4 transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/70"
           >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="font-display text-2xl text-[color:var(--cream)]">Open the full People &amp; Presents board</p>
-                <p className="mt-1 max-w-xl text-sm text-muted-foreground">
-                  This opens the approved luxury page with the snowy header, progress strip, filters, stationery cards, ribbons and wax seals.
-                </p>
-              </div>
-              <span
-                className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition group-hover:brightness-110"
-                style={{ background: "var(--gradient-gold)" }}
-              >
-                People &amp; Presents <ArrowRight className="h-4 w-4" />
-              </span>
+            <div className="min-w-0">
+              <p className="font-display text-lg leading-tight text-[color:var(--cream)]">
+                Open the full People &amp; Presents board
+              </p>
+              <p className="mt-0.5 text-xs text-[color:var(--cream)]/65">
+                Snowy header, progress ring, filters, luxury cards, ribbons, wax seals.
+              </p>
             </div>
+            <ArrowRight className="h-5 w-5 shrink-0 text-[color:var(--gold-soft)]" />
           </Link>
-        )}
-        {ideas.length > 0 && (
-          <p className="text-xs text-muted-foreground">
-            {ideas.length} gift idea{ideas.length === 1 ? "" : "s"} waiting to be chosen.{" "}
-            <Link to="/planner/people" className="text-[color:var(--gold-soft)] hover:underline">
-              Review ideas →
-            </Link>
-          </p>
-        )}
+
+          {ideas.length > 0 && (
+            <p className="mt-3 text-xs text-[color:var(--cream)]/65">
+              {ideas.length} gift idea{ideas.length === 1 ? "" : "s"} waiting to be chosen.{" "}
+              <Link to="/planner/people" className="text-[color:var(--gold-soft)] hover:underline">
+                Review ideas →
+              </Link>
+            </p>
+          )}
+        </div>
       </section>
+
 
 
       {/* 2. Outings & Events — Things We'd Love to Do */}
