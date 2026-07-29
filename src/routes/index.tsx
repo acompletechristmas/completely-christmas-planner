@@ -88,7 +88,7 @@ function Home() {
         {/* Cinematic vignette to keep text legible on the left */}
         <div
           aria-hidden
-          className="absolute inset-0"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
               "linear-gradient(180deg, rgba(4,10,20,0.48) 0%, rgba(4,10,20,0.10) 34%, rgba(4,10,20,0.04) 58%, rgba(4,10,20,0.62) 100%), linear-gradient(90deg, rgba(4,10,20,0.78) 0%, rgba(4,10,20,0.58) 28%, rgba(4,10,20,0.16) 48%, transparent 68%)",
@@ -139,7 +139,7 @@ function Home() {
             </p>
 
             {/* Primary CTA */}
-            <div className="mt-[18.5rem] sm:mt-[23rem] lg:mt-[7rem]">
+            <div className="relative z-30 mt-6 sm:mt-8">
               <Link to={startLink} className="btn-luxury">
                 <span aria-hidden style={{ color: "oklch(0.30 0.10 55)" }}>✦</span>
                 Let's start Christmas
@@ -150,7 +150,7 @@ function Home() {
         </div>
 
         {/* Countdown gift tag: smaller side element, matching the approved mockup composition */}
-        <div className="absolute left-4 bottom-[9.4rem] z-20 origin-bottom-left -rotate-[3deg] sm:left-12 sm:bottom-[9.2rem] lg:left-[7%] lg:bottom-[7rem]">
+        <div className="absolute right-4 bottom-10 z-20 origin-bottom-right -rotate-[3deg] sm:right-10 sm:bottom-14 lg:right-[7%] lg:bottom-16">
           <CountdownGiftTag />
         </div>
 
