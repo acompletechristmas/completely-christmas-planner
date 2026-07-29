@@ -29,11 +29,11 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
   head: () => ({
     meta: [
-      { title: "People & Presents — A Complete Christmas" },
+      { title: "Gift Editor — A Complete Christmas" },
       {
         name: "description",
         content:
-          "Everyone on your list, every idea and every present in one place — with independent status for ordered, received, wrapped, sent and given.",
+          "Detailed gift editing controls for your Christmas planner, linked from the main People & Presents board.",
       },
       { name: "robots", content: "noindex" },
     ],
