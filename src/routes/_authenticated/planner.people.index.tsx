@@ -228,12 +228,10 @@ function PeopleIndex() {
             <SummaryStat icon={<BowIcon />} value={String(totals.wrapped)} label="Wrapped" pct={totals.pctWrapped} tone="rose" />
             <SummaryStat icon={<Send className="h-4 w-4" />} value={String(totals.sentGiven)} label="Sent / Given" pct={totals.pctSent} tone="sky" />
             <SummaryStat
-              icon={<span className="font-display text-base leading-none">£</span>}
-              value={gbp(totals.spent).replace("£", "£")}
+              value={gbp(totals.spent)}
               label="Spent"
               pct={totals.pctSpent}
               tone="gold"
-              rawNumber
             />
             <div className="flex items-center justify-center">
               <CircularProgress value={totals.complete} />
