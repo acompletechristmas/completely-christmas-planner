@@ -197,16 +197,23 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
+      <Link
+        to="/planner/people"
+        className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/35 bg-[color:var(--midnight-deep)]/45 px-4 py-2 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
+      >
+        <Users className="h-4 w-4" /> Back to People &amp; Presents
+      </Link>
+
       {/* Header */}
       <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-7">
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-          People &amp; Presents
+          Gift editor
         </p>
         <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-          Everyone, every present, every plan.
+          Add and edit presents.
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/85 sm:text-base">
-          Add ideas, choose the ones you want to buy, and tick them off as they're ordered, wrapped and given.
+          This is the detailed editing view. Your main People &amp; Presents page is the polished overview.
         </p>
       </header>
 
