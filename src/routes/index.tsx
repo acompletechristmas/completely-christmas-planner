@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight } from "lucide-react";
 
 import heroVillage from "@/assets/hero-village.jpg";
+import bowSatin from "@/assets/bow-satin.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -278,18 +279,20 @@ function CountdownGiftTag() {
       style={{ width: "clamp(16.75rem, 28vw, 19.5rem)" }}
     >
       {/* Red satin bow tied through the eyelet */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 -translate-x-1/2 z-30"
+      <img
+        src={bowSatin.url}
+        alt=""
+        draggable={false}
+        width={1024}
+        height={1024}
+        className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
-          top: "-26px",
-          width: "160px",
-          height: "64px",
-          filter: "drop-shadow(0 6px 10px rgba(0,0,0,0.5))",
+          top: "-95px",
+          width: "150px",
+          height: "auto",
+          filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.55))",
         }}
-      >
-        <SatinRibbon />
-      </div>
+      />
 
       {/* Parchment tag body */}
       <div
