@@ -1,88 +1,32 @@
-## Rebuild `/planner/people` to match the mockup exactly
+## Fix visible bugs on `/planner/people` so it matches the mockup
 
-Replace the current People & Presents index with the reference visual. No other pages change. Instructional overlay from the mockup is not included.
+The page already has the correct structure (header + 4 action tiles, 6-stat strip with circular %, 5 filter tabs, stationery person cards, coloured footer). Three visible bugs are making it look wrong.
 
-### Scope
-- File: `src/routes/_authenticated/planner.people.index.tsx` (full rewrite of the layout).
-- Reuse existing hooks: `usePeople`, `usePlannerList<GiftRow>("gifts")`.
-- No schema changes. No new routes. Existing `/planner/people/$personId` link stays.
+### 1. "Spent" stat renders as "£ £40" (double £)
+- Cause: the icon slot passes a `£` span AND the value uses `gbp()` which already prefixes `£`.
+- Fix: drop the `£` icon span and let the value carry the currency, or replace the icon with a small `Banknote`/wallet lucide icon and keep `gbp()` for the value.
+- Mockup shows just `£420` with SPENT under it — no separate £ icon. Use no icon and `gbp()`.
 
-### Layout (top → bottom)
+### 2. Pip labels overlap on mobile (`ADDEDBOUGHTWRAPPEDSENT/GIVEN`)
+- Cause: 4-column pip grid + long labels + tight card padding on 390px.
+- Fix on the person card:
+  - Shorten labels: `Added`, `Bought`, `Wrapped`, `Sent` (drop "/Given").
+  - Add `min-w-0` + `truncate` to each pip label wrapper, tighten letter-spacing, and reduce label size to 8px on mobile.
+  - Slightly reduce right-side spent block width on mobile so pips get more room.
 
-1. **Header block**
-   - Eyebrow icon + "PEOPLE & PRESENTS" in gold small-caps.
-   - Serif "My People & Presents" title.
-   - Subline: "Everyone on your list — with every idea, present and price in one place."
-   - Right side: 4 rounded square action buttons in this order:
-     - **Add person** (filled gold, active state)
-     - **Add present** (dark navy, gold outline)
-     - **Find gift ideas** (dark navy, gold outline)
-     - **Find an event** (dark navy, gold outline)
-   - Icons: user-plus, gift, sparkles, calendar.
+### 3. Stage visuals don't match mockup for wrapped / all-done
+- Wrapped stage (all bought AND all wrapped, not sent) should show a **gold satin ribbon strip** across the right side of the card (as in Caroline's row).
+- All-done stage should show the **red wax seal + "For Christmas" corner banner** and the card should switch to gold gradient — currently triggers only when `sentGiven === added`, which is correct, but the ribbon corner also renders under it and clashes with the seal. Ensure the ribbon underlay is only rendered on wrapped-not-done cards.
+- Add a small `For Christmas` banner only to all-done cards (already present, keep).
 
-2. **Summary statistics strip** (single dark card, 6 columns)
-   - Presents Added (gift icon) — count + green mini bar + %
-   - Bought (bag icon) — count + bar + %
-   - Wrapped (bow icon) — count + bar + %
-   - Sent / Given (plane icon) — count + bar + %
-   - Spent (£ icon) — amount + bar + %
-   - % Complete — circular gold/green progress ring
-   - Progress bars tinted gold→green.
-
-3. **Filter tabs** (pill row)
-   - All people (n) [active, gold fill]
-   - To buy (n) [red count]
-   - To wrap (n) [orange count]
-   - To send (n) [blue count]
-   - All done (n) [green count]
-   - Client-side filter over the person list.
-
-4. **Person cards** (stacked, full-width rows)
-   - Left: gold-ringed circle with initial.
-   - Name (serif) + subline "Relationship · £X budget" or "Relationship".
-   - 4 stat pips in a row: Added, Bought, Wrapped, Sent/Given — each with icon, count, % bar underneath.
-   - Right block: `£X SPENT` or `£X OF £Y SPENT`, plus a status pill:
-     - "To buy" (red pill) — nothing bought yet
-     - "To wrap" (orange pill) — bought but not all wrapped
-     - "All done!" (green pill) — everything sent/given
-     - none when partial-in-progress? Show chevron.
-   - Right chevron on incomplete cards.
-   - Card state visuals (match existing bible + mockup):
-     - Not started → cream card
-     - Bought → cream card, "To wrap" tag
-     - Wrapped → cream + gold satin ribbon corner
-     - All done → gold card + red bow + wax seal (green "All done!" pill)
-   - "FOR CHRISTMAS" tiny red corner banner on the fully-completed card (top-left ribbon flag) — as shown on Lauren in the mockup.
-
-5. **Bottom summary strip** (4 coloured tiles inside a dark card)
-   - `<green gift>` `N ALL DONE — Enjoy the magic!`
-   - `<red bag>` `N TO BUY — Time to shop!`
-   - `<orange bow>` `N TO WRAP — Almost there!`
-   - `<blue plane>` `N TO SEND — Don't forget!`
-
-### Data logic (per person, current year gifts where `is_chosen` true)
-- added = presents.length
-- bought = ordered count
-- wrapped = wrapped count
-- sentGiven = (sent || given) count
-- spent = sum(price where ordered)
-- budget = person.gift_budget
-- state: allDone if added>0 && sentGiven===added; wrapped if bought===added && wrapped===added; bought if bought===added; else in-progress/none.
-- Global stats aggregate across all people.
-
-### Styling
-- Follow DESIGN_BIBLE: Midnight bg, Snow White cards, Champagne Gold accents, Rich Red only for bow/seal/ribbon flag, Forest Green for "done" states.
-- Serif (Fraunces) for names/title, Inter Tight for UI.
-- Rounded-2xl cards, gold hairline borders, soft shadows.
-- Mobile-first: stats strip wraps to 3×2, action buttons wrap to 2×2, person card pips wrap under name.
-
-### Wiring
-- **Add person** → opens existing inline add form (kept, moved into a compact modal-style panel that appears under header when clicked).
-- **Add present** → navigate to `/planner/gifts`.
-- **Find gift ideas** → navigate to `/gift-finder`.
-- **Find an event** → navigate to `/planner/outings`.
-- Person card click → `/planner/people/$personId` (unchanged).
+### 4. Small polish to match the mockup exactly
+- Filter tabs: match colour of the count number to the pill's tone even when inactive (currently already tone-tinted — verify red/orange/blue/green).
+- Status pill "To send" appears when everything is wrapped. Mockup uses this same pill — keep.
+- Footer tile counts already sum correctly — keep.
 
 ### Out of scope
-- No changes to the person detail page, DB, or other planner routes.
-- Instructional annotations from the reference image are not rendered.
+- No new data model changes, no navigation changes, no other routes touched.
+- Not changing Planning HQ. User reaches this page via the People & Presents tile on `/planner` or by URL `/planner/people`.
+
+### Files
+- `src/routes/_authenticated/planner.people.index.tsx` — only file touched.

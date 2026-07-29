@@ -228,12 +228,10 @@ function PeopleIndex() {
             <SummaryStat icon={<BowIcon />} value={String(totals.wrapped)} label="Wrapped" pct={totals.pctWrapped} tone="rose" />
             <SummaryStat icon={<Send className="h-4 w-4" />} value={String(totals.sentGiven)} label="Sent / Given" pct={totals.pctSent} tone="sky" />
             <SummaryStat
-              icon={<span className="font-display text-base leading-none">£</span>}
-              value={gbp(totals.spent).replace("£", "£")}
+              value={gbp(totals.spent)}
               label="Spent"
               pct={totals.pctSpent}
               tone="gold"
-              rawNumber
             />
             <div className="flex items-center justify-center">
               <CircularProgress value={totals.complete} />
@@ -430,19 +428,17 @@ function SummaryStat({
   label,
   pct,
   tone,
-  rawNumber,
 }: {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   value: string;
   label: string;
   pct: number;
   tone: keyof typeof TONE_BAR;
-  rawNumber?: boolean;
 }) {
   return (
     <div>
       <div className="flex items-baseline gap-2">
-        <span className="text-[color:var(--gold)]">{icon}</span>
+        {icon && <span className="text-[color:var(--gold)]">{icon}</span>}
         <span className="font-display text-2xl leading-none">{value}</span>
       </div>
       <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[color:var(--muted-foreground)]">
@@ -454,7 +450,7 @@ function SummaryStat({
           style={{ width: `${pct}%`, background: TONE_BAR[tone] }}
         />
       </div>
-      <p className="mt-1 text-[10px] text-[color:var(--muted-foreground)]">{rawNumber ? `${pct}%` : `${pct}%`}</p>
+      <p className="mt-1 text-[10px] text-[color:var(--muted-foreground)]">{pct}%</p>
     </div>
   );
 }
@@ -620,7 +616,7 @@ function PersonRow({ person, stats }: { person: { id: string; name: string; rela
       {(wrappedStage && !allDone) && <RibbonCorner />}
       {allDone && <RibbonCorner withSeal initial={person.name?.[0]?.toUpperCase() || "?"} />}
 
-      <div className="relative z-[1] flex items-center gap-3 p-4 pr-16 sm:gap-4 sm:p-5 sm:pr-24">
+      <div className="relative z-[1] grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 p-4 pr-6 sm:gap-4 sm:p-5 sm:pr-8">
         {/* Initial */}
         <span
           className="grid h-11 w-11 shrink-0 place-items-center rounded-full font-display text-lg font-semibold sm:h-12 sm:w-12"
@@ -634,7 +630,7 @@ function PersonRow({ person, stats }: { person: { id: string; name: string; rela
         </span>
 
         {/* Name + relationship */}
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0">
           <h3 className="truncate font-display text-xl font-semibold leading-tight sm:text-2xl" style={{ color: ink }}>
             {person.name || "Unnamed"}
           </h3>
@@ -643,35 +639,25 @@ function PersonRow({ person, stats }: { person: { id: string; name: string; rela
             {budget != null && <span> · {gbp(budget)} budget</span>}
             {allDone && <span className="ml-1 italic" style={{ color: "oklch(0.42 0.20 22)" }}> · Wrapped &amp; ready</span>}
           </p>
-
-          {/* Pips */}
-          <div className="mt-3 grid grid-cols-4 gap-2 sm:mt-2 sm:max-w-md">
-            <Pip icon={<Gift className="h-3.5 w-3.5" />} value={added} pct={added > 0 ? 100 : 0} label="Added" tone="gold" ink={ink} muted={muted} />
-            <Pip icon={<ShoppingBag className="h-3.5 w-3.5" />} value={bought} pct={pct(bought)} label="Bought" tone={bought === added && added > 0 ? "amber" : "muted"} ink={ink} muted={muted} />
-            <Pip icon={<BowIcon className="h-3.5 w-3.5" />} value={wrapped} pct={pct(wrapped)} label="Wrapped" tone={wrapped === added && added > 0 ? "rose" : "muted"} ink={ink} muted={muted} />
-            <Pip icon={<Send className="h-3.5 w-3.5" />} value={sentGiven} pct={pct(sentGiven)} label="Sent/Given" tone={sentGiven === added && added > 0 ? "sky" : "muted"} ink={ink} muted={muted} />
-          </div>
         </div>
 
         {/* Right block */}
-        <div className="ml-2 flex flex-col items-end gap-1.5 text-right">
+        <div className="flex shrink-0 flex-col items-end gap-1.5 text-right">
           <div>
-            {budget != null && budget > 0 ? (
-              <>
-                <div className="font-display text-xl leading-none" style={{ color: ink }}>{gbp(spent)}</div>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.16em]" style={{ color: muted }}>
-                  Of {gbp(budget)} Spent
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="font-display text-xl leading-none" style={{ color: ink }}>{gbp(spent)}</div>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.16em]" style={{ color: muted }}>Spent</div>
-              </>
-            )}
+            <div className="font-display text-lg leading-none sm:text-xl" style={{ color: ink }}>{gbp(spent)}</div>
+            <div className="text-[9px] font-semibold uppercase tracking-[0.14em] sm:text-[10px] sm:tracking-[0.16em]" style={{ color: muted }}>
+              {budget != null && budget > 0 ? <>Of {gbp(budget)} Spent</> : "Spent"}
+            </div>
           </div>
           <StatusPill status={status} />
-          {!allDone && <ChevronRight className="h-4 w-4 opacity-40" style={{ color: ink }} />}
+        </div>
+
+        {/* Pips — full-width row spanning under the header */}
+        <div className="col-span-3 -mt-1 grid grid-cols-4 gap-2 sm:mt-1 sm:max-w-lg">
+          <Pip icon={<Gift className="h-3.5 w-3.5" />} value={added} pct={added > 0 ? 100 : 0} label="Added" tone="gold" ink={ink} muted={muted} />
+          <Pip icon={<ShoppingBag className="h-3.5 w-3.5" />} value={bought} pct={pct(bought)} label="Bought" tone={bought === added && added > 0 ? "amber" : "muted"} ink={ink} muted={muted} />
+          <Pip icon={<BowIcon className="h-3.5 w-3.5" />} value={wrapped} pct={pct(wrapped)} label="Wrapped" tone={wrapped === added && added > 0 ? "rose" : "muted"} ink={ink} muted={muted} />
+          <Pip icon={<Send className="h-3.5 w-3.5" />} value={sentGiven} pct={pct(sentGiven)} label="Sent" tone={sentGiven === added && added > 0 ? "sky" : "muted"} ink={ink} muted={muted} />
         </div>
       </div>
     </Link>
