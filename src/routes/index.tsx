@@ -287,9 +287,10 @@ function CountdownGiftTag() {
         height={1024}
         className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
-          top: "-95px",
-          width: "150px",
-          height: "auto",
+          top: "-26px",
+          width: "160px",
+          height: "64px",
+          objectFit: "contain",
           filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.55))",
         }}
       />
