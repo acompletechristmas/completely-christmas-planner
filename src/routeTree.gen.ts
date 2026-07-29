@@ -47,7 +47,6 @@ import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authent
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
-import { Route as AuthenticatedPlannerPeopleIndexRouteImport } from './routes/_authenticated/planner.people.index'
 import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 
 const VipRoute = VipRouteImport.update({
@@ -253,12 +252,6 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedPlannerPeopleIndexRoute =
-  AuthenticatedPlannerPeopleIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedPlannerPeopleRoute,
-  } as any)
 const AuthenticatedPlannerPeoplePersonIdRoute =
   AuthenticatedPlannerPeoplePersonIdRouteImport.update({
     id: '/$personId',
@@ -305,7 +298,6 @@ export interface FileRoutesByFullPath {
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner/': typeof AuthenticatedPlannerIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
-  '/planner/people/': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -337,13 +329,13 @@ export interface FileRoutesByTo {
   '/planner/list': typeof AuthenticatedPlannerListRoute
   '/planner/my': typeof AuthenticatedPlannerMyRoute
   '/planner/outings': typeof AuthenticatedPlannerOutingsRoute
+  '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
   '/planner/reminders': typeof AuthenticatedPlannerRemindersRoute
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
-  '/planner/people': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -386,7 +378,6 @@ export interface FileRoutesById {
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
   '/_authenticated/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
-  '/_authenticated/planner/people/': typeof AuthenticatedPlannerPeopleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -429,7 +420,6 @@ export interface FileRouteTypes {
     | '/planner/todos'
     | '/planner/'
     | '/planner/people/$personId'
-    | '/planner/people/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -461,13 +451,13 @@ export interface FileRouteTypes {
     | '/planner/list'
     | '/planner/my'
     | '/planner/outings'
+    | '/planner/people'
     | '/planner/reminders'
     | '/planner/setup'
     | '/planner/timeline'
     | '/planner/todos'
     | '/planner'
     | '/planner/people/$personId'
-    | '/planner/people'
   id:
     | '__root__'
     | '/'
@@ -509,7 +499,6 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/todos'
     | '/_authenticated/planner/'
     | '/_authenticated/planner/people/$personId'
-    | '/_authenticated/planner/people/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -806,13 +795,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/planner/people/': {
-      id: '/_authenticated/planner/people/'
-      path: '/'
-      fullPath: '/planner/people/'
-      preLoaderRoute: typeof AuthenticatedPlannerPeopleIndexRouteImport
-      parentRoute: typeof AuthenticatedPlannerPeopleRoute
-    }
     '/_authenticated/planner/people/$personId': {
       id: '/_authenticated/planner/people/$personId'
       path: '/$personId'
@@ -825,14 +807,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedPlannerPeopleRouteChildren {
   AuthenticatedPlannerPeoplePersonIdRoute: typeof AuthenticatedPlannerPeoplePersonIdRoute
-  AuthenticatedPlannerPeopleIndexRoute: typeof AuthenticatedPlannerPeopleIndexRoute
 }
 
 const AuthenticatedPlannerPeopleRouteChildren: AuthenticatedPlannerPeopleRouteChildren =
   {
     AuthenticatedPlannerPeoplePersonIdRoute:
       AuthenticatedPlannerPeoplePersonIdRoute,
-    AuthenticatedPlannerPeopleIndexRoute: AuthenticatedPlannerPeopleIndexRoute,
   }
 
 const AuthenticatedPlannerPeopleRouteWithChildren =

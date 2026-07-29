@@ -20,26 +20,28 @@ import {
   Pencil,
   Stamp,
   ExternalLink,
-  CalendarDays,
   Lightbulb,
   Package,
+  ShoppingBag,
+  Send,
+  Snowflake,
 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
   head: () => ({
     meta: [
-      { title: "Gift Editor — A Complete Christmas" },
+      { title: "People & Presents — A Complete Christmas" },
       {
         name: "description",
         content:
-          "Detailed gift editing controls for your Christmas planner, linked from the main People & Presents board.",
+          "Your luxury People & Presents board with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
       },
-      { property: "og:title", content: "Gift Editor — A Complete Christmas" },
+      { property: "og:title", content: "People & Presents — A Complete Christmas" },
       {
         property: "og:description",
         content:
-          "Detailed gift editing controls for your Christmas planner, linked from the main People & Presents board.",
+          "Your luxury People & Presents board with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -110,7 +112,7 @@ function matchesFilter(g: GiftRow, f: FilterKey): boolean {
   }
 }
 
-function BuyingForPage() {
+export function BuyingForPage() {
   const { user } = useAuth();
   const { people, loading: peopleLoading, removePerson, upsertLocal, refetch: refetchPeople } =
     usePeople(user?.id);
@@ -158,10 +160,16 @@ function BuyingForPage() {
 
   const totalPresents = namedGifts.filter((g) => g.is_chosen).length;
   const totalBought = namedGifts.filter((g) => g.is_chosen && g.ordered).length;
+  const totalReceived = namedGifts.filter((g) => g.is_chosen && g.arrived).length;
   const totalWrapped = namedGifts.filter((g) => g.is_chosen && g.wrapped).length;
+  const totalSentGiven = namedGifts.filter((g) => g.is_chosen && (g.sent || g.given)).length;
   const totalSpent = namedGifts
     .filter((g) => g.is_chosen && g.ordered)
     .reduce((s, g) => s + (Number(g.price) || 0), 0);
+  const totalComplete =
+    totalPresents > 0
+      ? Math.round(((totalBought + totalReceived + totalWrapped + totalSentGiven) / (totalPresents * 4)) * 100)
+      : 0;
 
   const filteredPeople = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -205,56 +213,63 @@ function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
-      <Link
-        to="/planner/people"
-        className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/35 bg-[color:var(--midnight-deep)]/45 px-4 py-2 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
-      >
-        <Users className="h-4 w-4" /> Back to People &amp; Presents
-      </Link>
+      <header className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 p-5 shadow-[0_24px_60px_-32px_oklch(0_0_0_/_0.85)] sm:p-7">
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 12% 18%, oklch(1 0 0 / 0.18) 0 1.2px, transparent 1.7px), radial-gradient(circle at 82% 22%, oklch(0.88 0.10 88 / 0.18) 0 1.4px, transparent 2px), linear-gradient(145deg, oklch(0.24 0.055 250 / 0.96), oklch(0.14 0.04 250 / 0.98) 60%, oklch(0.22 0.07 155 / 0.9))",
+            backgroundSize: "150px 150px, 210px 210px, auto",
+          }}
+        />
+        <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full border border-[color:var(--gold)]/15 bg-[color:var(--gold)]/8 blur-sm" />
+        <div className="relative z-[1]">
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+            <Users className="h-4 w-4" /> People &amp; Presents
+          </p>
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="font-display text-4xl leading-tight sm:text-5xl">My People &amp; Presents</h1>
+              <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/82 sm:text-base">
+                Everyone you buy for, every idea, every present, and every wrapped little moment in one beautiful place.
+              </p>
+            </div>
+            <div className="hidden items-center gap-2 rounded-full border border-[color:var(--gold)]/25 bg-[color:var(--midnight-deep)]/45 px-4 py-2 text-xs text-[color:var(--gold-soft)] sm:flex">
+              <Snowflake className="h-4 w-4" /> Christmas list board
+            </div>
+          </div>
 
-      {/* Header */}
-      <header className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 via-[oklch(0.22_0.05_155)]/70 to-[color:var(--burgundy)]/40 p-5 sm:p-7">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-          Gift editor
-        </p>
-        <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-          Add and edit presents.
-        </h1>
-        <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/85 sm:text-base">
-          This is the detailed editing view. Your main People &amp; Presents page is the polished overview.
-        </p>
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <button
+              onClick={() => setAddOpen(true)}
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
+              style={{ background: "var(--gradient-gold)" }}
+            >
+              <Plus className="h-5 w-5" /> Add person
+            </button>
+            <button
+              onClick={() => openAddGift("present")}
+              disabled={people.length === 0}
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/55 bg-[color:var(--cream)]/10 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--cream)]/15 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
+            >
+              <Package className="h-5 w-5" /> Add present
+            </button>
+            <Link
+              to="/gift-finder"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/35 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10 sm:text-base"
+            >
+              <Sparkles className="h-5 w-5" /> Gift Finder
+            </Link>
+            <Link
+              to="/gift-finder/secret-santa"
+              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/35 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10 sm:text-base"
+            >
+              <Snowflake className="h-5 w-5" /> Secret Santa
+            </Link>
+          </div>
+        </div>
       </header>
-
-      {/* Primary actions */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <button
-          onClick={() => setAddOpen(true)}
-          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--forest-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
-          style={{ background: "var(--gradient-gold)" }}
-        >
-          <Plus className="h-5 w-5" /> Add person
-        </button>
-        <button
-          onClick={() => openAddGift("idea")}
-          disabled={people.length === 0}
-          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
-        >
-          <Lightbulb className="h-5 w-5" /> Add gift idea
-        </button>
-        <button
-          onClick={() => openAddGift("present")}
-          disabled={people.length === 0}
-          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/50 bg-[color:var(--forest-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--cream)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
-        >
-          <Package className="h-5 w-5" /> Add present
-        </button>
-        <Link
-          to="/gift-finder"
-          className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/50 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--forest-deep)]/80 sm:text-base"
-        >
-          <Sparkles className="h-5 w-5" /> Find gift ideas
-        </Link>
-      </div>
       {people.length === 0 && (
         <p className="-mt-2 text-center text-xs text-muted-foreground">
           Add someone first, then you can add presents for them.
@@ -263,11 +278,17 @@ function BuyingForPage() {
 
       {/* Summary */}
       {people.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <SummaryStat value={totalPresents} label={totalPresents === 1 ? "present" : "presents"} />
-          <SummaryStat value={totalBought} label="ordered" />
-          <SummaryStat value={totalWrapped} label="wrapped" />
-          <SummaryStat value={`£${totalSpent.toFixed(0)}`} label="spent" />
+        <div className="rounded-[24px] border border-[color:var(--gold)]/25 bg-[color:var(--midnight-deep)]/70 p-4 shadow-[0_18px_48px_-30px_oklch(0_0_0_/_0.8)] sm:p-5">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+            <SummaryStat icon={<GiftIcon className="h-4 w-4" />} value={totalPresents} label={totalPresents === 1 ? "present" : "presents"} />
+            <SummaryStat icon={<ShoppingBag className="h-4 w-4" />} value={totalBought} label="bought" />
+            <SummaryStat icon={<RibbonMark className="h-4 w-4" />} value={totalWrapped} label="wrapped" />
+            <SummaryStat icon={<Send className="h-4 w-4" />} value={totalSentGiven} label="sent / given" />
+            <div className="col-span-2 grid place-items-center rounded-2xl border border-[color:var(--gold)]/18 bg-[color:var(--cream)]/5 py-3 sm:col-span-1">
+              <CircularGiftProgress value={totalComplete} />
+            </div>
+          </div>
+          <p className="mt-3 text-center text-xs text-muted-foreground">{`Spent so far: £${totalSpent.toFixed(0)}`}</p>
         </div>
       )}
 
@@ -401,7 +422,7 @@ function BuyingForPage() {
       )}
 
       <p className="pt-2 text-center text-[11px] text-muted-foreground">
-        {saving ? "Saving…" : "Everything's saved ✨"}
+        {saving ? "Saving…" : "Everything is saved"}
       </p>
 
       {/* Modals */}
@@ -475,11 +496,43 @@ function BuyingForPage() {
 
 /* ---------------------- Small pieces ---------------------- */
 
-function SummaryStat({ value, label }: { value: number | string; label: string }) {
+function SummaryStat({ value, label, icon }: { value: number | string; label: string; icon?: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-3 text-center">
+    <div className="rounded-2xl border border-[color:var(--gold)]/18 bg-[color:var(--cream)]/5 p-3 text-center">
+      {icon && <span className="mx-auto mb-1 block w-fit text-[color:var(--gold-soft)]">{icon}</span>}
       <p className="font-display text-2xl text-[color:var(--gold-soft)]">{value}</p>
       <p className="mt-0.5 text-[11px] text-muted-foreground">{label}</p>
+    </div>
+  );
+}
+
+function CircularGiftProgress({ value }: { value: number }) {
+  const radius = 27;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (circumference * value) / 100;
+
+  return (
+    <div className="relative grid h-[78px] w-[78px] place-items-center">
+      <svg viewBox="0 0 72 72" className="h-full w-full -rotate-90">
+        <circle cx="36" cy="36" r={radius} stroke="oklch(0.80 0.14 85 / 0.16)" strokeWidth="7" fill="none" />
+        <circle
+          cx="36"
+          cy="36"
+          r={radius}
+          stroke="oklch(0.82 0.14 85)"
+          strokeWidth="7"
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+        />
+      </svg>
+      <div className="absolute inset-0 grid place-items-center text-center">
+        <div>
+          <p className="font-display text-lg leading-none text-[color:var(--gold-soft)]">{value}%</p>
+          <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">complete</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -648,7 +701,7 @@ function RecipientCard({
           <span className="px-1 text-center">
             Christmas
             <br />
-            Complete ❤
+            Complete
           </span>
         </span>
       )}
@@ -722,10 +775,10 @@ function RecipientCard({
 
         {/* Progress icons row */}
         <div className="mt-4 grid grid-cols-4 gap-2 text-center">
-          <ProgressPip icon="🎁" value={presents.length} label="Presents" muted={textMuted} ink={textInk} />
-          <ProgressPip icon="✓" value={boughtCount} label="Bought" done={allBought} muted={textMuted} ink={textInk} accent="oklch(0.48 0.14 155)" />
-          <ProgressPip icon="🎀" value={wrappedCount} label="Wrapped" done={allWrapped} muted={textMuted} ink={textInk} accent="oklch(0.50 0.20 22)" />
-          <ProgressPip icon="❤" value={givenCount} label="Given" done={allGiven} muted={textMuted} ink={textInk} accent="oklch(0.45 0.22 22)" />
+          <ProgressPip icon={<GiftIcon className="h-4 w-4" />} value={presents.length} label="Presents" muted={textMuted} ink={textInk} />
+          <ProgressPip icon={<ShoppingBag className="h-4 w-4" />} value={boughtCount} label="Bought" done={allBought} muted={textMuted} ink={textInk} accent="oklch(0.48 0.14 155)" />
+          <ProgressPip icon={<RibbonMark className="h-4 w-4" />} value={wrappedCount} label="Wrapped" done={allWrapped} muted={textMuted} ink={textInk} accent="oklch(0.50 0.20 22)" />
+          <ProgressPip icon={<Stamp className="h-4 w-4" />} value={givenCount} label="Given" done={allGiven} muted={textMuted} ink={textInk} accent="oklch(0.45 0.22 22)" />
         </div>
 
         {/* View Gifts — premium outlined button */}
@@ -932,7 +985,7 @@ function ProgressPip({
   ink,
   accent,
 }: {
-  icon: string;
+  icon: React.ReactNode;
   value: number;
   label: string;
   done?: boolean;
@@ -966,6 +1019,25 @@ function ProgressPip({
   );
 }
 
+function RibbonMark({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M12 11c-2.2-2.8-5.2-3.8-7.1-2.6-1 .6-1 2.1 0 3 1.5 1.4 4.5 1 7.1-.4Z" />
+      <path d="M12 11c2.2-2.8 5.2-3.8 7.1-2.6 1 .6 1 2.1 0 3-1.5 1.4-4.5 1-7.1-.4Z" />
+      <circle cx="12" cy="11" r="1.6" />
+      <path d="M10.8 12.4 8.8 20l3.2-1.6 3.2 1.6-2-7.6" />
+    </svg>
+  );
+}
+
 
 /* ---------------------- Idea row ---------------------- */
 
@@ -987,7 +1059,7 @@ function IdeaRow({
   const save = () => {
     const trimmed = item.trim();
     if (trimmed.length === 0) {
-      toast.error("Give the idea a name ✨");
+      toast.error("Give the idea a name");
       setItem(gift.item);
       return;
     }

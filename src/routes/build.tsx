@@ -350,7 +350,7 @@ function buildCards(choices: Choices): { tag: string; title: string; desc: strin
 
   // People & presents — nearly always relevant
   if (all || wants.has("presents") || people.length > 0) {
-    push({ tag: "For your people", title: "My People & Presents", desc: "Add everyone you're buying for and keep every gift idea, budget and wrap safely in one place.", to: "/planner" }, 1);
+    push({ tag: "For your people", title: "My People & Presents", desc: "Add everyone you're buying for and keep every gift idea, budget and wrap safely in one place.", to: "/planner/people" }, 1);
   }
 
   // Plans

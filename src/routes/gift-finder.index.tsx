@@ -27,7 +27,7 @@ const bits = [
 function GiftFinderPage() {
   const gifts = [
     {
-      to: "/planner/gifts",
+      to: "/planner/people",
       eyebrow: "Live",
       title: "My Gift Planner",
       desc: "Keep track of who you're buying for, gift ideas, spending and wrapping.",
@@ -123,7 +123,7 @@ function GiftFinderPage() {
 
       <div className="mt-16 flex flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-2 text-[color:var(--gold-soft)]"><Star className="h-4 w-4" /><span className="text-xs uppercase tracking-[0.24em]">Add ideas straight to your gift list</span></div>
-        <GoldCTA to="/planner/gifts"><Sparkles className="h-4 w-4" /> Open my gift list</GoldCTA>
+        <GoldCTA to="/planner/people"><Sparkles className="h-4 w-4" /> Open my gift list</GoldCTA>
       </div>
     </PageShell>
   );

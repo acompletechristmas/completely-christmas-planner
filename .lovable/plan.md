@@ -1,27 +1,44 @@
-You’re right — this should have been done the first time.
-
-The mistake was that I rebuilt the approved design on the `/planner/people` route, but I did not update all the places labelled “People & Presents”, “Gifts”, or “Presents” to send you there. So you were still being taken to older screens like `/planner` and `/planner/gifts`, which made it look like the approved picture had not been applied.
-
 ## Plan
 
-1. **Make People & Presents the main presents page**
-   - Update the global navigation “Gifts” link so it opens `/planner/people`.
-   - Update Planning HQ’s People & Presents buttons/cards so they open `/planner/people`.
-   - Update any “View gifts”, “Add person”, “Add present”, or presents entry links that currently send users to the wrong older view.
+I will fix this as one controlled correction, not another redesign.
 
-2. **Keep the existing gift editor, but make it secondary**
-   - `/planner/gifts` will remain available for the detailed editing controls.
-   - Add a clear route from the approved People & Presents page into the detailed gift editor only when needed.
+### 1. Make one approved People & Presents experience
+- Treat the approved picture as the only source for the Gifts / People & Presents screen.
+- Replace the current dark “Gift editor” feel with the approved structure:
+  - snowy premium header
+  - gold action buttons
+  - dark summary stats strip with circular progress
+  - five filter pills
+  - luxury white/champagne person cards
+  - red satin ribbon and wax seal states
+  - four-tile status summary footer
+- Remove wording that makes it feel like a secondary editor or “dark picture”.
 
-3. **Remove the visual confusion on Planning HQ**
-   - Replace or simplify the older People & Presents preview on `/planner` so it no longer looks like a separate, outdated version of the page.
-   - Make it act as a doorway into the approved People & Presents experience.
+### 2. Put the same experience everywhere gifts are accessed
+- `/planner/people` will show the approved People & Presents page.
+- `/planner/gifts` will also show that same approved People & Presents page, so “Gifts” never opens a different old-looking screen.
+- Planning HQ gift links will open the approved page.
+- Main navigation “Gifts” will open the approved page.
+- Gift Finder / Secret Santa / Budget / Build links that currently point at the old gift editor will point to the approved page.
 
-4. **Verify the real user paths**
-   - Check that pressing “People & Presents”, “Gifts”, and presents-related links consistently lands on the approved picture-style page.
-   - Check mobile layout so the page is visibly the approved People & Presents design.
+### 3. Keep gift actions practical on the approved page
+- “Add person” opens the add-person modal on the approved page.
+- “Add present” opens the add-present flow from the approved page, not a separate dark editor first.
+- “Find gift ideas” and “Secret Santa” remain available as clear buttons from the top action area.
+- Person cards continue linking to that person’s detailed gift page when someone wants deeper editing.
 
-## Technical details
+### 4. Match the approved visual more faithfully
+- Change the top area away from a plain dark card into a snowy, premium planner header like the mockup.
+- Make person cards read as luxury stationery: warm white by default, champagne gold when bought, red satin ribbon when wrapped, wax seal when complete.
+- Make the page feel like a Christmas planner board, not admin software.
+- Follow the Design Bible exactly: midnight blue background, snow-white cards, champagne gold, red only for ribbons/seals, elegant line icons.
 
-- I’ll edit the existing route/link files only: `SiteNav`, `planner.index`, and the top navigation/actions around `planner.gifts` if needed.
-- I won’t change the database, gift statuses, or existing planner functionality.
+### 5. Verify the real paths
+After implementation I will check these routes:
+- `/planner/people`
+- `/planner/gifts`
+- `/planner`
+- `/gift-finder`
+- `/save`
+
+Success means every gifts/presents entry point visibly lands on the approved People & Presents experience, not the old dark editor or a generic dark card.
