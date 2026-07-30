@@ -8,7 +8,7 @@ import { ProfileField, ProfileArea } from "@/components/planner/ProfileFields";
 import { GiftCard } from "@/components/planner/GiftCard";
 import { IdeaRow } from "@/components/planner/IdeaRow";
 import { BudgetSummary } from "@/components/planner/BudgetSummary";
-import { ArrowLeft, Plus, Sparkles, Stethoscope, Mail, Wand2 } from "lucide-react";
+import { ArrowLeft, Plus, Sparkles, Package, Mail, Wand2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/people/$personId")({
   component: PersonDetail,
@@ -228,7 +228,7 @@ function PersonDetail() {
       </SectionShell>
 
       {/* 6 — Interests & details */}
-      <SectionShell eyebrow="Know them better" title="Interests &amp; details">
+      <SectionShell eyebrow="Know them better" title="Interests & details">
         <details className="group">
           <summary className="cursor-pointer list-none text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
             Show all details
@@ -278,7 +278,7 @@ function PersonDetail() {
         >
           {stockingItems.length === 0 ? (
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Stethoscope className="h-4 w-4" /> No stocking fillers yet.
+              <Package className="h-4 w-4" /> No stocking fillers yet.
             </p>
           ) : (
             <ul className="space-y-3">
