@@ -1437,14 +1437,11 @@ function PersonForm({
     const payload = {
       name: name.trim(),
       relationship: relationship.trim() || null,
-      age_range: ageRange.trim() || null,
       gift_budget: budget === "" ? null : Number(budget),
-      hobbies: interests.trim() || null,
-      dislikes: dislikes.trim() || null,
-      initial_ideas: initialIdeas.trim() || null,
       needs_stocking: needsStocking,
       needs_card: needsCard,
     };
+
     let row: Person | null = null;
     let error;
     if (initial) {
