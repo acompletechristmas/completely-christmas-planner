@@ -61,6 +61,9 @@ function PersonDetail() {
         <ArrowLeft className="h-3 w-3" /> All people
       </Link>
 
+      <JustAddedNote personId={person.id} />
+
+
       {/* Profile header */}
       <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)] p-6">
         <div className="flex flex-wrap items-center gap-4">
