@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePerson, calcAge, usePeople } from "@/hooks/use-people";
 import { usePersonGifts, uploadGiftPhoto, type Gift } from "@/hooks/use-person-gifts";
