@@ -294,9 +294,9 @@ function CountdownGiftTag() {
         height={1024}
         className="pointer-events-none select-none absolute left-1/2 -translate-x-1/2 z-30"
         style={{
-          top: "22px",
-          width: "120px",
-          height: "40px",
+          top: "-4px",
+          width: "140px",
+          height: "46px",
           objectFit: "contain",
           filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.55))",
         }}
