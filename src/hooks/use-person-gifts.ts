@@ -23,6 +23,7 @@ export interface Gift {
   rating: string | null;
   given_by: string | null;
   category: string | null;
+  is_idea: boolean;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -102,7 +103,35 @@ export function usePersonGifts(personId: string | undefined, userId: string | un
     if (error) toast.error("Couldn't remove");
   }, []);
 
-  return { gifts, loading, addGift, updateField, removeGift, refetch };
+  const convertToPresent = useCallback(
+    async (id: string) => {
+      setGifts((prev) => prev.map((g) => (g.id === id ? { ...g, is_idea: false } : g)));
+      const { error } = await supabase.from("gifts").update({ is_idea: false } as never).eq("id", id);
+      if (error) toast.error("Save failed");
+    },
+    [],
+  );
+
+  const currentYear = new Date().getFullYear();
+  const thisYear = gifts.filter((g) => g.year === currentYear);
+  const ideas = thisYear.filter((g) => g.is_idea && g.category !== "stocking" && g.category !== "card");
+  const presents = thisYear.filter((g) => !g.is_idea && g.category !== "stocking" && g.category !== "card");
+  const stockingItems = thisYear.filter((g) => g.category === "stocking");
+  const cardItems = thisYear.filter((g) => g.category === "card");
+
+  return {
+    gifts,
+    loading,
+    addGift,
+    updateField,
+    removeGift,
+    refetch,
+    convertToPresent,
+    ideas,
+    presents,
+    stockingItems,
+    cardItems,
+  };
 }
 
 /** Upload a photo to the private gift-photos bucket and return a signed URL good for ~1 year. */
