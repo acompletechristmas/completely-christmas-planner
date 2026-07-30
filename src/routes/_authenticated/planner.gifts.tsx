@@ -125,6 +125,7 @@ export function BuyingForPage() {
     saving,
   } = usePlannerList<GiftRow>("gifts", user?.id);
 
+  const navigate = useNavigate();
   const [addOpen, setAddOpen] = useState(false);
   const [addGiftOpen, setAddGiftOpen] = useState(false);
   const [addGiftMode, setAddGiftMode] = useState<"idea" | "present">("present");
