@@ -1,132 +1,62 @@
 ## Goal
 
-Make adding a person feel like jotting a name in a notebook. Everything else moves to that person's own page, captured naturally as planning happens. No visual redesign, no data loss, no database migration.
+Reorganise the Person Detail page (`/planner/people/$personId`) into the approved section order. Structural reorganisation only — existing colours, typography, spacing, cards, navigation and overall styling stay exactly as they are, per the A Complete Christmas Design Bible. No database changes. Any AI buttons shown are visual placeholders only, with no AI functionality wired up at this stage.
 
 ## Current state (verified)
 
-The Add Person modal in `planner.gifts.tsx` currently asks for **9 things** up front: Name, Relationship, Age or age range, Overall gift budget, Interests, Dislikes or things to avoid, Initial gift ideas (large textarea), Needs a stocking, Needs a Christmas card. The same modal component is reused for Edit Person.
+- The page currently shows: back link, profile header (name, relationship, age, Remove), a "Gift ideas" free-text box + "Things to avoid" box, a collapsible "Interests & details" block, then "Christmas Memories" (year-by-year gift list).
+- `gifts` already has `is_idea` (boolean) and `category` — the Gifts board already uses `is_idea` to split Ideas from Presents and to convert an idea into a present (`is_idea -> false`). No migration needed.
+- `people` already has `needs_stocking`, `needs_card`, `gift_budget`, `notes`, `dislikes`, `initial_ideas`.
+- There is currently no Presents section, no Budget summary, no Stocking or Cards section on this page.
 
-The Person Detail page (`planner.people.$personId.tsx`) already holds an editable profile block (relationship, date of birth, budget, clothing size, shoe size, favourite colours/shops/hobbies/films/books/games/characters, wishlist, notes) plus a year-by-year Christmas Memories gift timeline.
+## New section order
 
----
+1. **Person Header** — name (inline edit), relationship, budget summary line (spent / budget), quick actions (Add idea, Add present, Remove). Reuses the existing header card markup.
+2. **Gift Ideas** — list of `is_idea = true` rows for this person (current year). Each row: item text, optional price, "Make it a present" action (sets `is_idea = false`), delete. The existing free-text `initial_ideas` box is kept beneath as "Brainstorm notes" so no data is lost. An optional "Suggest ideas" button appears here as a disabled/placeholder control only.
+3. **Presents** — list of `is_idea = false` rows for the current year, using the existing `GiftCard` component unchanged (status select, More panel, photos, duplicate warning).
+4. **Budget** — spent vs `gift_budget`, remaining, count of presents. Same calculation already used on the Gifts board.
+5. **Notes** — existing `notes` field via `ProfileArea`.
+6. **Interests & Details** — existing collapsible `<details>` block, unchanged (minus fields promoted to their own sections).
+7. **Things to Avoid** — existing `dislikes` `ProfileArea`, now its own section.
+8. **Stocking** — rendered only when `person.needs_stocking`; lists gifts with `category = 'stocking'` plus an add row, reusing the presents row rendering.
+9. **Christmas Cards** — rendered only when `person.needs_card`; simple card status tracked with an existing-shape gift row (`category = 'card'`), so no schema change.
+10. **Christmas Memories** — existing year-grouped history, current year handled above, kept as the final section.
 
-## 1. Proposed Add Person journey
+## Files affected
 
-One short screen, same modal shell, same gold button, same fonts, colours and spacing.
+- `src/routes/_authenticated/planner.people.$personId.tsx` — main restructuring (section order, new Gift Ideas / Presents / Budget / Stocking / Cards blocks).
+- `src/hooks/use-person-gifts.ts` — small additions only: derived `ideas`, `presents`, `stockingItems`, `cardItems` selectors and a `convertToPresent(id)` helper. No query or shape changes.
 
-- **Name** — the only required field
-- **Relationship** — **optional**. Free-text box plus quick-select chips: Mum, Dad, Partner, Son, Daughter, Brother, Sister, Grandparent, Friend, Colleague, Teacher. Tapping a chip fills the box; it can be cleared or typed over; leaving it blank saves without any warning or prompt.
-- **Budget** — optional, £
-- **Needs a stocking** — optional toggle
-- **Needs a Christmas card** — optional toggle
+No other files change. Homepage untouched.
 
-On save: the person is created and the user is taken **directly to that person's page**, where a small confirmation line appears at the top — *"Person added. Start collecting gift ideas whenever you're ready."* It fades after a few seconds and never blocks anything.
+## Reusable components to extract
 
-Removed from this screen: Age or age range, Interests, Dislikes, Initial gift ideas.
+Extract from the current file into `src/components/planner/`, carrying the existing class strings across verbatim so nothing shifts visually:
 
-## 2. Edit Person
+- `SectionShell` — the existing `rounded-2xl border … bg-…` wrapper plus eyebrow label.
+- `ProfileField` / `ProfileArea` — moved as-is (currently local).
+- `GiftCard` — moved as-is, no visual change.
+- `IdeaRow` — new, composed only from existing input/button classes.
+- `BudgetSummary` — presentational, reuses existing typography classes.
 
-**Identical simplified screen** — same five fields, same chips, same layout, pre-filled with current values. Saves in place, stays on the current page, no confirmation banner, no redirect. Everything that left this screen stays fully editable on the Person Detail page.
+## Mobile considerations
 
-## 3. Proposed Person Detail journey
+- Single-column stacking at 360/390px; existing `sm:grid-cols-*` breakpoints kept.
+- Header quick actions wrap to a second line rather than shrinking.
+- Idea/present controls keep ~44px tap targets.
+- No horizontal scroll: long item names truncate; detail fields stay inside the existing "More" panel.
+- Conditional sections (Stocking, Cards) unmount entirely, keeping the page calm and short for most people.
 
-The person's page becomes their Christmas planning page. Sections in this order, each collapsible, each empty-by-default with one friendly prompt rather than a form:
+## Testing checklist
 
-1. **Header** — name, relationship, budget, progress. Existing card visual language.
-2. **Gift ideas** — separate individual ideas, added one at a time. Each idea can be promoted to a present. Includes the future ✨ *Help me think of gift ideas* button.
-3. **Presents** — existing present rows with the five independent status toggles (Ordered, Received, Wrapped, Sent, Given).
-4. **Budget** — budget, spend so far, remaining.
-5. **Notes** — free text.
-6. **Interests & details** — hobbies, favourite shops/colours/films/books/games/characters, sizes, age, date of birth, wishlist. Collapsed by default.
-7. **Things to avoid** — existing dislikes field.
-8. **Stocking** — only when Needs a stocking is on: stocking ideas, stocking items, progress, plus future ✨ *Help me think of stocking fillers*.
-9. **Christmas cards** — only when Needs a Christmas card is on: card chosen / written / posted, address.
-10. **Christmas Memories** — existing year-by-year timeline stays as-is at the bottom.
-
-## 4. Wireframes
-
-Add / Edit Person modal (390px):
-
-```text
-+----------------------------------+
-|  A PERSON ON YOUR LIST           |
-|  Add someone                     |
-|----------------------------------|
-|  Name *                          |
-|  [ Auntie Rose               ]   |
-|                                  |
-|  Relationship (optional)         |
-|  [                           ]   |
-|  (Mum)(Dad)(Partner)(Son)        |
-|  (Daughter)(Friend)(Teacher)...  |
-|                                  |
-|  Budget (optional)               |
-|  [ £  50                     ]   |
-|                                  |
-|  [ ] Needs a stocking            |
-|  [ ] Needs a Christmas card      |
-|----------------------------------|
-|            Cancel   [ Save ✨ ]  |
-+----------------------------------+
-```
-
-Person Detail page (390px):
-
-```text
-< All people
-+----------------------------------+
-|  Person added. Start collecting  |
-|  gift ideas whenever you're ready|
-+----------------------------------+
-|  (R)  Auntie Rose                |
-|       Sister · £50 budget        |
-|       ●●○○○  2 of 5 sorted       |
-+----------------------------------+
-|  GIFT IDEAS                  [+] |
-|  · Gardening gloves    -> Present|
-|  · Theatre tickets     -> Present|
-|  [ + Add an idea             ]   |
-|  [ ✨ Help me think of ideas  ]   |
-+----------------------------------+
-|  PRESENTS                    [+] |
-|  Cookbook  £18                   |
-|  Ord Rec Wrap Sent Given         |
-+----------------------------------+
-|  BUDGET                          |
-|  £50 budget · £18 spent · £32 left|
-+----------------------------------+
-|  NOTES                        v  |
-|  THINGS TO AVOID              v  |
-|  INTERESTS & DETAILS          v  |
-+----------------------------------+
-|  STOCKING (if enabled)        v  |
-|  · Ideas  · Items  · Progress    |
-|  [ ✨ Stocking filler ideas   ]   |
-+----------------------------------+
-|  CHRISTMAS CARDS (if enabled) v  |
-+----------------------------------+
-|  CHRISTMAS MEMORIES (existing)   |
-+----------------------------------+
-```
-
-## 5. Fields moving from Add/Edit Person to Person Detail
-
-| Field | New home |
-|---|---|
-| Age or age range (`age_range`) | Interests & details |
-| Interests (`hobbies`) | Interests & details |
-| Dislikes (`dislikes`) | Things to avoid |
-| Initial gift ideas (`initial_ideas`) | Gift ideas section — existing text still shown so nothing is lost; new entries added as individual ideas |
-
-Stays on Add/Edit Person: name, relationship, gift_budget, needs_stocking, needs_card.
-
-## 6. Database implications
-
-- **No migration. No new field. No field removed, no data deleted.** Every field currently on the form still exists on the person record and stays editable on the detail page.
-- `initial_ideas` is kept and displayed, so existing text survives.
-- **Gift ideas** reuse the existing presents table, which already has `is_idea`, `is_chosen` and `person_id`. An idea is a row with `is_idea = true`; "make this a present" flips the flags.
-- **Stocking items** reuse the same presents table, flagged via the **existing `category` column set to `stocking`**. No new column, no migration. If a dedicated `is_stocking` boolean is ever preferred, I'll propose it separately before implementing.
-
-## 7. Scope
-
-Files touched at build time: `src/routes/_authenticated/planner.gifts.tsx` (the shared Add/Edit Person modal) and `src/routes/_authenticated/planner.people.$personId.tsx` (section structure and the confirmation line). No changes to the homepage, People & Presents board visuals, logo, typography, colours, navigation, cards, buttons, icons, layout or spacing — all per the Christmas Bible. No database migration. The two ✨ AI buttons are placed but not wired in this stage.
+- Section order renders exactly as listed, for a person with and without gifts.
+- Adding an idea creates `is_idea = true` and appears only under Gift Ideas.
+- "Make it a present" moves the row to Presents and persists after reload.
+- Present status changes still save immediately; photos, notes, rating unchanged.
+- Budget totals match the Gifts board for the same person; no double currency symbol.
+- Stocking section hidden when Needs Stocking is off, shown and functional when on; same for Christmas Cards.
+- Christmas Memories still groups previous years and remains last.
+- No blank/untitled rows can be saved.
+- Any AI-labelled control is inert (no request fired, clearly non-functional).
+- 360px and 390px viewports: no horizontal scroll, all controls tappable.
+- Side-by-side check against the current page: colours, fonts, spacing, cards and navigation unchanged.
