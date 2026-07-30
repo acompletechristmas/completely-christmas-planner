@@ -1385,6 +1385,21 @@ function PresentEditor({
 
 /* ---------------------- Add / Edit person form ---------------------- */
 
+const RELATIONSHIP_SUGGESTIONS: string[] = [
+  "Mum",
+  "Dad",
+  "Partner",
+  "Son",
+  "Daughter",
+  "Brother",
+  "Sister",
+  "Grandparent",
+  "Friend",
+  "Colleague",
+  "Teacher",
+];
+
+
 function PersonForm({
   title,
   submitLabel,
