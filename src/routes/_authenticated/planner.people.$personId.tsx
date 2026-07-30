@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePerson, calcAge, usePeople } from "@/hooks/use-people";
 import { usePersonGifts, uploadGiftPhoto, type Gift } from "@/hooks/use-person-gifts";
@@ -61,6 +61,9 @@ function PersonDetail() {
         <ArrowLeft className="h-3 w-3" /> All people
       </Link>
 
+      <JustAddedNote personId={person.id} />
+
+
       {/* Profile header */}
       <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)] p-6">
         <div className="flex flex-wrap items-center gap-4">
@@ -92,26 +95,47 @@ function PersonDetail() {
           </button>
         </div>
 
-        {/* Profile fields */}
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <ProfileField label="Relationship" value={person.relationship ?? ""} onChange={(v) => updateField("relationship", v || null)} />
-          <ProfileField label="Date of birth" value={person.date_of_birth ?? ""} onChange={(v) => updateField("date_of_birth", v || null)} type="date" />
-          <ProfileField label="Gift budget (£)" value={person.gift_budget == null ? "" : String(person.gift_budget)} onChange={(v) => updateField("gift_budget", v === "" ? null : Number(v))} type="number" />
-          <ProfileField label="Clothing size" value={person.clothing_size ?? ""} onChange={(v) => updateField("clothing_size", v || null)} />
-          <ProfileField label="Shoe size" value={person.shoe_size ?? ""} onChange={(v) => updateField("shoe_size", v || null)} />
-          <ProfileField label="Favourite colours" value={person.favourite_colours ?? ""} onChange={(v) => updateField("favourite_colours", v || null)} />
-          <ProfileField label="Favourite shops" value={person.favourite_shops ?? ""} onChange={(v) => updateField("favourite_shops", v || null)} />
-          <ProfileField label="Hobbies & interests" value={person.hobbies ?? ""} onChange={(v) => updateField("hobbies", v || null)} />
-          <ProfileField label="Favourite films" value={person.favourite_films ?? ""} onChange={(v) => updateField("favourite_films", v || null)} />
-          <ProfileField label="Favourite books" value={person.favourite_books ?? ""} onChange={(v) => updateField("favourite_books", v || null)} />
-          <ProfileField label="Favourite games" value={person.favourite_games ?? ""} onChange={(v) => updateField("favourite_games", v || null)} />
-          <ProfileField label="Favourite characters" value={person.favourite_characters ?? ""} onChange={(v) => updateField("favourite_characters", v || null)} />
+        {/* Gift ideas & things to avoid — moved here from the Add Person form */}
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <ProfileArea
+            label="Gift ideas"
+            value={person.initial_ideas ?? ""}
+            onChange={(v) => updateField("initial_ideas", v || null)}
+          />
+          <ProfileArea
+            label="Things to avoid"
+            value={person.dislikes ?? ""}
+            onChange={(v) => updateField("dislikes", v || null)}
+          />
         </div>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          <ProfileArea label="Wishlist" value={person.wishlist ?? ""} onChange={(v) => updateField("wishlist", v || null)} />
-          <ProfileArea label="Notes" value={person.notes ?? ""} onChange={(v) => updateField("notes", v || null)} />
-        </div>
+
+        {/* Interests & details */}
+        <details className="mt-6 group">
+          <summary className="cursor-pointer list-none text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+            Interests &amp; details
+          </summary>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <ProfileField label="Relationship" value={person.relationship ?? ""} onChange={(v) => updateField("relationship", v || null)} />
+            <ProfileField label="Age or age range" value={person.age_range ?? ""} onChange={(v) => updateField("age_range", v || null)} />
+            <ProfileField label="Date of birth" value={person.date_of_birth ?? ""} onChange={(v) => updateField("date_of_birth", v || null)} type="date" />
+            <ProfileField label="Gift budget (£)" value={person.gift_budget == null ? "" : String(person.gift_budget)} onChange={(v) => updateField("gift_budget", v === "" ? null : Number(v))} type="number" />
+            <ProfileField label="Clothing size" value={person.clothing_size ?? ""} onChange={(v) => updateField("clothing_size", v || null)} />
+            <ProfileField label="Shoe size" value={person.shoe_size ?? ""} onChange={(v) => updateField("shoe_size", v || null)} />
+            <ProfileField label="Favourite colours" value={person.favourite_colours ?? ""} onChange={(v) => updateField("favourite_colours", v || null)} />
+            <ProfileField label="Favourite shops" value={person.favourite_shops ?? ""} onChange={(v) => updateField("favourite_shops", v || null)} />
+            <ProfileField label="Hobbies & interests" value={person.hobbies ?? ""} onChange={(v) => updateField("hobbies", v || null)} />
+            <ProfileField label="Favourite films" value={person.favourite_films ?? ""} onChange={(v) => updateField("favourite_films", v || null)} />
+            <ProfileField label="Favourite books" value={person.favourite_books ?? ""} onChange={(v) => updateField("favourite_books", v || null)} />
+            <ProfileField label="Favourite games" value={person.favourite_games ?? ""} onChange={(v) => updateField("favourite_games", v || null)} />
+            <ProfileField label="Favourite characters" value={person.favourite_characters ?? ""} onChange={(v) => updateField("favourite_characters", v || null)} />
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <ProfileArea label="Wishlist" value={person.wishlist ?? ""} onChange={(v) => updateField("wishlist", v || null)} />
+            <ProfileArea label="Notes" value={person.notes ?? ""} onChange={(v) => updateField("notes", v || null)} />
+          </div>
+        </details>
       </section>
+
 
       {/* Memories timeline */}
       <section>
@@ -181,7 +205,35 @@ function PersonDetail() {
   );
 }
 
+function JustAddedNote({ personId }: { personId: string }) {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let flagged = false;
+    try {
+      flagged = sessionStorage.getItem("justAddedPerson") === personId;
+      if (flagged) sessionStorage.removeItem("justAddedPerson");
+    } catch {
+      /* ignore */
+    }
+    if (!flagged) return;
+    setShow(true);
+    const t = setTimeout(() => setShow(false), 6000);
+    return () => clearTimeout(t);
+  }, [personId]);
+
+  if (!show) return null;
+
+  return (
+    <p className="rise-in rounded-xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-[color:var(--gold-soft)]">
+      <Sparkles className="mr-2 inline h-4 w-4" />
+      Person added. Start collecting gift ideas whenever you're ready.
+    </p>
+  );
+}
+
 function ProfileField({
+
   label,
   value,
   onChange,

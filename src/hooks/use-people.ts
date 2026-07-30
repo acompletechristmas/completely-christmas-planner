@@ -20,6 +20,11 @@ export interface Person {
   wishlist: string | null;
   notes: string | null;
   gift_budget: number | null;
+  age_range: string | null;
+  dislikes: string | null;
+  initial_ideas: string | null;
+  needs_stocking: boolean;
+  needs_card: boolean;
   avatar_url: string | null;
   sort_order: number;
   created_at: string;

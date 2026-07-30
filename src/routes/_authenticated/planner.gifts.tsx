@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -125,6 +125,7 @@ export function BuyingForPage() {
     saving,
   } = usePlannerList<GiftRow>("gifts", user?.id);
 
+  const navigate = useNavigate();
   const [addOpen, setAddOpen] = useState(false);
   const [addGiftOpen, setAddGiftOpen] = useState(false);
   const [addGiftMode, setAddGiftMode] = useState<"idea" | "present">("present");
@@ -466,7 +467,16 @@ export function BuyingForPage() {
             if (row) upsertLocal(row);
             void refetchPeople();
             setAddOpen(false);
+            if (row) {
+              try {
+                sessionStorage.setItem("justAddedPerson", row.id);
+              } catch {
+                /* ignore */
+              }
+              void navigate({ to: "/planner/people/$personId", params: { personId: row.id } });
+            }
           }}
+
         />
       )}
       {editPerson && (
@@ -1385,6 +1395,21 @@ function PresentEditor({
 
 /* ---------------------- Add / Edit person form ---------------------- */
 
+const RELATIONSHIP_SUGGESTIONS: string[] = [
+  "Mum",
+  "Dad",
+  "Partner",
+  "Son",
+  "Daughter",
+  "Brother",
+  "Sister",
+  "Grandparent",
+  "Friend",
+  "Colleague",
+  "Teacher",
+];
+
+
 function PersonForm({
   title,
   submitLabel,
@@ -1402,13 +1427,10 @@ function PersonForm({
 }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [relationship, setRelationship] = useState(initial?.relationship ?? "");
-  const [ageRange, setAgeRange] = useState(initial?.age_range ?? "");
   const [budget, setBudget] = useState<string>(
     initial?.gift_budget != null ? String(initial.gift_budget) : "",
   );
-  const [interests, setInterests] = useState(initial?.hobbies ?? "");
-  const [dislikes, setDislikes] = useState(initial?.dislikes ?? "");
-  const [initialIdeas, setInitialIdeas] = useState(initial?.initial_ideas ?? "");
+
   const [needsStocking, setNeedsStocking] = useState(initial?.needs_stocking ?? false);
   const [needsCard, setNeedsCard] = useState(initial?.needs_card ?? false);
   const [saving, setSaving] = useState(false);
@@ -1425,14 +1447,11 @@ function PersonForm({
     const payload = {
       name: name.trim(),
       relationship: relationship.trim() || null,
-      age_range: ageRange.trim() || null,
       gift_budget: budget === "" ? null : Number(budget),
-      hobbies: interests.trim() || null,
-      dislikes: dislikes.trim() || null,
-      initial_ideas: initialIdeas.trim() || null,
       needs_stocking: needsStocking,
       needs_card: needsCard,
     };
+
     let row: Person | null = null;
     let error;
     if (initial) {
@@ -1508,23 +1527,7 @@ function PersonForm({
               className={inputCls}
             />
           </Field>
-          <Field label="Relationship">
-            <input
-              value={relationship}
-              onChange={(e) => setRelationship(e.target.value)}
-              placeholder="Sister, Nephew, Best friend…"
-              className={inputCls}
-            />
-          </Field>
-          <Field label="Age or age range">
-            <input
-              value={ageRange}
-              onChange={(e) => setAgeRange(e.target.value)}
-              placeholder="8, or 30s, or grown-up"
-              className={inputCls}
-            />
-          </Field>
-          <Field label="Overall gift budget">
+          <Field label="Budget (optional)">
             <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
               <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
               <input
@@ -1540,32 +1543,33 @@ function PersonForm({
           </Field>
         </div>
 
-        <Field label="Interests">
+        <Field label="Relationship (optional)">
           <input
-            value={interests}
-            onChange={(e) => setInterests(e.target.value)}
-            placeholder="Baking, hiking, mystery novels…"
+            value={relationship}
+            onChange={(e) => setRelationship(e.target.value)}
+            placeholder="Sister, Nephew, Best friend…"
             className={inputCls}
           />
-        </Field>
-
-        <Field label="Dislikes or things to avoid">
-          <input
-            value={dislikes}
-            onChange={(e) => setDislikes(e.target.value)}
-            placeholder="No perfume, allergic to nuts, doesn't drink…"
-            className={inputCls}
-          />
-        </Field>
-
-        <Field label="Initial gift ideas">
-          <textarea
-            value={initialIdeas}
-            onChange={(e) => setInitialIdeas(e.target.value)}
-            rows={3}
-            placeholder="A cosy scarf, that recipe book she mentioned, tickets to the pantomime…"
-            className={inputCls + " resize-none"}
-          />
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {RELATIONSHIP_SUGGESTIONS.map((r) => {
+              const active = relationship.trim().toLowerCase() === r.toLowerCase();
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => setRelationship(active ? "" : r)}
+                  className={
+                    "rounded-full border px-3 py-1 text-[11px] transition " +
+                    (active
+                      ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)]"
+                      : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60 hover:text-foreground")
+                  }
+                >
+                  {r}
+                </button>
+              );
+            })}
+          </div>
         </Field>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -1582,6 +1586,7 @@ function PersonForm({
             icon={<GiftIcon className="h-3.5 w-3.5" />}
           />
         </div>
+
       </form>
     </Modal>
   );
