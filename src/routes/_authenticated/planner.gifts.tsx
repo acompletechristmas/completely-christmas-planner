@@ -466,7 +466,16 @@ export function BuyingForPage() {
             if (row) upsertLocal(row);
             void refetchPeople();
             setAddOpen(false);
+            if (row) {
+              try {
+                sessionStorage.setItem("justAddedPerson", row.id);
+              } catch {
+                /* ignore */
+              }
+              void navigate({ to: "/planner/people/$personId", params: { personId: row.id } });
+            }
           }}
+
         />
       )}
       {editPerson && (
