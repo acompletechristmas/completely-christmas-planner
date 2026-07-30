@@ -1417,13 +1417,10 @@ function PersonForm({
 }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [relationship, setRelationship] = useState(initial?.relationship ?? "");
-  const [ageRange, setAgeRange] = useState(initial?.age_range ?? "");
   const [budget, setBudget] = useState<string>(
     initial?.gift_budget != null ? String(initial.gift_budget) : "",
   );
-  const [interests, setInterests] = useState(initial?.hobbies ?? "");
-  const [dislikes, setDislikes] = useState(initial?.dislikes ?? "");
-  const [initialIdeas, setInitialIdeas] = useState(initial?.initial_ideas ?? "");
+
   const [needsStocking, setNeedsStocking] = useState(initial?.needs_stocking ?? false);
   const [needsCard, setNeedsCard] = useState(initial?.needs_card ?? false);
   const [saving, setSaving] = useState(false);
