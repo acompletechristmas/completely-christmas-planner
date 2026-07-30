@@ -205,7 +205,35 @@ function PersonDetail() {
   );
 }
 
+function JustAddedNote({ personId }: { personId: string }) {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let flagged = false;
+    try {
+      flagged = sessionStorage.getItem("justAddedPerson") === personId;
+      if (flagged) sessionStorage.removeItem("justAddedPerson");
+    } catch {
+      /* ignore */
+    }
+    if (!flagged) return;
+    setShow(true);
+    const t = setTimeout(() => setShow(false), 6000);
+    return () => clearTimeout(t);
+  }, [personId]);
+
+  if (!show) return null;
+
+  return (
+    <p className="rise-in rounded-xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-[color:var(--gold-soft)]">
+      <Sparkles className="mr-2 inline h-4 w-4" />
+      Person added. Start collecting gift ideas whenever you're ready.
+    </p>
+  );
+}
+
 function ProfileField({
+
   label,
   value,
   onChange,
