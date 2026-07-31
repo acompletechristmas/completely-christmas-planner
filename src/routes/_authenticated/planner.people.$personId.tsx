@@ -311,10 +311,10 @@ function PersonDetail() {
           title="Christmas cards"
           action={
             <button
-              onClick={() => add({ is_idea: false, category: "card", item: "Christmas card" })}
+              onClick={() => add({ is_idea: false, category: "card", item: "Christmas card", recipient: person.name })}
               className="min-h-11 rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] px-3 py-1.5 text-xs text-muted-foreground hover:border-[color:var(--gold)] hover:text-[color:var(--gold-soft)]"
             >
-              + Track a card
+              + Add Card
             </button>
           }
         >
@@ -325,31 +325,12 @@ function PersonDetail() {
           ) : (
             <ul className="space-y-3">
               {cardItems.map((g) => (
-                <li
+                <CardRow
                   key={g.id}
-                  className="flex flex-wrap items-center gap-3 rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] p-4"
-                >
-                  <input
-                    value={g.item}
-                    onChange={(e) => updateGift(g.id, "item", e.target.value)}
-                    placeholder="Christmas card"
-                    className="min-h-11 flex-1 rounded-lg bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none"
-                  />
-                  <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                    <input type="checkbox" checked={g.wrapped} onChange={(e) => updateGift(g.id, "wrapped", e.target.checked)} />
-                    Written
-                  </label>
-                  <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                    <input type="checkbox" checked={g.delivered} onChange={(e) => updateGift(g.id, "delivered", e.target.checked)} />
-                    Sent
-                  </label>
-                  <button
-                    onClick={() => removeGift(g.id)}
-                    className="min-h-11 text-xs text-muted-foreground hover:text-[color:var(--ember)]"
-                  >
-                    Remove
-                  </button>
-                </li>
+                  gift={g}
+                  onChange={(f, v) => updateGift(g.id, f, v)}
+                  onRemove={() => removeGift(g.id)}
+                />
               ))}
             </ul>
           )}
