@@ -8,6 +8,7 @@ import { ProfileField, ProfileArea } from "@/components/planner/ProfileFields";
 import { GiftCard } from "@/components/planner/GiftCard";
 import { IdeaRow } from "@/components/planner/IdeaRow";
 import { StockingRow } from "@/components/planner/StockingRow";
+import { CardRow } from "@/components/planner/CardRow";
 import { BudgetSummary } from "@/components/planner/BudgetSummary";
 import { ArrowLeft, Plus, Sparkles, Package, Mail, Wand2 } from "lucide-react";
 
