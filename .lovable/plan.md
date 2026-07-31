@@ -10,35 +10,25 @@ Shown only when "Needs stocking" is on for that person (unchanged behaviour).
 - Edit an item: name and cost, inline, saving as you type (same as Presents)
 - Delete an item
 - Two tick controls per item: **Purchased** and **Wrapped**
-- A stocking budget strip at the top of the section showing Stocking Budget / Spent / Remaining, using the same component and calculations as the Presents budget
+- A single "Spent on stocking" line showing the total cost of the person's stocking items — no separate stocking budget
 
 Items stay stocking items (`category = 'stocking'`), stay on this page, and never appear in the Presents list.
 
 ## Implementation plan
 
-1. **New lightweight row component** `src/components/planner/StockingRow.tsx`, modelled on the existing Christmas-cards row already in the page (same card shell, same input styling, same 44px touch targets): item name input, `£` cost input, "Purchased" checkbox, "Wrapped" checkbox, Remove button. This is lighter than `GiftCard` (no photos, ratings, history, duplicate warnings), which matches "a lightweight version of Presents".
-2. **Reuse `BudgetSummary`** for the stocking budget, with its label text made generic (`count` noun becomes a prop with "present" as the default) so Presents output is byte-identical and Stocking reads "3 stocking items counted this year."
-3. **Wire the section** in `src/routes/_authenticated/planner.people.$personId.tsx`: replace the `GiftCard` list in section 8 with `StockingRow`, add the budget strip plus a "Stocking budget (£)" field in the same `ProfileField` style used for the gift budget.
-4. **Spend calculation**: sum of `price` over that person's `category = 'stocking'` items for the current year, computed in the route from the existing `stockingItems` array from `usePersonGifts`. Stocking spend stays out of the Presents budget total, as it does today.
-5. Purchased maps to the existing `ordered`/bought state already on gifts (`status`/`wrapped` booleans are reused, no new gift columns).
+1. **Row rendering**: reuse the existing lightweight row markup already used by the Christmas-cards list in the same page (same card shell, same input styling, same 44px touch targets) — item name input, `£` cost input, "Purchased" tick, "Wrapped" tick, Remove. Only if that markup ends up repeated in the file will it be lifted into a small shared `StockingRow` component; `GiftCard` itself is too heavy here (photos, ratings, history, duplicate warnings).
+2. **Spend line**: sum of `price` over the person's current-year `category = 'stocking'` items, taken from the existing `stockingItems` array from `usePersonGifts`, rendered in the section header area using the existing muted/gold text styles. No `BudgetSummary` changes.
+3. **Overall spend**: stocking spend counts toward the person's overall Christmas gift spending, so it is included in the header spend figure and the Budget section's "Spent" total alongside presents.
+4. Purchased and Wrapped map to existing gift columns (`ordered`/bought state and `wrapped`) — no new gift fields.
 
-## Database change (one, minimal)
+## Database change
 
-The `people` table has `gift_budget` but no stocking budget field, so a stocking budget cannot be stored today. One migration adding a single nullable column:
-
-```sql
-ALTER TABLE public.people ADD COLUMN stocking_budget numeric;
-```
-
-No new table, no policy or grant changes (existing per-user policy covers it). If you would rather not touch the database, the alternative is to show only "Spent" with no budget/remaining — say the word and I will drop the migration.
+None. No migration, no new columns.
 
 ## Files affected
 
-- `src/components/planner/StockingRow.tsx` (new)
-- `src/components/planner/BudgetSummary.tsx` (optional noun prop, default unchanged)
-- `src/routes/_authenticated/planner.people.$personId.tsx` (section 8 only)
-- `src/hooks/use-people.ts` (add `stocking_budget` to the `Person` type)
-- one migration file
+- `src/routes/_authenticated/planner.people.$personId.tsx` (Stocking section, plus including stocking spend in the person's total spend)
+- `src/components/planner/StockingRow.tsx` — only if the row markup needs extracting to avoid duplication
 
 ## Components reused
 
