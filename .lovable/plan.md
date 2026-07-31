@@ -1,62 +1,62 @@
-## Goal
+# Complete the Stocking Section
 
-Reorganise the Person Detail page (`/planner/people/$personId`) into the approved section order. Structural reorganisation only — existing colours, typography, spacing, cards, navigation and overall styling stay exactly as they are, per the A Complete Christmas Design Bible. No database changes. Any AI buttons shown are visual placeholders only, with no AI functionality wired up at this stage.
+Structural completion of the existing Stocking section on the Person Detail page only. No redesign, no new pages, no navigation changes.
 
-## Current state (verified)
+## What the Stocking section will do
 
-- The page currently shows: back link, profile header (name, relationship, age, Remove), a "Gift ideas" free-text box + "Things to avoid" box, a collapsible "Interests & details" block, then "Christmas Memories" (year-by-year gift list).
-- `gifts` already has `is_idea` (boolean) and `category` — the Gifts board already uses `is_idea` to split Ideas from Presents and to convert an idea into a present (`is_idea -> false`). No migration needed.
-- `people` already has `needs_stocking`, `needs_card`, `gift_budget`, `notes`, `dislikes`, `initial_ideas`.
-- There is currently no Presents section, no Budget summary, no Stocking or Cards section on this page.
+Shown only when "Needs stocking" is on for that person (unchanged behaviour).
 
-## New section order
+- Add a stocking item (button already exists)
+- Edit an item: name and cost, inline, saving as you type (same as Presents)
+- Delete an item
+- Two tick controls per item: **Purchased** and **Wrapped**
+- A stocking budget strip at the top of the section showing Stocking Budget / Spent / Remaining, using the same component and calculations as the Presents budget
 
-1. **Person Header** — name (inline edit), relationship, budget summary line (spent / budget), quick actions (Add idea, Add present, Remove). Reuses the existing header card markup.
-2. **Gift Ideas** — list of `is_idea = true` rows for this person (current year). Each row: item text, optional price, "Make it a present" action (sets `is_idea = false`), delete. The existing free-text `initial_ideas` box is kept beneath as "Brainstorm notes" so no data is lost. An optional "Suggest ideas" button appears here as a disabled/placeholder control only.
-3. **Presents** — list of `is_idea = false` rows for the current year, using the existing `GiftCard` component unchanged (status select, More panel, photos, duplicate warning).
-4. **Budget** — spent vs `gift_budget`, remaining, count of presents. Same calculation already used on the Gifts board.
-5. **Notes** — existing `notes` field via `ProfileArea`.
-6. **Interests & Details** — existing collapsible `<details>` block, unchanged (minus fields promoted to their own sections).
-7. **Things to Avoid** — existing `dislikes` `ProfileArea`, now its own section.
-8. **Stocking** — rendered only when `person.needs_stocking`; lists gifts with `category = 'stocking'` plus an add row, reusing the presents row rendering.
-9. **Christmas Cards** — rendered only when `person.needs_card`; simple card status tracked with an existing-shape gift row (`category = 'card'`), so no schema change.
-10. **Christmas Memories** — existing year-grouped history, current year handled above, kept as the final section.
+Items stay stocking items (`category = 'stocking'`), stay on this page, and never appear in the Presents list.
+
+## Implementation plan
+
+1. **New lightweight row component** `src/components/planner/StockingRow.tsx`, modelled on the existing Christmas-cards row already in the page (same card shell, same input styling, same 44px touch targets): item name input, `£` cost input, "Purchased" checkbox, "Wrapped" checkbox, Remove button. This is lighter than `GiftCard` (no photos, ratings, history, duplicate warnings), which matches "a lightweight version of Presents".
+2. **Reuse `BudgetSummary`** for the stocking budget, with its label text made generic (`count` noun becomes a prop with "present" as the default) so Presents output is byte-identical and Stocking reads "3 stocking items counted this year."
+3. **Wire the section** in `src/routes/_authenticated/planner.people.$personId.tsx`: replace the `GiftCard` list in section 8 with `StockingRow`, add the budget strip plus a "Stocking budget (£)" field in the same `ProfileField` style used for the gift budget.
+4. **Spend calculation**: sum of `price` over that person's `category = 'stocking'` items for the current year, computed in the route from the existing `stockingItems` array from `usePersonGifts`. Stocking spend stays out of the Presents budget total, as it does today.
+5. Purchased maps to the existing `ordered`/bought state already on gifts (`status`/`wrapped` booleans are reused, no new gift columns).
+
+## Database change (one, minimal)
+
+The `people` table has `gift_budget` but no stocking budget field, so a stocking budget cannot be stored today. One migration adding a single nullable column:
+
+```sql
+ALTER TABLE public.people ADD COLUMN stocking_budget numeric;
+```
+
+No new table, no policy or grant changes (existing per-user policy covers it). If you would rather not touch the database, the alternative is to show only "Spent" with no budget/remaining — say the word and I will drop the migration.
 
 ## Files affected
 
-- `src/routes/_authenticated/planner.people.$personId.tsx` — main restructuring (section order, new Gift Ideas / Presents / Budget / Stocking / Cards blocks).
-- `src/hooks/use-person-gifts.ts` — small additions only: derived `ideas`, `presents`, `stockingItems`, `cardItems` selectors and a `convertToPresent(id)` helper. No query or shape changes.
+- `src/components/planner/StockingRow.tsx` (new)
+- `src/components/planner/BudgetSummary.tsx` (optional noun prop, default unchanged)
+- `src/routes/_authenticated/planner.people.$personId.tsx` (section 8 only)
+- `src/hooks/use-people.ts` (add `stocking_budget` to the `Person` type)
+- one migration file
 
-No other files change. Homepage untouched.
+## Components reused
 
-## Reusable components to extract
-
-Extract from the current file into `src/components/planner/`, carrying the existing class strings across verbatim so nothing shifts visually:
-
-- `SectionShell` — the existing `rounded-2xl border … bg-…` wrapper plus eyebrow label.
-- `ProfileField` / `ProfileArea` — moved as-is (currently local).
-- `GiftCard` — moved as-is, no visual change.
-- `IdeaRow` — new, composed only from existing input/button classes.
-- `BudgetSummary` — presentational, reuses existing typography classes.
+`SectionShell`, `BudgetSummary`, `ProfileField`, existing button/input class strings, `usePersonGifts` (`addGift`, `updateField`, `removeGift`, `stockingItems`).
 
 ## Mobile considerations
 
-- Single-column stacking at 360/390px; existing `sm:grid-cols-*` breakpoints kept.
-- Header quick actions wrap to a second line rather than shrinking.
-- Idea/present controls keep ~44px tap targets.
-- No horizontal scroll: long item names truncate; detail fields stay inside the existing "More" panel.
-- Conditional sections (Stocking, Cards) unmount entirely, keeping the page calm and short for most people.
+- Rows stack vertically at 360/390px; name full width, cost + the two ticks on the second line, remove action right-aligned
+- All controls at least 44px tall
+- Budget strip uses the existing responsive 3-up grid that collapses to one column
+- No horizontal scroll
 
 ## Testing checklist
 
-- Section order renders exactly as listed, for a person with and without gifts.
-- Adding an idea creates `is_idea = true` and appears only under Gift Ideas.
-- "Make it a present" moves the row to Presents and persists after reload.
-- Present status changes still save immediately; photos, notes, rating unchanged.
-- Budget totals match the Gifts board for the same person; no double currency symbol.
-- Stocking section hidden when Needs Stocking is off, shown and functional when on; same for Christmas Cards.
-- Christmas Memories still groups previous years and remains last.
-- No blank/untitled rows can be saved.
-- Any AI-labelled control is inert (no request fired, clearly non-functional).
-- 360px and 390px viewports: no horizontal scroll, all controls tappable.
-- Side-by-side check against the current page: colours, fonts, spacing, cards and navigation unchanged.
+- Section hidden when Needs stocking is off, visible when on
+- Add / edit name / edit cost / delete an item, each persisting after reload
+- Purchased and Wrapped toggle independently and persist
+- Budget: set, unset, spend under, spend over (remaining goes red)
+- Stocking spend does not change the Presents budget figures
+- Stocking items never appear in Gift Ideas or Presents
+- 360px and 390px: no overflow, all taps land
