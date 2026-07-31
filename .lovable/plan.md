@@ -32,13 +32,12 @@ None. No migration, no new columns.
 
 ## Components reused
 
-`SectionShell`, `BudgetSummary`, `ProfileField`, existing button/input class strings, `usePersonGifts` (`addGift`, `updateField`, `removeGift`, `stockingItems`).
+`SectionShell`, existing card/input/button class strings from the Presents and Christmas-cards rows, `ProfileField` styles, `usePersonGifts` (`addGift`, `updateField`, `removeGift`, `stockingItems`).
 
 ## Mobile considerations
 
 - Rows stack vertically at 360/390px; name full width, cost + the two ticks on the second line, remove action right-aligned
 - All controls at least 44px tall
-- Budget strip uses the existing responsive 3-up grid that collapses to one column
 - No horizontal scroll
 
 ## Testing checklist
@@ -46,7 +45,7 @@ None. No migration, no new columns.
 - Section hidden when Needs stocking is off, visible when on
 - Add / edit name / edit cost / delete an item, each persisting after reload
 - Purchased and Wrapped toggle independently and persist
-- Budget: set, unset, spend under, spend over (remaining goes red)
-- Stocking spend does not change the Presents budget figures
+- Stocking total updates immediately as costs change
+- Stocking spend is included in the person's overall spend figure
 - Stocking items never appear in Gift Ideas or Presents
 - 360px and 390px: no overflow, all taps land
