@@ -10,7 +10,7 @@ import { IdeaRow } from "@/components/planner/IdeaRow";
 import { StockingRow } from "@/components/planner/StockingRow";
 import { CardRow } from "@/components/planner/CardRow";
 import { BudgetSummary } from "@/components/planner/BudgetSummary";
-import { ArrowLeft, Plus, Sparkles, Package, Mail, Wand2 } from "lucide-react";
+import { ArrowLeft, Plus, Sparkles, Wand2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/people/$personId")({
   component: PersonDetail,
@@ -83,7 +83,7 @@ function PersonDetail() {
           <span className="grid h-14 w-14 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] font-display text-2xl gold-text">
             {person.name?.[0]?.toUpperCase() || "?"}
           </span>
-          <div className="min-w-[12rem] flex-1">
+          <div className="min-w-0 flex-1">
             <input
               value={person.name}
               onChange={(e) => updateField("name", e.target.value)}
@@ -123,7 +123,7 @@ function PersonDetail() {
                 window.history.back();
               }
             }}
-            className="min-h-11 rounded-full border border-[oklch(0.80_0.14_85_/_0.2)] px-4 py-2 text-xs text-muted-foreground hover:border-[color:var(--ember)] hover:text-[color:var(--ember)]"
+            className="min-h-11 rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] px-4 py-2 text-sm text-muted-foreground transition hover:border-[color:var(--ember)] hover:text-[color:var(--ember)]"
           >
             Remove
           </button>
@@ -287,8 +287,8 @@ function PersonDetail() {
             £{stockingSpent.toFixed(2)} spent on stocking · counted in {person.name || "their"} total
           </p>
           {stockingItems.length === 0 ? (
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Package className="h-4 w-4" /> No stocking fillers yet.
+            <p className="text-sm text-muted-foreground">
+              No stocking fillers yet. Add the little extras as you find them.
             </p>
           ) : (
             <ul className="space-y-3">
@@ -320,8 +320,8 @@ function PersonDetail() {
           }
         >
           {cardItems.length === 0 ? (
-            <p className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Mail className="h-4 w-4" /> No card tracked yet for {person.name || "them"}.
+            <p className="text-sm text-muted-foreground">
+              No card tracked yet for {person.name || "them"}. Add one to keep tabs on it.
             </p>
           ) : (
             <ul className="space-y-3">
@@ -342,28 +342,28 @@ function PersonDetail() {
       <section>
         <div>
           <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Christmas Memories</p>
-          <h2 className="mt-1 font-display text-3xl">{person.name || "Their"} year by year</h2>
+          <h2 className="mt-1 font-display text-2xl">{person.name || "Their"} year by year</h2>
         </div>
 
         {giftsLoading ? (
-          <p className="mt-6 text-sm text-muted-foreground">Loading memories…</p>
+          <p className="mt-4 text-sm text-muted-foreground">Loading memories…</p>
         ) : memories.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
+          <div className="mt-4 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
             <Sparkles className="mx-auto h-6 w-6 text-[color:var(--gold)]" />
-            <h3 className="mt-3 font-display text-2xl">No past Christmases yet</h3>
+            <h3 className="mt-3 font-display text-xl">No past Christmases yet</h3>
             <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
               Once this Christmas is done, {person.name || "their"} gifts will live here as a history that grows every year.
             </p>
           </div>
         ) : (
-          <div className="mt-6 space-y-8">
+          <div className="mt-4 space-y-6">
             {memories.map(([year, list]) => {
               const total = list.reduce((s, g) => s + (Number(g.price) || 0), 0);
               return (
                 <div key={year} className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.5)] p-5">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <span className="font-display text-3xl gold-text">{year}</span>
+                      <span className="font-display text-2xl gold-text">{year}</span>
                       <span className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
                         {list.length} gift{list.length === 1 ? "" : "s"} · £{total.toFixed(2)}
                       </span>
