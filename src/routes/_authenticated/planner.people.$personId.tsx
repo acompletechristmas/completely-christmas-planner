@@ -34,9 +34,14 @@ function PersonDetail() {
     cardItems,
   } = usePersonGifts(personId, user?.id);
 
+  const stockingSpent = useMemo(
+    () => stockingItems.reduce((s, g) => s + (Number(g.price) || 0), 0),
+    [stockingItems],
+  );
+
   const spent = useMemo(
-    () => presents.reduce((s, g) => s + (Number(g.price) || 0), 0),
-    [presents],
+    () => presents.reduce((s, g) => s + (Number(g.price) || 0), 0) + stockingSpent,
+    [presents, stockingSpent],
   );
 
   const memories = useMemo(() => {
