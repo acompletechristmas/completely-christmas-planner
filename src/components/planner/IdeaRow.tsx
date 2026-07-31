@@ -14,21 +14,22 @@ export function IdeaRow({
 }) {
   return (
     <li className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] p-4">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr_auto] sm:items-center">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,2fr)_auto_auto] sm:items-center">
         <input
           value={gift.item}
           onChange={(e) => onChange("item", e.target.value)}
           placeholder="An idea…"
-          className="min-h-11 truncate rounded-lg bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
+          className="min-h-11 w-full min-w-0 rounded-lg border border-transparent bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
         />
         <div className="flex items-center gap-1">
           <span className="text-xs text-muted-foreground">£</span>
           <input
             type="number"
+            inputMode="decimal"
             value={gift.price == null ? "" : String(gift.price)}
             onChange={(e) => onChange("price", e.target.value === "" ? null : (Number(e.target.value) as never))}
             placeholder="0.00"
-            className="min-h-11 w-full rounded-lg bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
+            className="min-h-11 w-full min-w-0 rounded-lg border border-transparent bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)] sm:w-28"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:justify-self-end">
@@ -41,7 +42,7 @@ export function IdeaRow({
           </button>
           <button
             onClick={onRemove}
-            className="grid h-11 w-11 place-items-center text-muted-foreground hover:text-[color:var(--ember)]"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:text-[color:var(--ember)]"
             aria-label="Remove idea"
           >
             <Trash2 className="h-4 w-4" />
