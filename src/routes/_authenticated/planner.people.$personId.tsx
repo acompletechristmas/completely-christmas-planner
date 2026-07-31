@@ -7,6 +7,7 @@ import { SectionShell } from "@/components/planner/SectionShell";
 import { ProfileField, ProfileArea } from "@/components/planner/ProfileFields";
 import { GiftCard } from "@/components/planner/GiftCard";
 import { IdeaRow } from "@/components/planner/IdeaRow";
+import { StockingRow } from "@/components/planner/StockingRow";
 import { BudgetSummary } from "@/components/planner/BudgetSummary";
 import { ArrowLeft, Plus, Sparkles, Package, Mail, Wand2 } from "lucide-react";
 
@@ -34,9 +35,14 @@ function PersonDetail() {
     cardItems,
   } = usePersonGifts(personId, user?.id);
 
+  const stockingSpent = useMemo(
+    () => stockingItems.reduce((s, g) => s + (Number(g.price) || 0), 0),
+    [stockingItems],
+  );
+
   const spent = useMemo(
-    () => presents.reduce((s, g) => s + (Number(g.price) || 0), 0),
-    [presents],
+    () => presents.reduce((s, g) => s + (Number(g.price) || 0), 0) + stockingSpent,
+    [presents, stockingSpent],
   );
 
   const memories = useMemo(() => {
@@ -276,6 +282,9 @@ function PersonDetail() {
             </button>
           }
         >
+          <p className="mb-4 text-xs text-[color:var(--gold-soft)]">
+            £{stockingSpent.toFixed(2)} spent on stocking · counted in {person.name || "their"} total
+          </p>
           {stockingItems.length === 0 ? (
             <p className="flex items-center gap-2 text-sm text-muted-foreground">
               <Package className="h-4 w-4" /> No stocking fillers yet.
@@ -283,11 +292,9 @@ function PersonDetail() {
           ) : (
             <ul className="space-y-3">
               {stockingItems.map((g) => (
-                <GiftCard
+                <StockingRow
                   key={g.id}
                   gift={g}
-                  history={[]}
-                  userId={user?.id ?? ""}
                   onChange={(f, v) => updateGift(g.id, f, v)}
                   onRemove={() => removeGift(g.id)}
                 />

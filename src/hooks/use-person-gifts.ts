@@ -15,6 +15,7 @@ export interface Gift {
   year: number;
   shop: string | null;
   purchase_date: string | null;
+  ordered: boolean;
   wrapped: boolean;
   delivered: boolean;
   photo_url: string | null;
