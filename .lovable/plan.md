@@ -1,0 +1,66 @@
+# Christmas Magic Near Me — Discovery Structure (Plan Only)
+
+Turn the static "Coming Soon" cards on `/days-out` into a proper discovery framework: browsable categories, curated collections and filter scaffolding, with placeholder content instead of live data. No APIs, no postcode search, no maps, no booking, no saving yet.
+
+## Proposed user journey
+
+1. Arrive on Christmas Magic Near Me — heading, short warm intro, and a single clear next step.
+2. Choose a starting point: browse by **what kind of day out** (grottos, markets, light trails, panto, afternoon teas, festive stays) or by **what suits us** (free, budget, splash out, toddlers, teens, adults only, dogs, evenings, weekends, indoor, outdoor).
+3. Filter pills refine the list on the page — no page change, no reload feel.
+4. Results appear as experience cards showing name, type, price band, who it suits, indoor/outdoor and a short line of description. Placeholder/example entries make the shape obvious.
+5. Curated collections ("Free festive magic", "Under £20 family days", "Worth splashing out on", "Grown-ups only evenings") give a shortcut for people who don't want to filter.
+6. Each card leaves a clear space for a future **Save to my Christmas Days Out** action and a future "near me" distance line.
+
+## Page structure (top to bottom)
+
+1. **Header** — existing eyebrow, title, intro (unchanged wording style). Keep the postcode field as a "notify me" placeholder, relabelled so it reads as future-facing, not broken.
+2. **Filter bar** — horizontally scrollable pill groups on mobile:
+   - Price: Free · Budget · Mid · Splash out
+   - Who: Toddlers · Children · Teens · Adults only · Dogs
+   - When: Daytime · Evening · Weekend
+   - Where: Indoor · Outdoor
+   Multi-select, with a visible "Clear filters" when any are active. Filters run against local placeholder data.
+3. **Category strip** — the six existing experience types as compact chips/cards; selecting one acts as another filter rather than navigating away.
+4. **Curated collections** — 3–4 horizontally scrollable rows of experience cards.
+5. **All experiences** — filtered grid of experience cards with a count line ("12 festive ideas") and a warm empty state when filters match nothing.
+6. **Closing CTA** — existing reminders CTA, unchanged.
+
+## Reusable components (new, under `src/components/days-out/`)
+
+- `ExperienceCard` — Snow White card, gold border, title, type, price band, tags, short body; reserved slot for the future save button and distance label.
+- `FilterPills` — generic labelled pill group, multi-select, keyboard focusable, horizontal scroll on mobile.
+- `CollectionRow` — titled row with a short subtitle and a scroll-snap list of `ExperienceCard`s.
+- `ExperienceEmptyState` — festive encouraging message plus "Clear filters".
+- `experience-data.ts` — typed placeholder catalogue (`id, name, type, priceBand, audiences, setting, timeOfDay, blurb`) so a future data source can replace it without touching UI.
+- `use-experience-filters.ts` — filter state + derived filtered list; the single seam a future API swaps into.
+
+## Files affected
+
+- `src/routes/days-out.tsx` — restructured content only; header, palette, typography and page shell unchanged.
+- New: `src/components/days-out/ExperienceCard.tsx`, `FilterPills.tsx`, `CollectionRow.tsx`, `ExperienceEmptyState.tsx`
+- New: `src/lib/days-out/experience-data.ts`, `src/hooks/use-experience-filters.ts`
+- Nothing else touched — no homepage, nav, colour, typography or styling changes.
+
+## Mobile considerations
+
+- Designed at 360/390px first; no horizontal page scroll — only intentional scroll-snap rows.
+- Filter pills scroll horizontally with fade edge; tap targets at least 44px tall.
+- Cards single-column on mobile, two up at sm, three at lg.
+- Collection rows use snap points so cards land cleanly; the next card peeks to signal scrollability.
+- Sticky filter bar avoided on mobile to preserve vertical space; a compact "filters active" count sits above the grid instead.
+
+## Design Bible compliance
+
+Midnight blue background, Snow White cards with thin champagne gold borders and faint embossed snowflake, serif titles, sans body, line icons only, one subtle sparkle moment on the collections heading. Price bands and audience shown as text plus icon, never colour alone.
+
+## Testing checklist
+
+- Page renders at 360px, 390px and desktop with no horizontal scroll.
+- Each filter group multi-selects, combines across groups, and clears correctly.
+- Selecting a category chip filters the same list as the pills.
+- Result count updates and matches visible cards.
+- Empty state appears when no experience matches, and "Clear filters" restores the full list.
+- Collection rows scroll and snap on touch; keyboard tab order remains sensible.
+- Cards keep equal height with long and short titles; no clipped text.
+- Contrast checked on gold-on-navy and body text.
+- No console errors; existing reminders CTA and nav still work.
