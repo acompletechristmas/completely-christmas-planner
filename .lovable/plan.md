@@ -4,12 +4,12 @@ Rename the page to **Christmas Days Out** (page title, eyebrow, meta/SEO and any
 
 ## Proposed user journey
 
-1. Arrive on Christmas Magic Near Me — heading, short warm intro, and a single clear next step.
+1. Arrive on Christmas Days Out — heading, short warm intro, and a single clear next step.
 2. Choose a starting point: browse by **what kind of day out** (grottos, markets, light trails, panto, afternoon teas, festive stays) or by **what suits us** (free, budget, splash out, toddlers, teens, adults only, dogs, evenings, weekends, indoor, outdoor).
 3. Filter pills refine the list on the page — no page change, no reload feel.
 4. Results appear as experience cards showing name, type, price band, who it suits, indoor/outdoor and a short line of description. Placeholder/example entries make the shape obvious.
-5. Curated collections ("Free festive magic", "Under £20 family days", "Worth splashing out on", "Grown-ups only evenings") give a shortcut for people who don't want to filter.
-6. Each card leaves a clear space for a future **Save to my Christmas Days Out** action and a future "near me" distance line.
+5. Curated collections ("Free festive magic", "Under £20 family days", "Worth splashing out on", "Grown-ups only evenings", "Best rated Christmas experiences") give a shortcut for people who don't want to filter.
+6. Each card leaves a clear space for a future **Save to my Christmas Days Out** action, a future "near me" distance line, and a future recommendation badge.
 
 ## Page structure (top to bottom)
 
