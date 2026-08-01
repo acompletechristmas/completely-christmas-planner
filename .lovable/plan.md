@@ -65,3 +65,6 @@ Midnight blue background, Snow White cards with thin champagne gold borders and 
 - Cards keep equal height with long and short titles; no clipped text.
 - Contrast checked on gold-on-navy and body text.
 - No console errors; existing reminders CTA and nav still work.
+- Page reads "Christmas Days Out" everywhere, including tab title and share preview; no stale "Christmas Magic Near Me" text remains.
+- Best Rated row renders with the same card layout and scroll behaviour as the other collections.
+- Reserved recommendation slot holds its space with no badge present — adding one later must not change card height.
