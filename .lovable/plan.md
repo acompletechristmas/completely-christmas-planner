@@ -13,7 +13,7 @@ Rename the page to **Christmas Days Out** (page title, eyebrow, meta/SEO and any
 
 ## Page structure (top to bottom)
 
-1. **Header** — existing eyebrow, title, intro (unchanged wording style). Keep the postcode field as a "notify me" placeholder, relabelled so it reads as future-facing, not broken.
+1. **Header** — eyebrow and title renamed to Christmas Days Out; intro reworded only where it names the old title. Keep the postcode field as a "notify me" placeholder, relabelled so it reads as future-facing, not broken.
 2. **Filter bar** — horizontally scrollable pill groups on mobile:
    - Price: Free · Budget · Mid · Splash out
    - Who: Toddlers · Children · Teens · Adults only · Dogs
@@ -21,17 +21,17 @@ Rename the page to **Christmas Days Out** (page title, eyebrow, meta/SEO and any
    - Where: Indoor · Outdoor
    Multi-select, with a visible "Clear filters" when any are active. Filters run against local placeholder data.
 3. **Category strip** — the six existing experience types as compact chips/cards; selecting one acts as another filter rather than navigating away.
-4. **Curated collections** — 3–4 horizontally scrollable rows of experience cards.
+4. **Curated collections** — 5 horizontally scrollable rows of experience cards, including **Best Rated Christmas Experiences** (placeholder, ordered by a `rating` field on the placeholder data; same card layout and behaviour as the other rows).
 5. **All experiences** — filtered grid of experience cards with a count line ("12 festive ideas") and a warm empty state when filters match nothing.
 6. **Closing CTA** — existing reminders CTA, unchanged.
 
 ## Reusable components (new, under `src/components/days-out/`)
 
-- `ExperienceCard` — Snow White card, gold border, title, type, price band, tags, short body; reserved slot for the future save button and distance label.
+- `ExperienceCard` — Snow White card, gold border, title, type, price band, tags, short body. Includes a reserved, currently-empty **recommendation slot** directly under the title (fixed minimum height so nothing shifts later) for future badges such as "AI Pick" or "Perfect for young children", plus a reserved footer slot for the future save action and distance label. Optional `badge`/`recommendation` props exist but are unused for now.
 - `FilterPills` — generic labelled pill group, multi-select, keyboard focusable, horizontal scroll on mobile.
 - `CollectionRow` — titled row with a short subtitle and a scroll-snap list of `ExperienceCard`s.
 - `ExperienceEmptyState` — festive encouraging message plus "Clear filters".
-- `experience-data.ts` — typed placeholder catalogue (`id, name, type, priceBand, audiences, setting, timeOfDay, blurb`) so a future data source can replace it without touching UI.
+- `experience-data.ts` — typed placeholder catalogue (`id, name, type, priceBand, audiences, setting, timeOfDay, rating, blurb`) so a future data source can replace it without touching UI.
 - `use-experience-filters.ts` — filter state + derived filtered list; the single seam a future API swaps into.
 
 ## Files affected
