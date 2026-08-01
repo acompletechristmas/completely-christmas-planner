@@ -1,6 +1,6 @@
-# Christmas Magic Near Me — Discovery Structure (Plan Only)
+# Christmas Days Out — Discovery Structure (Plan Only)
 
-Turn the static "Coming Soon" cards on `/days-out` into a proper discovery framework: browsable categories, curated collections and filter scaffolding, with placeholder content instead of live data. No APIs, no postcode search, no maps, no booking, no saving yet.
+Rename the page to **Christmas Days Out** (page title, eyebrow, meta/SEO and any in-page heading references), and turn the static "Coming Soon" cards on `/days-out` into a proper discovery framework: browsable categories, curated collections and filter scaffolding, with placeholder content instead of live data. "Near me" becomes a future search/filter, not the page title. No APIs, no postcode search, no maps, no booking, no saving yet.
 
 ## Proposed user journey
 
