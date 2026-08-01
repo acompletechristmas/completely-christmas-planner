@@ -36,10 +36,11 @@ Rename the page to **Christmas Days Out** (page title, eyebrow, meta/SEO and any
 
 ## Files affected
 
-- `src/routes/days-out.tsx` — restructured content only; header, palette, typography and page shell unchanged.
+- `src/routes/days-out.tsx` — rename (title, eyebrow, meta/og/canonical text) and restructured content; palette, typography and page shell unchanged.
+- `src/components/SiteNav.tsx` / `SiteFooter.tsx` / homepage tile label — text-only rename where "Christmas Magic Near Me" appears, so naming stays consistent. No layout or styling change.
 - New: `src/components/days-out/ExperienceCard.tsx`, `FilterPills.tsx`, `CollectionRow.tsx`, `ExperienceEmptyState.tsx`
 - New: `src/lib/days-out/experience-data.ts`, `src/hooks/use-experience-filters.ts`
-- Nothing else touched — no homepage, nav, colour, typography or styling changes.
+- Nothing else touched — no homepage redesign, colour, typography or styling changes.
 
 ## Mobile considerations
 
