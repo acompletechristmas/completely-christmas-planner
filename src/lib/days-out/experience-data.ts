@@ -7,7 +7,12 @@ export type ExperienceType =
   | "panto"
   | "lights"
   | "market"
+  | "skating"
   | "tea"
+  | "meal"
+  | "party"
+  | "gathering"
+  | "community"
   | "stay";
 
 export interface Experience {
@@ -23,13 +28,19 @@ export interface Experience {
 }
 
 export const TYPE_LABELS: Record<ExperienceType, string> = {
-  grotto: "Santa's grottos",
-  panto: "Pantomime & shows",
+  grotto: "Santa visits",
+  panto: "Theatre & panto",
   lights: "Light trails",
   market: "Christmas markets",
+  skating: "Ice skating",
   tea: "Afternoon teas",
-  stay: "Festive stays",
+  meal: "Meals out",
+  party: "Parties",
+  gathering: "Family gatherings",
+  community: "Carols & community",
+  stay: "Trips & stays",
 };
+
 
 export const PRICE_LABELS: Record<PriceBand, string> = {
   free: "Free",
@@ -139,7 +150,8 @@ export const EXPERIENCES: Experience[] = [
   {
     id: "e8",
     name: "Candlelit Carol Concert",
-    type: "panto",
+    type: "community",
+
     priceBand: "budget",
     audiences: ["adults", "teens"],
     setting: "indoor",
@@ -191,4 +203,71 @@ export const EXPERIENCES: Experience[] = [
     rating: 4.0,
     blurb: "A short, easy trail with real reindeer at the end and hot chocolate to finish.",
   },
+  {
+    id: "e13",
+    name: "Outdoor Ice Rink",
+    type: "skating",
+    priceBand: "mid",
+    audiences: ["children", "teens", "adults"],
+    setting: "outdoor",
+    timeOfDay: ["daytime", "evening", "weekend"],
+    rating: 4.4,
+    blurb: "Wobbly laps under the fairy lights, then chips and hot chocolate to warm up.",
+  },
+  {
+    id: "e14",
+    name: "Christmas Lunch at the Local",
+    type: "meal",
+    priceBand: "mid",
+    audiences: ["adults", "teens", "dogs"],
+    setting: "indoor",
+    timeOfDay: ["daytime", "weekend"],
+    rating: 4.3,
+    blurb: "Three courses, crackers on the table and no washing up. Book the big table early.",
+  },
+  {
+    id: "e15",
+    name: "Friends' Christmas Party",
+    type: "party",
+    priceBand: "budget",
+    audiences: ["adults", "teens"],
+    setting: "indoor",
+    timeOfDay: ["evening", "weekend"],
+    rating: 4.6,
+    blurb: "Everyone brings a dish, someone brings a terrible playlist. A proper festive night in.",
+  },
+  {
+    id: "e16",
+    name: "Boxing Day at the Grandparents'",
+    type: "gathering",
+    priceBand: "free",
+    audiences: ["toddlers", "children", "teens", "adults", "dogs"],
+    setting: "indoor",
+    timeOfDay: ["daytime"],
+    rating: 4.7,
+    blurb: "Leftovers, board games and the same argument about the film. Worth putting in the diary.",
+  },
+  {
+    id: "e17",
+    name: "Christingle Service",
+    type: "community",
+    priceBand: "free",
+    audiences: ["toddlers", "children", "adults"],
+    setting: "indoor",
+    timeOfDay: ["daytime", "evening"],
+    rating: 4.2,
+    blurb: "Oranges, ribbons and candlelight — a gentle half hour that starts Christmas properly.",
+  },
+  {
+    id: "e18",
+    name: "Lapland Day Trip",
+    type: "stay",
+    priceBand: "splash",
+    audiences: ["toddlers", "children", "teens", "adults"],
+    setting: "outdoor",
+    timeOfDay: ["daytime"],
+    rating: 4.9,
+    blurb: "Huskies, snowmobiles and the real Father Christmas. The once-in-a-childhood one.",
+  },
 ];
+

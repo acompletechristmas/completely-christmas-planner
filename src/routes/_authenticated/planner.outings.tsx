@@ -1,21 +1,22 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink } from "lucide-react";
+import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/outings")({
   head: () => ({
     meta: [
-      { title: "Outings & Events — A Complete Christmas" },
-      { name: "description", content: "Save Christmas outings, markets, panto and family events in one place." },
+      { title: "Festive Activities — A Complete Christmas" },
+      { name: "description", content: "Keep every festive activity — markets, panto, parties, meals out, trips and family gatherings — in one place." },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: OutingsPage,
 });
 
+/** One saved festive activity. Stored in the existing `outings` table. */
 interface OutingRow extends BaseRow {
   name: string;
   event_date: string | null;
@@ -56,13 +57,14 @@ export function OutingsPage() {
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
       <header className="rounded-3xl border border-[color:var(--gold)]/30 bg-gradient-to-br from-[color:var(--forest-deep)]/80 to-[color:var(--burgundy)]/40 p-5 sm:p-7">
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-          Outings &amp; Events
+          Festive Activities
         </p>
         <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-          Every plan, in one place.
+          Every festive plan, in one place.
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/85">
-          Panto, Christmas markets, light switch-ons, family dinners — track dates, cost and who's coming.
+          Markets, panto, skating, parties, meals out, trips and family gatherings — track dates,
+          cost and who's coming.
         </p>
       </header>
 
@@ -72,8 +74,14 @@ export function OutingsPage() {
           className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
           style={{ background: "var(--gradient-gold)" }}
         >
-          <Plus className="h-4 w-4" /> Add an outing
+          <Plus className="h-4 w-4" /> Add an activity
         </button>
+        <Link
+          to="/days-out"
+          className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 px-4 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+        >
+          <Sparkles className="h-4 w-4" /> Find ideas near me
+        </Link>
       </div>
 
       {adding && (
@@ -83,7 +91,7 @@ export function OutingsPage() {
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Christmas market at York…"
+              placeholder="Christmas market at York, Boxing Day at Mum's…"
               className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]/70"
             />
             <input
@@ -116,10 +124,17 @@ export function OutingsPage() {
       ) : rows.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-[color:var(--gold)]/40 bg-[color:var(--forest-deep)]/40 p-10 text-center">
           <CalendarDays className="mx-auto h-10 w-10 text-[color:var(--gold)]" />
-          <h3 className="mt-3 font-display text-2xl">No outings yet</h3>
+          <h3 className="mt-3 font-display text-2xl">No festive activities yet</h3>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-            Add your first Christmas outing — a market, panto, meal out or trip to the lights.
+            Add your first — a market, panto, party, meal out, family gathering or trip to the
+            lights.
           </p>
+          <Link
+            to="/days-out"
+            className="mt-5 inline-flex min-h-11 items-center rounded-full border border-[color:var(--gold)]/40 px-5 text-sm text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+          >
+            Browse Christmas Magic Near Me
+          </Link>
         </div>
       ) : (
         <ul className="space-y-3">
@@ -150,13 +165,13 @@ function OutingCard({
         <input
           value={outing.name}
           onChange={(e) => onUpdate(outing.id, "name", e.target.value)}
-          placeholder="Outing name"
+          placeholder="Activity name"
           className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
         />
         <button
-          onClick={() => confirm(`Remove "${outing.name || "this outing"}"?`) && onRemove(outing.id)}
+          onClick={() => confirm(`Remove "${outing.name || "this activity"}"?`) && onRemove(outing.id)}
           className="rounded-full border border-[color:var(--gold)]/25 p-2 text-muted-foreground transition hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
-          aria-label="Delete outing"
+          aria-label="Delete activity"
         >
           <Trash2 className="h-3.5 w-3.5" />
         </button>

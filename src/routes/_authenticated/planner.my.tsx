@@ -64,7 +64,7 @@ const SECTIONS: Array<{
   { key: "decorations", label: "Decorations", emoji: "✨", icon: Sparkles, hint: "Tree, lights, wreaths" },
   { key: "cards", label: "Cards", emoji: "💌", icon: Mail, hint: "Write, address, pop in the post" },
   { key: "wrapping", label: "Wrapping", emoji: "🎀", icon: Package, hint: "Paper, tags, ribbons" },
-  { key: "events", label: "Events", emoji: "🎉", icon: PartyPopper, hint: "Parties, grottos, carols" },
+  { key: "events", label: "Festive Activities", emoji: "🎉", icon: PartyPopper, hint: "Parties, markets, meals, gatherings" },
   { key: "travel", label: "Travel", emoji: "✈️", icon: Plane, hint: "Trains, packing, presents to take" },
   { key: "elf", label: "Elf", emoji: "🧝", icon: Wand2, hint: "Nightly antics & little notes" },
   { key: "school", label: "School", emoji: "🎓", icon: GraduationCap, hint: "Nativity, jumper day, teacher gifts" },

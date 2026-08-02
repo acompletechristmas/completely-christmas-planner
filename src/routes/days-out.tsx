@@ -18,21 +18,22 @@ import {
   type Setting,
   type TimeOfDay,
 } from "@/lib/days-out/experience-data";
-import { Bus, Sparkles, Star } from "lucide-react";
+import { Sparkles, Star } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/days-out")({
   head: () => ({
     meta: [
-      { title: "Christmas Days Out — A Complete Christmas" },
+      { title: "Christmas Magic Near Me — A Complete Christmas" },
       {
         name: "description",
         content:
-          "Discover Christmas days out — Santa's grottos, pantomimes, markets, light trails and festive stays, from free ideas to splash-out treats.",
+          "Discover festive activities — Santa visits, markets, light trails, panto, skating, meals out, parties and family gatherings, from free ideas to splash-out treats.",
       },
-      { property: "og:title", content: "Christmas Days Out — A Complete Christmas" },
+      { property: "og:title", content: "Christmas Magic Near Me — A Complete Christmas" },
       {
         property: "og:description",
-        content: "Free, budget and splash-out festive experiences, all in one beautiful place.",
+        content: "Free, budget and splash-out festive activities, all in one beautiful place.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/days-out")({
   }),
   component: DaysOutPage,
 });
+
 
 const priceOptions = (Object.keys(PRICE_LABELS) as PriceBand[]).map((v) => ({
   value: v,
@@ -79,43 +81,37 @@ function DaysOutPage() {
 
   return (
     <PageShell
-      eyebrow="Christmas Days Out"
+      eyebrow="Christmas Magic Near Me"
       title={
         <>
-          <span className="block">The best festive days out,</span>
+          <span className="block">Every kind of festive plan,</span>
           <span className="block gold-text">all in one place</span>
         </>
       }
-      intro="Grottos, markets, light trails and cosy treats — browse by budget, by who's coming and by the kind of day you fancy."
+      intro="Santa visits, markets, light trails, panto, skating, meals out, parties and family gatherings — browse by budget, by who's coming and by the kind of day you fancy."
     >
-      {/* Postcode: future 'near me' search. Not live yet. */}
-      <div className="mx-auto mb-12 max-w-xl rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 text-left backdrop-blur-sm">
-        <label className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-          Christmas near me — coming soon
-        </label>
-        <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-          <input
-            type="text"
-            placeholder="e.g. SW1A 1AA"
-            className="min-h-11 flex-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-[color:var(--gold)] focus:outline-none"
-          />
-          <button
-            type="button"
-            className="min-h-11 rounded-full px-5 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
-            style={{ background: "var(--gradient-gold)" }}
-          >
-            <Bus className="mr-1 inline h-4 w-4" /> Notify me
-          </button>
-        </div>
-        <p className="mt-3 text-xs text-muted-foreground">
-          Leave your postcode and we'll tell you the moment local results go live.
+      {/* Discover → Choose → Organise. Saved activities live in the planner. */}
+      <div className="mx-auto mb-12 flex max-w-xl flex-col items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 text-center backdrop-blur-sm">
+        <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+          Discover → Choose → Organise
         </p>
+        <p className="text-sm text-muted-foreground">
+          Found something lovely? Pop it into Festive Activities in your Christmas Planner and keep
+          the date, cost and who's coming in one place.
+        </p>
+        <Link
+          to="/planner/outings"
+          className="min-h-11 rounded-full border border-[color:var(--gold)] px-5 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/10"
+        >
+          Open my Festive Activities
+        </Link>
       </div>
 
       {/* Filters */}
-      <section aria-label="Filter festive experiences" className="space-y-5">
+      <section aria-label="Filter festive activities" className="space-y-5">
         <FilterPills
-          legend="What kind of day out"
+          legend="What kind of activity"
+
           options={typeOptions}
           selected={filters.type}
           onToggle={(v) => toggleFilter("type", v)}
@@ -178,7 +174,7 @@ function DaysOutPage() {
 
       {/* Curated collections */}
       <CollectionRow
-        title="Best rated Christmas experiences"
+        title="Best rated festive activities"
         subtitle="The ones people rave about year after year."
         items={bestRated}
         showRating
@@ -186,10 +182,11 @@ function DaysOutPage() {
       />
       <CollectionRow
         title="Free festive magic"
-        subtitle="Beautiful days out that cost nothing, or nearly nothing."
+        subtitle="Beautiful things to do that cost nothing, or nearly nothing."
         items={freeIdeas}
         icon={<Sparkles className="h-4 w-4 text-[color:var(--gold)]" />}
       />
+
       <CollectionRow
         title="Little ones will love these"
         subtitle="Gentle, short and full of wonder — made for toddlers and children."

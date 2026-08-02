@@ -47,7 +47,7 @@ const HELP = [
   "I don't know where to begin",
   "Presents",
   "Budget",
-  "Days out and events",
+  "Festive activities",
   "Food and hosting",
   "Decorations",
   "Traditions",
@@ -357,8 +357,8 @@ function buildCards(choices: Choices): { tag: string; title: string; desc: strin
   push({ tag: "The big picture", title: "My Christmas Plans", desc: "A gentle, step-by-step guide from first idea to Christmas morning.", to: "/planner" }, 2);
 
   // Days out
-  if (all || wants.has("days out and events") || wants.has("keeping everyone occupied") || people.includes("Young children") || people.includes("Children of different ages")) {
-    push({ tag: "Out & about", title: "Things We'd Love to Do", desc: "Markets, grottos, walks and cosy days out worth putting in the diary.", to: "/days-out" }, 3);
+  if (all || wants.has("festive activities") || wants.has("keeping everyone occupied") || people.includes("Young children") || people.includes("Children of different ages")) {
+    push({ tag: "Out & about", title: "Things We'd Love to Do", desc: "Markets, parties, meals out, trips and gatherings worth putting in the diary.", to: "/days-out" }, 3);
   }
 
   // Home / decorations
