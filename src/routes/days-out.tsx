@@ -18,21 +18,22 @@ import {
   type Setting,
   type TimeOfDay,
 } from "@/lib/days-out/experience-data";
-import { Bus, Sparkles, Star } from "lucide-react";
+import { Sparkles, Star } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/days-out")({
   head: () => ({
     meta: [
-      { title: "Christmas Days Out — A Complete Christmas" },
+      { title: "Christmas Magic Near Me — A Complete Christmas" },
       {
         name: "description",
         content:
-          "Discover Christmas days out — Santa's grottos, pantomimes, markets, light trails and festive stays, from free ideas to splash-out treats.",
+          "Discover festive activities — Santa visits, markets, light trails, panto, skating, meals out, parties and family gatherings, from free ideas to splash-out treats.",
       },
-      { property: "og:title", content: "Christmas Days Out — A Complete Christmas" },
+      { property: "og:title", content: "Christmas Magic Near Me — A Complete Christmas" },
       {
         property: "og:description",
-        content: "Free, budget and splash-out festive experiences, all in one beautiful place.",
+        content: "Free, budget and splash-out festive activities, all in one beautiful place.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/days-out")({
   }),
   component: DaysOutPage,
 });
+
 
 const priceOptions = (Object.keys(PRICE_LABELS) as PriceBand[]).map((v) => ({
   value: v,
