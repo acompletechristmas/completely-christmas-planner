@@ -174,7 +174,7 @@ function DaysOutPage() {
 
       {/* Curated collections */}
       <CollectionRow
-        title="Best rated Christmas experiences"
+        title="Best rated festive activities"
         subtitle="The ones people rave about year after year."
         items={bestRated}
         showRating
@@ -182,10 +182,11 @@ function DaysOutPage() {
       />
       <CollectionRow
         title="Free festive magic"
-        subtitle="Beautiful days out that cost nothing, or nearly nothing."
+        subtitle="Beautiful things to do that cost nothing, or nearly nothing."
         items={freeIdeas}
         icon={<Sparkles className="h-4 w-4 text-[color:var(--gold)]" />}
       />
+
       <CollectionRow
         title="Little ones will love these"
         subtitle="Gentle, short and full of wonder — made for toddlers and children."
