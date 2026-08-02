@@ -1,48 +1,50 @@
-# Christmas Days Out — one consistent feature
+# Christmas Magic — consistent foundation (no new features yet)
 
-Today the feature is split in two with two different names:
+This revision does not build Save, Add to Calendar, AI recommendations or Near Me. It only makes discovery and planning one coherent feature, so those can be added later without redesign.
 
-- `/days-out` — public discovery page (filters, cards, curated rows), no way to keep anything.
-- `/planner/outings` — "Outings & Events" inside the planner, saved to the `outings` table, shown on the dashboard as "Outings & Events" and in the nav as "Events".
+## Where things stand
 
-Nothing links discovery to planning, and three names are used for one idea. This plan unifies them into a single **Christmas Days Out** feature with the journey **Discover → Save → Plan**, without redesigning anything.
+- `/days-out` — public discovery page, currently titled "Christmas Days Out". Filters, cards, curated rows, static data.
+- `/planner/outings` — planner list titled "Outings & Events", saved to the `outings` table, surfaced in the nav as "Events" and on Planning HQ as "Outings & Events — Things We'd Love to Do".
 
-## 1. One name everywhere
+One idea, three names, and the two halves do not look or read like the same feature.
 
-Use "Christmas Days Out" (short form "Days Out") in all user-facing copy:
+## 1. Names (one decision to confirm)
 
-- Main nav item "Events" becomes "Days Out" (same position, same styling, same match rules).
-- Planner page heading "Outings & Events" becomes "Christmas Days Out"; "Add an outing" becomes "Add a day out"; empty state and delete copy follow.
-- Planning HQ dashboard section "Outings & Events — Things We'd Love to Do" becomes "Christmas Days Out"; "View outings" becomes "View days out".
-- Footer and the `/build` step already say "Days out" — left as-is.
+- The public discovery page returns to **Christmas Magic Near Me** — title, eyebrow, meta and nav label.
+- The planner side becomes the saved half of that same feature. Proposed label: **My Christmas Magic**, with each saved row called an *activity* or *plan* rather than an outing or event.
+- "Outings", "Events" and "Planner Events" disappear from the interface.
 
-No new terminology is introduced. "Events" and "Outings" disappear from the interface.
+If you would rather the planner side keep a different label, say so and only this section changes — everything below is unaffected.
 
-## 2. Discovery and planning become one feature
+## 2. Scope: all festive activities, not just days out
 
-- The planner route moves from `/planner/outings` to `/planner/days-out` so the URL matches the name. All internal links updated.
-- The public discovery page `/days-out` gains a persistent link through to the saved list ("My Christmas Days Out") using the existing gold CTA pattern already at the bottom of the page.
-- The planner page gains a matching link back to discovery ("Find more days out"), using the same secondary pill button used elsewhere in the planner.
+Copy, empty states, filters and placeholder content are written to cover experiences, events, parties, meals out, trips, family gatherings and any other festive plan. Practically:
 
-Same feature, two views: browse ideas, keep the ones you like.
+- The discovery "what kind of day out" filter becomes a broader activity-type filter, with the existing types kept and room for parties, meals, gatherings and trips.
+- The placeholder catalogue gains a few non-day-out examples so the breadth is visible.
+- Planner copy stops assuming a ticketed outing ("Add an outing" → wording that fits a dinner or a family visit equally).
 
-## 3. Save to My Christmas Days Out
+No filter mechanics change — same pills, same hook, same multi-select behaviour.
 
-This is the missing middle step, so it is built now rather than left as a slot.
+## 3. One consistent recording style
 
-- The reserved footer area already present on `ExperienceCard` gets a "Save" action next to the existing "Distance coming soon" line — no layout change, the slot was designed for it.
-- Saving writes a row to the existing `outings` table through the existing `usePlannerList` hook (name, notes from the blurb, `planned: true`). No schema change, no new table, no new data pattern.
-- Signed-out users are sent to the existing `/auth` route and returned to discovery, matching how the rest of the planner behaves.
-- Already-saved items show as saved rather than duplicating.
+Discovery cards and planner rows currently look like two different products. They are brought onto the same patterns already used across the planner:
 
-## 4. Room for what comes next
+- The planner list reuses `SectionShell` and the existing row/input patterns (`IdeaRow`, `StockingRow`, `CardRow` styling) instead of its own bespoke card and input styles.
+- Both halves describe an activity with the same vocabulary: name, type, when, who's coming, rough cost, indoor/outdoor.
+- Both halves link to each other with the existing gold CTA and secondary pill buttons — browse from the saved list, saved list from browse.
 
-- Card footer stays a flexible row, so "Add to calendar" and a distance/near-me chip drop in beside Save later.
-- The recommendation slot at the top of the card is unchanged and still empty — AI picks fill it without touching layout.
-- Discovery data still comes from the single `experience-data.ts` source, so a live/AI-backed source replaces it behind the same hook.
+## 4. Layout slots reserved (not implemented)
+
+- `ExperienceCard` keeps its existing empty recommendation slot at the top (AI picks) and its flexible footer row, which already holds "Distance coming soon" and has room beside it for Save and Add to Calendar.
+- The planner row keeps space for a date and a calendar action without reflowing.
+- Discovery data continues to come from one source (`experience-data.ts`) behind `use-experience-filters`, so a live or AI-backed source replaces it later with no UI change.
+
+None of these are wired up in this pass.
 
 ## Technical notes
 
-- Files touched: `src/components/SiteNav.tsx`, `src/routes/_authenticated/planner.outings.tsx` (renamed to `planner.days-out.tsx`), `src/routes/_authenticated/planner.index.tsx`, `src/routes/days-out.tsx`, `src/components/days-out/ExperienceCard.tsx`, plus a small `use-saved-days-out.ts` wrapper over `usePlannerList("outings")`.
-- Database unchanged: table stays `outings`; only the interface language changes.
-- No changes to colours, typography, spacing, card/button/icon styles, the homepage, or the Design Bible.
+- No route renames, no table renames, no schema changes: `/days-out`, `/planner/outings` and the `outings` table stay exactly as they are.
+- Files touched: `src/routes/days-out.tsx`, `src/lib/days-out/experience-data.ts` (labels and a few extra placeholder items), `src/components/days-out/ExperienceCard.tsx` (styling alignment only), `src/routes/_authenticated/planner.outings.tsx` (copy plus reuse of existing planner components), `src/routes/_authenticated/planner.index.tsx` and `src/components/SiteNav.tsx` (labels).
+- No changes to colours, typography, spacing tokens, button or icon styles, the homepage, or the Design Bible.
