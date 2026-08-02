@@ -150,7 +150,8 @@ export const EXPERIENCES: Experience[] = [
   {
     id: "e8",
     name: "Candlelit Carol Concert",
-    type: "panto",
+    type: "community",
+
     priceBand: "budget",
     audiences: ["adults", "teens"],
     setting: "indoor",
