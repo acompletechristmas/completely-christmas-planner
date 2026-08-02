@@ -7,7 +7,12 @@ export type ExperienceType =
   | "panto"
   | "lights"
   | "market"
+  | "skating"
   | "tea"
+  | "meal"
+  | "party"
+  | "gathering"
+  | "community"
   | "stay";
 
 export interface Experience {
@@ -23,13 +28,19 @@ export interface Experience {
 }
 
 export const TYPE_LABELS: Record<ExperienceType, string> = {
-  grotto: "Santa's grottos",
-  panto: "Pantomime & shows",
+  grotto: "Santa visits",
+  panto: "Theatre & panto",
   lights: "Light trails",
   market: "Christmas markets",
+  skating: "Ice skating",
   tea: "Afternoon teas",
-  stay: "Festive stays",
+  meal: "Meals out",
+  party: "Parties",
+  gathering: "Family gatherings",
+  community: "Carols & community",
+  stay: "Trips & stays",
 };
+
 
 export const PRICE_LABELS: Record<PriceBand, string> = {
   free: "Free",
