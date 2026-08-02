@@ -1,4 +1,4 @@
-import { Star, MapPin, Snowflake } from "lucide-react";
+import { Star, Snowflake } from "lucide-react";
 import {
   AUDIENCE_LABELS,
   PRICE_LABELS,
@@ -74,12 +74,12 @@ export function ExperienceCard({
         ))}
       </ul>
 
-      {/* Reserved footer: future "near me" distance + Save to my Christmas Days Out. */}
-      <div className="mt-auto flex min-h-8 items-center justify-between gap-3 pt-4 text-[12px] text-[color:var(--muted-foreground)]">
-        <span className="inline-flex items-center gap-1">
-          <MapPin className="h-3.5 w-3.5" /> Distance coming soon
-        </span>
-      </div>
+      {/* Reserved footer: future distance, Save to Festive Activities and Add to Calendar.
+          Holds its height so adding them later does not change the layout. */}
+      <div
+        aria-hidden
+        className="mt-auto flex min-h-8 items-center justify-between gap-3 pt-4 text-[12px] text-[color:var(--muted-foreground)]"
+      />
     </article>
   );
 }
