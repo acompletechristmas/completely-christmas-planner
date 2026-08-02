@@ -69,12 +69,6 @@ export function OutingsPage() {
       </header>
 
       <div className="flex flex-wrap gap-2">
-        <Link
-          to="/days-out"
-          className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 px-4 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
-        >
-          <Sparkles className="h-4 w-4" /> Find ideas near me
-        </Link>
         <button
           onClick={() => setAdding(true)}
           className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold text-[color:var(--forest-deep)] transition hover:brightness-110"
@@ -82,6 +76,12 @@ export function OutingsPage() {
         >
           <Plus className="h-4 w-4" /> Add an activity
         </button>
+        <Link
+          to="/days-out"
+          className="inline-flex min-h-[48px] items-center gap-2 rounded-2xl border border-[color:var(--gold)]/40 px-4 py-2 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+        >
+          <Sparkles className="h-4 w-4" /> Find ideas near me
+        </Link>
       </div>
 
       {adding && (

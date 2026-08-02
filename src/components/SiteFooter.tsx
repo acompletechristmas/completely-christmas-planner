@@ -34,7 +34,7 @@ export function SiteFooter() {
           <p className="font-display text-sm uppercase tracking-[0.18em] text-[color:var(--gold)]">Explore</p>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li><Link to="/inspire" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Inspiration</Link></li>
-            <li><Link to="/days-out" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Days out</Link></li>
+            <li><Link to="/days-out" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Christmas Magic Near Me</Link></li>
             <li><Link to="/entertainment" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">Entertainment</Link></li>
             <li><Link to="/pets" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">For pets</Link></li>
             <li><Link to="/teachers" className="text-[color:var(--muted-foreground)] hover:text-[color:var(--ink)]">For teachers</Link></li>
