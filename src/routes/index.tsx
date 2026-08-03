@@ -66,9 +66,8 @@ function Home() {
 
   const cards = [
     { to: "/planner", label: "Plan", icon: GiftIcon, tint: "burgundy" as const },
-    { to: "/inspire", label: "Experience", icon: TreeIcon, tint: "forest" as const },
-    { to: "/inspire", label: "Create", icon: FlakeIcon, tint: "navy" as const },
-    { to: "/entertainment", label: "Share & Play", icon: HeartIcon, tint: "burgundy" as const },
+    { to: "/inspire", label: "Inspire", icon: TreeIcon, tint: "forest" as const },
+    { to: "/entertainment", label: "Share & Play", icon: HeartIcon, tint: "navy" as const },
   ];
 
   return (
