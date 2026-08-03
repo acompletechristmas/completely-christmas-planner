@@ -1,36 +1,26 @@
-# Immersive dark feature row below the CTA
+# Refine the three homepage links (no layout change)
 
-Replace the cream panel under "Let's start Christmas" with a dark, seamless continuation of the hero so the page reads as one magical scene.
+Only the three existing links — Plan, Inspire, Share & Play — get more magical. Nothing else on the homepage moves.
 
 ## What changes
 
-- Remove the cream curved panel entirely (including the "Your Complete Christmas Planner" laurel heading, the ornament divider, the pill nav row and the paragraph beneath it).
-- In its place, a dark section that continues the hero's night-sky background with no visible seam: a soft gradient from the hero's bottom vignette into the deep midnight blue, keeping snowfall running across it.
-- Three equally spaced feature links across the full width, separated by thin vertical gold hairlines (fading at top and bottom, as in the reference).
+- The three pill buttons become icon-led links: a small circular Christmas icon above the title, with a soft champagne-gold glow behind it.
+- Thin gold hairline dividers (fading out at top and bottom) sit between the three items.
+- Titles keep the existing display serif in the current deep red, uppercase with the same letter-spacing.
+- The heavy pill background/border is dropped so the items sit lightly on the surface with no boxed feel; the row still reads as three tappable links with a gentle lift on hover/press.
+- Icons: a wrapped gift (Plan), a star/sparkle (Inspire), and a bauble-and-music motif (Share & Play), drawn as thin gold line icons at ~20px inside ~40px circles.
 
-Each feature:
-- A small circular Christmas illustration with a thin gold ring and a soft warm glow behind it.
-- Heading in the display serif, gold, uppercase with light letter-spacing: PLAN / INSPIRE / SHARE & PLAY.
-- A short one-line description in cream, small size:
-  - Plan — "Gifts, lists, budgets, meals & more"
-  - Inspire — "Decorations, recipes, ideas & traditions"
-  - Share & Play — "Films, music, games & family fun"
+## What does not change
 
-Destinations stay exactly as they are: /planner, /inspire, /entertainment.
+Hero image, snowfall, countdown card, CTA button and the space above it, the "Your Complete Christmas Planner" heading and its ornament divider, the sentence below the links, the cream section itself, navigation, logo, colours, typography and all routing (/planner, /inspire, /entertainment).
 
-## Sizing and height
+## Height
 
-- Circles roughly 64px on mobile (390px wide) and 84px on desktop — deliberately smaller than the reference so all three sit comfortably in one row with no wrapping and no horizontal scroll.
-- Total section height kept close to the current cream panel's height, so the homepage does not get taller and the CTA stays where it is.
-- Text truncates to two short lines on mobile rather than pushing the section taller.
-
-## Untouched
-
-Design Bible tokens, logo, navigation, hero image, snowfall, countdown gift tag, CTA button and the spacing above it, and all existing routes/functionality.
+The row keeps its current height: the icon circle plus title occupies the same vertical space the current pill row plus its margin uses, so the homepage height is unchanged and the row still fits on one line at 390px.
 
 ## Technical notes
 
-- Edit `src/routes/index.tsx` only: delete the cream `<section>` and its inner markup, replace with a dark `<section>` using existing CSS tokens (`--midnight-deep`, `--gold`, `--cream`); remove the now-unused `GoldLaurel` helper.
-- Snowfall continuity: move the hero's `<Snowfall>` so it covers hero + feature row (fixed-position overlay already used elsewhere), rather than adding a second instance.
-- Three new circular illustration assets generated into `src/assets/` (gift with gold bow, lit Christmas tree, cocoa mug with clapperboard and music notes) as transparent PNGs, imported as ES6 image imports and rendered inside the gold rings.
-- The feature row is a small local `FeatureLink` component in the same file, reusing TanStack `Link`.
+- Edit `src/routes/index.tsx` only, replacing the pill markup inside the existing `<nav>` with a small local `HomeLink` component (icon circle + label), still using TanStack `Link`.
+- Icons from `lucide-react` (`Gift`, `Sparkles`, `Music`), stroked in the gold token — no new assets, no new dependencies.
+- Glow via a blurred radial gold layer behind the circle using existing gold tokens; dividers via a 1px gradient span, matching the gold hairlines already used on the page.
+- Verify at 390px that the row does not wrap and the page height matches the current build.
