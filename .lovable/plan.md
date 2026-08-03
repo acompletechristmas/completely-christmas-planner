@@ -38,3 +38,12 @@ Icons/tints reuse the existing set: gift icon for Plan, tree icon for Inspire, h
 
 - Only `src/routes/index.tsx` changes: the `cards` array and the one grid class on the tile row.
 - No routing, planner, navigation, or design-token changes.
+
+## Acceptance criteria
+
+- Homepage shows three category cards, each with one unique destination: Plan → `/planner`, Inspire → `/inspire`, Share & Play → `/entertainment`.
+- No two homepage categories link to the same page.
+- Christmas Magic Near Me is accessible from both the main navigation and Planner → Events.
+- Planner → Events contains a clear link to Christmas Magic Near Me.
+- The Planner remains the single destination for organising all saved Christmas activities, events and plans.
+- Existing styling preserved; desktop and mobile layouts stay visually balanced.
