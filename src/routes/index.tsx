@@ -223,24 +223,61 @@ function Home() {
             </div>
 
             {/* Compact primary navigation row */}
-            <nav className="mx-auto mt-2 flex flex-nowrap items-center justify-center gap-2 sm:mt-4 sm:gap-3">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.label}
-                  to={l.to}
-                  className="whitespace-nowrap rounded-full px-3.5 py-2 font-display text-[12px] uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5 sm:px-6 sm:text-[14px]"
-                  style={{
-                    background: "linear-gradient(180deg, oklch(0.98 0.012 85), oklch(0.955 0.02 82))",
-                    border: "1px solid oklch(0.72 0.10 78 / 0.55)",
-                    boxShadow:
-                      "inset 0 1px 0 oklch(1 0 0 / 0.6), 0 10px 24px -14px rgba(60,30,10,0.28)",
-                    color: "oklch(0.42 0.18 28)",
-                  }}
-                >
-                  {l.label}
-                </Link>
+            <nav className="mx-auto mt-2 flex items-stretch justify-between gap-0 sm:mt-3 sm:max-w-lg">
+              {navLinks.map((l, i) => (
+                <div key={l.label} className="contents">
+                  {i > 0 && (
+                    <span
+                      aria-hidden
+                      className="my-1 w-px shrink-0 self-stretch"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, transparent, oklch(0.72 0.14 78 / 0.55), transparent)",
+                      }}
+                    />
+                  )}
+                  <Link
+                    to={l.to}
+                    className="group flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 transition-transform hover:-translate-y-0.5"
+                  >
+                    <span className="relative grid h-10 w-10 place-items-center sm:h-11 sm:w-11">
+                      <span
+                        aria-hidden
+                        className="absolute -inset-1.5 rounded-full blur-[6px] transition-opacity group-hover:opacity-100"
+                        style={{
+                          background:
+                            "radial-gradient(circle, oklch(0.80 0.14 85 / 0.55), transparent 68%)",
+                          opacity: 0.8,
+                        }}
+                      />
+                      <span
+                        className="relative grid h-10 w-10 place-items-center rounded-full sm:h-11 sm:w-11"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, oklch(0.99 0.008 85), oklch(0.955 0.02 82))",
+                          border: "1px solid oklch(0.72 0.12 78 / 0.5)",
+                          boxShadow:
+                            "inset 0 1px 0 oklch(1 0 0 / 0.75), 0 8px 18px -12px rgba(60,30,10,0.4)",
+                        }}
+                      >
+                        <l.Icon
+                          className="h-[18px] w-[18px] sm:h-5 sm:w-5"
+                          strokeWidth={1.3}
+                          style={{ color: "oklch(0.68 0.13 78)" }}
+                        />
+                      </span>
+                    </span>
+                    <span
+                      className="whitespace-nowrap font-display text-[10.5px] uppercase tracking-[0.1em] sm:text-[13px] sm:tracking-[0.14em]"
+                      style={{ color: "oklch(0.42 0.18 28)" }}
+                    >
+                      {l.label}
+                    </span>
+                  </Link>
+                </div>
               ))}
             </nav>
+
 
             <p
               className="mx-auto mt-3 max-w-xl text-[13px] leading-relaxed sm:text-[15px]"
