@@ -174,7 +174,7 @@ function Home() {
 
       {/* =============== CREAM PLANNER SECTION =============== */}
       <section
-        className="relative z-10 -mt-8 sm:-mt-12"
+        className="relative z-10 -mt-14 sm:-mt-12"
         style={{
           background:
             "linear-gradient(180deg, oklch(0.96 0.018 85) 0%, oklch(0.94 0.024 82) 100%)",
