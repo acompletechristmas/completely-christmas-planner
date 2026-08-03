@@ -64,11 +64,12 @@ function Home() {
   const { user } = useAuth();
   const startLink = user ? "/planner" : "/build";
 
-  const navLinks: Array<{ to: string; label: string }> = [
-    { to: "/planner", label: "Plan" },
-    { to: "/inspire", label: "Inspire" },
-    { to: "/entertainment", label: "Share & Play" },
+  const navLinks: Array<{ to: string; label: string; Icon: LucideIcon }> = [
+    { to: "/planner", label: "Plan", Icon: Gift },
+    { to: "/inspire", label: "Inspire", Icon: Sparkles },
+    { to: "/entertainment", label: "Share & Play", Icon: Music },
   ];
+
 
   return (
     <div className="relative min-h-[100svh] text-[color:var(--cream)] overflow-hidden">
