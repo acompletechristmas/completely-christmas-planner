@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Snowfall } from "@/components/Snowfall";
