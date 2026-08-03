@@ -220,20 +220,33 @@ function Home() {
               />
               <span className="h-px w-10" style={{ background: "oklch(0.72 0.14 78 / 0.7)" }} />
             </div>
+
+            {/* Compact primary navigation row */}
+            <nav className="mx-auto mt-3 flex flex-nowrap items-center justify-center gap-2 sm:mt-4 sm:gap-3">
+              {navLinks.map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  className="whitespace-nowrap rounded-full px-3.5 py-2 font-display text-[12px] uppercase tracking-[0.14em] transition-all hover:-translate-y-0.5 sm:px-6 sm:text-[14px]"
+                  style={{
+                    background: "linear-gradient(180deg, oklch(0.98 0.012 85), oklch(0.955 0.02 82))",
+                    border: "1px solid oklch(0.72 0.10 78 / 0.55)",
+                    boxShadow:
+                      "inset 0 1px 0 oklch(1 0 0 / 0.6), 0 10px 24px -14px rgba(60,30,10,0.28)",
+                    color: "oklch(0.42 0.18 28)",
+                  }}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+
             <p
               className="mx-auto mt-3 max-w-xl text-[13px] leading-relaxed sm:text-[15px]"
               style={{ color: "oklch(0.35 0.03 30)" }}
             >
               Everything in one place to plan, organise and enjoy every magical moment.
             </p>
-          </div>
-
-          {/* 3 planner cards */}
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-5">
-
-            {cards.map((c) => (
-              <PlannerCard key={c.label} {...c} />
-            ))}
           </div>
         </div>
       </section>
