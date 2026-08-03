@@ -228,8 +228,9 @@ function Home() {
             </p>
           </div>
 
-          {/* 4 planner cards */}
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-5 lg:grid-cols-4">
+          {/* 3 planner cards */}
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-5">
+
             {cards.map((c) => (
               <PlannerCard key={c.label} {...c} />
             ))}
