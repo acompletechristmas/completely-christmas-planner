@@ -547,3 +547,26 @@ function WaxSeal() {
   );
 }
 
+
+/* ============================================================
+   Gold laurel leaves — flanking the planner section heading
+   ============================================================ */
+function GoldLaurel({ side }: { side: "left" | "right" }) {
+  const flip = side === "right" ? { transform: "scaleX(-1)" } : undefined;
+  return (
+    <svg width="34" height="16" viewBox="0 0 40 20" fill="none" style={flip} aria-hidden>
+      <path
+        d="M2 10 C 12 10, 22 6, 36 4"
+        stroke="oklch(0.68 0.14 78)"
+        strokeWidth="1"
+        fill="none"
+        strokeLinecap="round"
+      />
+      {/* leaves */}
+      <path d="M10 10 c 1 -3 4 -4 6 -3 c -1 3 -4 4 -6 3 z" fill="oklch(0.75 0.13 82)" opacity="0.9" />
+      <path d="M18 8 c 1 -3 4 -4 6 -3 c -1 3 -4 4 -6 3 z" fill="oklch(0.78 0.13 82)" opacity="0.9" />
+      <path d="M26 6 c 1 -3 4 -4 6 -3 c -1 3 -4 4 -6 3 z" fill="oklch(0.80 0.13 82)" opacity="0.95" />
+      <circle cx="36" cy="4" r="1.6" fill="oklch(0.85 0.11 85)" />
+    </svg>
+  );
+}
