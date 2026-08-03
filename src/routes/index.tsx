@@ -223,7 +223,7 @@ function Home() {
             </div>
 
             {/* Compact primary navigation row */}
-            <nav className="mx-auto mt-2 flex items-stretch justify-between gap-0 sm:mt-3 sm:max-w-lg">
+            <nav className="mx-auto mt-1.5 flex items-stretch justify-between gap-0 sm:mt-3 sm:max-w-lg">
               {navLinks.map((l, i) => (
                 <div key={l.label} className="contents">
                   {i > 0 && (
@@ -238,9 +238,9 @@ function Home() {
                   )}
                   <Link
                     to={l.to}
-                    className="group flex min-w-0 flex-1 flex-col items-center gap-1.5 px-1 transition-transform hover:-translate-y-0.5"
+                    className="group flex min-w-0 flex-1 flex-col items-center gap-1 px-1 transition-transform hover:-translate-y-0.5"
                   >
-                    <span className="relative grid h-10 w-10 place-items-center sm:h-11 sm:w-11">
+                    <span className="relative grid h-9 w-9 place-items-center sm:h-11 sm:w-11">
                       <span
                         aria-hidden
                         className="absolute -inset-1.5 rounded-full blur-[6px] transition-opacity group-hover:opacity-100"
@@ -251,7 +251,7 @@ function Home() {
                         }}
                       />
                       <span
-                        className="relative grid h-10 w-10 place-items-center rounded-full sm:h-11 sm:w-11"
+                        className="relative grid h-9 w-9 place-items-center rounded-full sm:h-11 sm:w-11"
                         style={{
                           background:
                             "linear-gradient(180deg, oklch(0.99 0.008 85), oklch(0.955 0.02 82))",
@@ -280,7 +280,7 @@ function Home() {
 
 
             <p
-              className="mx-auto mt-3 max-w-xl text-[13px] leading-relaxed sm:text-[15px]"
+              className="mx-auto mt-2 max-w-xl text-[13px] leading-relaxed sm:text-[15px]"
               style={{ color: "oklch(0.35 0.03 30)" }}
             >
               Everything in one place to plan, organise and enjoy every magical moment.
