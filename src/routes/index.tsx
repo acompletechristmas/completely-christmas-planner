@@ -64,10 +64,10 @@ function Home() {
   const { user } = useAuth();
   const startLink = user ? "/planner" : "/build";
 
-  const cards = [
-    { to: "/planner", label: "Plan", icon: GiftIcon, tint: "burgundy" as const },
-    { to: "/inspire", label: "Inspire", icon: TreeIcon, tint: "forest" as const },
-    { to: "/entertainment", label: "Share & Play", icon: HeartIcon, tint: "navy" as const },
+  const navLinks: Array<{ to: string; label: string }> = [
+    { to: "/planner", label: "Plan" },
+    { to: "/inspire", label: "Inspire" },
+    { to: "/entertainment", label: "Share & Play" },
   ];
 
   return (
