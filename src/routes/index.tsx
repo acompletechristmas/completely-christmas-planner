@@ -194,7 +194,7 @@ function Home() {
           }}
         />
 
-        <div className="mx-auto max-w-7xl px-5 pt-5 pb-8 sm:px-10 sm:pt-8 sm:pb-12">
+        <div className="mx-auto max-w-7xl px-5 pt-3 pb-8 sm:px-10 sm:pt-8 sm:pb-12">
           <div className="text-center">
             <div
               className="mx-auto flex items-center justify-center gap-3"
