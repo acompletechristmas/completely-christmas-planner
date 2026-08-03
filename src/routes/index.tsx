@@ -222,7 +222,7 @@ function Home() {
             </div>
 
             {/* Compact primary navigation row */}
-            <nav className="mx-auto mt-3 flex flex-nowrap items-center justify-center gap-2 sm:mt-4 sm:gap-3">
+            <nav className="mx-auto mt-2 flex flex-nowrap items-center justify-center gap-2 sm:mt-4 sm:gap-3">
               {navLinks.map((l) => (
                 <Link
                   key={l.label}
