@@ -66,9 +66,8 @@ function Home() {
 
   const cards = [
     { to: "/planner", label: "Plan", icon: GiftIcon, tint: "burgundy" as const },
-    { to: "/inspire", label: "Experience", icon: TreeIcon, tint: "forest" as const },
-    { to: "/inspire", label: "Create", icon: FlakeIcon, tint: "navy" as const },
-    { to: "/entertainment", label: "Share & Play", icon: HeartIcon, tint: "burgundy" as const },
+    { to: "/inspire", label: "Inspire", icon: TreeIcon, tint: "forest" as const },
+    { to: "/entertainment", label: "Share & Play", icon: HeartIcon, tint: "navy" as const },
   ];
 
   return (
@@ -229,8 +228,9 @@ function Home() {
             </p>
           </div>
 
-          {/* 4 planner cards */}
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-5 lg:grid-cols-4">
+          {/* 3 planner cards */}
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-5">
+
             {cards.map((c) => (
               <PlannerCard key={c.label} {...c} />
             ))}
