@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Gift, Sparkles, Music, type LucideIcon } from "lucide-react";
 
 import heroVillage from "@/assets/hero-village.jpg";
 import bowSatin from "@/assets/bow-satin.png.asset.json";
