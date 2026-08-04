@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroFood from "@/assets/card-food-new.jpg";
 import { ChefHat, UtensilsCrossed, Clock, Wine, Cookie, ListChecks, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/food")({
