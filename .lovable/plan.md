@@ -9,7 +9,7 @@ Visual refinement only. No routes, data, forms, components or flows change — e
 The template, top to bottom:
 
 1. Deep navy background with subtle snowfall (unchanged) and the existing sticky nav.
-2. A cinematic hero banner: premium photographic Christmas image, warm festive lighting, gently darkened and faded into the navy at the bottom so there is no hard edge.
+2. A cinematic hero banner: premium photographic Christmas image, warm festive lighting, gently darkened and faded into the navy at the bottom so there is no hard edge. Height stays responsive and deliberately restrained — roughly a third of the screen on mobile and a little taller on desktop, capped so the title, intro and the first row of real page content are reachable without excessive scrolling. Immersive, never a full-screen blocker.
 3. Back link, eyebrow, and page title in the existing gold serif typography, sitting over the lower part of the hero.
 4. A short welcoming one-line introduction (each page already has one — kept, lightly adjusted only where a page has none).
 5. Existing page content underneath, unchanged, on the same navy background with the existing cream/mist cards, gold hairline borders, rounded corners and soft shadows.
