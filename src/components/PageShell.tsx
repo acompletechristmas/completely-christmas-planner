@@ -19,49 +19,67 @@ export function PageShell({ eyebrow, title, intro, children, heroImage }: PageSh
       <Snowfall count={45} />
       <SiteNav />
 
+      <section className="relative isolate overflow-hidden">
+        {heroImage ? (
+          <>
+            <img
+              src={heroImage}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            />
+            <div
+              className="absolute inset-0 -z-10"
+              style={{
+                background:
+                  "linear-gradient(to bottom, oklch(0.20 0.04 245 / 0.72) 0%, oklch(0.20 0.04 245 / 0.62) 40%, oklch(0.20 0.04 245 / 0.92) 82%, var(--background) 100%)",
+              }}
+            />
+          </>
+        ) : null}
 
-      <section className="relative z-10 mx-auto max-w-4xl px-5 pt-10 pb-8 sm:px-8 sm:pt-16 sm:pb-12">
-        <Link
-          to="/"
-          className="rise-in inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)] transition hover:text-[color:var(--forest)]"
+        <div
+          className={`relative z-10 mx-auto flex max-w-4xl flex-col justify-end px-5 sm:px-8 ${
+            heroImage
+              ? "min-h-[34vh] pt-24 pb-10 sm:min-h-[40vh] sm:max-h-[460px] sm:pt-32 sm:pb-14"
+              : "pt-24 pb-8 sm:pt-28 sm:pb-12"
+          }`}
         >
-          <ArrowLeft className="h-3 w-3" /> Back
-        </Link>
-        {eyebrow ? (
-          <p className="rise-in mt-8 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--forest)]">
-            {eyebrow}
-          </p>
-        ) : null}
-        <h1
-          className="rise-in mt-4 font-display text-[44px] leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
-          style={{ animationDelay: "0.05s" }}
-        >
-          {title}
-        </h1>
-        {intro ? (
-          <p
-            className="rise-in mt-6 max-w-2xl text-[17px] leading-relaxed text-[color:var(--muted-foreground)]"
-            style={{ animationDelay: "0.12s" }}
+          <Link
+            to="/"
+            className="rise-in inline-flex w-fit items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)] transition hover:text-[color:var(--gold)]"
           >
-            {intro}
-          </p>
-        ) : null}
+            <ArrowLeft className="h-3 w-3" /> Back
+          </Link>
+          {eyebrow ? (
+            <p className="rise-in mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+              {eyebrow}
+            </p>
+          ) : null}
+          <h1
+            className="rise-in mt-3 font-display text-[40px] leading-[1.05] tracking-tight sm:text-6xl"
+            style={{ animationDelay: "0.05s" }}
+          >
+            {title}
+          </h1>
+          {intro ? (
+            <p
+              className="rise-in mt-5 max-w-2xl text-[16px] leading-relaxed text-[color:var(--muted-foreground)] sm:text-[17px]"
+              style={{ animationDelay: "0.12s" }}
+            >
+              {intro}
+            </p>
+          ) : null}
+        </div>
       </section>
 
-      {heroImage ? (
-        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
-          <div className="overflow-hidden rounded-3xl">
-            <img src={heroImage} alt="" className="h-[280px] w-full object-cover sm:h-[420px]" />
-          </div>
-        </div>
-      ) : null}
-
-      <main className="relative z-10 mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">{children}</main>
+      <main className="relative z-10 mx-auto max-w-6xl px-5 py-10 sm:px-8 sm:py-14">{children}</main>
 
       <SiteFooter />
     </div>
   );
 }
+
 
 interface FeatureCardProps {
   icon: React.ComponentType<{ className?: string }>;
