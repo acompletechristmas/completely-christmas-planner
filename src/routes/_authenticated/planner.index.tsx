@@ -432,7 +432,7 @@ function PlannerOverview() {
           </Link>
         </div>
         {upcomingOutings.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
+          <div className="relative z-10 rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
             No festive activities saved yet.{" "}
             <Link to="/planner/outings" className="text-[color:var(--gold-soft)] hover:underline">
               Add your first
@@ -440,7 +440,7 @@ function PlannerOverview() {
             .
           </div>
         ) : (
-          <ul className="grid gap-2 sm:grid-cols-2">
+          <ul className="relative z-10 grid gap-2 sm:grid-cols-2">
             {upcomingOutings.map((o) => (
               <li
                 key={o.id}
@@ -472,8 +472,18 @@ function PlannerOverview() {
           </p>
           <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={BaubleIcon} /><span>What you've spent</span></h2>
         </div>
-        <div className="rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--forest-deep)]/60 p-5">
-          <div className="flex items-baseline justify-between">
+        <div className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/25 p-5">
+          <img
+            src={photoBudget}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            width={1024}
+            height={768}
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          />
+          <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
+          <div className="relative z-10 flex items-baseline justify-between">
             <p className="font-display text-3xl gold-text">£{spent.toFixed(0)}</p>
             <p className="text-xs text-muted-foreground">
               {budgetTotal != null ? `of £${budgetTotal.toFixed(0)} planned` : "no overall budget set"}
