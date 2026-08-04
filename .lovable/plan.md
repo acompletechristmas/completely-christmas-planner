@@ -59,3 +59,9 @@ Planner surfaces move off almost-black: warm cream page background, warm white c
 - `src/styles.css`: light planner surface tokens added (`--planner-bg`, `--planner-card`, ink-on-cream foreground) — global dark tokens for marketing pages left intact.
 - New `src/components/planner/PlannerButton.tsx`; adopted across planner routes.
 - New assets: cream Christmas living-room hero photo, gold foliage flourish (line-art SVG, inline).
+
+## 8. Atmosphere and final check
+
+The planner should read as John Lewis / Fortnum & Mason / The White Company Christmas: warm cream backgrounds, soft gold accents, elegant typography, bright premium photography.
+
+Before finishing, the built page is captured at mobile width and compared side by side with the mock-up; spacing, type scale, button size and photo brightness are refined until it matches closely rather than reinterpreting it.
