@@ -40,9 +40,9 @@ import photoChecklist from "@/assets/hq-checklist.jpg";
 import photoActivities from "@/assets/hq-activities.jpg";
 import photoBudget from "@/assets/hq-budget.jpg";
 
-/** Dark navy veil laid over every card photograph so the gold text stays legible. */
+/** Warm cream veil laid over every card photograph so the navy/gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, oklch(0.16 0.05 245 / 0.78) 0%, oklch(0.13 0.04 245 / 0.72) 55%, oklch(0.10 0.03 245 / 0.8) 100%)";
+  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.90) 0%, oklch(0.975 0.014 88 / 0.86) 55%, oklch(0.96 0.018 86 / 0.92) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
