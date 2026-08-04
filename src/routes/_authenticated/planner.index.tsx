@@ -26,6 +26,20 @@ import {
 import { SectionIcon } from "@/components/planner/SectionShell";
 import { BaubleIcon, RibbonIcon } from "@/components/planner/section-icons";
 import type { LucideIcon } from "lucide-react";
+import photoPlans from "@/assets/hq-plans.jpg";
+import photoHome from "@/assets/hq-home.jpg";
+import photoFood from "@/assets/hq-food.jpg";
+import photoFilms from "@/assets/hq-films.jpg";
+import photoMusic from "@/assets/hq-music.jpg";
+import photoCards from "@/assets/hq-cards.jpg";
+import photoTraditions from "@/assets/hq-traditions.jpg";
+import photoChecklist from "@/assets/hq-checklist.jpg";
+import photoActivities from "@/assets/hq-activities.jpg";
+import photoBudget from "@/assets/hq-budget.jpg";
+
+/** Dark navy veil laid over every card photograph so the gold text stays legible. */
+const CARD_VEIL =
+  "linear-gradient(160deg, oklch(0.16 0.05 245 / 0.72) 0%, oklch(0.13 0.04 245 / 0.66) 55%, oklch(0.11 0.03 245 / 0.78) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
