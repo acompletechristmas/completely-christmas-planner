@@ -21,14 +21,15 @@ Cream pill, thin gold border, gold uppercase letter-spaced type, small gold snow
 - "welcome back" — gold handwritten script beneath it, larger, italic.
 - Supporting line in warm grey sans beneath. Same hierarchy as the mock-up.
 
-## 4. Gift Planner panel
+## 4. Gifts panel
 
-The block currently titled "My People & Presents" becomes a warm cream panel:
+The "My People & Presents" block becomes a warm cream panel, keeping the app's personal tone:
 
-- Small gold uppercase label with a gold gift line icon: YOUR GIFT PLANNER
-- Large elegant serif heading in navy ink: Gift Planner
+- Small gold uppercase label with a gold gift line icon: GIFTS & PEOPLE
+- Large elegant serif heading in navy ink: My Christmas Gifts (consistent with My Christmas Plans / My Christmas Home)
 - Two-line supporting sentence in warm grey
 - Decorative gold line-art foliage flourish top-right, as shown
+
 
 No heavy white headings.
 
