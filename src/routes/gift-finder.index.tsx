@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroGifts from "@/assets/card-gifts.jpg";
 import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star, Snowflake, ArrowRight, Search } from "lucide-react";
 
 
@@ -54,6 +55,7 @@ function GiftFinderPage() {
 
   return (
     <PageShell
+      heroImage={heroGifts}
       eyebrow="Gifts"
       title={<><span className="block">Everything gifts,</span><span className="block gold-text">in one place</span></>}
       intro="Pick a tool below. Each one works on its own — no AI needed."

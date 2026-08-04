@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PageShell } from "@/components/PageShell";
+import heroGifts from "@/assets/card-gifts.jpg";
 import { ArrowLeft, ExternalLink, Bookmark, Sparkles, Gift, Save, Loader2, X, Plus } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePeople } from "@/hooks/use-people";
@@ -103,6 +104,7 @@ function SecretSantaPage() {
   if (showResults) {
     return (
       <PageShell
+        heroImage={heroGifts}
         eyebrow="Secret Santa Finder"
         title={<><span className="block">A few ideas</span><span className="block gold-text">just for them</span></>}
         intro="Tap a gift to open it in a new tab, or save the idea for later."
@@ -232,6 +234,7 @@ function SecretSantaPage() {
 
   return (
     <PageShell
+      heroImage={heroGifts}
       eyebrow="Secret Santa Finder"
       title={<><span className="block">Secret Santa,</span><span className="block gold-text">sorted</span></>}
       intro="Answer four quick questions and we’ll suggest festive gift ideas that suit them."

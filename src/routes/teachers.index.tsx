@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
+import heroTeachers from "@/assets/card-teachers.jpg";
 import { TEACHER_CATEGORIES } from "@/lib/teacher-categories";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
@@ -53,6 +54,7 @@ function TeachersHub() {
 
   return (
     <PageShell
+      heroImage={heroTeachers}
       eyebrow="Teachers & Education"
       title={<><span className="block">A magical staffroom,</span><span className="block gold-text">packed with Christmas.</span></>}
       intro="Ready-to-print classroom activities, worksheets, colouring, crafts, writing prompts, games and quizzes — plus an AI resource generator for anything you can't find."

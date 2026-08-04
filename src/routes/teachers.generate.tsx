@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { PageShell } from "@/components/PageShell";
+import heroTeachers from "@/assets/card-teachers.jpg";
 import { generateResource, type GenerateResourceResult } from "@/lib/teacher-resources.functions";
 import { TEACHER_CATEGORIES, findCategory } from "@/lib/teacher-categories";
 import { supabase } from "@/integrations/supabase/client";
@@ -152,6 +153,7 @@ function GeneratePage() {
 
   return (
     <PageShell
+      heroImage={heroTeachers}
       eyebrow="AI Resource Generator"
       title={<><span className="block">Any Christmas resource,</span><span className="block gold-text">in seconds.</span></>}
       intro="Tell us what you need. We'll generate a print-ready resource matched to your year group, subject and time slot."

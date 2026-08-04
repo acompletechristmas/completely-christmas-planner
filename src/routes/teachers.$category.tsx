@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
+import heroTeachers from "@/assets/card-teachers.jpg";
 import { supabase } from "@/integrations/supabase/client";
 import { findCategory, yearGroupLabel } from "@/lib/teacher-categories";
 import { useEffect, useMemo, useState } from "react";
@@ -112,6 +113,7 @@ function CategoryPage() {
 
   return (
     <PageShell
+      heroImage={heroTeachers}
       eyebrow={`${cat.emoji} ${cat.title}`}
       title={<span className="gold-text">{cat.title}</span>}
       intro={cat.blurb}
