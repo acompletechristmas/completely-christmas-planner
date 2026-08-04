@@ -3,7 +3,9 @@ import { useState, useMemo, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePerson, calcAge, usePeople } from "@/hooks/use-people";
 import { usePersonGifts, type Gift } from "@/hooks/use-person-gifts";
-import { SectionShell } from "@/components/planner/SectionShell";
+import { SectionShell, SectionIcon } from "@/components/planner/SectionShell";
+import { BaubleIcon, HollyIcon, RibbonIcon, StockingIcon } from "@/components/planner/section-icons";
+import { Gift, Mail, Sparkles, Star, TreePine } from "lucide-react";
 import { ProfileField, ProfileArea } from "@/components/planner/ProfileFields";
 import { GiftCard } from "@/components/planner/GiftCard";
 import { IdeaRow } from "@/components/planner/IdeaRow";
@@ -134,6 +136,7 @@ function PersonDetail() {
       <SectionShell
         eyebrow="Brainstorm"
         title="Gift ideas"
+        icon={Sparkles}
         action={
           <div className="flex flex-wrap gap-2">
             <button
@@ -185,6 +188,7 @@ function PersonDetail() {
       <SectionShell
         eyebrow={`Christmas ${YEAR}`}
         title="Presents"
+        icon={Gift}
         action={
           <button
             onClick={() => add({ is_idea: false })}
@@ -217,7 +221,7 @@ function PersonDetail() {
       </SectionShell>
 
       {/* 4 — Budget */}
-      <SectionShell eyebrow="Money" title="Budget">
+      <SectionShell eyebrow="Money" title="Budget" icon={BaubleIcon}>
         <BudgetSummary budget={person.gift_budget} spent={spent} count={presents.length} />
         <div className="mt-4 max-w-xs">
           <ProfileField
@@ -230,12 +234,12 @@ function PersonDetail() {
       </SectionShell>
 
       {/* 5 — Notes */}
-      <SectionShell eyebrow="Remember" title="Notes">
+      <SectionShell eyebrow="Remember" title="Notes" icon={RibbonIcon}>
         <ProfileArea label="General notes" value={person.notes ?? ""} onChange={(v) => updateField("notes", v || null)} />
       </SectionShell>
 
       {/* 6 — Interests & details */}
-      <SectionShell eyebrow="Know them better" title="Interests & details">
+      <SectionShell eyebrow="Know them better" title="Interests & details" icon={Star}>
         <details className="group">
           <summary className="cursor-pointer list-none text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
             Show all details
@@ -261,7 +265,7 @@ function PersonDetail() {
       </SectionShell>
 
       {/* 7 — Things to avoid */}
-      <SectionShell eyebrow="Careful" title="Things to avoid">
+      <SectionShell eyebrow="Careful" title="Things to avoid" icon={HollyIcon}>
         <ProfileArea
           label="Things to avoid"
           value={person.dislikes ?? ""}
@@ -274,6 +278,7 @@ function PersonDetail() {
         <SectionShell
           eyebrow="Little extras"
           title="Stocking"
+          icon={StockingIcon}
           action={
             <button
               onClick={() => add({ is_idea: false, category: "stocking" })}
@@ -310,6 +315,7 @@ function PersonDetail() {
         <SectionShell
           eyebrow="Post"
           title="Christmas cards"
+          icon={Mail}
           action={
             <button
               onClick={() => add({ is_idea: false, category: "card", item: "Christmas card", recipient: person.name })}
@@ -342,7 +348,7 @@ function PersonDetail() {
       <section>
         <div>
           <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Christmas Memories</p>
-          <h2 className="mt-1 font-display text-2xl">{person.name || "Their"} year by year</h2>
+          <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl"><SectionIcon icon={TreePine} /><span>{person.name || "Their"} year by year</span></h2>
         </div>
 
         {giftsLoading ? (
