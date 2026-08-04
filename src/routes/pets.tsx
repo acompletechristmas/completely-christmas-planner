@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroPets from "@/assets/card-pets.jpg";
 import { PawPrint, Shirt, Camera, MapPin, Gift, Cookie, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/pets")({
@@ -28,6 +29,7 @@ const bits = [
 function PetsPage() {
   return (
     <PageShell
+      heroImage={heroPets}
       eyebrow="Christmas for Pets"
       title={<><span className="block">A festive Christmas</span><span className="block gold-text">for furry family</span></>}
       intro="Outfits, photo ideas, dog-friendly days out and safe treats — because the pets deserve Christmas too."

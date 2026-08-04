@@ -29,6 +29,7 @@ const bits = [
 function EntertainmentPage() {
   return (
     <PageShell
+      heroImage={heroEntertainment}
       eyebrow="Christmas Entertainment"
       title={<><span className="block">Evenings that</span><span className="block gold-text">sparkle</span></>}
       intro="Films, playlists, games and quiz packs — curated for cosy nights and full-house gatherings."
