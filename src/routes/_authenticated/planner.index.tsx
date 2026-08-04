@@ -22,8 +22,11 @@ import {
   Package,
   Settings2,
   TreePine,
+  UserPlus,
+  Snowflake,
 } from "lucide-react";
 import { SectionIcon } from "@/components/planner/SectionShell";
+import { PlannerButton } from "@/components/planner/PlannerButton";
 import { BaubleIcon, RibbonIcon } from "@/components/planner/section-icons";
 import type { LucideIcon } from "lucide-react";
 import photoPlans from "@/assets/hq-plans.jpg";
