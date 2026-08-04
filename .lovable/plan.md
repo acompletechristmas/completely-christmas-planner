@@ -4,11 +4,12 @@ Styling only. No route, data, functionality, navigation or component-hierarchy c
 
 ## 1. Hero
 
-Replace the current planner hero (the built-from-CSS snowy village strip with the triangle tree, lamp, house silhouettes and the dark navy panel beneath it) with a single full-bleed premium Christmas living-room photograph, exactly as in the mock-up: decorated tree, lit fireplace, wrapped presents, fairy lights, snowy window, cream and gold palette.
+Replace the current planner hero (the built-from-CSS snowy village strip with the triangle tree, lamp, house silhouettes and the dark navy panel beneath it) with a single full-bleed premium Christmas living-room photograph, as in the mock-up.
 
-- New generated photograph in the mock-up's warm cream/gold register (existing hero images are darker, so a new one is generated to match).
-- Photo fills the whole hero; a soft cream gradient rises from the left/bottom behind the welcome text so it reads cleanly, as shown.
+- New generated photograph, roughly 30% brighter than the current hero: cream furnishings, glowing tree, fireplace, wrapped presents, soft daylight through snowy windows, warm golden fairy lights. Elegant and inviting, not dramatic — no heavy navy shadows.
+- Photo fills the whole hero; a soft cream gradient rises from the left/bottom behind the welcome text so it reads cleanly, as shown. Overlay stays cream-warm, never navy.
 - All decorative CSS objects (tree, village, lamp glow) are deleted.
+
 
 ## 2. Countdown capsule
 
@@ -20,14 +21,15 @@ Cream pill, thin gold border, gold uppercase letter-spaced type, small gold snow
 - "welcome back" — gold handwritten script beneath it, larger, italic.
 - Supporting line in warm grey sans beneath. Same hierarchy as the mock-up.
 
-## 4. Gift Planner panel
+## 4. Gifts panel
 
-The block currently titled "My People & Presents" becomes a warm cream panel:
+The "My People & Presents" block becomes a warm cream panel, keeping the app's personal tone:
 
-- Small gold uppercase label with a gold gift line icon: YOUR GIFT PLANNER
-- Large elegant serif heading in navy ink: Gift Planner
+- Small gold uppercase label with a gold gift line icon: GIFTS & PEOPLE
+- Large elegant serif heading in navy ink: My Christmas Gifts (consistent with My Christmas Plans / My Christmas Home)
 - Two-line supporting sentence in warm grey
 - Decorative gold line-art foliage flourish top-right, as shown
+
 
 No heavy white headings.
 
@@ -57,3 +59,9 @@ Planner surfaces move off almost-black: warm cream page background, warm white c
 - `src/styles.css`: light planner surface tokens added (`--planner-bg`, `--planner-card`, ink-on-cream foreground) — global dark tokens for marketing pages left intact.
 - New `src/components/planner/PlannerButton.tsx`; adopted across planner routes.
 - New assets: cream Christmas living-room hero photo, gold foliage flourish (line-art SVG, inline).
+
+## 8. Atmosphere and final check
+
+The planner should read as John Lewis / Fortnum & Mason / The White Company Christmas: warm cream backgrounds, soft gold accents, elegant typography, bright premium photography.
+
+Before finishing, the built page is captured at mobile width and compared side by side with the mock-up; spacing, type scale, button size and photo brightness are refined until it matches closely rather than reinterpreting it.
