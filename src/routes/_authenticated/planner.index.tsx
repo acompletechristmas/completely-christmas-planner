@@ -491,7 +491,7 @@ function PlannerOverview() {
           </div>
           {budgetTotal != null && (
             <>
-              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
+              <div className="relative z-10 mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -500,21 +500,21 @@ function PlannerOverview() {
                   }}
                 />
               </div>
-              <p className="mt-2 text-[11px] text-muted-foreground">
+              <p className="relative z-10 mt-2 text-[11px] text-muted-foreground">
                 {overBudget
                   ? `Over by £${(spent - budgetTotal).toFixed(0)}`
                   : `£${(budgetTotal - spent).toFixed(0)} still available`}
               </p>
             </>
           )}
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="relative z-10 mt-4 grid grid-cols-3 gap-2">
             <MiniStat value={presents.length} label="presents" />
             <MiniStat value={given.length} label="given" />
             <MiniStat value={ideas.length} label="ideas" />
           </div>
           <Link
             to="/planner/setup"
-            className="mt-4 inline-flex items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
+            className="relative z-10 mt-4 inline-flex items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
           >
             <Settings2 className="h-3 w-3" /> Update budget & preferences
           </Link>
