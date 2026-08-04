@@ -9,7 +9,7 @@ export const navItems: NavItem[] = [
   { to: "/", label: "Home", desc: "Back to the start of the story." },
   { to: "/build", label: "Plan it for me", desc: "A gentle, guided journey to your perfect Christmas." },
   { to: "/planner", label: "Planning HQ", desc: "Your personal Christmas HQ — one place for everything.", auth: true, match: ["/planner"] },
-  { to: "/planner/people", label: "Gifts", desc: "People, presents and progress — all in one place.", auth: true, match: ["/planner/people", "/planner/gifts", "/planner/list"] },
+  { to: "/planner/gifts", label: "Gifts", desc: "People, presents and progress — all in one place.", auth: true, match: ["/planner/people", "/planner/gifts", "/planner/list"] },
   { to: "/gift-finder", label: "Gift Finder", desc: "Find the perfect present for anyone on your list." },
   { to: "/gift-finder/secret-santa", label: "Secret Santa", desc: "Quick gift ideas for any budget — sorted in a minute." },
   { to: "/planner/outings", label: "Festive Activities", desc: "Markets, parties, meals, trips and gatherings.", auth: true, match: ["/planner/outings"] },

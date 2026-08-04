@@ -33,17 +33,17 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
   head: () => ({
     meta: [
-      { title: "People & Presents — A Complete Christmas" },
+      { title: "My Christmas Gifts — A Complete Christmas" },
       {
         name: "description",
         content:
-          "Your luxury People & Presents board with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
+          "Your complete Christmas gift list with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
       },
-      { property: "og:title", content: "People & Presents — A Complete Christmas" },
+      { property: "og:title", content: "My Christmas Gifts — A Complete Christmas" },
       {
         property: "og:description",
         content:
-          "Your luxury People & Presents board with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
+          "Your complete Christmas gift list with budgets, gift ideas, presents, wrapping progress and Christmas completion states.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
