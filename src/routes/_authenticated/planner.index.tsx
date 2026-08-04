@@ -392,21 +392,29 @@ function PlannerOverview() {
       <section
         className="relative space-y-3 overflow-hidden rounded-3xl border p-5 sm:p-6"
         style={{
-          background:
-            "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.85), oklch(0.17 0.06 155 / 0.92))",
           borderColor: "oklch(0.55 0.14 155 / 0.4)",
           boxShadow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
         }}
       >
+        <img
+          src={photoActivities}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          width={1024}
+          height={768}
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+        />
+        <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-6 top-0 h-px"
+          className="pointer-events-none absolute inset-x-6 top-0 z-10 h-px"
           style={{
             background:
               "linear-gradient(90deg, transparent, oklch(0.85 0.09 90 / 0.8), transparent)",
           }}
         />
-        <div className="flex items-start justify-between gap-3">
+        <div className="relative z-10 flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
               <CalendarDays className="h-3 w-3" /> FESTIVE ACTIVITIES
