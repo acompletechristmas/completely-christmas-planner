@@ -26,6 +26,8 @@ import {
   Send,
   Snowflake,
 } from "lucide-react";
+import { Gift as GiftHeadingIcon } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
@@ -265,7 +267,7 @@ export function BuyingForPage() {
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
             <Users className="h-4 w-4" /> People &amp; Presents
           </p>
-          <h1 className="mt-2 font-display text-4xl leading-tight sm:text-5xl">My People &amp; Presents</h1>
+          <h1 className="mt-2 flex items-center gap-3 font-display text-4xl leading-tight sm:text-5xl"><SectionIcon icon={GiftHeadingIcon} /><span>My People &amp; Presents</span></h1>
           <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/82 sm:text-base">
             Everyone on your list — with every idea, present and price in one beautiful place.
           </p>

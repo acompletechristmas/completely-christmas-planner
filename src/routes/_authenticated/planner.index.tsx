@@ -21,7 +21,10 @@ import {
   PoundSterling,
   Package,
   Settings2,
+  TreePine,
 } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
+import { BaubleIcon, RibbonIcon } from "@/components/planner/section-icons";
 import type { LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
@@ -394,7 +397,7 @@ function PlannerOverview() {
             <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
               <CalendarDays className="h-3 w-3" /> FESTIVE ACTIVITIES
             </p>
-            <h2 className="mt-1 font-display text-2xl sm:text-3xl">Things We'd Love to Do</h2>
+            <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={TreePine} /><span>Things We'd Love to Do</span></h2>
             <p className="mt-1 text-sm text-[color:var(--cream)]/75">
               Markets, panto, parties, meals out, trips and family gatherings — all in the diary.
             </p>
@@ -445,7 +448,7 @@ function PlannerOverview() {
           <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
             <PoundSterling className="h-3 w-3" /> BUDGET
           </p>
-          <h2 className="mt-1 font-display text-2xl sm:text-3xl">What you've spent</h2>
+          <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={BaubleIcon} /><span>What you've spent</span></h2>
         </div>
         <div className="rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--forest-deep)]/60 p-5">
           <div className="flex items-baseline justify-between">
@@ -492,7 +495,7 @@ function PlannerOverview() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
             THE REST OF CHRISTMAS
           </p>
-          <h2 className="mt-1 font-display text-2xl sm:text-3xl">Round out your Christmas</h2>
+          <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={RibbonIcon} /><span>Round out your Christmas</span></h2>
         </div>
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SECTIONS.map((s) => {

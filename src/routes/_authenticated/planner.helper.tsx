@@ -7,6 +7,7 @@ import { suggestGiftIdeas, type GiftIdea } from "@/lib/gift-ideas.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { Sparkles, Wand2, ArrowRight, Check, Loader2, Gift as GiftIcon } from "lucide-react";
 import { toast } from "sonner";
+import { SectionIcon } from "@/components/planner/SectionShell";
 
 export const Route = createFileRoute("/_authenticated/planner/helper")({
   head: () => ({
@@ -169,8 +170,9 @@ function HelperPage() {
 
       {ideas.length > 0 && (
         <section>
-          <h2 className="font-display text-2xl sm:text-3xl">
-            A little sprinkle of <span className="gold-text">ideas</span>
+          <h2 className="flex items-center gap-2.5 font-display text-2xl sm:text-3xl">
+            <SectionIcon icon={Sparkles} />
+            <span>A little sprinkle of <span className="gold-text">ideas</span></span>
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Tap the star to pop one straight onto {person?.name ?? "their"} list.

@@ -14,7 +14,9 @@ import {
   Ribbon,
   Lightbulb,
   PartyPopper,
+  Gift as GiftLineIcon,
 } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
 
 export const Route = createFileRoute("/_authenticated/planner/list")({
   component: FullGiftListPage,
@@ -111,8 +113,9 @@ function FullGiftListPage() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🎁 The whole gift list</p>
-            <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-              <span className="gold-text">{boughtOrBetter}</span> of {thisYear.length} pressies sorted
+            <h1 className="mt-2 flex items-center gap-2.5 font-display text-3xl leading-tight sm:text-4xl">
+              <SectionIcon icon={GiftLineIcon} />
+              <span><span className="gold-text">{boughtOrBetter}</span> of {thisYear.length} pressies sorted</span>
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
               {wrappedOrGiven} wrapped · £{totalSpent.toFixed(0)} spent · {counts.idea} ideas floating about

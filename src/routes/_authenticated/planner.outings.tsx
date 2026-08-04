@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
-import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink, Sparkles } from "lucide-react";
+import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink, Sparkles, Lamp } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/outings")({
@@ -59,8 +60,9 @@ export function OutingsPage() {
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
           Festive Activities
         </p>
-        <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-          Every festive plan, in one place.
+        <h1 className="mt-2 flex items-center gap-2.5 font-display text-3xl leading-tight sm:text-4xl">
+          <SectionIcon icon={Lamp} />
+          <span>Every festive plan, in one place.</span>
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/85">
           Markets, panto, skating, parties, meals out, trips and family gatherings — track dates,

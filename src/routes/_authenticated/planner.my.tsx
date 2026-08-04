@@ -20,6 +20,7 @@ import {
   ListChecks,
   Star,
 } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
 
 export const Route = createFileRoute("/_authenticated/planner/my")({
   head: () => ({
@@ -151,7 +152,7 @@ function MyChristmasPlanner() {
       {/* Sections */}
       <section className="space-y-4">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-display text-2xl sm:text-3xl">Your festive sections</h2>
+          <h2 className="flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={Star} /><span>Your festive sections</span></h2>
           {loading && <span className="text-xs text-muted-foreground">Loading…</span>}
         </div>
 
