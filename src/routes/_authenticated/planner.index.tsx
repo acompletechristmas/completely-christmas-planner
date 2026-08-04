@@ -302,8 +302,16 @@ function PlannerOverview() {
           Everyone you love, every little idea, every budget — kept safe in one beautiful place.
         </p>
 
+        {/* Primary action — the whole gift list */}
+        <div className="relative mt-6">
+          <PlannerButton to="/planner/gifts" icon={Gift}>
+            View My Gifts
+          </PlannerButton>
+        </div>
+
         {/* Four premium gold actions */}
-        <div className="relative mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="relative mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+
           <PlannerButton to="/planner/gifts" icon={UserPlus}>
             Add person
           </PlannerButton>
