@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowRight, Gift, Sparkles, Music, type LucideIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import heroVillage from "@/assets/hero-village.jpg";
+import homeBand from "@/assets/home-band.jpg";
+import circlePlan from "@/assets/circle-plan.png";
+import circleInspire from "@/assets/circle-inspire.png";
+import circleShare from "@/assets/circle-share.png";
 import bowSatin from "@/assets/bow-satin.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -64,10 +68,10 @@ function Home() {
   const { user } = useAuth();
   const startLink = user ? "/planner" : "/build";
 
-  const navLinks: Array<{ to: string; label: string; Icon: LucideIcon }> = [
-    { to: "/planner", label: "Plan", Icon: Gift },
-    { to: "/inspire", label: "Inspire", Icon: Sparkles },
-    { to: "/entertainment", label: "Share & Play", Icon: Music },
+  const navLinks: Array<{ to: string; label: string; image: string; blurb: string }> = [
+    { to: "/planner", label: "Plan", image: circlePlan, blurb: "Lists, gifts and everything sorted" },
+    { to: "/inspire", label: "Inspire", image: circleInspire, blurb: "Ideas to make it feel magical" },
+    { to: "/entertainment", label: "Share & Play", image: circleShare, blurb: "Games, treats and cosy nights" },
   ];
 
 
@@ -162,130 +166,81 @@ function Home() {
           <CountdownGiftTag />
         </div>
 
-        {/* Soft transition into cream planner section */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 h-24 z-[5] pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(4,10,20,0.45) 100%)",
-          }}
-        />
       </section>
 
-      {/* =============== CREAM PLANNER SECTION =============== */}
-      <section
-        className="relative z-10 -mt-14 sm:-mt-12"
-        style={{
-          background:
-            "linear-gradient(180deg, oklch(0.96 0.018 85) 0%, oklch(0.94 0.024 82) 100%)",
-          borderTopLeftRadius: "50% 5vh",
-          borderTopRightRadius: "50% 5vh",
-          boxShadow:
-            "0 -1px 0 oklch(0.82 0.14 85 / 0.55) inset, 0 -30px 60px -20px rgba(0,0,0,0.4)",
-        }}
-      >
-        {/* Top gold hairline */}
+      {/* =============== CINEMATIC NAVIGATION BAND =============== */}
+      <section className="relative z-10 -mt-14 overflow-hidden sm:-mt-12">
+        <img
+          src={homeBand}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Seamless blend into the hero above + subtle readability overlay */}
         <div
           aria-hidden
-          className="mx-auto h-px w-4/5"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, transparent, oklch(0.72 0.14 78 / 0.7), transparent)",
+              "linear-gradient(180deg, rgba(4,10,20,0.95) 0%, rgba(4,10,20,0.35) 22%, rgba(4,10,20,0.12) 55%, rgba(4,10,20,0.55) 100%)",
           }}
         />
+        <Snowfall count={26} force />
 
-        <div className="mx-auto max-w-7xl px-5 pt-3 pb-5 sm:px-10 sm:pt-8 sm:pb-10">
-          <div className="text-center">
-            <div
-              className="mx-auto flex items-center justify-center gap-3"
-              style={{ color: "oklch(0.42 0.16 30)" }}
-            >
-              <GoldLaurel side="left" />
-              <span className="font-display tracking-[0.22em] text-[11px] sm:text-[13px] uppercase" style={{ color: "oklch(0.42 0.16 30)" }}>
-                Your Complete Christmas Planner
-              </span>
-              <GoldLaurel side="right" />
-            </div>
-            <div className="mx-auto mt-2 flex items-center justify-center gap-2">
-              <span className="h-px w-10" style={{ background: "oklch(0.72 0.14 78 / 0.7)" }} />
-              <span
-                aria-hidden
-                className="inline-block h-2.5 w-2.5 rotate-45"
-                style={{
-                  background: "oklch(0.55 0.20 25)",
-                  boxShadow: "0 1px 3px oklch(0.30 0.15 25 / 0.5)",
-                  clipPath:
-                    "path('M5 0 C 3 0 0 2 0 5 C 0 7 2 8 5 10 C 8 8 10 7 10 5 C 10 2 7 0 5 0 Z')",
-                }}
-              />
-              <span className="h-px w-10" style={{ background: "oklch(0.72 0.14 78 / 0.7)" }} />
-            </div>
-
-            {/* Compact primary navigation row */}
-            <nav className="mx-auto mt-1.5 flex items-stretch justify-between gap-0 sm:mt-3 sm:max-w-lg">
-              {navLinks.map((l, i) => (
-                <div key={l.label} className="contents">
-                  {i > 0 && (
+        <div className="relative z-10 mx-auto max-w-5xl px-4 pt-10 pb-6 sm:px-10 sm:pt-12 sm:pb-9">
+          <nav className="mx-auto flex items-stretch justify-between gap-0">
+            {navLinks.map((l, i) => (
+              <div key={l.label} className="contents">
+                {i > 0 && (
+                  <span
+                    aria-hidden
+                    className="my-2 w-px shrink-0 self-stretch"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent, oklch(0.80 0.14 82 / 0.55), transparent)",
+                    }}
+                  />
+                )}
+                <Link
+                  to={l.to}
+                  className="group flex min-w-0 flex-1 flex-col items-center gap-2 px-2 text-center transition-transform hover:-translate-y-0.5"
+                >
+                  <span className="relative block h-16 w-16 sm:h-20 sm:w-20">
                     <span
                       aria-hidden
-                      className="my-1 w-px shrink-0 self-stretch"
+                      className="absolute -inset-2 rounded-full blur-[10px] transition-opacity group-hover:opacity-100"
                       style={{
                         background:
-                          "linear-gradient(180deg, transparent, oklch(0.72 0.14 78 / 0.55), transparent)",
+                          "radial-gradient(circle, oklch(0.80 0.14 85 / 0.55), transparent 70%)",
+                        opacity: 0.7,
                       }}
                     />
-                  )}
-                  <Link
-                    to={l.to}
-                    className="group flex min-w-0 flex-1 flex-col items-center gap-1 px-1 transition-transform hover:-translate-y-0.5"
+                    <img
+                      src={l.image}
+                      alt=""
+                      aria-hidden
+                      className="relative h-full w-full rounded-full object-cover"
+                    />
+                  </span>
+                  <span
+                    className="whitespace-nowrap font-display text-[11px] uppercase tracking-[0.14em] sm:text-[15px] sm:tracking-[0.16em]"
+                    style={{
+                      color: "oklch(0.86 0.12 84)",
+                      textShadow: "0 1px 6px rgba(0,0,0,0.6)",
+                    }}
                   >
-                    <span className="relative grid h-9 w-9 place-items-center sm:h-11 sm:w-11">
-                      <span
-                        aria-hidden
-                        className="absolute -inset-1.5 rounded-full blur-[6px] transition-opacity group-hover:opacity-100"
-                        style={{
-                          background:
-                            "radial-gradient(circle, oklch(0.80 0.14 85 / 0.55), transparent 68%)",
-                          opacity: 0.8,
-                        }}
-                      />
-                      <span
-                        className="relative grid h-9 w-9 place-items-center rounded-full sm:h-11 sm:w-11"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, oklch(0.99 0.008 85), oklch(0.955 0.02 82))",
-                          border: "1px solid oklch(0.72 0.12 78 / 0.5)",
-                          boxShadow:
-                            "inset 0 1px 0 oklch(1 0 0 / 0.75), 0 8px 18px -12px rgba(60,30,10,0.4)",
-                        }}
-                      >
-                        <l.Icon
-                          className="h-[18px] w-[18px] sm:h-5 sm:w-5"
-                          strokeWidth={1.3}
-                          style={{ color: "oklch(0.68 0.13 78)" }}
-                        />
-                      </span>
-                    </span>
-                    <span
-                      className="whitespace-nowrap font-display text-[10.5px] uppercase tracking-[0.1em] sm:text-[13px] sm:tracking-[0.14em]"
-                      style={{ color: "oklch(0.42 0.18 28)" }}
-                    >
-                      {l.label}
-                    </span>
-                  </Link>
-                </div>
-              ))}
-            </nav>
-
-
-            <p
-              className="mx-auto mt-2 max-w-xl text-[13px] leading-relaxed sm:text-[15px]"
-              style={{ color: "oklch(0.35 0.03 30)" }}
-            >
-              Everything in one place to plan, organise and enjoy every magical moment.
-            </p>
-          </div>
+                    {l.label}
+                  </span>
+                  <span
+                    className="max-w-[13ch] text-[10px] leading-snug text-[color:var(--cream)]/85 sm:max-w-[22ch] sm:text-[12px]"
+                    style={{ textShadow: "0 1px 5px rgba(0,0,0,0.65)" }}
+                  >
+                    {l.blurb}
+                  </span>
+                </Link>
+              </div>
+            ))}
+          </nav>
         </div>
       </section>
     </div>
