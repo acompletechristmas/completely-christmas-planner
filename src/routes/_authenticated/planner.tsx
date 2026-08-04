@@ -39,8 +39,18 @@ function PlannerLayout() {
 
   return (
     <div className="relative min-h-screen text-[color:var(--foreground)]">
+      {/* Warm festive glow — purely decorative, sits behind all content */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(60% 45% at 12% 12%, oklch(0.82 0.14 85 / 0.09), transparent 70%), radial-gradient(55% 40% at 88% 82%, oklch(0.82 0.14 85 / 0.07), transparent 72%), radial-gradient(90% 30% at 50% 0%, oklch(0.88 0.10 88 / 0.05), transparent 75%)",
+        }}
+      />
       <Snowfall count={40} />
       <SiteNav />
+
 
       {/* Back to Planning HQ breadcrumb (not on overview) */}
       {!onOverview && (
