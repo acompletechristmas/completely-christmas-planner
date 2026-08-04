@@ -11,6 +11,8 @@ import {
   Check,
   CalendarClock,
 } from "lucide-react";
+import { Bell as BellIcon } from "lucide-react";
+import { SectionIcon } from "@/components/planner/SectionShell";
 import { toast } from "sonner";
 import {
   REMINDER_SEEDS,
@@ -141,8 +143,9 @@ function RemindersPage() {
             <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
               Signature feature
             </p>
-            <h2 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
-              Never Miss <span className="gold-text">Christmas</span>
+            <h2 className="mt-2 flex items-center gap-2.5 font-display text-3xl leading-tight sm:text-4xl">
+              <SectionIcon icon={BellIcon} />
+              <span>Never Miss <span className="gold-text">Christmas</span></span>
             </h2>
             <p className="mt-3 text-sm text-muted-foreground sm:text-base">
               Timely nudges from September through Christmas Eve — so grottos, pantos and the turkey
