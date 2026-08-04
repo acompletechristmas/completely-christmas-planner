@@ -78,7 +78,7 @@ function PlannerLayout() {
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "linear-gradient(to bottom, oklch(0.20 0.04 245 / 0.72) 0%, oklch(0.20 0.04 245 / 0.62) 40%, oklch(0.20 0.04 245 / 0.92) 82%, var(--background) 100%)",
+                "linear-gradient(to bottom, var(--surface-card) 0%, var(--surface-card) 40%, var(--surface-card) 82%, var(--background) 100%)",
             }}
           />
           <div className="relative z-10 mx-auto flex min-h-[32vh] max-w-7xl flex-col justify-end px-5 pt-24 pb-8 sm:min-h-[38vh] sm:max-h-[440px] sm:px-8 sm:pt-32 sm:pb-12">

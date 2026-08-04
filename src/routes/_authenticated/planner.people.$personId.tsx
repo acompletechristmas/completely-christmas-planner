@@ -79,7 +79,7 @@ function PersonDetail() {
       <JustAddedNote personId={person.id} />
 
       {/* 1 — Person header */}
-      <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)] p-6">
+      <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] p-6">
         <div className="flex flex-wrap items-center gap-4">
           <span className="grid h-14 w-14 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.4)] font-display text-2xl gold-text">
             {person.name?.[0]?.toUpperCase() || "?"}
@@ -353,7 +353,7 @@ function PersonDetail() {
         {giftsLoading ? (
           <p className="mt-4 text-sm text-muted-foreground">Loading memories…</p>
         ) : memories.length === 0 ? (
-          <div className="mt-4 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
+          <div className="mt-4 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] p-10 text-center">
             <Sparkles className="mx-auto h-6 w-6 text-[color:var(--gold)]" />
             <h3 className="mt-3 font-display text-xl">No past Christmases yet</h3>
             <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
@@ -365,7 +365,7 @@ function PersonDetail() {
             {memories.map(([year, list]) => {
               const total = list.reduce((s, g) => s + (Number(g.price) || 0), 0);
               return (
-                <div key={year} className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.5)] p-5">
+                <div key={year} className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] p-5">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <span className="font-display text-2xl gold-text">{year}</span>
@@ -422,7 +422,7 @@ function JustAddedNote({ personId }: { personId: string }) {
   if (!show) return null;
 
   return (
-    <p className="rise-in rounded-xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-[color:var(--gold-soft)]">
+    <p className="rise-in rounded-xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[color:var(--surface-card)] px-4 py-3 text-sm text-[color:var(--gold-soft)]">
       <Sparkles className="mr-2 inline h-4 w-4" />
       Person added. Start collecting gift ideas whenever you're ready.
     </p>

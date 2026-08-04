@@ -49,13 +49,13 @@ export function GiftCard({
   }
 
   return (
-    <li className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] p-4">
+    <li className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[color:var(--surface-card)] p-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr_1fr_auto] sm:items-center">
         <input
           value={gift.item}
           onChange={(e) => onChange("item", e.target.value)}
           placeholder="What is it?"
-          className="min-h-11 rounded-lg bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
+          className="min-h-11 rounded-lg bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
         />
         <div className="flex items-center gap-1">
           <span className="text-xs text-muted-foreground">£</span>
@@ -64,13 +64,13 @@ export function GiftCard({
             value={gift.price == null ? "" : String(gift.price)}
             onChange={(e) => onChange("price", e.target.value === "" ? null : (Number(e.target.value) as never))}
             placeholder="0.00"
-            className="min-h-11 w-full rounded-lg bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
+            className="min-h-11 w-full rounded-lg bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]"
           />
         </div>
         <select
           value={gift.status}
           onChange={(e) => onChange("status", e.target.value as Gift["status"])}
-          className="min-h-11 rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.7)] px-3 py-2 text-sm outline-none"
+          className="min-h-11 rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none"
         >
           <option value="idea">Idea</option>
           <option value="bought">Bought</option>
@@ -220,7 +220,7 @@ function PhotoSlot({
       {url ? (
         <div className="mt-1 overflow-hidden rounded-lg border border-[oklch(0.80_0.14_85_/_0.2)]">
           <img src={url} alt="" className="h-40 w-full object-cover" />
-          <div className="flex items-center justify-between bg-[oklch(0.20_0.04_245_/_0.7)] px-3 py-2 text-xs">
+          <div className="flex items-center justify-between bg-[color:var(--surface-card)] px-3 py-2 text-xs">
             <button onClick={onPick} className="text-muted-foreground hover:text-[color:var(--gold-soft)]">Replace</button>
             <button onClick={onClear} className="text-muted-foreground hover:text-[color:var(--ember)]">Remove</button>
           </div>
@@ -228,7 +228,7 @@ function PhotoSlot({
       ) : (
         <button
           onClick={onPick}
-          className="mt-1 flex h-40 w-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.26_0.04_245_/_0.4)] text-xs text-muted-foreground hover:border-[color:var(--gold)] hover:text-[color:var(--gold-soft)]"
+          className="mt-1 flex h-40 w-full flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] text-xs text-muted-foreground hover:border-[color:var(--gold)] hover:text-[color:var(--gold-soft)]"
         >
           <Camera className="h-5 w-5" />
           Upload photo

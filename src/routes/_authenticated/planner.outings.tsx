@@ -94,13 +94,13 @@ export function OutingsPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Christmas market at York, Boxing Day at Mum's…"
-              className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]/70"
+              className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]/70"
             />
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]/70"
+              className="rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm outline-none focus:border-[color:var(--gold)]/70"
             />
             <div className="flex gap-2">
               <button
@@ -150,7 +150,7 @@ export function OutingsPage() {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3 py-2 text-sm outline-none transition focus:border-[color:var(--gold)]/70";
+  "w-full rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm outline-none transition focus:border-[color:var(--gold)]/70";
 
 function OutingCard({
   outing,
@@ -168,7 +168,7 @@ function OutingCard({
           value={outing.name}
           onChange={(e) => onUpdate(outing.id, "name", e.target.value)}
           placeholder="Activity name"
-          className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
+          className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
         />
         <button
           onClick={() => confirm(`Remove "${outing.name || "this activity"}"?`) && onRemove(outing.id)}
@@ -205,7 +205,7 @@ function OutingCard({
           placeholder="Who's going?"
           className={inputCls}
         />
-        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
           <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
           <input
             type="number"
@@ -218,7 +218,7 @@ function OutingCard({
             className="w-full bg-transparent py-2 text-sm outline-none"
           />
         </div>
-        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
           <ExternalLink className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
           <input
             value={outing.booking_url ?? ""}

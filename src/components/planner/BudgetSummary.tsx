@@ -22,7 +22,7 @@ export function BudgetSummary({
         />
       </div>
       {budget != null && budget > 0 ? (
-        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.26_0.04_245_/_0.8)]">
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[color:var(--surface-card)]">
           <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--gradient-gold)" }} />
         </div>
       ) : null}
@@ -35,7 +35,7 @@ export function BudgetSummary({
 
 function Stat({ label, value, tone = "normal" }: { label: string; value: string; tone?: "normal" | "over" }) {
   return (
-    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-3">
+    <div className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[color:var(--surface-card)] px-4 py-3">
       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{label}</p>
       <p
         className={

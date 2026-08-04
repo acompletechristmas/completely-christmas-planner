@@ -14,7 +14,7 @@ export function SectionShell({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.20_0.04_245_/_0.6)] p-6">
+    <section className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] p-6">
       {(eyebrow || title || action) && (
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>

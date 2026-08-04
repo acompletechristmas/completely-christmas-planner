@@ -16,7 +16,7 @@ export function ProfileField({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 w-full rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
+        className="mt-1 w-full rounded-lg border border-transparent bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
       />
     </label>
   );
@@ -40,7 +40,7 @@ export function ProfileArea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
-        className="mt-1 w-full resize-none rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
+        className="mt-1 w-full resize-none rounded-lg border border-transparent bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
       />
     </label>
   );

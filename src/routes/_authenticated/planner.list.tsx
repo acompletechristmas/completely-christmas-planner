@@ -109,7 +109,7 @@ function FullGiftListPage() {
       </Link>
 
       {/* Header */}
-      <header className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
+      <header className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[color:var(--surface-card)] p-6 sm:p-7">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🎁 The whole gift list</p>
@@ -125,7 +125,7 @@ function FullGiftListPage() {
             {saving ? "Saving…" : "All saved ✨"}
           </span>
         </div>
-        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-[color:var(--surface-deep)]">
           <div
             className="h-full rounded-full transition-all"
             style={{ width: `${pct}%`, background: "var(--gradient-gold)" }}
@@ -150,7 +150,7 @@ function FullGiftListPage() {
             >
               <span>{f.emoji}</span>
               {f.label}
-              <span className={"rounded-full px-1.5 py-0.5 text-[10px] " + (active ? "bg-[oklch(0.13_0.03_245_/_0.6)]" : "bg-[oklch(0.13_0.03_245_/_0.5)]")}>
+              <span className={"rounded-full px-1.5 py-0.5 text-[10px] " + (active ? "bg-[color:var(--surface-deep)]" : "bg-[color:var(--surface-deep)]")}>
                 {counts[f.key]}
               </span>
             </button>
@@ -160,7 +160,7 @@ function FullGiftListPage() {
 
       {/* Person filter + search */}
       <div className="flex flex-wrap items-center gap-2">
-        <label className="flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.6)] px-3.5 py-1.5 text-xs">
+        <label className="flex items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[color:var(--surface-card)] px-3.5 py-1.5 text-xs">
           <span className="text-muted-foreground">For:</span>
           <select
             value={personFilter}
@@ -175,7 +175,7 @@ function FullGiftListPage() {
             ))}
           </select>
         </label>
-        <label className="flex flex-1 items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.6)] px-3.5 py-1.5 text-xs sm:max-w-xs">
+        <label className="flex flex-1 items-center gap-2 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[color:var(--surface-card)] px-3.5 py-1.5 text-xs sm:max-w-xs">
           <Search className="h-3.5 w-3.5 text-muted-foreground" />
           <input
             value={q}
@@ -203,7 +203,7 @@ function FullGiftListPage() {
             return (
               <li
                 key={g.id}
-                className="group flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.65)] p-3 transition hover:border-[oklch(0.80_0.14_85_/_0.4)]"
+                className="group flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[color:var(--surface-card)] p-3 transition hover:border-[oklch(0.80_0.14_85_/_0.4)]"
               >
                 {/* Status ring */}
                 <button
@@ -246,7 +246,7 @@ function FullGiftListPage() {
                 <select
                   value={g.status}
                   onChange={(e) => updateField(g.id, "status", e.target.value as GiftStatus)}
-                  className="rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.6)] px-2 py-1 text-[11px] outline-none"
+                  className="rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[color:var(--surface-deep)] px-2 py-1 text-[11px] outline-none"
                 >
                   <option value="idea">Idea</option>
                   <option value="bought">Bought</option>
@@ -320,7 +320,7 @@ function StatusIcon({ status }: { status: GiftStatus }) {
 
 function EmptyState() {
   return (
-    <div className="rounded-3xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.4)] p-10 text-center">
+    <div className="rounded-3xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] p-10 text-center">
       <Sparkles className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
       <h3 className="mt-4 font-display text-2xl">Your list is a blank canvas</h3>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">

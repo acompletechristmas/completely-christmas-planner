@@ -89,7 +89,7 @@ function HelperPage() {
 
   return (
     <div className="rise-in space-y-8">
-      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-7">
+      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[color:var(--surface-card)] p-6 sm:p-7">
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🪄 AI Christmas helper</p>
         <h1 className="mt-2 font-display text-3xl leading-tight sm:text-4xl">
           Stuck for ideas? <span className="gold-text">Let's dream some up.</span>
@@ -114,7 +114,7 @@ function HelperPage() {
               <select
                 value={selectedId}
                 onChange={(e) => setSelectedId(e.target.value)}
-                className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
+                className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
               >
                 <option value="">— Pick a person —</option>
                 {people.map((p) => (
@@ -134,7 +134,7 @@ function HelperPage() {
               placeholder={person?.gift_budget ? String(person.gift_budget) : "e.g. 25"}
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
-              className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
+              className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
             />
           </div>
         </div>
@@ -146,7 +146,7 @@ function HelperPage() {
             onChange={(e) => setExtraBrief(e.target.value)}
             rows={3}
             placeholder="e.g. Just got into pottery, loves cosy nights in, avoid anything scented."
-            className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
+            className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-card)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--gold)]"
           />
         </div>
 
@@ -181,7 +181,7 @@ function HelperPage() {
             {ideas.map((idea, i) => (
               <li
                 key={i}
-                className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-5"
+                className="relative overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[color:var(--surface-card)] p-5"
               >
                 <span
                   aria-hidden
@@ -198,7 +198,7 @@ function HelperPage() {
                         </p>
                       )}
                     </div>
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] bg-[oklch(0.13_0.03_245_/_0.6)]">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[oklch(0.80_0.14_85_/_0.3)] bg-[color:var(--surface-deep)]">
                       <GiftIcon className="h-4 w-4 text-[color:var(--gold)]" />
                     </span>
                   </div>

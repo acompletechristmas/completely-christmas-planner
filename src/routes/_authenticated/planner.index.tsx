@@ -39,7 +39,7 @@ import photoBudget from "@/assets/hq-budget.jpg";
 
 /** Dark navy veil laid over every card photograph so the gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, oklch(0.16 0.05 245 / 0.72) 0%, oklch(0.13 0.04 245 / 0.66) 55%, oklch(0.11 0.03 245 / 0.78) 100%)";
+  "linear-gradient(160deg, var(--surface-deep) 0%, var(--surface-deep) 55%, var(--surface-deep) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
@@ -265,19 +265,19 @@ function PlannerOverview() {
         <div className="relative h-40 overflow-hidden bg-[linear-gradient(180deg,oklch(0.16_0.05_245)_0%,oklch(0.10_0.04_245)_100%)] sm:h-48">
           {/* Village silhouettes */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-between px-6 opacity-70">
-            <div className="relative h-16 w-14 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5">
+            <div className="relative h-16 w-14 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5">
               <span className="absolute left-2 top-3 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.55)]" />
               <span className="absolute left-2 top-7 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.35)]" />
             </div>
-            <div className="relative h-20 w-16 rounded-t-md bg-[oklch(0.08_0.02_245)] border-b-2 border-white/5">
+            <div className="relative h-20 w-16 rounded-t-md bg-[color:var(--surface-deep)] border-b-2 border-white/5">
               <span className="absolute left-4 top-4 h-2 w-2 bg-[oklch(0.90_0.16_88_/_0.75)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.7)]" />
               <span className="absolute left-2 top-10 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.4)]" />
             </div>
-            <div className="h-12 w-10 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5" />
+            <div className="h-12 w-10 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5" />
           </div>
           {/* Lamp glow */}
           <div className="pointer-events-none absolute bottom-4 left-6 flex flex-col items-center">
-            <span className="h-10 w-[3px] bg-[oklch(0.06_0.01_245)]" />
+            <span className="h-10 w-[3px] bg-[color:var(--surface-deep)]" />
             <span className="-mt-12 h-3 w-3 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_18px_6px_oklch(0.90_0.16_88_/_0.55)]" />
           </div>
           {/* Christmas tree */}
@@ -303,7 +303,7 @@ function PlannerOverview() {
         </div>
 
         {/* Content on dark navy — matching v2 */}
-        <div className="relative bg-[oklch(0.09_0.04_245)] px-5 pb-6 pt-5 sm:px-7 sm:pt-6">
+        <div className="relative bg-[color:var(--surface-deep)] px-5 pb-6 pt-5 sm:px-7 sm:pt-6">
           <h1 className="font-display text-3xl leading-tight sm:text-4xl">
             Hi {firstName}, <span className="script-gold text-[38px] italic sm:text-[46px]">welcome back</span>
           </h1>
@@ -426,13 +426,13 @@ function PlannerOverview() {
           </div>
           <Link
             to="/planner/outings"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-black/25 px-3 py-1.5 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--surface-sunk)] px-3 py-1.5 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
           >
             View activities <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
         {upcomingOutings.length === 0 ? (
-          <div className="relative z-10 rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
+          <div className="relative z-10 rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] p-6 text-center text-sm text-muted-foreground">
             No festive activities saved yet.{" "}
             <Link to="/planner/outings" className="text-[color:var(--gold-soft)] hover:underline">
               Add your first
@@ -444,7 +444,7 @@ function PlannerOverview() {
             {upcomingOutings.map((o) => (
               <li
                 key={o.id}
-                className="rounded-2xl border border-[color:var(--gold)]/20 bg-black/25 p-4"
+                className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--surface-sunk)] p-4"
               >
                 <p className="font-display text-base">{o.name}</p>
                 <p className="mt-0.5 text-[11px] text-muted-foreground">
@@ -491,7 +491,7 @@ function PlannerOverview() {
           </div>
           {budgetTotal != null && (
             <>
-              <div className="relative z-10 mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
+              <div className="relative z-10 mt-3 h-2 w-full overflow-hidden rounded-full bg-[color:var(--surface-sunk)]">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -629,7 +629,7 @@ function PlannerOverview() {
             {[...householdChoices, ...styleChoices].map((o) => (
               <span
                 key={o.value}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-black/25 px-3 py-1 text-xs"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] bg-[color:var(--surface-sunk)] px-3 py-1 text-xs"
               >
                 <span aria-hidden>{o.emoji}</span>
                 {o.label}

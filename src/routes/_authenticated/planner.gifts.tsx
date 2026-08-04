@@ -228,18 +228,18 @@ export function BuyingForPage() {
         {/* Snowy village banner — matches approved v2 mockup */}
         <div className="relative h-40 overflow-hidden bg-[linear-gradient(180deg,oklch(0.16_0.05_245)_0%,oklch(0.10_0.04_245)_100%)] sm:h-48">
           <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-between px-6 opacity-70">
-            <div className="relative h-16 w-14 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5">
+            <div className="relative h-16 w-14 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5">
               <span className="absolute left-2 top-3 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.55)]" />
               <span className="absolute left-2 top-7 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.35)]" />
             </div>
-            <div className="relative h-20 w-16 rounded-t-md bg-[oklch(0.08_0.02_245)] border-b-2 border-white/5">
+            <div className="relative h-20 w-16 rounded-t-md bg-[color:var(--surface-deep)] border-b-2 border-white/5">
               <span className="absolute left-4 top-4 h-2 w-2 bg-[oklch(0.90_0.16_88_/_0.75)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.7)]" />
               <span className="absolute left-2 top-10 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.4)]" />
             </div>
-            <div className="h-12 w-10 rounded-t-sm bg-[oklch(0.09_0.02_245)] border-b-2 border-white/5" />
+            <div className="h-12 w-10 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5" />
           </div>
           <div className="pointer-events-none absolute bottom-4 left-6 flex flex-col items-center">
-            <span className="h-10 w-[3px] bg-[oklch(0.06_0.01_245)]" />
+            <span className="h-10 w-[3px] bg-[color:var(--surface-deep)]" />
             <span className="-mt-12 h-3 w-3 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_18px_6px_oklch(0.90_0.16_88_/_0.55)]" />
           </div>
           <div className="pointer-events-none absolute bottom-2 right-8">
@@ -263,7 +263,7 @@ export function BuyingForPage() {
         </div>
 
         {/* Header body — navy */}
-        <div className="relative bg-[oklch(0.09_0.04_245)] p-5 sm:p-7">
+        <div className="relative bg-[color:var(--surface-deep)] p-5 sm:p-7">
           <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
             <Users className="h-4 w-4" /> People &amp; Presents
           </p>
@@ -350,7 +350,7 @@ export function BuyingForPage() {
 
       {/* Search */}
       {people.length > 3 && (
-        <label className="flex items-center gap-2 rounded-2xl border border-[color:var(--gold)]/25 bg-black/20 px-4 py-3">
+        <label className="flex items-center gap-2 rounded-2xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-4 py-3">
           <span className="text-[color:var(--gold-soft)]">🔍</span>
           <input
             value={search}
@@ -374,7 +374,7 @@ export function BuyingForPage() {
             {orphanGifts.map((g) => (
               <li
                 key={g.id}
-                className="flex flex-col gap-2 rounded-xl border border-[color:var(--burgundy)]/40 bg-black/25 p-3 sm:flex-row sm:items-center"
+                className="flex flex-col gap-2 rounded-xl border border-[color:var(--burgundy)]/40 bg-[color:var(--surface-sunk)] p-3 sm:flex-row sm:items-center"
               >
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{g.item}</p>
@@ -841,7 +841,7 @@ function RecipientCard({
 
       {/* Expanded body */}
       {expanded && (
-        <div className="space-y-5 border-t border-[color:var(--gold)]/15 bg-black/25 p-5">
+        <div className="space-y-5 border-t border-[color:var(--gold)]/15 bg-[color:var(--surface-sunk)] p-5">
           {/* Card actions */}
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             <SmallAction onClick={onAddPresent} icon={<Package className="h-4 w-4" />} label="+ Add present" primary />
@@ -981,7 +981,7 @@ function SmallAction({
         "inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl px-2 py-2 text-xs font-semibold transition " +
         (primary
           ? "text-[color:var(--forest-deep)] hover:brightness-110"
-          : "border border-[color:var(--gold)]/30 text-[color:var(--cream)] hover:border-[color:var(--gold)] hover:bg-black/20")
+          : "border border-[color:var(--gold)]/30 text-[color:var(--cream)] hover:border-[color:var(--gold)] hover:bg-[color:var(--surface-sunk)]")
       }
       style={primary ? { background: "var(--gradient-gold)" } : undefined}
     >
@@ -1007,7 +1007,7 @@ function IconBtn({
       onClick={onClick}
       aria-label={label}
       className={
-        "rounded-full border border-[color:var(--gold)]/30 bg-black/20 p-1.5 text-muted-foreground transition hover:text-foreground " +
+        "rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] p-1.5 text-muted-foreground transition hover:text-foreground " +
         (danger
           ? "hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
           : "hover:border-[color:var(--gold)]/70")
@@ -1140,7 +1140,7 @@ function IdeaRow({
               placeholder="Product link"
               className={inputCls}
             />
-            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
               <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
               <input
                 type="number"
@@ -1164,7 +1164,7 @@ function IdeaRow({
       ) : (
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-bold" style={{ color: "oklch(0.18 0.03 245)" }}>
+            <p className="truncate text-sm font-bold" style={{ color: "var(--surface-deep)" }}>
               {gift.item}
             </p>
             <p className="mt-0.5 text-[11px]" style={{ color: "oklch(0.35 0.03 60)" }}>
@@ -1293,7 +1293,7 @@ function PresentEditor({
           onBlur={commitItem}
           onKeyDown={(e) => e.key === "Enter" && (e.target as HTMLInputElement).blur()}
           placeholder="Present name (required)"
-          className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/25 px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
+          className="w-full rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm font-medium outline-none focus:border-[color:var(--gold)]/70"
         />
         <div className="flex items-center gap-2 justify-self-end">
           {gift.url && (
@@ -1330,7 +1330,7 @@ function PresentEditor({
           placeholder="Product link"
           className={inputCls}
         />
-        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+        <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
           <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
           <input
             type="number"
@@ -1530,7 +1530,7 @@ function PersonForm({
             />
           </Field>
           <Field label="Budget (optional)">
-            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
               <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
               <input
                 type="number"
@@ -1595,7 +1595,7 @@ function PersonForm({
 }
 
 const inputCls =
-  "w-full rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3 py-2 text-sm outline-none transition focus:border-[color:var(--gold)]/70";
+  "w-full rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3 py-2 text-sm outline-none transition focus:border-[color:var(--gold)]/70";
 
 function Field({
   label,
@@ -1636,7 +1636,7 @@ function Toggle({
         "flex items-center justify-between rounded-xl border px-3 py-2.5 text-sm transition " +
         (checked
           ? "border-[color:var(--gold)]/70 bg-[color:var(--gold)]/12 text-[color:var(--gold-soft)]"
-          : "border-[color:var(--gold)]/20 bg-black/20 text-muted-foreground hover:border-[color:var(--gold)]/50")
+          : "border-[color:var(--gold)]/20 bg-[color:var(--surface-sunk)] text-muted-foreground hover:border-[color:var(--gold)]/50")
       }
     >
       <span className="flex items-center gap-2">
@@ -1775,7 +1775,7 @@ function QuickGiftForm({
 
         <Field label="For">
           {lockedPerson ? (
-            <div className={inputCls + " flex items-center bg-black/30 text-[color:var(--gold-soft)]"}>
+            <div className={inputCls + " flex items-center bg-[color:var(--surface-sunk)] text-[color:var(--gold-soft)]"}>
               {lockedPerson.name}
             </div>
           ) : (
@@ -1808,7 +1808,7 @@ function QuickGiftForm({
             />
           </Field>
           <Field label={mode === "idea" ? "Estimated price" : "Price"}>
-            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-black/20 px-3">
+            <div className="flex items-center gap-1 rounded-xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] px-3">
               <PoundSterling className="h-3.5 w-3.5 text-[color:var(--gold-soft)]" />
               <input
                 type="number"
@@ -1992,7 +1992,7 @@ function AiIdeasPanel({
       {ideas && (
         <ul className="space-y-3">
           {ideas.map((idea, i) => (
-            <li key={i} className="rounded-2xl border border-[color:var(--gold)]/25 bg-black/20 p-4">
+            <li key={i} className="rounded-2xl border border-[color:var(--gold)]/25 bg-[color:var(--surface-sunk)] p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-display text-base">{idea.item}</p>
