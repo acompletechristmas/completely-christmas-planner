@@ -169,7 +169,7 @@ function Home() {
       </section>
 
       {/* =============== CINEMATIC NAVIGATION BAND =============== */}
-      <section className="relative z-10 -mt-14 overflow-hidden sm:-mt-12">
+      <section className="relative z-10 -mt-28 overflow-hidden sm:-mt-20">
         <img
           src={homeBand}
           alt=""
@@ -187,7 +187,7 @@ function Home() {
         />
         <Snowfall count={26} force />
 
-        <div className="relative z-10 mx-auto max-w-5xl px-4 pt-10 pb-6 sm:px-10 sm:pt-12 sm:pb-9">
+        <div className="relative z-10 mx-auto max-w-5xl px-4 pt-5 pb-5 sm:px-10 sm:pt-8 sm:pb-8">
           <nav className="mx-auto flex items-stretch justify-between gap-0">
             {navLinks.map((l, i) => (
               <div key={l.label} className="contents">
