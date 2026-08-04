@@ -5,14 +5,13 @@ import { usePerson, calcAge, usePeople } from "@/hooks/use-people";
 import { usePersonGifts, type Gift } from "@/hooks/use-person-gifts";
 import { SectionShell, SectionIcon } from "@/components/planner/SectionShell";
 import { BaubleIcon, HollyIcon, RibbonIcon, StockingIcon } from "@/components/planner/section-icons";
-import { Gift, Mail, Sparkles, Star, TreePine } from "lucide-react";
 import { ProfileField, ProfileArea } from "@/components/planner/ProfileFields";
 import { GiftCard } from "@/components/planner/GiftCard";
 import { IdeaRow } from "@/components/planner/IdeaRow";
 import { StockingRow } from "@/components/planner/StockingRow";
 import { CardRow } from "@/components/planner/CardRow";
 import { BudgetSummary } from "@/components/planner/BudgetSummary";
-import { ArrowLeft, Plus, Sparkles, Wand2 } from "lucide-react";
+import { ArrowLeft, Plus, Sparkles, Wand2, Gift as GiftLineIcon, Mail, Star, TreePine } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/planner/people/$personId")({
   component: PersonDetail,
@@ -188,7 +187,7 @@ function PersonDetail() {
       <SectionShell
         eyebrow={`Christmas ${YEAR}`}
         title="Presents"
-        icon={Gift}
+        icon={GiftLineIcon}
         action={
           <button
             onClick={() => add({ is_idea: false })}
