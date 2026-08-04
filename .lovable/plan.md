@@ -4,11 +4,12 @@ Styling only. No route, data, functionality, navigation or component-hierarchy c
 
 ## 1. Hero
 
-Replace the current planner hero (the built-from-CSS snowy village strip with the triangle tree, lamp, house silhouettes and the dark navy panel beneath it) with a single full-bleed premium Christmas living-room photograph, exactly as in the mock-up: decorated tree, lit fireplace, wrapped presents, fairy lights, snowy window, cream and gold palette.
+Replace the current planner hero (the built-from-CSS snowy village strip with the triangle tree, lamp, house silhouettes and the dark navy panel beneath it) with a single full-bleed premium Christmas living-room photograph, as in the mock-up.
 
-- New generated photograph in the mock-up's warm cream/gold register (existing hero images are darker, so a new one is generated to match).
-- Photo fills the whole hero; a soft cream gradient rises from the left/bottom behind the welcome text so it reads cleanly, as shown.
+- New generated photograph, roughly 30% brighter than the current hero: cream furnishings, glowing tree, fireplace, wrapped presents, soft daylight through snowy windows, warm golden fairy lights. Elegant and inviting, not dramatic — no heavy navy shadows.
+- Photo fills the whole hero; a soft cream gradient rises from the left/bottom behind the welcome text so it reads cleanly, as shown. Overlay stays cream-warm, never navy.
 - All decorative CSS objects (tree, village, lamp glow) are deleted.
+
 
 ## 2. Countdown capsule
 
