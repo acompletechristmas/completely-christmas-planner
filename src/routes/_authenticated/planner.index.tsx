@@ -524,14 +524,28 @@ function PlannerOverview() {
                     boxShadow: s.glow,
                   }}
                 >
+                  <img
+                    src={s.photo}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-4 top-0 h-px"
+                    className="pointer-events-none absolute inset-0 z-0"
+                    style={{ background: CARD_VEIL }}
+                  />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-4 top-0 z-10 h-px"
                     style={{
                       background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)`,
                     }}
                   />
-                  <div className="flex items-start gap-3">
+                  <div className="relative z-10 flex items-start gap-3">
                     <div
                       className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
                       style={{
