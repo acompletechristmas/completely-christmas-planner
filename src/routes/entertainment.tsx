@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroEntertainment from "@/assets/card-entertainment.jpg";
 import { Film, Music, Gamepad2, BookOpen, Tv, Sparkles, Star, PartyPopper } from "lucide-react";
 
 export const Route = createFileRoute("/entertainment")({
@@ -28,6 +29,7 @@ const bits = [
 function EntertainmentPage() {
   return (
     <PageShell
+      heroImage={heroEntertainment}
       eyebrow="Christmas Entertainment"
       title={<><span className="block">Evenings that</span><span className="block gold-text">sparkle</span></>}
       intro="Films, playlists, games and quiz packs — curated for cosy nights and full-house gatherings."

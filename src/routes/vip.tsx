@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroVip from "@/assets/hero-room.jpg";
 import { Crown, Sparkles, Check, Bot, Gift, CalendarClock, Trophy, Printer, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/vip")({
@@ -28,6 +29,7 @@ const perks = [
 function VipPage() {
   return (
     <PageShell
+      heroImage={heroVip}
       eyebrow="VIP Membership"
       title={<><span className="block">The <span className="gold-text">Golden Ticket</span></span><span className="block">to Christmas</span></>}
       intro="Everything unlocked. Nothing in the way. The most magical way to plan your family's Christmas — with perks that keep giving."

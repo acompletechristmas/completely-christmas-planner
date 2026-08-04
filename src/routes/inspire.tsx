@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroInspire from "@/assets/card-decorations.jpg";
 import { Sparkles, TreePine, Gift, Home, Palette, Wand2, Snowflake, Star } from "lucide-react";
 
 export const Route = createFileRoute("/inspire")({
@@ -28,6 +29,7 @@ const ideas = [
 function InspirePage() {
   return (
     <PageShell
+      heroImage={heroInspire}
       eyebrow="Christmas Inspiration"
       title={<><span className="block">A whole world of</span><span className="block gold-text">winter wonder</span></>}
       intro="Beautiful, doable ideas — saved to your planner in one tap so you can find them again when you need them."

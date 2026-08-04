@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroAssistant from "@/assets/card-assistant.jpg";
 import { Bot, MessagesSquare, Wand2, Lightbulb, ChefHat, Gift, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/assistant")({
@@ -29,6 +30,7 @@ function AssistantPage() {
   const { q } = Route.useSearch();
   return (
     <PageShell
+      heroImage={heroAssistant}
       eyebrow="How can I help you?"
       title={<><span className="block">Ask, and</span><span className="block gold-text">Christmas answers</span></>}
       intro="A gentle, always-on helper for every last-minute question — from stocking fillers to timing the turkey."

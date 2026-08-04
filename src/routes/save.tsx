@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroSave from "@/assets/card-save.jpg";
 import { PiggyBank, TrendingDown, Tag, Sparkles, Gift, ShoppingBag, Wallet, Star } from "lucide-react";
 
 export const Route = createFileRoute("/save")({
@@ -28,6 +29,7 @@ const tips = [
 function SavePage() {
   return (
     <PageShell
+      heroImage={heroSave}
       eyebrow="Save Money"
       title={<><span className="block">A beautiful Christmas,</span><span className="block gold-text">without the January dread</span></>}
       intro="Simple, honest ways to spend less and enjoy it more — no coupon hunting, no compromise on the magic."

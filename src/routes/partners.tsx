@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { PageShell } from "@/components/PageShell";
+import heroPartners from "@/assets/card-plan.jpg";
 import { supabase } from "@/integrations/supabase/client";
 import { Handshake, Users, TrendingUp, Heart, Check, Loader2, Sparkles } from "lucide-react";
 
@@ -80,6 +81,7 @@ function PartnersPage() {
 
   return (
     <PageShell
+      heroImage={heroPartners}
       eyebrow="Partner with us"
       title={<><span className="block">Reach families who</span><span className="block gold-text">plan Christmas early</span></>}
       intro="A Complete Christmas is the UK's calm, year-round Christmas companion. If your brand belongs in a magical Christmas, let's talk."

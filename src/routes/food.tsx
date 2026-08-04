@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
+import heroFood from "@/assets/card-food-new.jpg";
 import { ChefHat, UtensilsCrossed, Clock, Wine, Cookie, ListChecks, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/food")({
@@ -28,6 +29,7 @@ const bits = [
 function FoodPage() {
   return (
     <PageShell
+      heroImage={heroFood}
       eyebrow="Christmas Food"
       title={<><span className="block">A calm, delicious</span><span className="block gold-text">Christmas kitchen</span></>}
       intro="From the shopping list to the leftovers — your festive food planner, timed to the minute."
