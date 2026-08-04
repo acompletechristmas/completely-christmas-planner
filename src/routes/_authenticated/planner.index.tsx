@@ -42,7 +42,10 @@ import photoBudget from "@/assets/hq-budget.jpg";
 
 /** Warm cream veil laid over every card photograph so the navy/gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.95) 0%, oklch(0.975 0.014 88 / 0.92) 55%, oklch(0.96 0.018 86 / 0.96) 100%)";
+  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.86) 0%, oklch(0.98 0.014 88 / 0.66) 45%, oklch(0.96 0.018 86 / 0.38) 100%)";
+
+/** Warm, rich treatment so the Christmas photography reads as a feature again. */
+const PHOTO_FILTER = "saturate(1.3) contrast(1.1) brightness(1.04)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
@@ -367,6 +370,7 @@ function PlannerOverview() {
           width={1024}
           height={768}
           className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          style={{ filter: PHOTO_FILTER }}
         />
         <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
         <span
@@ -444,6 +448,7 @@ function PlannerOverview() {
             width={1024}
             height={768}
             className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+            style={{ filter: PHOTO_FILTER }}
           />
           <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
           <div className="relative z-10 flex items-baseline justify-between">
@@ -513,6 +518,7 @@ function PlannerOverview() {
                     width={1024}
                     height={768}
                     className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    style={{ filter: PHOTO_FILTER }}
                   />
                   <span
                     aria-hidden
