@@ -271,8 +271,8 @@ function FullGiftListPage() {
       {thisYear.length > 0 && (
         <div className="rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.25)] p-4 text-center text-xs text-muted-foreground">
           Want to add more? Head over to{" "}
-          <Link to="/planner/people" className="text-[color:var(--gold-soft)] hover:underline">
-            People &amp; Presents
+          <Link to="/planner/gifts" className="text-[color:var(--gold-soft)] hover:underline">
+            My Christmas Gifts
           </Link>{" "}
           to jot ideas or ask Santa's helper ✨
         </div>
@@ -324,14 +324,14 @@ function EmptyState() {
       <Sparkles className="mx-auto h-8 w-8 text-[color:var(--gold)]" />
       <h3 className="mt-4 font-display text-2xl">Your list is a blank canvas</h3>
       <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-        Pop some ideas in from People &amp; Presents and they'll all show up here — tick them off as you go.
+        Pop some ideas in from My Christmas Gifts and they'll all show up here — tick them off as you go.
       </p>
       <Link
-        to="/planner/people"
+        to="/planner/gifts"
         className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-[color:var(--primary-foreground)] transition hover:brightness-110"
         style={{ background: "var(--gradient-gold)" }}
       >
-        <GiftIcon className="h-4 w-4" /> Open People &amp; Presents
+        <GiftIcon className="h-4 w-4" /> Open My Christmas Gifts
       </Link>
     </div>
   );

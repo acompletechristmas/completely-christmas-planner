@@ -70,7 +70,7 @@ function PersonDetail() {
   return (
     <div className="rise-in space-y-8">
       <Link
-        to="/planner/people"
+        to="/planner/gifts"
         className="inline-flex items-center gap-1 text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-[color:var(--gold-soft)]"
       >
         <ArrowLeft className="h-3 w-3" /> All people

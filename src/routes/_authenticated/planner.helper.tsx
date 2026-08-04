@@ -106,7 +106,7 @@ function HelperPage() {
             ) : people.length === 0 ? (
               <div className="mt-2 rounded-2xl border border-dashed border-[oklch(0.80_0.14_85_/_0.3)] p-4 text-sm">
                 <p>No one on your list yet.</p>
-                <Link to="/planner/people" className="mt-2 inline-flex items-center gap-1.5 text-[color:var(--gold-soft)] hover:text-[color:var(--gold)]">
+                <Link to="/planner/gifts" className="mt-2 inline-flex items-center gap-1.5 text-[color:var(--gold-soft)] hover:text-[color:var(--gold)]">
                   Add someone <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>

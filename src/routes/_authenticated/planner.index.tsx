@@ -302,9 +302,17 @@ function PlannerOverview() {
           Everyone you love, every little idea, every budget — kept safe in one beautiful place.
         </p>
 
+        {/* Primary action — the whole gift list */}
+        <div className="relative mt-6">
+          <PlannerButton to="/planner/gifts" icon={Gift}>
+            View My Gifts
+          </PlannerButton>
+        </div>
+
         {/* Four premium gold actions */}
-        <div className="relative mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <PlannerButton to="/planner/people" icon={UserPlus}>
+        <div className="relative mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+          <PlannerButton to="/planner/gifts" icon={UserPlus}>
             Add person
           </PlannerButton>
           <PlannerButton to="/planner/gifts" icon={Gift}>
@@ -320,7 +328,7 @@ function PlannerOverview() {
 
         {/* Gentle tip row */}
         <Link
-          to="/planner/people"
+          to="/planner/gifts"
           className="relative mt-4 flex items-center gap-4 rounded-2xl border border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] px-4 py-4 transition hover:border-[color:var(--gold)]/60"
         >
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[oklch(0.90_0.06_88_/_0.5)]">
@@ -344,7 +352,7 @@ function PlannerOverview() {
         {ideas.length > 0 && (
           <p className="relative mt-3 text-xs text-[color:var(--muted-foreground)]">
             {ideas.length} gift idea{ideas.length === 1 ? "" : "s"} waiting to be chosen.{" "}
-            <Link to="/planner/people" className="text-[color:var(--gold-soft)] hover:underline">
+            <Link to="/planner/gifts" className="text-[color:var(--gold-soft)] hover:underline">
               Review ideas →
             </Link>
           </p>
