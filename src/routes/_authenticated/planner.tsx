@@ -72,19 +72,20 @@ function PlannerLayout() {
             width={1536}
             height={1024}
             className="absolute inset-0 -z-10 h-full w-full object-cover"
+            style={{ filter: "saturate(1.3) contrast(1.1) brightness(1.04)" }}
           />
           {/* Warm cream wash so the welcome type reads, never navy */}
           <div
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "linear-gradient(to right, oklch(0.985 0.012 88 / 0.92) 0%, oklch(0.985 0.012 88 / 0.72) 38%, oklch(0.985 0.012 88 / 0.18) 70%, oklch(0.985 0.012 88 / 0.05) 100%)",
+                "linear-gradient(to right, oklch(0.985 0.012 88 / 0.72) 0%, oklch(0.985 0.012 88 / 0.46) 38%, oklch(0.985 0.012 88 / 0.10) 70%, oklch(0.985 0.012 88 / 0.02) 100%)",
             }}
           />
           <div
             className="absolute inset-x-0 bottom-0 -z-10 h-1/2"
             style={{
-              background: "linear-gradient(to bottom, transparent 0%, oklch(0.985 0.012 88 / 0.55) 45%, var(--background) 96%)",
+              background: "linear-gradient(to bottom, transparent 0%, oklch(0.985 0.012 88 / 0.38) 45%, var(--background) 96%)",
             }}
           />
           <div className="relative z-10 mx-auto flex min-h-[62vh] max-w-7xl flex-col px-5 pt-24 pb-10 sm:min-h-[58vh] sm:max-h-[560px] sm:px-8 sm:pt-28 sm:pb-14">

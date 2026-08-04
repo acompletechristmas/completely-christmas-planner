@@ -27,12 +27,13 @@ export function PageShell({ eyebrow, title, intro, children, heroImage }: PageSh
               alt=""
               aria-hidden="true"
               className="absolute inset-0 -z-10 h-full w-full object-cover"
+              style={{ filter: "saturate(1.3) contrast(1.1) brightness(1.04)" }}
             />
             <div
               className="absolute inset-0 -z-10"
               style={{
                 background:
-                  "linear-gradient(to bottom, oklch(0.20 0.04 245 / 0.72) 0%, oklch(0.20 0.04 245 / 0.62) 40%, oklch(0.20 0.04 245 / 0.92) 82%, var(--background) 100%)",
+                  "linear-gradient(to bottom, oklch(0.20 0.04 245 / 0.5) 0%, oklch(0.20 0.04 245 / 0.42) 40%, oklch(0.20 0.04 245 / 0.85) 82%, var(--background) 100%)",
               }}
             />
           </>
