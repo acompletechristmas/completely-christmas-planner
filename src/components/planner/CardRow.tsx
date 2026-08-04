@@ -11,20 +11,20 @@ export function CardRow({
   onRemove: () => void;
 }) {
   return (
-    <li className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[oklch(0.26_0.04_245_/_0.6)] p-4">
+    <li className="rounded-xl border border-[oklch(0.80_0.14_85_/_0.15)] bg-[color:var(--surface-card)] p-4">
       <div className="grid gap-3 sm:grid-cols-2">
         <input
           value={gift.recipient}
           onChange={(e) => onChange("recipient", e.target.value)}
           placeholder="Who is the card for?"
-          className="min-h-11 w-full min-w-0 rounded-lg border border-transparent bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
+          className="min-h-11 w-full min-w-0 rounded-lg border border-transparent bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
         />
         <textarea
           value={gift.notes ?? ""}
           onChange={(e) => onChange("notes", e.target.value || null)}
           placeholder="Address (optional)"
           rows={2}
-          className="w-full min-w-0 resize-y rounded-lg border border-transparent bg-[oklch(0.20_0.04_245_/_0.6)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
+          className="w-full min-w-0 resize-y rounded-lg border border-transparent bg-[color:var(--surface-card)] px-3 py-2 text-sm outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[color:var(--gold)]"
         />
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-4">

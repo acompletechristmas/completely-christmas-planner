@@ -597,3 +597,76 @@
 @media (prefers-reduced-motion: reduce) {
   .sparkle-once { animation: none; }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Planner: warm cream "luxury Christmas home" surface
+   Scoped token overrides — the marketing pages stay midnight.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --surface-card: oklch(0.20 0.04 245 / 0.6);
+  --surface-sunk: oklch(0.26 0.04 245 / 0.6);
+  --surface-deep: oklch(0.13 0.03 245 / 0.6);
+}
+
+.planner-light {
+  --cream: oklch(0.24 0.035 250);          /* now the ink colour on cream */
+  --ink: oklch(0.24 0.035 250);
+  --snow: oklch(0.99 0.008 90);
+  --mist: oklch(0.995 0.006 90);
+  --midnight: oklch(0.975 0.012 88);
+  --midnight-deep: oklch(0.985 0.010 88);
+  --background: oklch(0.975 0.012 88);
+  --foreground: oklch(0.24 0.035 250);
+  --card: oklch(0.995 0.006 90);
+  --card-foreground: oklch(0.24 0.035 250);
+  --muted: oklch(0.96 0.014 88);
+  --muted-foreground: oklch(0.46 0.02 80);
+  --border: oklch(0.72 0.11 78 / 0.38);
+  --input: oklch(0.72 0.11 78 / 0.3);
+  --gold: oklch(0.64 0.13 74);
+  --gold-soft: oklch(0.52 0.12 62);
+  --forest: oklch(0.42 0.10 155);
+  --pine-bright: oklch(0.45 0.11 152);
+  --surface-card: oklch(1 0 0 / 0.86);
+  --surface-sunk: oklch(0.965 0.016 88 / 0.9);
+  --surface-deep: oklch(0.99 0.008 90 / 0.9);
+  --shadow-soft: 0 1px 2px oklch(0.55 0.08 70 / 0.12), 0 12px 32px -18px oklch(0.55 0.10 70 / 0.35);
+  --shadow-lift: 0 4px 10px oklch(0.55 0.08 70 / 0.14), 0 24px 48px -20px oklch(0.55 0.10 70 / 0.4);
+  --shadow-glow-gold: 0 10px 26px -14px oklch(0.68 0.13 72 / 0.55);
+  color: var(--foreground);
+}
+
+.planner-light .gold-text {
+  color: oklch(0.60 0.13 70);
+  text-shadow: none;
+}
+.planner-light .script-gold {
+  background: linear-gradient(180deg, oklch(0.74 0.13 80) 0%, oklch(0.62 0.14 68) 60%, oklch(0.54 0.13 58) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: none;
+  filter: none;
+}
+.planner-light .text-muted-foreground { color: oklch(0.46 0.02 80); }
+
+/* Premium gold planner button */
+@utility btn-planner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 58px;
+  padding: 0.85rem 1.05rem;
+  border-radius: 1rem;
+  border: 1px solid oklch(0.74 0.12 80 / 0.85);
+  background: linear-gradient(160deg, oklch(0.94 0.07 90) 0%, oklch(0.87 0.10 85) 45%, oklch(0.80 0.12 80) 100%);
+  color: oklch(0.22 0.03 250);
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.7) inset,
+    0 10px 24px -14px oklch(0.60 0.13 70 / 0.65);
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+  &:hover { transform: translateY(-1px); filter: brightness(1.03); }
+}

@@ -80,7 +80,7 @@ function SetupPage() {
             value={settings.budget_total ?? ""}
             onChange={(e) => update("budget_total", e.target.value === "" ? null : Number(e.target.value))}
             placeholder="e.g. 1500"
-            className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+            className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
           />
         </div>
         <div>
@@ -110,7 +110,7 @@ function SetupPage() {
           onChange={(e) => update("dietary_notes", e.target.value || null)}
           placeholder="Dietary needs, accessibility, family notes…"
           rows={3}
-          className="w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+          className="w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
         />
       </Section>
 
@@ -131,7 +131,7 @@ function SetupPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="space-y-4 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-5">
+    <section className="space-y-4 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] p-5">
       <h3 className="flex items-center gap-2 font-display text-lg">
         <Sparkles className="h-4 w-4 text-[color:var(--gold)]" />
         {title}
@@ -150,7 +150,7 @@ function NumberField({ label, value, onChange }: { label: string; value: number;
         min={0}
         value={value}
         onChange={(e) => onChange(Math.max(0, Number(e.target.value) || 0))}
-        className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+        className="mt-2 w-full rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] px-4 py-2.5 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
       />
     </div>
   );

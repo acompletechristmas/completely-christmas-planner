@@ -103,7 +103,7 @@ function MyChristmasPlanner() {
   return (
     <div className="rise-in space-y-8">
       {/* Welcome + overall progress */}
-      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 sm:p-8">
+      <section className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.35)] bg-[color:var(--surface-card)] p-6 sm:p-8">
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">🎄 My Christmas Planner</p>
         <h1 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
           Welcome to your <span className="italic text-[color:var(--gold)]">magical</span> Christmas hub
@@ -118,7 +118,7 @@ function MyChristmasPlanner() {
             {done} of {total} {total === 1 ? "task" : "tasks"} sorted
           </span>
         </div>
-        <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-[oklch(0.13_0.03_245_/_0.6)]">
+        <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-[color:var(--surface-deep)]">
           <div
             className="h-full rounded-full transition-all"
             style={{ width: `${pct}%`, background: "var(--gradient-gold)" }}
@@ -193,7 +193,7 @@ function PriorityCard({
   todayIso: string;
 }) {
   return (
-    <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.28)] bg-[oklch(0.26_0.04_245_/_0.7)] p-5 sm:p-6">
+    <div className="rounded-3xl border border-[oklch(0.80_0.14_85_/_0.28)] bg-[color:var(--surface-card)] p-5 sm:p-6">
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 text-[color:var(--gold)]" />
         <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
@@ -210,7 +210,7 @@ function PriorityCard({
           {items.map((t) => (
             <li
               key={t.id}
-              className="flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.6)] p-3"
+              className="flex items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[color:var(--surface-card)] p-3"
             >
               <input
                 type="checkbox"
@@ -255,7 +255,7 @@ function SectionAccordion({
   const Icon = section.icon;
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.22)] bg-[oklch(0.26_0.04_245_/_0.6)] transition hover:border-[oklch(0.80_0.14_85_/_0.4)]">
+    <div className="overflow-hidden rounded-3xl border border-[oklch(0.80_0.14_85_/_0.22)] bg-[color:var(--surface-card)] transition hover:border-[oklch(0.80_0.14_85_/_0.4)]">
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center gap-3 p-4 text-left sm:p-5"
@@ -297,7 +297,7 @@ function SectionAccordion({
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={`Add a ${section.label.toLowerCase()} task…`}
-              className="min-w-0 flex-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.13_0.03_245_/_0.5)] px-4 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+              className="min-w-0 flex-1 rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[color:var(--surface-deep)] px-4 py-2 text-sm outline-none focus:border-[oklch(0.80_0.14_85_/_0.6)]"
             />
             <button
               type="submit"
@@ -341,7 +341,7 @@ function TaskRow({
   const [showNotes, setShowNotes] = useState(!!task.notes);
 
   return (
-    <li className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.20_0.04_245_/_0.55)] p-3">
+    <li className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.18)] bg-[color:var(--surface-card)] p-3">
       <div className="flex items-center gap-3">
         <input
           type="checkbox"
@@ -362,7 +362,7 @@ function TaskRow({
           type="date"
           value={task.due_date ?? ""}
           onChange={(e) => onUpdate(task.id, "due_date", e.target.value || null)}
-          className="shrink-0 rounded-lg border border-transparent bg-[oklch(0.26_0.04_245_/_0.5)] px-2 py-1 text-[11px] text-muted-foreground outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
+          className="shrink-0 rounded-lg border border-transparent bg-[color:var(--surface-card)] px-2 py-1 text-[11px] text-muted-foreground outline-none hover:border-[oklch(0.80_0.14_85_/_0.2)] focus:border-[oklch(0.80_0.14_85_/_0.6)]"
         />
         <button
           onClick={() => setShowNotes((v) => !v)}
@@ -385,7 +385,7 @@ function TaskRow({
           onChange={(e) => onUpdate(task.id, "notes", e.target.value || null)}
           placeholder="A little note to future you…"
           rows={2}
-          className="mt-2 w-full resize-none rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.13_0.03_245_/_0.5)] p-2 text-xs text-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.5)]"
+          className="mt-2 w-full resize-none rounded-xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-deep)] p-2 text-xs text-foreground outline-none focus:border-[oklch(0.80_0.14_85_/_0.5)]"
         />
       )}
     </li>

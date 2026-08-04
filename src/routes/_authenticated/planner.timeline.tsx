@@ -122,7 +122,7 @@ function TimelinePage() {
 
   return (
     <div className="rise-in space-y-6">
-      <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[oklch(0.26_0.04_245_/_0.6)] p-5">
+      <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.2)] bg-[color:var(--surface-card)] p-5">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-[color:var(--gold)]" />
           <p className="text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">Your Christmas timeline</p>
@@ -154,7 +154,7 @@ function TimelinePage() {
                 "rounded-2xl border p-5 transition " +
                 (isNow
                   ? "border-[oklch(0.80_0.14_85_/_0.6)] bg-[oklch(0.80_0.14_85_/_0.08)]"
-                  : "border-[oklch(0.80_0.14_85_/_0.18)] bg-[oklch(0.26_0.04_245_/_0.55)]")
+                  : "border-[oklch(0.80_0.14_85_/_0.18)] bg-[color:var(--surface-card)]")
               }
             >
               <div className="flex items-start justify-between gap-4">
