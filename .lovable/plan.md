@@ -46,7 +46,8 @@ Four equal large rounded rectangles, two per row: soft gold gradient fill, subtl
 
 ## 6. Shared gold button
 
-The gold button becomes a shared planner component (`PlannerButton`) and every primary action button across planner pages uses it, so the style is consistent.
+The gold button becomes a shared planner component (`PlannerButton`) used by every primary action across every planner page. All dark outlined / navy primary buttons in the planner are replaced by it, so there is one consistent premium gold primary style. Secondary and destructive controls stay quiet text or subtle gold-hairline links.
+
 
 ## 7. Warm palette across the planner
 
