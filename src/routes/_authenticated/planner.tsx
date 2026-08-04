@@ -2,8 +2,8 @@ import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-r
 import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
-import { ArrowLeft } from "lucide-react";
-import plannerHero from "@/assets/card-planner.jpg";
+import { ArrowLeft, Snowflake } from "lucide-react";
+import plannerHero from "@/assets/planner-hero-cream.jpg";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
