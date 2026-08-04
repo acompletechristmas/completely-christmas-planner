@@ -80,7 +80,7 @@ interface Section {
   action: string;
   icon: LucideIcon;
   to: string;
-  bg: string;
+  photo: string;
   accent: string;
   border: string;
   iconTint: string;
@@ -96,7 +96,7 @@ const SECTIONS: Section[] = [
     action: "View my plans",
     icon: ListChecks,
     to: "/planner/todos",
-    bg: "linear-gradient(160deg, oklch(0.24 0.09 350 / 0.85), oklch(0.17 0.07 350 / 0.92))",
+    photo: photoPlans,
     accent: "oklch(0.86 0.09 88 / 0.75)",
     border: "oklch(0.55 0.14 350 / 0.4)",
     iconTint: "oklch(0.90 0.09 88)",
@@ -110,7 +110,7 @@ const SECTIONS: Section[] = [
     action: "View home ideas",
     icon: Home,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.26 0.07 155 / 0.85), oklch(0.19 0.06 155 / 0.92))",
+    photo: photoHome,
     accent: "oklch(0.94 0.05 90 / 0.7)",
     border: "oklch(0.55 0.14 155 / 0.35)",
     iconTint: "oklch(0.94 0.05 90)",
@@ -124,7 +124,7 @@ const SECTIONS: Section[] = [
     action: "View food plans",
     icon: UtensilsCrossed,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.28 0.11 25 / 0.82), oklch(0.19 0.09 25 / 0.92))",
+    photo: photoFood,
     accent: "oklch(0.86 0.10 88 / 0.7)",
     border: "oklch(0.55 0.16 25 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -138,7 +138,7 @@ const SECTIONS: Section[] = [
     action: "View films",
     icon: Star,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.19 0.06 260 / 0.88), oklch(0.13 0.05 260 / 0.94))",
+    photo: photoFilms,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.10 260 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -152,7 +152,7 @@ const SECTIONS: Section[] = [
     action: "View music",
     icon: Sparkles,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.24 0.06 210 / 0.85), oklch(0.16 0.05 210 / 0.92))",
+    photo: photoMusic,
     accent: "oklch(0.86 0.08 88 / 0.65)",
     border: "oklch(0.50 0.10 210 / 0.4)",
     iconTint: "oklch(0.88 0.09 88)",
@@ -166,7 +166,7 @@ const SECTIONS: Section[] = [
     action: "View cards",
     icon: Mail,
     to: "/planner/cards",
-    bg: "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.82), oklch(0.17 0.06 155 / 0.92))",
+    photo: photoCards,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.12 155 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -180,7 +180,7 @@ const SECTIONS: Section[] = [
     action: "View traditions",
     icon: PartyPopper,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.24 0.10 300 / 0.82), oklch(0.17 0.08 300 / 0.92))",
+    photo: photoTraditions,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.12 300 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -194,7 +194,7 @@ const SECTIONS: Section[] = [
     action: "View checklist",
     icon: ListChecks,
     to: "/planner/todos",
-    bg: "linear-gradient(160deg, oklch(0.26 0.06 245 / 0.85), oklch(0.18 0.05 245 / 0.92))",
+    photo: photoChecklist,
     accent: "oklch(0.88 0.11 88 / 0.75)",
     border: "oklch(0.55 0.10 245 / 0.4)",
     iconTint: "oklch(0.88 0.11 88)",
@@ -520,7 +520,6 @@ function PlannerOverview() {
                   to={s.to}
                   className="group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
                   style={{
-                    background: s.bg,
                     borderColor: s.border,
                     boxShadow: s.glow,
                   }}
