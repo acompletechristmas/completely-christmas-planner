@@ -38,26 +38,24 @@ function PlannerLayout() {
   const sleeps = daysToChristmas();
 
   return (
-    <div className="relative min-h-screen text-[color:var(--foreground)]">
-      {/* Warm festive glow — purely decorative, sits behind all content */}
+    <div className="planner-light relative min-h-screen bg-[color:var(--background)] text-[color:var(--foreground)]">
+      {/* Soft warm wash — purely decorative */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "radial-gradient(60% 45% at 12% 12%, oklch(0.82 0.14 85 / 0.09), transparent 70%), radial-gradient(55% 40% at 88% 82%, oklch(0.82 0.14 85 / 0.07), transparent 72%), radial-gradient(90% 30% at 50% 0%, oklch(0.88 0.10 88 / 0.05), transparent 75%)",
+            "radial-gradient(70% 45% at 12% 8%, oklch(0.86 0.09 88 / 0.20), transparent 72%), radial-gradient(60% 45% at 90% 85%, oklch(0.88 0.07 88 / 0.16), transparent 74%)",
         }}
       />
-      <Snowfall count={40} />
       <SiteNav />
-
 
       {/* Back to Planning HQ breadcrumb (not on overview) */}
       {!onOverview && (
         <div className="relative z-10 mx-auto max-w-7xl px-5 pt-24 sm:px-8 sm:pt-28">
           <Link
             to="/planner"
-            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--midnight-deep)]/60 px-3.5 py-1.5 text-xs font-medium text-[color:var(--cream)]/85 backdrop-blur-sm transition hover:border-[color:var(--gold)]/70 hover:text-[color:var(--cream)]"
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/40 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-[color:var(--foreground)]/85 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:text-[color:var(--foreground)]"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Planning HQ
@@ -65,41 +63,59 @@ function PlannerLayout() {
         </div>
       )}
 
-      {/* Warm greeting strip — only on overview */}
+      {/* Bright luxury Christmas living room hero — only on overview */}
       {onOverview && (
         <section className="relative isolate overflow-hidden">
           <img
             src={plannerHero}
             alt=""
             aria-hidden="true"
+            width={1536}
+            height={1024}
             className="absolute inset-0 -z-10 h-full w-full object-cover"
           />
+          {/* Warm cream wash so the welcome type reads, never navy */}
           <div
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "linear-gradient(to bottom, var(--surface-card) 0%, var(--surface-card) 40%, var(--surface-card) 82%, var(--background) 100%)",
+                "linear-gradient(to right, oklch(0.985 0.012 88 / 0.92) 0%, oklch(0.985 0.012 88 / 0.72) 38%, oklch(0.985 0.012 88 / 0.18) 70%, oklch(0.985 0.012 88 / 0.05) 100%)",
             }}
           />
-          <div className="relative z-10 mx-auto flex min-h-[32vh] max-w-7xl flex-col justify-end px-5 pt-24 pb-8 sm:min-h-[38vh] sm:max-h-[440px] sm:px-8 sm:pt-32 sm:pb-12">
-            <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-              {sleeps} sleeps until Christmas
-            </p>
-            <h1 className="mt-4 font-display text-4xl leading-tight tracking-tight sm:text-6xl">
-              Hi {name}, <span className="italic gold-text">welcome back</span>.
-            </h1>
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-[color:var(--muted-foreground)]">
-              Your quiet corner for gifts, food, and everything else. Take it a step at a time.
-            </p>
+          <div
+            className="absolute inset-x-0 bottom-0 -z-10 h-32"
+            style={{
+              background: "linear-gradient(to bottom, transparent, var(--background) 92%)",
+            }}
+          />
+          <div className="relative z-10 mx-auto flex min-h-[62vh] max-w-7xl flex-col px-5 pt-24 pb-10 sm:min-h-[58vh] sm:max-h-[560px] sm:px-8 sm:pt-28 sm:pb-14">
+            {/* Countdown capsule */}
+            <div className="flex justify-center">
+              <p className="inline-flex items-center gap-2.5 rounded-full border border-[color:var(--gold)]/60 bg-[oklch(0.99_0.01_90_/_0.88)] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--gold-soft)] shadow-[0_8px_24px_-16px_oklch(0.6_0.12_70_/_0.6)] backdrop-blur-sm sm:text-xs">
+                <Snowflake className="h-3.5 w-3.5" aria-hidden="true" />
+                {sleeps} sleeps until Christmas
+                <Snowflake className="h-3.5 w-3.5" aria-hidden="true" />
+              </p>
+            </div>
+
+            <div className="mt-auto max-w-xl">
+              <h1 className="font-display text-[42px] leading-[1.02] tracking-tight text-[color:var(--foreground)] sm:text-6xl">
+                Hi {name},
+                <span className="script-gold mt-1 block text-[46px] leading-[1.05] sm:text-7xl">welcome back</span>
+              </h1>
+              <p className="mt-4 max-w-md text-[16px] leading-relaxed text-[color:var(--muted-foreground)]">
+                Your quiet corner for gifts, food, and everything else. Take it a step at a time.
+              </p>
+            </div>
           </div>
         </section>
       )}
 
-
       {/* Content */}
-      <main className="relative z-10 mx-auto max-w-7xl px-5 pb-24 pt-8 sm:px-8 sm:pt-10">
+      <main className="relative z-10 mx-auto max-w-7xl px-5 pb-24 pt-6 sm:px-8 sm:pt-8">
         <Outlet />
       </main>
     </div>
   );
 }
+
