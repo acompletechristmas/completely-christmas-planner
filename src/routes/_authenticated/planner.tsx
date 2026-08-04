@@ -82,9 +82,9 @@ function PlannerLayout() {
             }}
           />
           <div
-            className="absolute inset-x-0 bottom-0 -z-10 h-32"
+            className="absolute inset-x-0 bottom-0 -z-10 h-1/2"
             style={{
-              background: "linear-gradient(to bottom, transparent, var(--background) 92%)",
+              background: "linear-gradient(to bottom, transparent 0%, oklch(0.985 0.012 88 / 0.55) 45%, var(--background) 96%)",
             }}
           />
           <div className="relative z-10 mx-auto flex min-h-[62vh] max-w-7xl flex-col px-5 pt-24 pb-10 sm:min-h-[58vh] sm:max-h-[560px] sm:px-8 sm:pt-28 sm:pb-14">
