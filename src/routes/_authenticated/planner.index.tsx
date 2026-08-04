@@ -26,6 +26,20 @@ import {
 import { SectionIcon } from "@/components/planner/SectionShell";
 import { BaubleIcon, RibbonIcon } from "@/components/planner/section-icons";
 import type { LucideIcon } from "lucide-react";
+import photoPlans from "@/assets/hq-plans.jpg";
+import photoHome from "@/assets/hq-home.jpg";
+import photoFood from "@/assets/hq-food.jpg";
+import photoFilms from "@/assets/hq-films.jpg";
+import photoMusic from "@/assets/hq-music.jpg";
+import photoCards from "@/assets/hq-cards.jpg";
+import photoTraditions from "@/assets/hq-traditions.jpg";
+import photoChecklist from "@/assets/hq-checklist.jpg";
+import photoActivities from "@/assets/hq-activities.jpg";
+import photoBudget from "@/assets/hq-budget.jpg";
+
+/** Dark navy veil laid over every card photograph so the gold text stays legible. */
+const CARD_VEIL =
+  "linear-gradient(160deg, oklch(0.16 0.05 245 / 0.72) 0%, oklch(0.13 0.04 245 / 0.66) 55%, oklch(0.11 0.03 245 / 0.78) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
@@ -66,7 +80,7 @@ interface Section {
   action: string;
   icon: LucideIcon;
   to: string;
-  bg: string;
+  photo: string;
   accent: string;
   border: string;
   iconTint: string;
@@ -82,7 +96,7 @@ const SECTIONS: Section[] = [
     action: "View my plans",
     icon: ListChecks,
     to: "/planner/todos",
-    bg: "linear-gradient(160deg, oklch(0.24 0.09 350 / 0.85), oklch(0.17 0.07 350 / 0.92))",
+    photo: photoPlans,
     accent: "oklch(0.86 0.09 88 / 0.75)",
     border: "oklch(0.55 0.14 350 / 0.4)",
     iconTint: "oklch(0.90 0.09 88)",
@@ -96,7 +110,7 @@ const SECTIONS: Section[] = [
     action: "View home ideas",
     icon: Home,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.26 0.07 155 / 0.85), oklch(0.19 0.06 155 / 0.92))",
+    photo: photoHome,
     accent: "oklch(0.94 0.05 90 / 0.7)",
     border: "oklch(0.55 0.14 155 / 0.35)",
     iconTint: "oklch(0.94 0.05 90)",
@@ -110,7 +124,7 @@ const SECTIONS: Section[] = [
     action: "View food plans",
     icon: UtensilsCrossed,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.28 0.11 25 / 0.82), oklch(0.19 0.09 25 / 0.92))",
+    photo: photoFood,
     accent: "oklch(0.86 0.10 88 / 0.7)",
     border: "oklch(0.55 0.16 25 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -124,7 +138,7 @@ const SECTIONS: Section[] = [
     action: "View films",
     icon: Star,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.19 0.06 260 / 0.88), oklch(0.13 0.05 260 / 0.94))",
+    photo: photoFilms,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.10 260 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -138,7 +152,7 @@ const SECTIONS: Section[] = [
     action: "View music",
     icon: Sparkles,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.24 0.06 210 / 0.85), oklch(0.16 0.05 210 / 0.92))",
+    photo: photoMusic,
     accent: "oklch(0.86 0.08 88 / 0.65)",
     border: "oklch(0.50 0.10 210 / 0.4)",
     iconTint: "oklch(0.88 0.09 88)",
@@ -152,7 +166,7 @@ const SECTIONS: Section[] = [
     action: "View cards",
     icon: Mail,
     to: "/planner/cards",
-    bg: "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.82), oklch(0.17 0.06 155 / 0.92))",
+    photo: photoCards,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.12 155 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -166,7 +180,7 @@ const SECTIONS: Section[] = [
     action: "View traditions",
     icon: PartyPopper,
     to: "/planner/my",
-    bg: "linear-gradient(160deg, oklch(0.24 0.10 300 / 0.82), oklch(0.17 0.08 300 / 0.92))",
+    photo: photoTraditions,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.12 300 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
@@ -180,7 +194,7 @@ const SECTIONS: Section[] = [
     action: "View checklist",
     icon: ListChecks,
     to: "/planner/todos",
-    bg: "linear-gradient(160deg, oklch(0.26 0.06 245 / 0.85), oklch(0.18 0.05 245 / 0.92))",
+    photo: photoChecklist,
     accent: "oklch(0.88 0.11 88 / 0.75)",
     border: "oklch(0.55 0.10 245 / 0.4)",
     iconTint: "oklch(0.88 0.11 88)",
@@ -378,21 +392,29 @@ function PlannerOverview() {
       <section
         className="relative space-y-3 overflow-hidden rounded-3xl border p-5 sm:p-6"
         style={{
-          background:
-            "linear-gradient(160deg, oklch(0.24 0.08 155 / 0.85), oklch(0.17 0.06 155 / 0.92))",
           borderColor: "oklch(0.55 0.14 155 / 0.4)",
           boxShadow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
         }}
       >
+        <img
+          src={photoActivities}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          width={1024}
+          height={768}
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+        />
+        <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-6 top-0 h-px"
+          className="pointer-events-none absolute inset-x-6 top-0 z-10 h-px"
           style={{
             background:
               "linear-gradient(90deg, transparent, oklch(0.85 0.09 90 / 0.8), transparent)",
           }}
         />
-        <div className="flex items-start justify-between gap-3">
+        <div className="relative z-10 flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
               <CalendarDays className="h-3 w-3" /> FESTIVE ACTIVITIES
@@ -410,7 +432,7 @@ function PlannerOverview() {
           </Link>
         </div>
         {upcomingOutings.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
+          <div className="relative z-10 rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-black/25 p-6 text-center text-sm text-muted-foreground">
             No festive activities saved yet.{" "}
             <Link to="/planner/outings" className="text-[color:var(--gold-soft)] hover:underline">
               Add your first
@@ -418,7 +440,7 @@ function PlannerOverview() {
             .
           </div>
         ) : (
-          <ul className="grid gap-2 sm:grid-cols-2">
+          <ul className="relative z-10 grid gap-2 sm:grid-cols-2">
             {upcomingOutings.map((o) => (
               <li
                 key={o.id}
@@ -450,8 +472,18 @@ function PlannerOverview() {
           </p>
           <h2 className="mt-1 flex items-center gap-2.5 font-display text-2xl sm:text-3xl"><SectionIcon icon={BaubleIcon} /><span>What you've spent</span></h2>
         </div>
-        <div className="rounded-3xl border border-[color:var(--gold)]/25 bg-[color:var(--forest-deep)]/60 p-5">
-          <div className="flex items-baseline justify-between">
+        <div className="relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/25 p-5">
+          <img
+            src={photoBudget}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            width={1024}
+            height={768}
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          />
+          <span aria-hidden className="pointer-events-none absolute inset-0 z-0" style={{ background: CARD_VEIL }} />
+          <div className="relative z-10 flex items-baseline justify-between">
             <p className="font-display text-3xl gold-text">£{spent.toFixed(0)}</p>
             <p className="text-xs text-muted-foreground">
               {budgetTotal != null ? `of £${budgetTotal.toFixed(0)} planned` : "no overall budget set"}
@@ -459,7 +491,7 @@ function PlannerOverview() {
           </div>
           {budgetTotal != null && (
             <>
-              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
+              <div className="relative z-10 mt-3 h-2 w-full overflow-hidden rounded-full bg-black/25">
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
@@ -468,21 +500,21 @@ function PlannerOverview() {
                   }}
                 />
               </div>
-              <p className="mt-2 text-[11px] text-muted-foreground">
+              <p className="relative z-10 mt-2 text-[11px] text-muted-foreground">
                 {overBudget
                   ? `Over by £${(spent - budgetTotal).toFixed(0)}`
                   : `£${(budgetTotal - spent).toFixed(0)} still available`}
               </p>
             </>
           )}
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="relative z-10 mt-4 grid grid-cols-3 gap-2">
             <MiniStat value={presents.length} label="presents" />
             <MiniStat value={given.length} label="given" />
             <MiniStat value={ideas.length} label="ideas" />
           </div>
           <Link
             to="/planner/setup"
-            className="mt-4 inline-flex items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
+            className="relative z-10 mt-4 inline-flex items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
           >
             <Settings2 className="h-3 w-3" /> Update budget & preferences
           </Link>
@@ -506,19 +538,32 @@ function PlannerOverview() {
                   to={s.to}
                   className="group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
                   style={{
-                    background: s.bg,
                     borderColor: s.border,
                     boxShadow: s.glow,
                   }}
                 >
+                  <img
+                    src={s.photo}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-x-4 top-0 h-px"
+                    className="pointer-events-none absolute inset-0 z-0"
+                    style={{ background: CARD_VEIL }}
+                  />
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-4 top-0 z-10 h-px"
                     style={{
                       background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)`,
                     }}
                   />
-                  <div className="flex items-start gap-3">
+                  <div className="relative z-10 flex items-start gap-3">
                     <div
                       className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
                       style={{
@@ -540,8 +585,8 @@ function PlannerOverview() {
                       </p>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs text-[color:var(--cream)]/70">{s.tagline}</p>
-                  <div className="mt-4 flex items-center justify-between">
+                  <p className="relative z-10 mt-3 text-xs text-[color:var(--cream)]/80">{s.tagline}</p>
+                  <div className="relative z-10 mt-4 flex items-center justify-between">
                     <span
                       className="inline-flex items-center gap-1 text-xs font-semibold"
                       style={{ color: s.iconTint }}
