@@ -15,7 +15,17 @@ Each card gets its own photograph matching its subject. Several premium photos a
 - Films & TV, Music & Playlists, Traditions, Decorations, Days Out, Gifts, Pets, Teachers, Food & Hosting — existing photographic assets.
 - Newly generated, in the same warm, realistic, candlelit style as the homepage: My Christmas Plans (planner, diary, wrapped presents, fairy lights on wood), My Christmas Home (decorated living room with tree and fireplace), Cards & Post (cards, envelopes, ribbon, wax seal, fountain pen), Budget (gift tags, notebook, calculator, wrapped presents), Final Checklist (list and pen beside baubles and candlelight).
 
-No illustrations or clipart.
+## Art direction (mandatory, applies to every image)
+
+The set must read as one professionally art-directed Christmas shoot, closer to Fortnum & Mason or John Lewis Christmas advertising than to stock photography:
+
+- Warm golden fairy-light and candlelight as the only light source; no harsh studio light.
+- Palette locked to rich red, deep green, navy, gold and warm wood.
+- Shallow depth of field with softly blurred bokeh lights behind the subject.
+- Natural, realistic photography, richly styled and full frame — no empty space, no plain backgrounds, no unrealistic HDR.
+- No visible faces, no illustration, no clipart.
+
+Every existing asset is checked against this standard first and reused if it passes; anything that reads flat, cold or generic is regenerated so the collection stays consistent.
 
 ## Technical notes
 
