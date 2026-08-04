@@ -42,7 +42,7 @@ import photoBudget from "@/assets/hq-budget.jpg";
 
 /** Dark navy veil laid over every card photograph so the gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, var(--surface-deep) 0%, var(--surface-deep) 55%, var(--surface-deep) 100%)";
+  "linear-gradient(160deg, oklch(0.16 0.05 245 / 0.78) 0%, oklch(0.13 0.04 245 / 0.72) 55%, oklch(0.10 0.03 245 / 0.8) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
