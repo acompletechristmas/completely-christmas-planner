@@ -9,11 +9,11 @@ Image models don't copy an attached picture by default — they generate fresh a
 Using your reference (`file_0000000047f481f4af542ba1a90fccf5.png`) as the direct input:
 
 1. **Background band** — a wide, cinematic dark-festive strip that extends the reference's atmosphere (deep midnight blue, warm bokeh lights, soft snowfall, gold glow). Sized for a full-width band roughly the current cream panel's height, so page height doesn't change.
-2. **Three circular illustrations** — small premium round vignettes cropped/derived from the same artwork so they share one visual world:
-   - Plan — wrapped gift with gold ribbon
-   - Inspire — lit Christmas tree
-   - Share & Play — steaming cocoa mug
-   Each with a thin gold rim and soft glow, on transparent backgrounds.
+2. **Three circular cinematic vignettes** — richly detailed, photorealistic scenes derived from the same reference so they share one magical world. No flat icons or single objects.
+   - Plan — beautifully wrapped Christmas presents beside an elegant planner notebook tied with gold ribbon, warm fairy lights, festive details
+   - Inspire — a stunning decorated Christmas tree, glowing lights, elegant ornaments, candles, magical golden bokeh
+   - Share & Play — a cosy family Christmas scene with board games, hot chocolate, Christmas treats, candles and twinkling lights
+   Each circular, softly glowing, premium, with a thin gold rim, on a transparent background.
 
 I'll show all four images for approval before any code changes.
 
