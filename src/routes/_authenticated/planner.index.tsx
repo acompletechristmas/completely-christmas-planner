@@ -42,7 +42,7 @@ import photoBudget from "@/assets/hq-budget.jpg";
 
 /** Warm cream veil laid over every card photograph so the navy/gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.90) 0%, oklch(0.975 0.014 88 / 0.86) 55%, oklch(0.96 0.018 86 / 0.92) 100%)";
+  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.95) 0%, oklch(0.975 0.014 88 / 0.92) 55%, oklch(0.96 0.018 86 / 0.96) 100%)";
 
 export const Route = createFileRoute("/_authenticated/planner/")({
   component: PlannerOverview,
@@ -607,7 +607,7 @@ function PlannerOverview() {
 
 function MiniStat({ value, label }: { value: number | string; label: string }) {
   return (
-    <div className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--forest-deep)]/60 p-3 text-center">
+    <div className="rounded-2xl border border-[color:var(--gold)]/20 bg-[color:var(--surface-sunk)] p-3 text-center">
       <p className="font-display text-2xl text-[color:var(--gold-soft)]">{value}</p>
       <p className="mt-0.5 text-[11px] text-muted-foreground">{label}</p>
     </div>
