@@ -567,8 +567,8 @@ function PlannerOverview() {
                       </p>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs text-[color:var(--cream)]/70">{s.tagline}</p>
-                  <div className="mt-4 flex items-center justify-between">
+                  <p className="relative z-10 mt-3 text-xs text-[color:var(--cream)]/80">{s.tagline}</p>
+                  <div className="relative z-10 mt-4 flex items-center justify-between">
                     <span
                       className="inline-flex items-center gap-1 text-xs font-semibold"
                       style={{ color: s.iconTint }}
