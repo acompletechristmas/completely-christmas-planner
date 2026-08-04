@@ -1,5 +1,4 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Snowfall } from "@/components/Snowfall";
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowLeft, Snowflake } from "lucide-react";
