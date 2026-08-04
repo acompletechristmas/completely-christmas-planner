@@ -42,7 +42,7 @@ import photoBudget from "@/assets/hq-budget.jpg";
 
 /** Warm cream veil laid over every card photograph so the navy/gold text stays legible. */
 const CARD_VEIL =
-  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.66) 0%, oklch(0.98 0.014 88 / 0.44) 45%, oklch(0.96 0.018 86 / 0.28) 100%)";
+  "linear-gradient(160deg, oklch(0.99 0.010 90 / 0.86) 0%, oklch(0.98 0.014 88 / 0.66) 45%, oklch(0.96 0.018 86 / 0.38) 100%)";
 
 /** Warm, rich treatment so the Christmas photography reads as a feature again. */
 const PHOTO_FILTER = "saturate(1.3) contrast(1.1) brightness(1.04)";
