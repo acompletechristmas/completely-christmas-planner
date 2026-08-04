@@ -518,6 +518,7 @@ function PlannerOverview() {
                     width={1024}
                     height={768}
                     className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    style={{ filter: PHOTO_FILTER }}
                   />
                   <span
                     aria-hidden
