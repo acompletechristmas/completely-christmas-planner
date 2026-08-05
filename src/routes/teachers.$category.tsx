@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/PageShell";
-import heroTeachers from "@/assets/card-teachers.jpg";
+import heroTeachers from "@/assets/card-teachers.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { findCategory, yearGroupLabel } from "@/lib/teacher-categories";
 import { useEffect, useMemo, useState } from "react";

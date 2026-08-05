@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageShell } from "@/components/PageShell";
-import heroComingSoon from "@/assets/card-magic.jpg";
+import heroComingSoon from "@/assets/card-magic.webp";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Bot,

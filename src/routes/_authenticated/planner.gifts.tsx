@@ -27,7 +27,8 @@ import {
   Snowflake,
 } from "lucide-react";
 import { Gift as GiftHeadingIcon } from "lucide-react";
-import { SectionIcon } from "@/components/planner/SectionShell";
+
+import { PlannerButton } from "@/components/planner/PlannerButton";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/planner/gifts")({
@@ -224,84 +225,66 @@ export function BuyingForPage() {
 
   return (
     <div className="rise-in space-y-6 pb-28 sm:pb-16">
-      <header className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 shadow-[0_24px_60px_-32px_oklch(0_0_0_/_0.85)]">
-        {/* Snowy village banner — matches approved v2 mockup */}
-        <div className="relative h-40 overflow-hidden bg-[linear-gradient(180deg,oklch(0.16_0.05_245)_0%,oklch(0.10_0.04_245)_100%)] sm:h-48">
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-24 items-end justify-between px-6 opacity-70">
-            <div className="relative h-16 w-14 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5">
-              <span className="absolute left-2 top-3 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.55)]" />
-              <span className="absolute left-2 top-7 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.35)]" />
-            </div>
-            <div className="relative h-20 w-16 rounded-t-md bg-[color:var(--surface-deep)] border-b-2 border-white/5">
-              <span className="absolute left-4 top-4 h-2 w-2 bg-[oklch(0.90_0.16_88_/_0.75)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.7)]" />
-              <span className="absolute left-2 top-10 h-1.5 w-1.5 bg-[oklch(0.88_0.14_88_/_0.4)]" />
-            </div>
-            <div className="h-12 w-10 rounded-t-sm bg-[color:var(--surface-deep)] border-b-2 border-white/5" />
-          </div>
-          <div className="pointer-events-none absolute bottom-4 left-6 flex flex-col items-center">
-            <span className="h-10 w-[3px] bg-[color:var(--surface-deep)]" />
-            <span className="-mt-12 h-3 w-3 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_18px_6px_oklch(0.90_0.16_88_/_0.55)]" />
-          </div>
-          <div className="pointer-events-none absolute bottom-2 right-8">
-            <span
-              className="block h-0 w-0"
-              style={{
-                borderLeft: "20px solid transparent",
-                borderRight: "20px solid transparent",
-                borderBottom: "40px solid oklch(0.28 0.08 155)",
-              }}
-            />
-            <span className="absolute -top-1 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-[oklch(0.90_0.16_88)] shadow-[0_0_10px_oklch(0.90_0.16_88_/_0.9)]" />
-            <span className="absolute top-4 left-2 h-1 w-1 rounded-full bg-[oklch(0.65_0.20_25)]" />
-            <span className="absolute top-8 right-2 h-1 w-1 rounded-full bg-[oklch(0.90_0.14_88)]" />
-          </div>
-          <div className="relative z-[1] flex flex-col items-center pt-8">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
-              {sleeps} sleeps until Christmas
-            </p>
-          </div>
-        </div>
+      <header className="relative overflow-hidden rounded-[28px] border border-[color:var(--gold)]/35 bg-[color:var(--card)] px-5 py-7 shadow-[var(--shadow-soft)] sm:px-8 sm:py-9">
+        {/* Gold line-art flourish — decorative only */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 200 120"
+          className="pointer-events-none absolute right-2 top-3 hidden h-24 w-40 text-[color:var(--gold)]/50 sm:block"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        >
+          <path d="M18 96C60 92 122 70 178 20" />
+          <path d="M52 88c-6-12-2-24 8-30 4 12 2 24-8 30Z" />
+          <path d="M74 78c-4-13 1-24 12-28 2 12-2 24-12 28Z" />
+          <path d="M96 66c-3-13 3-24 14-27 1 12-4 23-14 27Z" />
+          <path d="M118 54c-2-13 5-23 16-25 0 12-6 22-16 25Z" />
+          <path d="M60 92c11 3 20 0 25-9-12-3-21 0-25 9Z" />
+          <path d="M84 82c11 3 20-1 24-10-12-2-21 1-24 10Z" />
+          <path d="M108 70c11 2 20-2 23-11-12-2-20 2-23 11Z" />
+          <path d="M172 44l2-7 2 7 7 2-7 2-2 7-2-7-7-2 7-2Z" />
+        </svg>
 
-        {/* Header body — navy */}
-        <div className="relative bg-[color:var(--surface-deep)] p-5 sm:p-7">
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
-            <Users className="h-4 w-4" /> People &amp; Presents
-          </p>
-          <h1 className="mt-2 flex items-center gap-3 font-display text-4xl leading-tight sm:text-5xl"><SectionIcon icon={GiftHeadingIcon} /><span>My People &amp; Presents</span></h1>
-          <p className="mt-2 max-w-2xl text-sm text-[color:var(--cream)]/82 sm:text-base">
-            Everyone on your list — with every idea, present and price in one beautiful place.
-          </p>
+        <p className="relative inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          <GiftHeadingIcon className="h-4 w-4" strokeWidth={1.5} /> GIFTS &amp; PEOPLE
+        </p>
+        <h1 className="relative mt-2 font-display text-[34px] leading-[1.05] tracking-tight text-[color:var(--foreground)] sm:text-5xl">
+          My Christmas Gifts
+        </h1>
+        <p className="relative mt-3 max-w-xl text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
+          Everyone you love, every little idea and every budget — kept safe in one beautiful place.
+        </p>
+        <p className="relative mt-2 text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
+          {sleeps} sleeps until Christmas
+        </p>
 
-          <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <button
-              onClick={() => setAddOpen(true)}
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl px-3 py-3 text-sm font-semibold text-[color:var(--midnight-deep)] shadow-[0_10px_30px_-10px_oklch(0.82_0.14_85_/_0.7)] transition hover:brightness-110 sm:text-base"
-              style={{ background: "var(--gradient-gold)" }}
-            >
-              <Plus className="h-5 w-5" /> Add person
-            </button>
-            <button
-              onClick={() => openAddGift("present")}
-              disabled={people.length === 0}
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/55 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
-            >
-              <Package className="h-5 w-5" /> Add present
-            </button>
-            <Link
-              to="/gift-finder"
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 sm:text-base"
-            >
-              <Sparkles className="h-5 w-5" /> Gift Finder
-            </Link>
-            <Link
-              to="/gift-finder/secret-santa"
-              className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-2xl border border-[color:var(--gold)]/45 bg-[color:var(--midnight-deep)]/60 px-3 py-3 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)] hover:bg-[color:var(--midnight-deep)]/80 sm:text-base"
-            >
-              <Snowflake className="h-5 w-5" /> Secret Santa
-            </Link>
-          </div>
+        <div className="relative mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <PlannerButton icon={Plus} onClick={() => setAddOpen(true)}>
+            Add person
+          </PlannerButton>
+          <PlannerButton
+            icon={Package}
+            onClick={() => {
+              if (people.length === 0) {
+                toast.info("Add someone first, then you can add presents for them.");
+                return;
+              }
+              openAddGift("present");
+            }}
+          >
+            Add present
+          </PlannerButton>
+          <PlannerButton to="/gift-finder" icon={Sparkles}>
+            Find gift ideas
+          </PlannerButton>
+          <PlannerButton to="/gift-finder/secret-santa" icon={Snowflake}>
+            Secret Santa
+          </PlannerButton>
         </div>
       </header>
+
 
       {people.length === 0 && (
         <p className="-mt-2 text-center text-xs text-muted-foreground">
@@ -335,7 +318,7 @@ export function BuyingForPage() {
                 key={f.key}
                 onClick={() => setFilter(f.key)}
                 className={
-                  "snap-start whitespace-nowrap rounded-full border px-3.5 py-2 text-xs font-medium transition " +
+                  "snap-start inline-flex min-h-[44px] items-center whitespace-nowrap rounded-full border px-4 py-2 text-xs font-medium transition " +
                   (active
                     ? "border-[color:var(--gold)] bg-[color:var(--gold)]/15 text-[color:var(--gold-soft)]"
                     : "border-[color:var(--gold)]/25 text-muted-foreground hover:border-[color:var(--gold)]/60")
@@ -827,7 +810,7 @@ function RecipientCard({
         <button
           onClick={onToggle}
           aria-expanded={expanded}
-          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] px-5 py-2.5 text-[13px] font-semibold uppercase tracking-[0.12em] transition hover:shadow-[0_8px_20px_-10px_oklch(0.55_0.14_75_/_0.6)]"
+          className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full border-[1.5px] px-5 py-2.5 text-[13px] font-semibold uppercase tracking-[0.12em] transition hover:shadow-[0_8px_20px_-10px_oklch(0.55_0.14_75_/_0.6)]"
           style={{
             borderColor: "oklch(0.55 0.14 75 / 0.85)",
             color: "oklch(0.35 0.10 60)",
@@ -1007,7 +990,7 @@ function IconBtn({
       onClick={onClick}
       aria-label={label}
       className={
-        "rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] p-1.5 text-muted-foreground transition hover:text-foreground " +
+        "inline-grid h-11 w-11 place-items-center rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] text-muted-foreground transition hover:text-foreground " +
         (danger
           ? "hover:border-[color:var(--burgundy)] hover:text-[color:var(--burgundy)]"
           : "hover:border-[color:var(--gold)]/70")

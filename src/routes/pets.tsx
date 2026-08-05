@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroPets from "@/assets/card-pets.jpg";
+import heroPets from "@/assets/card-pets.webp";
 import { PawPrint, Shirt, Camera, MapPin, Gift, Cookie, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/pets")({

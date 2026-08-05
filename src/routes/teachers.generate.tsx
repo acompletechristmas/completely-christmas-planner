@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { PageShell } from "@/components/PageShell";
-import heroTeachers from "@/assets/card-teachers.jpg";
+import heroTeachers from "@/assets/card-teachers.webp";
 import { generateResource, type GenerateResourceResult } from "@/lib/teacher-resources.functions";
 import { TEACHER_CATEGORIES, findCategory } from "@/lib/teacher-categories";
 import { supabase } from "@/integrations/supabase/client";

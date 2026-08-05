@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroAssistant from "@/assets/card-assistant.jpg";
+import heroAssistant from "@/assets/card-assistant.webp";
 import { Bot, MessagesSquare, Wand2, Lightbulb, ChefHat, Gift, Sparkles, Star } from "lucide-react";
 
 export const Route = createFileRoute("/assistant")({

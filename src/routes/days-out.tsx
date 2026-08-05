@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, GoldCTA } from "@/components/PageShell";
-import heroDaysOut from "@/assets/card-daysout.jpg";
+import heroDaysOut from "@/assets/card-daysout.webp";
 import { FilterPills } from "@/components/days-out/FilterPills";
 import { CollectionRow } from "@/components/days-out/CollectionRow";
 import { ExperienceCard } from "@/components/days-out/ExperienceCard";

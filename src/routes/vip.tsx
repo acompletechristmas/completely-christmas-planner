@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroVip from "@/assets/hero-room.jpg";
+import heroVip from "@/assets/hero-room.webp";
 import { Crown, Sparkles, Check, Bot, Gift, CalendarClock, Trophy, Printer, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/vip")({

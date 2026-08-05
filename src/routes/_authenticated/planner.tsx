@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-r
 import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowLeft, Snowflake } from "lucide-react";
-import plannerHero from "@/assets/planner-hero-cream.jpg";
+import plannerHero from "@/assets/planner-hero-cream.webp";
 
 export const Route = createFileRoute("/_authenticated/planner")({
   head: () => ({
@@ -54,7 +54,7 @@ function PlannerLayout() {
         <div className="relative z-10 mx-auto max-w-7xl px-5 pt-24 sm:px-8 sm:pt-28">
           <Link
             to="/planner"
-            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/40 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-[color:var(--foreground)]/85 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:text-[color:var(--foreground)]"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[color:var(--gold)]/40 bg-white/70 px-4 py-1.5 text-xs font-medium text-[color:var(--foreground)]/85 backdrop-blur-sm transition hover:border-[color:var(--gold)] hover:text-[color:var(--foreground)]"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Planning HQ

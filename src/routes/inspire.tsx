@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroInspire from "@/assets/card-decorations.jpg";
+import heroInspire from "@/assets/card-decorations.webp";
 import { Sparkles, TreePine, Gift, Home, Palette, Wand2, Snowflake, Star } from "lucide-react";
 
 export const Route = createFileRoute("/inspire")({
