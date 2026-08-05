@@ -6,11 +6,11 @@ import { SiteNav } from "@/components/SiteNav";
 import { useAuth } from "@/hooks/use-auth";
 import { ArrowRight } from "lucide-react";
 
-import heroVillage from "@/assets/hero-village.jpg";
-import homeBand from "@/assets/home-band.jpg";
-import circlePlan from "@/assets/circle-plan.png";
-import circleInspire from "@/assets/circle-inspire.png";
-import circleShare from "@/assets/circle-share.png";
+import heroVillage from "@/assets/hero-village.webp";
+import homeBand from "@/assets/home-band.webp";
+import circlePlan from "@/assets/circle-plan.webp";
+import circleInspire from "@/assets/circle-inspire.webp";
+import circleShare from "@/assets/circle-share.webp";
 import bowSatin from "@/assets/bow-satin.png.asset.json";
 
 export const Route = createFileRoute("/")({

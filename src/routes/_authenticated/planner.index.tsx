@@ -29,16 +29,16 @@ import { SectionIcon } from "@/components/planner/SectionShell";
 import { PlannerButton } from "@/components/planner/PlannerButton";
 import { BaubleIcon, RibbonIcon } from "@/components/planner/section-icons";
 import type { LucideIcon } from "lucide-react";
-import photoPlans from "@/assets/hq-plans.jpg";
-import photoHome from "@/assets/hq-home.jpg";
-import photoFood from "@/assets/hq-food.jpg";
-import photoFilms from "@/assets/hq-films.jpg";
-import photoMusic from "@/assets/hq-music.jpg";
-import photoCards from "@/assets/hq-cards.jpg";
-import photoTraditions from "@/assets/hq-traditions.jpg";
-import photoChecklist from "@/assets/hq-checklist.jpg";
-import photoActivities from "@/assets/hq-activities.jpg";
-import photoBudget from "@/assets/hq-budget.jpg";
+import photoPlans from "@/assets/hq-plans.webp";
+import photoHome from "@/assets/hq-home.webp";
+import photoFood from "@/assets/hq-food.webp";
+import photoFilms from "@/assets/hq-films.webp";
+import photoMusic from "@/assets/hq-music.webp";
+import photoCards from "@/assets/hq-cards.webp";
+import photoTraditions from "@/assets/hq-traditions.webp";
+import photoChecklist from "@/assets/hq-checklist.webp";
+import photoActivities from "@/assets/hq-activities.webp";
+import photoBudget from "@/assets/hq-budget.webp";
 
 /** Warm cream veil laid over every card photograph so the navy/gold text stays legible. */
 const CARD_VEIL =
@@ -401,7 +401,7 @@ function PlannerOverview() {
           </div>
           <Link
             to="/planner/outings"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--surface-sunk)] px-3 py-1.5 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+            className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--surface-sunk)] px-4 py-1.5 text-xs font-semibold text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
           >
             View activities <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -409,7 +409,7 @@ function PlannerOverview() {
         {upcomingOutings.length === 0 ? (
           <div className="relative z-10 rounded-2xl border border-dashed border-[color:var(--gold)]/30 bg-[color:var(--surface-sunk)] p-6 text-center text-sm text-muted-foreground">
             No festive activities saved yet.{" "}
-            <Link to="/planner/outings" className="text-[color:var(--gold-soft)] hover:underline">
+            <Link to="/planner/outings" className="inline-flex min-h-[44px] items-center text-[color:var(--gold-soft)] hover:underline">
               Add your first
             </Link>
             .
@@ -490,7 +490,7 @@ function PlannerOverview() {
           </div>
           <Link
             to="/planner/setup"
-            className="relative z-10 mt-4 inline-flex items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
+            className="relative z-10 mt-4 inline-flex min-h-[44px] items-center gap-1.5 text-xs text-[color:var(--gold-soft)] hover:underline"
           >
             <Settings2 className="h-3 w-3" /> Update budget & preferences
           </Link>

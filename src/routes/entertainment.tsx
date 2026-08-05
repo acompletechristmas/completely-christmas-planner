@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroEntertainment from "@/assets/card-entertainment.jpg";
+import heroEntertainment from "@/assets/card-entertainment.webp";
 import { Film, Music, Gamepad2, BookOpen, Tv, Sparkles, Star, PartyPopper } from "lucide-react";
 
 export const Route = createFileRoute("/entertainment")({

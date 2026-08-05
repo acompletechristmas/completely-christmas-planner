@@ -103,7 +103,7 @@ function FullGiftListPage() {
       {/* Back */}
       <Link
         to="/planner"
-        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition hover:text-foreground"
+        className="inline-flex min-h-[44px] items-center gap-1.5 text-xs text-muted-foreground transition hover:text-foreground"
       >
         <ArrowLeft className="h-3.5 w-3.5" /> Back to my Christmas
       </Link>
@@ -142,7 +142,7 @@ function FullGiftListPage() {
               key={f.key}
               onClick={() => setFilter(f.key)}
               className={
-                "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs transition " +
+                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs transition " +
                 (active
                   ? "border-[color:var(--gold)] bg-[oklch(0.80_0.14_85_/_0.15)] text-[color:var(--gold-soft)]"
                   : "border-[oklch(0.80_0.14_85_/_0.25)] text-muted-foreground hover:border-[oklch(0.80_0.14_85_/_0.5)] hover:text-foreground")
@@ -210,7 +210,7 @@ function FullGiftListPage() {
                   onClick={() => updateField(g.id, "status", NEXT_STATUS[g.status])}
                   title={`Mark as ${NEXT_STATUS[g.status]}`}
                   className={
-                    "grid h-9 w-9 shrink-0 place-items-center rounded-full border transition " +
+                    "grid h-11 w-11 shrink-0 place-items-center rounded-full border transition " +
                     statusRingClass(g.status)
                   }
                 >

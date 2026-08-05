@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageShell, FeatureCard, GoldCTA, ComingSoonBadge } from "@/components/PageShell";
-import heroGifts from "@/assets/card-gifts.jpg";
+import heroGifts from "@/assets/card-gifts.webp";
 import { Bot, Gift, Heart, Sparkles, Users, Wand2, Star, Snowflake, ArrowRight, Search } from "lucide-react";
 
 
@@ -88,7 +88,7 @@ function GiftFinderPage() {
             if (g.to.startsWith("#")) {
               return <a key={g.to} href={g.to} className={cls}>{inner}</a>;
             }
-            return <Link key={g.to} to={g.to} className={cls}>{inner}</Link>;
+            return <Link key={g.to} to={g.to as "/planner/gifts"} className={cls}>{inner}</Link>;
           })}
         </div>
       </section>

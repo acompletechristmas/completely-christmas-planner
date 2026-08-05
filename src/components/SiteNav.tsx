@@ -87,7 +87,7 @@ export function SiteNav() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((o) => !o)}
-              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/50 px-3.5 py-2 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded-full border border-[color:var(--gold)]/50 px-3.5 py-2 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
             >
               {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
               <span className="hidden sm:inline">{open ? "Close" : "Menu"}</span>

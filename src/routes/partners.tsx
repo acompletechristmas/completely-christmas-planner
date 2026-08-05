@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { PageShell } from "@/components/PageShell";
-import heroPartners from "@/assets/card-plan.jpg";
+import heroPartners from "@/assets/card-plan.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { Handshake, Users, TrendingUp, Heart, Check, Loader2, Sparkles } from "lucide-react";
 
