@@ -162,7 +162,7 @@ export function SiteNav() {
                 <button
                   type="button"
                   onClick={() => { signOut(); }}
-                  className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/30 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)]/80 transition-all hover:border-[color:var(--gold)]/70 hover:text-[color:var(--cream)]"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[color:var(--gold)]/30 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)]/80 transition-all hover:border-[color:var(--gold)]/70 hover:text-[color:var(--cream)]"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out
