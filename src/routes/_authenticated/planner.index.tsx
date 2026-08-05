@@ -597,7 +597,7 @@ function PlannerOverview() {
             </div>
             <Link
               to="/planner/setup"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] px-3 py-1.5 text-[11px] text-[color:var(--gold-soft)]"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-[oklch(0.80_0.14_85_/_0.35)] px-4 py-1.5 text-[11px] text-[color:var(--gold-soft)]"
             >
               <Settings2 className="h-3.5 w-3.5" /> Edit
             </Link>
