@@ -256,7 +256,7 @@ function FullGiftListPage() {
 
                 <button
                   onClick={() => removeRow(g.id)}
-                  className="text-muted-foreground opacity-0 transition hover:text-[color:var(--cranberry)] group-hover:opacity-100"
+                  className="inline-grid h-11 w-11 shrink-0 place-items-center rounded-full text-muted-foreground opacity-60 transition hover:text-[color:var(--cranberry)] group-hover:opacity-100 sm:opacity-0"
                   aria-label="Remove"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
