@@ -58,6 +58,10 @@ Verified by tapping each planner action once at 390px width in a real browser ru
 
 Expected result: several megabytes removed from initial mobile load.
 
+## Acceptance criteria
+
+After the build there is no route, component, navigation link or redirect anywhere in the application that displays or renders the old "My People & Presents" page or its dark village header. Every Gifts route resolves directly to the new cream-and-gold "My Christmas Gifts" experience. A full-project search for "People & Presents", the village banner markup and the dark navy Gifts header returns nothing.
+
 ## Technical notes
 
 - All header work is inside `src/routes/_authenticated/planner.gifts.tsx` (lines ~226–300); `BuyingForPage` stays the exported component and its `head()` metadata is unchanged.
