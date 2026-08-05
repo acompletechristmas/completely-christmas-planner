@@ -153,7 +153,7 @@ export function SiteNav() {
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Link
                 to={authHref}
-                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[color:var(--gold)]/60 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
               >
                 <UserCircle2 className="h-4 w-4" />
                 {user ? "Open my planner" : "Login or sign up"}
