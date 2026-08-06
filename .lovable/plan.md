@@ -14,22 +14,25 @@ The "A Complete Christmas" logo in the header keeps its exact size, position, co
 - Slight transparency at rest that becomes fully solid on hover/tap, so anything briefly behind it is still legible.
 - Tap area stays comfortable (44x44 minimum) even though the visual pill is smaller, using invisible padding rather than extra visible size.
 
-## 3. Permanent position outside the content flow
+## 3. Permanent position in the header
 
-- Stays `position: fixed`, bottom-right, above all content but below modals.
-- Mobile: icon-only circular button (no "Help" text), tucked into the bottom-right corner and offset above the iPhone home-indicator area using the safe-area inset, so it sits in the natural dead space beside the page edge rather than over a card.
-- Desktop/tablet: pill with the "How can I help you?" label, in the same corner where page content has generous margin.
+- The "A Complete Christmas" logo stays exactly where it is — same size, colours and spacing.
+- Help remains a separate floating element (fixed, not part of the logo), pinned to the top-right area of the header so it sits horizontally alongside the logo.
+- At least a 16px clear gap between the logo and the Help button, on every width, so they never touch or appear connected.
+- It sits inside the header height and never overlaps the logo, the Login link or the hamburger menu — it takes its place in the right-hand control group's rhythm.
+- Stays fixed in that position across the whole site while scrolling, so it can never cover page content.
 - Keeps hiding itself whenever a modal is open (existing behaviour).
 
 ## 4. Nothing hidden behind it
 
-To guarantee no card, button or text ever ends up underneath it, the app's scroll container gets a small bottom clearance equal to the button's height plus the safe-area inset. This is bottom padding at the very end of the page only — no section spacing, grid or layout is altered.
+Because the button now lives in the header band rather than over the page, no card, button or text can end up underneath it. On the narrowest phones the pill collapses to the sparkle icon plus a shorter label if needed to preserve the 16px gap and avoid crowding the menu button.
+
 
 ## 5. Verification
 
-Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the last interactive element on the page is fully tappable, no text sits under the button, and the button responds to a single tap.
+Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the Help button sits in the header with a 16px+ gap from the logo, overlaps nothing, no page text is hidden behind it, and it responds to a single tap.
 
 ## Technical notes
 
-- All changes live in `src/components/HelpButton.tsx`; the trigger classes move to a smaller scale with `env(safe-area-inset-bottom)` in the `bottom` offset.
-- Bottom clearance is applied once via a global rule in `src/styles.css` targeting the app root, not per page.
+- All changes live in `src/components/HelpButton.tsx`: the trigger becomes a `fixed` top-right element aligned to the header band (matching `SiteNav`'s `max-w-7xl` / `px-5 sm:px-8` gutters and vertical centre), offset left of the Login/Menu controls, with a smaller pill scale and invisible padding for the 44x44 target.
+- No changes to `src/components/SiteNav.tsx`, the logo markup, or any page layout.
