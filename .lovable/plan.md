@@ -29,9 +29,9 @@ Because it is now a small icon-only button tucked into the top-right gutter, it 
 
 ## 5. Verification
 
-Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the Help button sits in the header with a 16px+ gap from the logo, overlaps nothing, no page text is hidden behind it, and it responds to a single tap.
+Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the Help button sits in the same top-right spot below the header, overlaps nothing important, and responds to a single tap.
 
 ## Technical notes
 
-- All changes live in `src/components/HelpButton.tsx`: the trigger becomes a `fixed` top-right element aligned to the header band (matching `SiteNav`'s `max-w-7xl` / `px-5 sm:px-8` gutters and vertical centre), offset left of the Login/Menu controls, with a smaller pill scale and invisible padding for the 44x44 target.
-- No changes to `src/components/SiteNav.tsx`, the logo markup, or any page layout.
+- All changes live in `src/components/HelpButton.tsx`: the trigger becomes a `fixed` icon-only round button at `right: 16px` with a top offset equal to the header height plus 24px (a fixed pixel value, not content-derived), roughly 40% smaller, with invisible padding for the 44x44 target.
+- No changes to `src/components/SiteNav.tsx`, the logo markup, navigation, or any page layout.
