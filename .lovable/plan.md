@@ -6,30 +6,32 @@ Only `src/components/HelpButton.tsx` changes (plus a small safe-area allowance).
 
 The "A Complete Christmas" logo in the header keeps its exact size, position, colours, font and spacing. Help stays a separate floating element and is never merged into the header or branding.
 
-## 2. Smaller, lighter Help button
+## 2. Smaller, icon-only Help button
 
-- About 25% smaller overall: reduced padding and a smaller sparkle icon, label text one step down.
-- Same gold gradient, gold hairline border and fully rounded pill shape.
-- Softer shadow so it reads as a quiet helper, not a primary CTA.
-- Slight transparency at rest that becomes fully solid on hover/tap, so anything briefly behind it is still legible.
-- Tap area stays comfortable (44x44 minimum) even though the visual pill is smaller, using invisible padding rather than extra visible size.
+- Visible size reduced by roughly 40%: tighter padding and a smaller sparkle icon.
+- The "Help" / "How can I help you?" text is removed — only the sparkle icon remains inside the gold pill (now a small round gold button).
+- Same gold gradient, gold hairline border and fully round shape; softer shadow.
+- Accessible name kept via `aria-label` and a title tooltip, so it still reads as "How can I help you?".
+- Invisible padding keeps a 44x44 minimum touch target even though the visual button is small.
 
-## 3. Permanent position in the header
+## 3. Fixed top-right position on every page
 
-Help remains a separate floating element (fixed, not part of the logo). Position it immediately to the right of the "A Complete Christmas" logo, centred vertically with the logo. Maintain a minimum 16px gap between the logo and the Help button. The Help button must never overlap, push, resize or otherwise affect the logo, the hamburger menu or any other header controls. If there is insufficient space on smaller screens, reduce the size of the Help button while keeping the logo unchanged. The logo always has priority.
-
-It stays fixed in this position across the whole site while scrolling, and keeps hiding itself whenever a modal is open (existing behaviour).
+- Stays a floating element (fixed), never in the bottom-right corner and never inside the header.
+- Sits in the top-right corner of every page, 16px in from the right edge, directly below the header band with at least 24px of clear vertical space below the header so it never crowds the logo or navigation.
+- Identical coordinates on every page — the position never depends on page content, scroll position or route, and it never moves dynamically.
+- Keeps hiding itself whenever a modal is open (existing behaviour).
 
 ## 4. Nothing hidden behind it
 
-Because the button now lives in the header band rather than over the page, no card, button or text can end up underneath it. On the narrowest phones the pill collapses to the sparkle icon plus a shorter label if needed to preserve the 16px gap and avoid crowding the menu button.
+Because it is now a small icon-only button tucked into the top-right gutter, it covers far less. Page content that would otherwise sit exactly under it is checked at mobile widths during verification; no layout, spacing, header, logo or navigation changes are made.
+
 
 
 ## 5. Verification
 
-Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the Help button sits in the header with a 16px+ gap from the logo, overlaps nothing, no page text is hidden behind it, and it responds to a single tap.
+Checked with a real browser run at 360x800 (common Android), 390x844 (iPhone 14), 414x896 (iPhone Plus) and 430x932 (iPhone Pro Max), on the homepage and every planner page (Planning HQ, Gifts, List, Cards, Outings, Reminders, To-dos, Timeline, Helper, My Christmas, Setup). For each: confirm the Help button sits in the same top-right spot below the header, overlaps nothing important, and responds to a single tap.
 
 ## Technical notes
 
-- All changes live in `src/components/HelpButton.tsx`: the trigger becomes a `fixed` top-right element aligned to the header band (matching `SiteNav`'s `max-w-7xl` / `px-5 sm:px-8` gutters and vertical centre), offset left of the Login/Menu controls, with a smaller pill scale and invisible padding for the 44x44 target.
-- No changes to `src/components/SiteNav.tsx`, the logo markup, or any page layout.
+- All changes live in `src/components/HelpButton.tsx`: the trigger becomes a `fixed` icon-only round button at `right: 16px` with a top offset equal to the header height plus 24px (a fixed pixel value, not content-derived), roughly 40% smaller, with invisible padding for the 44x44 target.
+- No changes to `src/components/SiteNav.tsx`, the logo markup, navigation, or any page layout.
