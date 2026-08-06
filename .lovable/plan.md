@@ -14,16 +14,19 @@ The "A Complete Christmas" logo in the header keeps its exact size, position, co
 - Slight transparency at rest that becomes fully solid on hover/tap, so anything briefly behind it is still legible.
 - Tap area stays comfortable (44x44 minimum) even though the visual pill is smaller, using invisible padding rather than extra visible size.
 
-## 3. Permanent position outside the content flow
+## 3. Permanent position in the header
 
-- Stays `position: fixed`, bottom-right, above all content but below modals.
-- Mobile: icon-only circular button (no "Help" text), tucked into the bottom-right corner and offset above the iPhone home-indicator area using the safe-area inset, so it sits in the natural dead space beside the page edge rather than over a card.
-- Desktop/tablet: pill with the "How can I help you?" label, in the same corner where page content has generous margin.
+- The "A Complete Christmas" logo stays exactly where it is — same size, colours and spacing.
+- Help remains a separate floating element (fixed, not part of the logo), pinned to the top-right area of the header so it sits horizontally alongside the logo.
+- At least a 16px clear gap between the logo and the Help button, on every width, so they never touch or appear connected.
+- It sits inside the header height and never overlaps the logo, the Login link or the hamburger menu — it takes its place in the right-hand control group's rhythm.
+- Stays fixed in that position across the whole site while scrolling, so it can never cover page content.
 - Keeps hiding itself whenever a modal is open (existing behaviour).
 
 ## 4. Nothing hidden behind it
 
-To guarantee no card, button or text ever ends up underneath it, the app's scroll container gets a small bottom clearance equal to the button's height plus the safe-area inset. This is bottom padding at the very end of the page only — no section spacing, grid or layout is altered.
+Because the button now lives in the header band rather than over the page, no card, button or text can end up underneath it. On the narrowest phones the pill collapses to the sparkle icon plus a shorter label if needed to preserve the 16px gap and avoid crowding the menu button.
+
 
 ## 5. Verification
 
