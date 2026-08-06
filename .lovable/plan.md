@@ -16,12 +16,9 @@ The "A Complete Christmas" logo in the header keeps its exact size, position, co
 
 ## 3. Permanent position in the header
 
-- The "A Complete Christmas" logo stays exactly where it is — same size, colours and spacing.
-- Help remains a separate floating element (fixed, not part of the logo), pinned to the top-right area of the header so it sits horizontally alongside the logo.
-- At least a 16px clear gap between the logo and the Help button, on every width, so they never touch or appear connected.
-- It sits inside the header height and never overlaps the logo, the Login link or the hamburger menu — it takes its place in the right-hand control group's rhythm.
-- Stays fixed in that position across the whole site while scrolling, so it can never cover page content.
-- Keeps hiding itself whenever a modal is open (existing behaviour).
+Help remains a separate floating element (fixed, not part of the logo). Position it immediately to the right of the "A Complete Christmas" logo, centred vertically with the logo. Maintain a minimum 16px gap between the logo and the Help button. The Help button must never overlap, push, resize or otherwise affect the logo, the hamburger menu or any other header controls. If there is insufficient space on smaller screens, reduce the size of the Help button while keeping the logo unchanged. The logo always has priority.
+
+It stays fixed in this position across the whole site while scrolling, and keeps hiding itself whenever a modal is open (existing behaviour).
 
 ## 4. Nothing hidden behind it
 
