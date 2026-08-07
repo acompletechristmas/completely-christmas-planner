@@ -5,6 +5,8 @@ import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink, Sparkles, Lamp } from "lucide-react";
 import { SectionIcon } from "@/components/planner/SectionShell";
 import { toast } from "sonner";
+import { downloadIcs } from "@/lib/calendar-ics";
+
 
 export const Route = createFileRoute("/_authenticated/planner/outings")({
   head: () => ({
