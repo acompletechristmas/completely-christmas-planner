@@ -23,9 +23,41 @@ export interface Experience {
   audiences: Audience[];
   setting: Setting;
   timeOfDay: TimeOfDay[];
-  rating: number;
+  /** Only shown where a source legitimately provides it. */
+  rating?: number;
   blurb: string;
+
+  // ---- Live-source fields. Optional so curated placeholders keep working. ----
+  /** Stable id of the adapter that produced this result, e.g. "curated". */
+  sourceId?: string;
+  /** Human-readable provider name shown as "via {sourceName}". */
+  sourceName?: string;
+  /** Original listing on the provider's own site (attribution link). */
+  sourceUrl?: string;
+  imageUrl?: string;
+  /** ISO date, e.g. "2026-12-06". */
+  startDate?: string;
+  endDate?: string;
+  /** Free text, e.g. "6pm". */
+  time?: string;
+  venue?: string;
+  town?: string;
+  postcode?: string;
+  lat?: number;
+  lng?: number;
+  /** Filled in at search time when the user gave a location. */
+  distanceMiles?: number;
+  priceFrom?: number;
+  bookingUrl?: string;
+  /** When the provider data was last verified. */
+  checkedAt?: string;
+
+  // ---- Reserved for later monetisation. Unused today. ----
+  isFeatured?: boolean;
+  isSponsored?: boolean;
+  affiliateUrl?: string;
 }
+
 
 export const TYPE_LABELS: Record<ExperienceType, string> = {
   grotto: "Santa visits",

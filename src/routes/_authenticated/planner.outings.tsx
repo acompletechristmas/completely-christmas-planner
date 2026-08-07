@@ -5,6 +5,8 @@ import { usePlannerList, type BaseRow } from "@/hooks/use-planner-list";
 import { CalendarDays, Plus, Trash2, PoundSterling, ExternalLink, Sparkles, Lamp } from "lucide-react";
 import { SectionIcon } from "@/components/planner/SectionShell";
 import { toast } from "sonner";
+import { downloadIcs } from "@/lib/calendar-ics";
+
 
 export const Route = createFileRoute("/_authenticated/planner/outings")({
   head: () => ({
@@ -228,7 +230,27 @@ function OutingCard({
           />
         </div>
       </div>
+      {outing.event_date ? (
+        <button
+          type="button"
+          onClick={() =>
+            downloadIcs({
+              title: outing.name || "Festive activity",
+              date: outing.event_date!,
+              time: outing.event_time,
+              location: outing.location,
+              description: outing.notes,
+              url: outing.booking_url,
+            })
+          }
+          className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-[color:var(--gold)]/40 px-3 text-xs font-medium text-[color:var(--gold-soft)] transition hover:border-[color:var(--gold)]"
+        >
+          <CalendarDays className="h-3.5 w-3.5" />
+          Add to calendar
+        </button>
+      ) : null}
       <div className="mt-3 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+
         {(["planned", "booked", "paid", "completed"] as const).map((k) => {
           const active = Boolean(outing[k]);
           return (
