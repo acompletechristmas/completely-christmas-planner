@@ -53,6 +53,105 @@ export type Database = {
         }
         Relationships: []
       }
+      curated_experiences: {
+        Row: {
+          affiliate_url: string | null
+          audiences: string[]
+          blurb: string | null
+          booking_url: string | null
+          checked_at: string
+          created_at: string
+          description: string | null
+          end_date: string | null
+          event_time: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          is_featured: boolean
+          is_sponsored: boolean
+          lat: number | null
+          lng: number | null
+          name: string
+          postcode: string | null
+          price_band: string
+          price_from: number | null
+          rating: number | null
+          setting: string
+          source_name: string
+          source_url: string | null
+          start_date: string | null
+          time_of_day: string[]
+          town: string | null
+          type: string
+          updated_at: string
+          venue: string | null
+        }
+        Insert: {
+          affiliate_url?: string | null
+          audiences?: string[]
+          blurb?: string | null
+          booking_url?: string | null
+          checked_at?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          event_time?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_sponsored?: boolean
+          lat?: number | null
+          lng?: number | null
+          name: string
+          postcode?: string | null
+          price_band?: string
+          price_from?: number | null
+          rating?: number | null
+          setting?: string
+          source_name?: string
+          source_url?: string | null
+          start_date?: string | null
+          time_of_day?: string[]
+          town?: string | null
+          type: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Update: {
+          affiliate_url?: string | null
+          audiences?: string[]
+          blurb?: string | null
+          booking_url?: string | null
+          checked_at?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          event_time?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_sponsored?: boolean
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          postcode?: string | null
+          price_band?: string
+          price_from?: number | null
+          rating?: number | null
+          setting?: string
+          source_name?: string
+          source_url?: string | null
+          start_date?: string | null
+          time_of_day?: string[]
+          town?: string | null
+          type?: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Relationships: []
+      }
       gifts: {
         Row: {
           arrived: boolean
