@@ -53,6 +53,54 @@ export type Database = {
         }
         Relationships: []
       }
+      christmas_looks: {
+        Row: {
+          categories: string[]
+          created_at: string
+          hero_image_url: string | null
+          id: string
+          is_active: boolean
+          key_elements: string[]
+          long_description: string | null
+          name: string
+          palette: Json
+          short_description: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          categories?: string[]
+          created_at?: string
+          hero_image_url?: string | null
+          id?: string
+          is_active?: boolean
+          key_elements?: string[]
+          long_description?: string | null
+          name: string
+          palette?: Json
+          short_description?: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          categories?: string[]
+          created_at?: string
+          hero_image_url?: string | null
+          id?: string
+          is_active?: boolean
+          key_elements?: string[]
+          long_description?: string | null
+          name?: string
+          palette?: Json
+          short_description?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       curated_experiences: {
         Row: {
           affiliate_url: string | null
@@ -149,6 +197,66 @@ export type Database = {
           type?: string
           updated_at?: string
           venue?: string | null
+        }
+        Relationships: []
+      }
+      decor_products: {
+        Row: {
+          affiliate_network: string | null
+          affiliate_url: string | null
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_available: boolean
+          is_featured: boolean
+          is_sponsored: boolean
+          last_checked_at: string | null
+          name: string
+          previous_price: number | null
+          price: number | null
+          product_url: string | null
+          retailer: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_network?: string | null
+          affiliate_url?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean
+          is_featured?: boolean
+          is_sponsored?: boolean
+          last_checked_at?: string | null
+          name: string
+          previous_price?: number | null
+          price?: number | null
+          product_url?: string | null
+          retailer?: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_network?: string | null
+          affiliate_url?: string | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean
+          is_featured?: boolean
+          is_sponsored?: boolean
+          last_checked_at?: string | null
+          name?: string
+          previous_price?: number | null
+          price?: number | null
+          product_url?: string | null
+          retailer?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -270,6 +378,48 @@ export type Database = {
             columns: ["person_id"]
             isOneToOne: false
             referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      look_products: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          look_id: string
+          product_id: string
+          sort_order: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          look_id: string
+          product_id: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          look_id?: string
+          product_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "look_products_look_id_fkey"
+            columns: ["look_id"]
+            isOneToOne: false
+            referencedRelation: "christmas_looks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "look_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "decor_products"
             referencedColumns: ["id"]
           },
         ]
