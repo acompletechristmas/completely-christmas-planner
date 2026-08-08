@@ -19,9 +19,8 @@ const lookQuery = (slug: string) =>
   });
 
 export const Route = createFileRoute("/inspire/looks/$slug")({
-  loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(lookQuery(params.slug));
-  },
+  loader: ({ context, params }) => context.queryClient.ensureQueryData(lookQuery(params.slug)),
+
   head: ({ loaderData, params }) => {
     if (!loaderData) {
       return {
