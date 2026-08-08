@@ -26,6 +26,7 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
+import { Route as InspireIndexRouteImport } from './routes/inspire.index'
 import { Route as GiftFinderIndexRouteImport } from './routes/gift-finder.index'
 import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
@@ -33,7 +34,9 @@ import { Route as GiftFinderSecretSantaRouteImport } from './routes/gift-finder.
 import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as InspireLooksIndexRouteImport } from './routes/inspire.looks.index'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
+import { Route as InspireLooksSlugRouteImport } from './routes/inspire.looks.$slug'
 import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
 import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
 import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
@@ -133,6 +136,11 @@ const TeachersIndexRoute = TeachersIndexRouteImport.update({
   path: '/teachers/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InspireIndexRoute = InspireIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InspireRoute,
+} as any)
 const GiftFinderIndexRoute = GiftFinderIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -170,12 +178,22 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const InspireLooksIndexRoute = InspireLooksIndexRouteImport.update({
+  id: '/looks/',
+  path: '/looks/',
+  getParentRoute: () => InspireRoute,
+} as any)
 const AuthenticatedPlannerIndexRoute =
   AuthenticatedPlannerIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const InspireLooksSlugRoute = InspireLooksSlugRouteImport.update({
+  id: '/looks/$slug',
+  path: '/looks/$slug',
+  getParentRoute: () => InspireRoute,
+} as any)
 const AuthenticatedPlannerTodosRoute =
   AuthenticatedPlannerTodosRouteImport.update({
     id: '/todos',
@@ -269,7 +287,7 @@ export interface FileRoutesByFullPath {
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRouteWithChildren
-  '/inspire': typeof InspireRoute
+  '/inspire': typeof InspireRouteWithChildren
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
@@ -282,6 +300,7 @@ export interface FileRoutesByFullPath {
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/gift-finder/': typeof GiftFinderIndexRoute
+  '/inspire/': typeof InspireIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -296,7 +315,9 @@ export interface FileRoutesByFullPath {
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
   '/planner/': typeof AuthenticatedPlannerIndexRoute
+  '/inspire/looks/': typeof InspireLooksIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
 }
 export interface FileRoutesByTo {
@@ -308,7 +329,6 @@ export interface FileRoutesByTo {
   '/days-out': typeof DaysOutRoute
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
-  '/inspire': typeof InspireRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
@@ -320,6 +340,7 @@ export interface FileRoutesByTo {
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/gift-finder': typeof GiftFinderIndexRoute
+  '/inspire': typeof InspireIndexRoute
   '/teachers': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -334,7 +355,9 @@ export interface FileRoutesByTo {
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
+  '/inspire/looks': typeof InspireLooksIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
 }
 export interface FileRoutesById {
@@ -349,7 +372,7 @@ export interface FileRoutesById {
   '/entertainment': typeof EntertainmentRoute
   '/food': typeof FoodRoute
   '/gift-finder': typeof GiftFinderRouteWithChildren
-  '/inspire': typeof InspireRoute
+  '/inspire': typeof InspireRouteWithChildren
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/pets': typeof PetsRoute
@@ -362,6 +385,7 @@ export interface FileRoutesById {
   '/teachers/$category': typeof TeachersCategoryRoute
   '/teachers/generate': typeof TeachersGenerateRoute
   '/gift-finder/': typeof GiftFinderIndexRoute
+  '/inspire/': typeof InspireIndexRoute
   '/teachers/': typeof TeachersIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -376,7 +400,9 @@ export interface FileRoutesById {
   '/_authenticated/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/_authenticated/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
+  '/inspire/looks/': typeof InspireLooksIndexRoute
   '/_authenticated/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
 }
 export interface FileRouteTypes {
@@ -404,6 +430,7 @@ export interface FileRouteTypes {
     | '/teachers/$category'
     | '/teachers/generate'
     | '/gift-finder/'
+    | '/inspire/'
     | '/teachers/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -418,7 +445,9 @@ export interface FileRouteTypes {
     | '/planner/setup'
     | '/planner/timeline'
     | '/planner/todos'
+    | '/inspire/looks/$slug'
     | '/planner/'
+    | '/inspire/looks/'
     | '/planner/people/$personId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -430,7 +459,6 @@ export interface FileRouteTypes {
     | '/days-out'
     | '/entertainment'
     | '/food'
-    | '/inspire'
     | '/mcp'
     | '/partners'
     | '/pets'
@@ -442,6 +470,7 @@ export interface FileRouteTypes {
     | '/teachers/$category'
     | '/teachers/generate'
     | '/gift-finder'
+    | '/inspire'
     | '/teachers'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -456,7 +485,9 @@ export interface FileRouteTypes {
     | '/planner/setup'
     | '/planner/timeline'
     | '/planner/todos'
+    | '/inspire/looks/$slug'
     | '/planner'
+    | '/inspire/looks'
     | '/planner/people/$personId'
   id:
     | '__root__'
@@ -483,6 +514,7 @@ export interface FileRouteTypes {
     | '/teachers/$category'
     | '/teachers/generate'
     | '/gift-finder/'
+    | '/inspire/'
     | '/teachers/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -497,7 +529,9 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/setup'
     | '/_authenticated/planner/timeline'
     | '/_authenticated/planner/todos'
+    | '/inspire/looks/$slug'
     | '/_authenticated/planner/'
+    | '/inspire/looks/'
     | '/_authenticated/planner/people/$personId'
   fileRoutesById: FileRoutesById
 }
@@ -512,7 +546,7 @@ export interface RootRouteChildren {
   EntertainmentRoute: typeof EntertainmentRoute
   FoodRoute: typeof FoodRoute
   GiftFinderRoute: typeof GiftFinderRouteWithChildren
-  InspireRoute: typeof InspireRoute
+  InspireRoute: typeof InspireRouteWithChildren
   McpRoute: typeof McpRoute
   PartnersRoute: typeof PartnersRoute
   PetsRoute: typeof PetsRoute
@@ -648,6 +682,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeachersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inspire/': {
+      id: '/inspire/'
+      path: '/'
+      fullPath: '/inspire/'
+      preLoaderRoute: typeof InspireIndexRouteImport
+      parentRoute: typeof InspireRoute
+    }
     '/gift-finder/': {
       id: '/gift-finder/'
       path: '/'
@@ -697,12 +738,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inspire/looks/': {
+      id: '/inspire/looks/'
+      path: '/looks'
+      fullPath: '/inspire/looks/'
+      preLoaderRoute: typeof InspireLooksIndexRouteImport
+      parentRoute: typeof InspireRoute
+    }
     '/_authenticated/planner/': {
       id: '/_authenticated/planner/'
       path: '/'
       fullPath: '/planner/'
       preLoaderRoute: typeof AuthenticatedPlannerIndexRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/inspire/looks/$slug': {
+      id: '/inspire/looks/$slug'
+      path: '/looks/$slug'
+      fullPath: '/inspire/looks/$slug'
+      preLoaderRoute: typeof InspireLooksSlugRouteImport
+      parentRoute: typeof InspireRoute
     }
     '/_authenticated/planner/todos': {
       id: '/_authenticated/planner/todos'
@@ -878,6 +933,21 @@ const GiftFinderRouteWithChildren = GiftFinderRoute._addFileChildren(
   GiftFinderRouteChildren,
 )
 
+interface InspireRouteChildren {
+  InspireIndexRoute: typeof InspireIndexRoute
+  InspireLooksSlugRoute: typeof InspireLooksSlugRoute
+  InspireLooksIndexRoute: typeof InspireLooksIndexRoute
+}
+
+const InspireRouteChildren: InspireRouteChildren = {
+  InspireIndexRoute: InspireIndexRoute,
+  InspireLooksSlugRoute: InspireLooksSlugRoute,
+  InspireLooksIndexRoute: InspireLooksIndexRoute,
+}
+
+const InspireRouteWithChildren =
+  InspireRoute._addFileChildren(InspireRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -889,7 +959,7 @@ const rootRouteChildren: RootRouteChildren = {
   EntertainmentRoute: EntertainmentRoute,
   FoodRoute: FoodRoute,
   GiftFinderRoute: GiftFinderRouteWithChildren,
-  InspireRoute: InspireRoute,
+  InspireRoute: InspireRouteWithChildren,
   McpRoute: McpRoute,
   PartnersRoute: PartnersRoute,
   PetsRoute: PetsRoute,
