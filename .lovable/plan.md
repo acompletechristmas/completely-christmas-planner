@@ -24,7 +24,7 @@ A single new panel above the existing idea cards:
 
 A magazine-style grid of the twelve looks: Traditional Red & Gold, Elegant Gold & Champagne, Winter Wonderland, Nordic Christmas, Natural Woodland, Classic Green & Tartan, Candy Cane Christmas, Vintage Christmas, Luxury Christmas, Colourful Family Christmas, A White Christmas, Latest Trends.
 
-Each card: one large premium Christmas photograph, style name in the serif display face, one short line of description, and an "Explore this look" action. Photography is newly generated in the same warm, realistic, candlelit style as the rest of the site — real interiors, no illustration, no clipart, no faces.
+Each card: one large premium Christmas photograph, style name in the serif display face, one short line of description, and an "Explore this look" action. Use existing premium Christmas photography from the project where it already matches the required style. Generate new photography only for looks that do not already have a suitable image. All images must be realistic, premium, warm and editorial, with no clipart, illustration or AI-looking faces. Do not replace suitable existing project images unnecessarily.
 
 ## Step 3 — the look page
 
