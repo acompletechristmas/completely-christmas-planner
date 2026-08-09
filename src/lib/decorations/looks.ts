@@ -86,3 +86,39 @@ const LOOK_IMAGES: Record<string, string> = {
 export function lookImage(look: Pick<ChristmasLook, "slug" | "heroImageUrl">): string | undefined {
   return look.heroImageUrl ?? LOOK_IMAGES[look.slug];
 }
+
+/** Presentational style filters for the gallery page (no data/schema impact). */
+export const LOOK_STYLE_FILTERS = [
+  "All Looks",
+  "Classic",
+  "Modern",
+  "Luxury",
+  "Natural",
+  "Traditional",
+  "Family Friendly",
+] as const;
+
+export type LookStyleFilter = (typeof LOOK_STYLE_FILTERS)[number];
+
+const LOOK_STYLE_TAGS: Record<string, string[]> = {
+  "traditional-red-gold": ["Classic", "Traditional"],
+  "elegant-gold-champagne": ["Luxury", "Modern"],
+  "winter-wonderland": ["Modern", "Luxury"],
+  "nordic-christmas": ["Modern", "Natural"],
+  "natural-woodland": ["Natural"],
+  "classic-green-tartan": ["Classic", "Traditional"],
+  "candy-cane-christmas": ["Family Friendly", "Modern"],
+  "vintage-christmas": ["Classic", "Traditional"],
+  "luxury-christmas": ["Luxury"],
+  "colourful-family-christmas": ["Family Friendly", "Classic"],
+  "a-white-christmas": ["Modern", "Luxury"],
+  "latest-trends": ["Modern"],
+};
+
+export function lookMatchesFilter(slug: string, filter: string): boolean {
+  if (filter === "All Looks") return true;
+  const tags = LOOK_STYLE_TAGS[slug];
+  if (!tags) return true;
+  return tags.includes(filter);
+}
+
