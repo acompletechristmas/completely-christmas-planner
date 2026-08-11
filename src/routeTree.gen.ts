@@ -50,6 +50,8 @@ import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authent
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as InspireLooksSlugIndexRouteImport } from './routes/inspire.looks.$slug.index'
+import { Route as InspireLooksSlugInspirationRouteImport } from './routes/inspire.looks.$slug.$inspiration'
 import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 
 const VipRoute = VipRouteImport.update({
@@ -270,6 +272,17 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InspireLooksSlugIndexRoute = InspireLooksSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InspireLooksSlugRoute,
+} as any)
+const InspireLooksSlugInspirationRoute =
+  InspireLooksSlugInspirationRouteImport.update({
+    id: '/$inspiration',
+    path: '/$inspiration',
+    getParentRoute: () => InspireLooksSlugRoute,
+  } as any)
 const AuthenticatedPlannerPeoplePersonIdRoute =
   AuthenticatedPlannerPeoplePersonIdRouteImport.update({
     id: '/$personId',
@@ -315,10 +328,12 @@ export interface FileRoutesByFullPath {
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
-  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugRouteWithChildren
   '/planner/': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks/': typeof InspireLooksIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
+  '/inspire/looks/$slug/$inspiration': typeof InspireLooksSlugInspirationRoute
+  '/inspire/looks/$slug/': typeof InspireLooksSlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -355,10 +370,11 @@ export interface FileRoutesByTo {
   '/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
-  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks': typeof InspireLooksIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
+  '/inspire/looks/$slug/$inspiration': typeof InspireLooksSlugInspirationRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -400,10 +416,12 @@ export interface FileRoutesById {
   '/_authenticated/planner/setup': typeof AuthenticatedPlannerSetupRoute
   '/_authenticated/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
-  '/inspire/looks/$slug': typeof InspireLooksSlugRoute
+  '/inspire/looks/$slug': typeof InspireLooksSlugRouteWithChildren
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks/': typeof InspireLooksIndexRoute
   '/_authenticated/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
+  '/inspire/looks/$slug/$inspiration': typeof InspireLooksSlugInspirationRoute
+  '/inspire/looks/$slug/': typeof InspireLooksSlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -449,6 +467,8 @@ export interface FileRouteTypes {
     | '/planner/'
     | '/inspire/looks/'
     | '/planner/people/$personId'
+    | '/inspire/looks/$slug/$inspiration'
+    | '/inspire/looks/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -485,10 +505,11 @@ export interface FileRouteTypes {
     | '/planner/setup'
     | '/planner/timeline'
     | '/planner/todos'
-    | '/inspire/looks/$slug'
     | '/planner'
     | '/inspire/looks'
     | '/planner/people/$personId'
+    | '/inspire/looks/$slug/$inspiration'
+    | '/inspire/looks/$slug'
   id:
     | '__root__'
     | '/'
@@ -533,6 +554,8 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/'
     | '/inspire/looks/'
     | '/_authenticated/planner/people/$personId'
+    | '/inspire/looks/$slug/$inspiration'
+    | '/inspire/looks/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -850,6 +873,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inspire/looks/$slug/': {
+      id: '/inspire/looks/$slug/'
+      path: '/'
+      fullPath: '/inspire/looks/$slug/'
+      preLoaderRoute: typeof InspireLooksSlugIndexRouteImport
+      parentRoute: typeof InspireLooksSlugRoute
+    }
+    '/inspire/looks/$slug/$inspiration': {
+      id: '/inspire/looks/$slug/$inspiration'
+      path: '/$inspiration'
+      fullPath: '/inspire/looks/$slug/$inspiration'
+      preLoaderRoute: typeof InspireLooksSlugInspirationRouteImport
+      parentRoute: typeof InspireLooksSlugRoute
+    }
     '/_authenticated/planner/people/$personId': {
       id: '/_authenticated/planner/people/$personId'
       path: '/$personId'
@@ -933,15 +970,28 @@ const GiftFinderRouteWithChildren = GiftFinderRoute._addFileChildren(
   GiftFinderRouteChildren,
 )
 
+interface InspireLooksSlugRouteChildren {
+  InspireLooksSlugInspirationRoute: typeof InspireLooksSlugInspirationRoute
+  InspireLooksSlugIndexRoute: typeof InspireLooksSlugIndexRoute
+}
+
+const InspireLooksSlugRouteChildren: InspireLooksSlugRouteChildren = {
+  InspireLooksSlugInspirationRoute: InspireLooksSlugInspirationRoute,
+  InspireLooksSlugIndexRoute: InspireLooksSlugIndexRoute,
+}
+
+const InspireLooksSlugRouteWithChildren =
+  InspireLooksSlugRoute._addFileChildren(InspireLooksSlugRouteChildren)
+
 interface InspireRouteChildren {
   InspireIndexRoute: typeof InspireIndexRoute
-  InspireLooksSlugRoute: typeof InspireLooksSlugRoute
+  InspireLooksSlugRoute: typeof InspireLooksSlugRouteWithChildren
   InspireLooksIndexRoute: typeof InspireLooksIndexRoute
 }
 
 const InspireRouteChildren: InspireRouteChildren = {
   InspireIndexRoute: InspireIndexRoute,
-  InspireLooksSlugRoute: InspireLooksSlugRoute,
+  InspireLooksSlugRoute: InspireLooksSlugRouteWithChildren,
   InspireLooksIndexRoute: InspireLooksIndexRoute,
 }
 
