@@ -382,6 +382,101 @@ export type Database = {
           },
         ]
       }
+      inspiration_products: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          inspiration_id: string
+          product_id: string
+          sort_order: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          inspiration_id: string
+          product_id: string
+          sort_order?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          inspiration_id?: string
+          product_id?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inspiration_products_inspiration_id_fkey"
+            columns: ["inspiration_id"]
+            isOneToOne: false
+            referencedRelation: "look_inspirations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inspiration_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "decor_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      look_inspirations: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          look_id: string
+          slug: string
+          sort_order: number
+          styling_tip: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          look_id: string
+          slug: string
+          sort_order?: number
+          styling_tip?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          look_id?: string
+          slug?: string
+          sort_order?: number
+          styling_tip?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "look_inspirations_look_id_fkey"
+            columns: ["look_id"]
+            isOneToOne: false
+            referencedRelation: "christmas_looks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       look_products: {
         Row: {
           category: string

@@ -39,7 +39,7 @@ A new nested route is genuinely needed so each inspiration is shareable, indexab
 /inspire/looks/<look-slug>/<inspiration-slug>  new inspiration detail
 ```
 
-The look page becomes a layout that renders `<Outlet />`, its current body moves unchanged to a sibling index leaf, and the detail leaf is new. The detail page shows the large image, title, description, styling tip, a link back to the parent look ("More <look name> inspiration"), and a "Shop this look" section grouped by the categories present on that inspiration — with the empty state text "We're finding the perfect pieces to recreate this look — shopping links are coming soon."
+The look page becomes a layout that renders `<Outlet />`, its current body moves unchanged to a sibling index leaf, and the detail leaf is new. The detail page shows the large image, title, description, styling tip, a link back to the parent look ("More &nbsp; inspiration"), and a "Shop this look" section grouped by the categories present on that inspiration — with the empty state text "We're finding the perfect pieces to recreate this look — shopping links are coming soon."
 
 ## 7. Where the new section appears
 
@@ -52,6 +52,7 @@ Single column at 360/390px, promoting to two and three columns at `sm:`/`lg:`. F
 ## 9. Files added or changed
 
 Added:
+
 - `src/routes/inspire.looks.$slug.index.tsx` (current look-page body, moved unchanged)
 - `src/routes/inspire.looks.$slug.$inspiration.tsx` (inspiration detail)
 - `src/components/looks/InspirationCard.tsx`
@@ -60,6 +61,7 @@ Added:
 - `src/lib/decorations/inspirations.functions.ts` (`listLookInspirations`, `getLookInspiration`)
 
 Changed:
+
 - `src/routes/inspire.looks.$slug.tsx` → becomes a layout rendering `<Outlet />`
 - `src/lib/decorations/looks.functions.ts` → only if the look query needs the inspiration count (otherwise untouched)
 
@@ -75,7 +77,7 @@ One migration adding `look_inspirations` and `inspiration_products` with GRANTs,
 
 ## 12. Confirmation — no duplication
 
-No Christmas Look, route, page, component or Shop the Look system is duplicated or recreated. The existing look page content is moved into an index leaf byte-for-byte, not rewritten.
+No Christmas Look, route, page, component or Shop the Look system is duplicated or recreated. The existing look page content must be moved into the index leaf without any visual, functional or wording changes. Do not rewrite, simplify, restyle or reorganise the existing content during the route split.
 
 ## 13. Smallest safe first implementation
 
