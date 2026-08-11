@@ -101,9 +101,40 @@ function LookDetail() {
       </Link>
 
       <section className="mt-8 grid gap-8 lg:grid-cols-2">
-        <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.22)] bg-[color:var(--surface-card)] p-6">
-          <h2 className="font-display text-2xl">The colour palette</h2>
-          <div className="mt-4">
+        <div className="rounded-2xl border border-[oklch(0.80_0.14_85_/_0.22)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-soft)]">
+          <div className="flex items-start gap-2.5">
+            <svg
+              className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--gold-soft)]"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 2v20" />
+              <path d="M12 6l-2-2" />
+              <path d="M12 6l2-2" />
+              <path d="M12 18l-2 2" />
+              <path d="M12 18l2 2" />
+              <path d="M4.5 7.5l15 9" />
+              <path d="M4.5 7.5l2-1" />
+              <path d="M4.5 7.5l1 2" />
+              <path d="M19.5 16.5l-2 1" />
+              <path d="M19.5 16.5l-1-2" />
+              <path d="M19.5 7.5l-15 9" />
+              <path d="M19.5 7.5l-2-1" />
+              <path d="M19.5 7.5l-1 2" />
+              <path d="M4.5 16.5l2 1" />
+              <path d="M4.5 16.5l1-2" />
+            </svg>
+            <h2 className="font-display text-2xl">Colours of the Look</h2>
+          </div>
+          <p className="mt-1.5 text-sm text-[color:var(--muted-foreground)]">
+            The shades that bring this Christmas style together.
+          </p>
+          <div className="mt-5">
             <PalettePreview palette={look.palette} />
           </div>
         </div>
