@@ -2,8 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
-import type { LookInspiration } from "./inspirations";
-import type { LookProduct } from "./looks";
+import type { LookInspiration, InspirationProduct } from "./inspirations";
 
 function publicClient() {
   return createClient<Database>(
@@ -68,7 +67,7 @@ export const getLookInspiration = createServerFn({ method: "GET" })
       .eq("is_active", true)
       .maybeSingle();
     if (lookError) throw lookError;
-    if (!look) return { look: null, inspiration: null, products: [] as LookProduct[] };
+    if (!look) return { look: null, inspiration: null, products: [] as InspirationProduct[] };
 
     const { data: row, error } = await client
       .from("look_inspirations")
@@ -78,16 +77,16 @@ export const getLookInspiration = createServerFn({ method: "GET" })
       .eq("is_active", true)
       .maybeSingle();
     if (error) throw error;
-    if (!row) return { look: null, inspiration: null, products: [] as LookProduct[] };
+    if (!row) return { look: null, inspiration: null, products: [] as InspirationProduct[] };
 
     const { data: joins, error: joinError } = await client
       .from("inspiration_products")
-      .select(`id, category, sort_order, decor_products(${PRODUCT_COLUMNS})`)
+      .select(`id, category, sort_order, quantity, quantity_max, quantity_unit, size_note, colour_finish, styling_note, is_essential, decor_products(${PRODUCT_COLUMNS})`)
       .eq("inspiration_id", row.id)
       .order("sort_order", { ascending: true });
     if (joinError) throw joinError;
 
-    const products: LookProduct[] = (joins ?? [])
+    const products: InspirationProduct[] = (joins ?? [])
       .map((join) => {
         const p = join.decor_products;
         if (!p || !p.is_available) return null;
@@ -106,9 +105,17 @@ export const getLookInspiration = createServerFn({ method: "GET" })
           isSponsored: p.is_sponsored,
           isFeatured: p.is_featured,
           lastCheckedAt: p.last_checked_at,
-        } satisfies LookProduct;
+          quantity: join.quantity,
+          quantityMax: join.quantity_max,
+          quantityUnit: join.quantity_unit,
+          sizeNote: join.size_note,
+          colourFinish: join.colour_finish,
+          stylingNote: join.styling_note,
+          isEssential: join.is_essential,
+          sortOrder: join.sort_order,
+        } satisfies InspirationProduct;
       })
-      .filter((p): p is LookProduct => p !== null);
+      .filter((p): p is InspirationProduct => p !== null);
 
     return {
       look: { slug: look.slug, name: look.name, shortDescription: look.short_description },

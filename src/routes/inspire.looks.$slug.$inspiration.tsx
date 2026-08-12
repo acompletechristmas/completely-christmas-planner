@@ -6,6 +6,7 @@ import { LookCategorySection } from "@/components/looks/LookCategorySection";
 import { AffiliateDisclosure } from "@/components/looks/AffiliateDisclosure";
 import { getLookInspiration } from "@/lib/decorations/inspirations.functions";
 import { inspirationCategoryLabel, inspirationImage } from "@/lib/decorations/inspirations";
+import { RecreateChecklist } from "@/components/looks/RecreateChecklist";
 
 const inspirationQuery = (lookSlug: string, slug: string) =>
   queryOptions({
@@ -116,6 +117,8 @@ function InspirationDetail() {
           </div>
         </div>
       ) : null}
+
+      <RecreateChecklist products={data.products} />
 
       <section className="mt-14">
         <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
