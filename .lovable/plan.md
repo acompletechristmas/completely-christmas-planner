@@ -20,8 +20,8 @@ id, inspiration_id, product_id, category, sort_order, created_at. No quantity or
 
 ## 5. Minimum new fields on `inspiration_products`
 
-- `quantity` integer, nullable
-- `quantity_max` integer, nullable (gives a range with `quantity`)
+- `quantity` numeric, nullable
+- `quantity_max` numeric, nullable (gives a range with `quantity`)
 - `quantity_unit` text, nullable (e.g. metres, boxes — free text, no fixed list)
 - `size_note` text, nullable
 - `colour_finish` text, nullable
