@@ -33,6 +33,48 @@ export interface LookInspiration {
   imageUrl: string | null;
 }
 
+export interface InspirationProduct {
+  id: string;
+  category: string;
+  name: string;
+  retailer: string;
+  description: string | null;
+  imageUrl: string | null;
+  price: number | null;
+  previousPrice: number | null;
+  currency: string;
+  url: string | null;
+  isAffiliate: boolean;
+  isSponsored: boolean;
+  isFeatured: boolean;
+  lastCheckedAt: string | null;
+  quantity: number | null;
+  quantityMax: number | null;
+  quantityUnit: string | null;
+  sizeNote: string | null;
+  colourFinish: string | null;
+  stylingNote: string | null;
+  isEssential: boolean;
+  sortOrder: number;
+}
+
+export function formatRecreateQuantity(
+  quantity: number | null,
+  quantityMax: number | null,
+  unit: string | null,
+): string | null {
+  if (quantity == null && quantityMax == null) return null;
+  const hasUnit = Boolean(unit?.trim());
+  const unitText = hasUnit ? ` ${unit}` : "";
+  if (quantity != null && quantityMax != null) {
+    return `Approximately ${quantity}–${quantityMax}${unitText}`;
+  }
+  if (quantity != null) {
+    return `Approximately ${quantity}${unitText}`;
+  }
+  return `Up to ${quantityMax}${unitText}`;
+}
+
 /**
  * Local photography for seeded inspirations, keyed by `<look-slug>/<inspiration-slug>`.
  * Rows may instead supply a remote `image_url`, which always wins.
