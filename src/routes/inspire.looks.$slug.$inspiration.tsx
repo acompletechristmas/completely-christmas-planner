@@ -118,6 +118,8 @@ function InspirationDetail() {
         </div>
       ) : null}
 
+      <RecreateChecklist products={data.products} />
+
       <section className="mt-14">
         <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
           Shop this look
