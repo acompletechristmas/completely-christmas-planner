@@ -2,8 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
-import type { LookInspiration } from "./inspirations";
-import type { LookProduct } from "./looks";
+import type { LookInspiration, InspirationProduct } from "./inspirations";
 
 function publicClient() {
   return createClient<Database>(
