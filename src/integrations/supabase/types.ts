@@ -385,27 +385,51 @@ export type Database = {
       inspiration_products: {
         Row: {
           category: string
+          colour_finish: string | null
           created_at: string
           id: string
           inspiration_id: string
+          is_essential: boolean
           product_id: string
+          quantity: number | null
+          quantity_max: number | null
+          quantity_unit: string | null
+          size_note: string | null
           sort_order: number
+          styling_note: string | null
+          updated_at: string
         }
         Insert: {
           category: string
+          colour_finish?: string | null
           created_at?: string
           id?: string
           inspiration_id: string
+          is_essential?: boolean
           product_id: string
+          quantity?: number | null
+          quantity_max?: number | null
+          quantity_unit?: string | null
+          size_note?: string | null
           sort_order?: number
+          styling_note?: string | null
+          updated_at?: string
         }
         Update: {
           category?: string
+          colour_finish?: string | null
           created_at?: string
           id?: string
           inspiration_id?: string
+          is_essential?: boolean
           product_id?: string
+          quantity?: number | null
+          quantity_max?: number | null
+          quantity_unit?: string | null
+          size_note?: string | null
           sort_order?: number
+          styling_note?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
