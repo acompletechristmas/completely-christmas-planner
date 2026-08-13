@@ -28,7 +28,7 @@ Categories are chosen per style from the existing vocabulary (room, tree, mantel
 
 ## Images
 
-66 new photographic images, generated one per inspiration in the style described for that look, then converted/resized to WebP (long edge ~1600px, quality tuned so each file stays well under ~250KB) and stored as:
+ For each inspiration, first check whether a suitable existing project image already matches that exact Christmas style and inspiration category. Reuse an existing image only where it genuinely fits the specific look. Where no suitable existing image exists, generate a new premium realistic Christmas photograph. Every final inspiration must have its own distinct image, and no image may be reused across different Christmas Looks. All new images must be converted/resized to WebP (long edge ~1600px, quality tuned so each file stays well under ~250KB) and stored as:
 
 ```text
 src/assets/looks/inspirations/<look-slug>/<inspiration-slug>.webp
