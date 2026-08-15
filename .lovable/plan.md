@@ -40,9 +40,10 @@ Heading is composed from group + moods, e.g. "Romantic Christmas ideas for two",
 ## 4. Files
 
 Changed:
-- `src/routes/days-out.tsx` — add `mode`/`group`/`ages`/`moods` to the search schema, render the two-way switch, mount either the existing search panel + results or the Inspire journey. Existing search, filters, collections, results grid untouched.
-- `src/lib/days-out/sources/types.ts` — add optional `keywords?: string[]`.
-- `src/lib/days-out/sources/registry.server.ts` — register the dormant web-search adapter.
+- `src/routes/days-out.tsx` — add `mode`/`group`/`ages`/`moods`/`keywords` to the search schema, render the two-way switch, mount either the existing search panel + results or the Inspire journey, and pass `keywords` into the existing search call. Existing search, filters, collections, results grid untouched.
+- `src/lib/days-out/search.functions.ts` — accept optional `keywords: string[]` in the input schema and forward it to `searchAllSources`.
+- `src/lib/days-out/sources/types.ts` — add optional `keywords?: string[]` to `SearchQuery`.
+- `src/lib/days-out/sources/registry.server.ts` — register the dormant web-search adapter (keywords pass through unchanged).
 
 New:
 - `src/lib/days-out/ideas.ts` — `ExperienceIdea`, `RecommendationRequest`, group/mood label maps, heading builder.
