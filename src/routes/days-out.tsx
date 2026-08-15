@@ -161,9 +161,20 @@ function DaysOutPage() {
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
 
+  /** Land the user on the results/status area instead of the top of the page. */
+  function scrollToResults() {
+    if (typeof window === "undefined") return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  }
+
   /** An idea becomes a real search: its intent words and types are carried over. */
   function findIdeaNearMe(idea: ExperienceIdea) {
     navigate({
+      resetScroll: false,
       search: (prev) => ({
         ...prev,
         mode: "find",
@@ -171,8 +182,9 @@ function DaysOutPage() {
         types: idea.types,
       }),
     });
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToResults();
   }
+
 
 
   /** Collections always come from our inspiration catalogue, never mixed with live listings. */
