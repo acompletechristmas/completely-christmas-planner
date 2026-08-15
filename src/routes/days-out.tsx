@@ -300,13 +300,17 @@ function DaysOutPage() {
       ) : (
         <section aria-label="Search by location and date" className="mb-8">
           <LocationDateSearch
-            initial={{ location, from, to, radius }}
+            initial={{ q, location, from, to, radius }}
             searching={live.isFetching}
+            showQuery
+            submitLabel="Search Christmas activities"
+            searchingLabel="Searching Christmas activities…"
             onSearch={(v) => {
               navigate({
                 resetScroll: false,
                 search: (prev) => ({
                   ...prev,
+                  q: v.q,
                   location: v.location,
                   from: v.from,
                   to: v.to,
