@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
 import { useQuery } from "@tanstack/react-query";
@@ -108,8 +110,10 @@ function DaysOutPage() {
   const { location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
     Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
+  const resultsRef = useRef<HTMLDivElement | null>(null);
   const runSearch = useServerFn(searchExperiences);
   const runRecommend = useServerFn(recommendIdeas);
+
 
   const inspireMode = mode === "inspire";
   const selectedGroup = isGroup(group) ? group : undefined;
@@ -161,9 +165,24 @@ function DaysOutPage() {
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
 
+  /** Land the user on the results/status area instead of the top of the page. */
+  function scrollToResults() {
+    if (typeof window === "undefined") return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = resultsRef.current;
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+      });
+    });
+  }
+
+
   /** An idea becomes a real search: its intent words and types are carried over. */
   function findIdeaNearMe(idea: ExperienceIdea) {
     navigate({
+      resetScroll: false,
       search: (prev) => ({
         ...prev,
         mode: "find",
@@ -171,8 +190,9 @@ function DaysOutPage() {
         types: idea.types,
       }),
     });
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToResults();
   }
+
 
 
   /** Collections always come from our inspiration catalogue, never mixed with live listings. */
@@ -204,7 +224,7 @@ function DaysOutPage() {
     >
       <DiscoveryModeSwitch
         mode={inspireMode ? "inspire" : "find"}
-        onChange={(m) => navigate({ search: (prev) => ({ ...prev, mode: m }) })}
+        onChange={(m) => navigate({ resetScroll: false, search: (prev) => ({ ...prev, mode: m }) })}
       />
 
       {inspireMode ? (
@@ -214,11 +234,14 @@ function DaysOutPage() {
             ages={ages}
             moods={selectedMoods}
             onGroupChange={(g) =>
-              navigate({ search: (prev) => ({ ...prev, group: g, seed: 0 }) })
+              navigate({ resetScroll: false, search: (prev) => ({ ...prev, group: g, seed: 0 }) })
             }
-            onAgesChange={(a) => navigate({ search: (prev) => ({ ...prev, ages: a }) })}
+            onAgesChange={(a) =>
+              navigate({ resetScroll: false, search: (prev) => ({ ...prev, ages: a }) })
+            }
             onToggleMood={(m: IdeaMood) =>
               navigate({
+                resetScroll: false,
                 search: (prev) => ({
                   ...prev,
                   seed: 0,
@@ -230,23 +253,29 @@ function DaysOutPage() {
             }
             searchValues={{ location, from, to, radius }}
             searching={live.isFetching}
-            onSearch={(v) =>
+            onSearch={(v) => {
               navigate({
+                resetScroll: false,
                 search: (prev) => ({
                   ...prev,
+                  mode: "find",
                   location: v.location,
                   from: v.from,
                   to: v.to,
                   radius: v.radius,
                 }),
-              })
-            }
+              });
+              scrollToResults();
+            }}
             heading={buildIdeasHeading(selectedGroup, selectedMoods)}
             ideas={ideas.data?.ideas ?? []}
             loadingIdeas={ideas.isFetching}
-            onMoreIdeas={() => navigate({ search: (prev) => ({ ...prev, seed: prev.seed + 1 }) })}
+            onMoreIdeas={() =>
+              navigate({ resetScroll: false, search: (prev) => ({ ...prev, seed: prev.seed + 1 }) })
+            }
             onSurpriseMe={() =>
               navigate({
+                resetScroll: false,
                 search: (prev) => ({ ...prev, seed: Math.floor(Math.random() * 10_000) }),
               })
             }
@@ -258,8 +287,9 @@ function DaysOutPage() {
           <LocationDateSearch
             initial={{ location, from, to, radius }}
             searching={live.isFetching}
-            onSearch={(v) =>
+            onSearch={(v) => {
               navigate({
+                resetScroll: false,
                 search: (prev) => ({
                   ...prev,
                   location: v.location,
@@ -267,9 +297,11 @@ function DaysOutPage() {
                   to: v.to,
                   radius: v.radius,
                 }),
-              })
-            }
+              });
+              scrollToResults();
+            }}
           />
+          <div ref={resultsRef} className="scroll-mt-28">
           {keywords.length ? (
             <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-[color:var(--muted-foreground)]">
               <span>Searching for:</span>
@@ -279,7 +311,10 @@ function DaysOutPage() {
               <button
                 type="button"
                 onClick={() =>
-                  navigate({ search: (prev) => ({ ...prev, keywords: [], types: [] }) })
+                  navigate({
+                    resetScroll: false,
+                    search: (prev) => ({ ...prev, keywords: [], types: [] }),
+                  })
                 }
                 className="min-h-11 underline underline-offset-4 hover:text-[color:var(--gold-soft)]"
               >
@@ -301,7 +336,9 @@ function DaysOutPage() {
                     : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
           </p>
           <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
+          </div>
         </section>
+
       )}
 
 
