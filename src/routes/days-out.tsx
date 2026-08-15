@@ -159,13 +159,17 @@ function DaysOutPage() {
             ? "Searching festive listings…"
             : live.data?.locationNotFound
               ? "We couldn't find that place — try a postcode or a nearby town."
-              : live.data?.origin
-                ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+              : noLiveResults
+                ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
                 : usingLive
-                  ? "Showing festive listings from across the UK."
+                  ? live.data?.origin
+                    ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+                    : "Showing festive listings from across the UK."
                   : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
         </p>
+        <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
       </section>
+
 
       {/* Discover → Choose → Organise. Saved activities live in the planner. */}
       <div className="mx-auto mb-12 flex max-w-xl flex-col items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 text-center backdrop-blur-sm">
