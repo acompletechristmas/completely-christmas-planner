@@ -58,6 +58,37 @@ function audiences(event: TmEvent): Audience[] {
   return ["adults", "teens"];
 }
 
+/** Festive keywords — this is a Christmas discovery engine, not a generic events search. */
+const FESTIVE_WORDS = [
+  "christmas",
+  "xmas",
+  "festive",
+  "santa",
+  "grotto",
+  "panto",
+  "nativity",
+  "carol",
+  "nutcracker",
+  "elf",
+  "winter wonderland",
+  "light trail",
+  "yule",
+  "advent",
+  "reindeer",
+  "snowman",
+  "scrooge",
+  "ice rink",
+  "ice skating",
+];
+
+/** Drop unrelated concerts/sport that merely matched the API keyword. */
+function isFestive(event: TmEvent): boolean {
+  const text = [event.name, event.info ?? "", event.classifications?.[0]?.genre?.name ?? ""]
+    .join(" ")
+    .toLowerCase();
+  return FESTIVE_WORDS.some((w) => text.includes(w));
+}
+
 /**
  * Ticketmaster Discovery API. Dormant until TICKETMASTER_API_KEY is set,
  * which is exactly how any future provider plugs in.
@@ -93,7 +124,7 @@ export const ticketmasterSource: ExperienceSource = {
       const json = (await res.json()) as { _embedded?: { events?: TmEvent[] } };
       const events = json._embedded?.events ?? [];
 
-      return events.map((event) => {
+      return events.filter(isFestive).map((event) => {
         const venue = event._embedded?.venues?.[0];
         const lat = venue?.location?.latitude ? Number(venue.location.latitude) : undefined;
         const lng = venue?.location?.longitude ? Number(venue.location.longitude) : undefined;

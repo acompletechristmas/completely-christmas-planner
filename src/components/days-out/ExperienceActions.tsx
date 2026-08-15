@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarPlus, Check, Heart, Loader2 } from "lucide-react";
+import { CalendarPlus, Check, ExternalLink, Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -9,6 +9,10 @@ import { TYPE_LABELS, type Experience } from "@/lib/days-out/experience-data";
 
 const actionClass =
   "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3 text-[12px] font-medium text-[color:var(--forest)] transition hover:border-[color:var(--gold)] disabled:opacity-60";
+
+const primaryActionClass =
+  "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-[color:var(--gold)] bg-[color:var(--gold)]/10 px-3.5 text-[12px] font-semibold text-[color:var(--forest)] transition hover:bg-[color:var(--gold)]/20";
+
 
 /** Save an activity into the existing Festive Activities planner (outings). */
 export function ExperienceActions({ experience }: { experience: Experience }) {
@@ -41,9 +45,25 @@ export function ExperienceActions({ experience }: { experience: Experience }) {
     toast.success("Saved to My Festive Activities");
   }
 
+  const eventUrl = experience.affiliateUrl ?? experience.bookingUrl ?? experience.sourceUrl ?? null;
+  const bookable = Boolean(experience.affiliateUrl ?? experience.bookingUrl);
+
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {eventUrl ? (
+        <a
+          href={eventUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={primaryActionClass}
+        >
+          <ExternalLink aria-hidden className="h-3.5 w-3.5" />
+          {bookable ? "View & book" : "View event"}
+        </a>
+      ) : null}
+
       {experience.startDate ? (
+
         <button
           type="button"
           className={actionClass}

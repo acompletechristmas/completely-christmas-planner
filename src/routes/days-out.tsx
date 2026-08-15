@@ -11,6 +11,7 @@ import { ExperienceCard } from "@/components/days-out/ExperienceCard";
 import { ExperienceActions } from "@/components/days-out/ExperienceActions";
 import { ExperienceEmptyState } from "@/components/days-out/ExperienceEmptyState";
 import { LocationDateSearch } from "@/components/days-out/LocationDateSearch";
+import { SourcesSearched } from "@/components/days-out/SourcesSearched";
 import { useExperienceFilters } from "@/hooks/use-experience-filters";
 import { searchExperiences } from "@/lib/days-out/search.functions";
 import {
@@ -103,24 +104,28 @@ function DaysOutPage() {
   });
 
   const liveItems: Experience[] = live.data?.items ?? [];
-  /** Live listings when we have them, our own inspiration catalogue otherwise. */
+  /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
+  const searched = Boolean(location || from || to);
+  const noLiveResults = searched && !live.isFetching && !live.data?.locationNotFound && !usingLive;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
 
-  const freeIdeas = source.filter((e) => e.priceBand === "free" || e.priceBand === "budget");
-  const familyDays = source.filter(
+  /** Collections always come from our inspiration catalogue, never mixed with live listings. */
+  const freeIdeas = EXPERIENCES.filter((e) => e.priceBand === "free" || e.priceBand === "budget");
+  const familyDays = EXPERIENCES.filter(
     (e) => e.audiences.includes("toddlers") || e.audiences.includes("children"),
   );
-  const splashOut = source.filter((e) => e.priceBand === "splash");
-  const grownUps = source.filter(
+  const splashOut = EXPERIENCES.filter((e) => e.priceBand === "splash");
+  const grownUps = EXPERIENCES.filter(
     (e) => e.audiences.includes("adults") && e.timeOfDay.includes("evening"),
   );
-  const bestRated = [...source]
+  const bestRated = [...EXPERIENCES]
     .filter((e) => e.rating != null)
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     .slice(0, 6);
+
 
   return (
     <PageShell
@@ -155,13 +160,17 @@ function DaysOutPage() {
             ? "Searching festive listings…"
             : live.data?.locationNotFound
               ? "We couldn't find that place — try a postcode or a nearby town."
-              : live.data?.origin
-                ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+              : noLiveResults
+                ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
                 : usingLive
-                  ? "Showing festive listings from across the UK."
+                  ? live.data?.origin
+                    ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+                    : "Showing festive listings from across the UK."
                   : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
         </p>
+        <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
       </section>
+
 
       {/* Discover → Choose → Organise. Saved activities live in the planner. */}
       <div className="mx-auto mb-12 flex max-w-xl flex-col items-center gap-3 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.26_0.04_245_/_0.7)] p-6 text-center backdrop-blur-sm">
@@ -218,9 +227,21 @@ function DaysOutPage() {
       {/* Results */}
       <section className="mt-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
-            {results.length} festive {results.length === 1 ? "idea" : "ideas"}
-          </h2>
+          <div>
+            <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
+              {usingLive
+                ? `${results.length} festive ${results.length === 1 ? "activity" : "activities"}${
+                    live.data?.origin ? ` near ${live.data.origin.label}` : ""
+                  }`
+                : "Christmas ideas to inspire you"}
+            </h2>
+            {!usingLive ? (
+              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+                Ideas to spark a plan — not live listings, so there are no dates or tickets here
+                yet.
+              </p>
+            ) : null}
+          </div>
           {activeCount > 0 ? (
             <button
               type="button"
@@ -231,6 +252,7 @@ function DaysOutPage() {
             </button>
           ) : null}
         </div>
+
 
         {results.length ? (
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
