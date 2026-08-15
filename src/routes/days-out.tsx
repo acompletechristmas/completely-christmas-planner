@@ -108,8 +108,10 @@ function DaysOutPage() {
   const { location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
     Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
+  const resultsRef = useRef<HTMLDivElement | null>(null);
   const runSearch = useServerFn(searchExperiences);
   const runRecommend = useServerFn(recommendIdeas);
+
 
   const inspireMode = mode === "inspire";
   const selectedGroup = isGroup(group) ? group : undefined;
