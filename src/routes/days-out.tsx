@@ -170,10 +170,14 @@ function DaysOutPage() {
     if (typeof window === "undefined") return;
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const el = resultsRef.current;
+        if (!el) return;
+        const top = el.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
       });
     });
   }
+
 
   /** An idea becomes a real search: its intent words and types are carried over. */
   function findIdeaNearMe(idea: ExperienceIdea) {
