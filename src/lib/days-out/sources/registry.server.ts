@@ -2,10 +2,11 @@ import type { Experience } from "@/lib/days-out/experience-data";
 import type { ExperienceSource, SearchQuery } from "./types";
 import { curatedSource } from "./curated.server";
 import { ticketmasterSource } from "./ticketmaster.server";
+import { webSearchSource } from "./websearch.server";
 import { dedupeExperiences } from "./dedupe";
 
 /** Register new providers here — nothing else in the app needs to change. */
-const SOURCES: ExperienceSource[] = [curatedSource, ticketmasterSource];
+const SOURCES: ExperienceSource[] = [curatedSource, ticketmasterSource, webSearchSource];
 
 export interface AggregatedResults {
   items: Experience[];

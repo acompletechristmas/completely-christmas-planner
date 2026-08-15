@@ -12,8 +12,18 @@ import { ExperienceActions } from "@/components/days-out/ExperienceActions";
 import { ExperienceEmptyState } from "@/components/days-out/ExperienceEmptyState";
 import { LocationDateSearch } from "@/components/days-out/LocationDateSearch";
 import { SourcesSearched } from "@/components/days-out/SourcesSearched";
+import { DiscoveryModeSwitch } from "@/components/days-out/DiscoveryModeSwitch";
+import { InspireJourney } from "@/components/days-out/InspireJourney";
 import { useExperienceFilters } from "@/hooks/use-experience-filters";
 import { searchExperiences } from "@/lib/days-out/search.functions";
+import { recommendIdeas } from "@/lib/days-out/recommend.functions";
+import {
+  buildIdeasHeading,
+  isGroup,
+  isMood,
+  type ExperienceIdea,
+  type IdeaMood,
+} from "@/lib/days-out/ideas";
 import {
   EXPERIENCES,
   AUDIENCE_LABELS,
@@ -36,6 +46,16 @@ const searchSchema = z.object({
   from: fallback(z.string(), "").default(""),
   to: fallback(z.string(), "").default(""),
   radius: fallback(z.number(), 25).default(25),
+  /** "find" (existing search) or "inspire" (idea journey). One page, one state. */
+  mode: fallback(z.string(), "find").default("find"),
+  group: fallback(z.string(), "").default(""),
+  ages: fallback(z.string(), "").default(""),
+  moods: fallback(z.string().array(), []).default([]),
+  /** Intent words carried over from a chosen idea, e.g. "candlelit concert". */
+  keywords: fallback(z.string().array(), []).default([]),
+  /** Existing Experience types carried over from a chosen idea. */
+  types: fallback(z.string().array(), []).default([]),
+  seed: fallback(z.number(), 0).default(0),
 });
 
 export const Route = createFileRoute("/days-out")({
@@ -85,32 +105,75 @@ const typeOptions = (Object.keys(TYPE_LABELS) as ExperienceType[]).map((v) => ({
 }));
 
 function DaysOutPage() {
-  const { location, from, to, radius } = Route.useSearch();
+  const { location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
+    Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
   const runSearch = useServerFn(searchExperiences);
+  const runRecommend = useServerFn(recommendIdeas);
+
+  const inspireMode = mode === "inspire";
+  const selectedGroup = isGroup(group) ? group : undefined;
+  const selectedMoods = moods.filter(isMood);
 
   const live = useQuery({
-    queryKey: ["experience-search", location, from, to, radius],
+    queryKey: ["experience-search", location, from, to, radius, keywords, types],
+    enabled: !inspireMode,
     queryFn: () =>
       runSearch({
         data: {
           ...(location ? { location } : {}),
           ...(from ? { from } : {}),
           ...(to ? { to } : {}),
+          ...(keywords.length ? { keywords } : {}),
+          ...(types.length ? { types } : {}),
           radiusMiles: radius,
         },
       }),
     staleTime: 5 * 60_000,
   });
 
+  const ideas = useQuery({
+    queryKey: ["experience-ideas", selectedGroup, ages, selectedMoods, seed],
+    enabled: inspireMode && Boolean(selectedGroup) && selectedMoods.length > 0,
+    queryFn: () =>
+      runRecommend({
+        data: {
+          ...(selectedGroup ? { group: selectedGroup } : {}),
+          ...(ages ? { ages } : {}),
+          moods: selectedMoods,
+          ...(location ? { location } : {}),
+          ...(from ? { from } : {}),
+          ...(to ? { to } : {}),
+          radiusMiles: radius,
+          seed,
+          limit: 6,
+        },
+      }),
+    staleTime: 60_000,
+  });
+
   const liveItems: Experience[] = live.data?.items ?? [];
   /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
-  const searched = Boolean(location || from || to);
+  const searched = Boolean(location || from || to || keywords.length);
   const noLiveResults = searched && !live.isFetching && !live.data?.locationNotFound && !usingLive;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
+
+  /** An idea becomes a real search: its intent words and types are carried over. */
+  function findIdeaNearMe(idea: ExperienceIdea) {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        mode: "find",
+        keywords: idea.keywords,
+        types: idea.types,
+      }),
+    });
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
 
   /** Collections always come from our inspiration catalogue, never mixed with live listings. */
   const freeIdeas = EXPERIENCES.filter((e) => e.priceBand === "free" || e.priceBand === "budget");
@@ -139,37 +202,108 @@ function DaysOutPage() {
       }
       intro="Santa visits, markets, light trails, panto, skating, meals out, parties and family gatherings — search by where you are, when you're free and the kind of day you fancy."
     >
-      {/* Where and when */}
-      <section aria-label="Search by location and date" className="mb-8">
-        <LocationDateSearch
-          initial={{ location, from, to, radius }}
-          searching={live.isFetching}
-          onSearch={(v) =>
-            navigate({
-              search: () => ({
-                location: v.location,
-                from: v.from,
-                to: v.to,
-                radius: v.radius,
-              }),
-            })
-          }
-        />
-        <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
-          {live.isFetching
-            ? "Searching festive listings…"
-            : live.data?.locationNotFound
-              ? "We couldn't find that place — try a postcode or a nearby town."
-              : noLiveResults
-                ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
-                : usingLive
-                  ? live.data?.origin
-                    ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
-                    : "Showing festive listings from across the UK."
-                  : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
-        </p>
-        <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
-      </section>
+      <DiscoveryModeSwitch
+        mode={inspireMode ? "inspire" : "find"}
+        onChange={(m) => navigate({ search: (prev) => ({ ...prev, mode: m }) })}
+      />
+
+      {inspireMode ? (
+        <section aria-label="Inspire me" className="mb-12">
+          <InspireJourney
+            group={selectedGroup}
+            ages={ages}
+            moods={selectedMoods}
+            onGroupChange={(g) =>
+              navigate({ search: (prev) => ({ ...prev, group: g, seed: 0 }) })
+            }
+            onAgesChange={(a) => navigate({ search: (prev) => ({ ...prev, ages: a }) })}
+            onToggleMood={(m: IdeaMood) =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  seed: 0,
+                  moods: prev.moods.includes(m)
+                    ? prev.moods.filter((x: string) => x !== m)
+                    : [...prev.moods, m],
+                }),
+              })
+            }
+            searchValues={{ location, from, to, radius }}
+            searching={live.isFetching}
+            onSearch={(v) =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  location: v.location,
+                  from: v.from,
+                  to: v.to,
+                  radius: v.radius,
+                }),
+              })
+            }
+            heading={buildIdeasHeading(selectedGroup, selectedMoods)}
+            ideas={ideas.data?.ideas ?? []}
+            loadingIdeas={ideas.isFetching}
+            onMoreIdeas={() => navigate({ search: (prev) => ({ ...prev, seed: prev.seed + 1 }) })}
+            onSurpriseMe={() =>
+              navigate({
+                search: (prev) => ({ ...prev, seed: Math.floor(Math.random() * 10_000) }),
+              })
+            }
+            onFindNearMe={findIdeaNearMe}
+          />
+        </section>
+      ) : (
+        <section aria-label="Search by location and date" className="mb-8">
+          <LocationDateSearch
+            initial={{ location, from, to, radius }}
+            searching={live.isFetching}
+            onSearch={(v) =>
+              navigate({
+                search: (prev) => ({
+                  ...prev,
+                  location: v.location,
+                  from: v.from,
+                  to: v.to,
+                  radius: v.radius,
+                }),
+              })
+            }
+          />
+          {keywords.length ? (
+            <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-[color:var(--muted-foreground)]">
+              <span>Searching for:</span>
+              <span className="rounded-full border border-[color:var(--gold)] px-3 py-1 text-[color:var(--gold-soft)]">
+                {keywords.join(", ")}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  navigate({ search: (prev) => ({ ...prev, keywords: [], types: [] }) })
+                }
+                className="min-h-11 underline underline-offset-4 hover:text-[color:var(--gold-soft)]"
+              >
+                Clear this idea
+              </button>
+            </p>
+          ) : null}
+          <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
+            {live.isFetching
+              ? "Searching festive listings…"
+              : live.data?.locationNotFound
+                ? "We couldn't find that place — try a postcode or a nearby town."
+                : noLiveResults
+                  ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
+                  : usingLive
+                    ? live.data?.origin
+                      ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+                      : "Showing festive listings from across the UK."
+                    : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
+          </p>
+          <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
+        </section>
+      )}
+
 
 
       {/* Discover → Choose → Organise. Saved activities live in the planner. */}
@@ -189,6 +323,8 @@ function DaysOutPage() {
         </Link>
       </div>
 
+      {!inspireMode ? (
+      <>
       {/* Filters */}
       <section aria-label="Filter festive activities" className="space-y-5">
         <FilterPills
@@ -270,6 +406,8 @@ function DaysOutPage() {
           </div>
         )}
       </section>
+      </>
+      ) : null}
 
       {/* Curated collections */}
       <CollectionRow
