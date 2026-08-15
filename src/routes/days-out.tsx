@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
@@ -166,11 +166,19 @@ function DaysOutPage() {
   const liveItems: Experience[] = live.data?.items ?? [];
   /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
-  const searched = Boolean(location || from || to || keywords.length);
-  const noLiveResults = searched && !live.isFetching && !live.data?.locationNotFound && !usingLive;
+  const noLiveResults =
+    submitted && !live.isFetching && !live.data?.locationNotFound && !usingLive;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
+
+  /** A fresh search always starts from the first page of results. */
+  useEffect(() => {
+    setVisible(24);
+  }, [q, location, from, to, radius, keywords, types]);
+
+  const shown = results.slice(0, visible);
+  const searchingWithGoogle = (live.data?.sources ?? []).some((s) => s.id === "websearch");
 
   /** Land the user on the results/status area instead of the top of the page. */
   function scrollToResults() {
