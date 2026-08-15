@@ -16,6 +16,12 @@ export interface SearchQuery {
   /** ISO dates. */
   from?: string;
   to?: string;
+  /**
+   * Free-text intent words that keep an idea specific, e.g.
+   * ["candlelit concert", "carols"]. Adapters that cannot use them ignore them;
+   * the general web-search source will use them to find the real thing.
+   */
+  keywords?: string[];
   types?: ExperienceType[];
   price?: PriceBand[];
   audiences?: Audience[];
