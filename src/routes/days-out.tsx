@@ -44,6 +44,8 @@ import { Sparkles, Star } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 const searchSchema = z.object({
+  /** Free text from "What are you looking for?". */
+  q: fallback(z.string(), "").default(""),
   location: fallback(z.string(), "").default(""),
   from: fallback(z.string(), "").default(""),
   to: fallback(z.string(), "").default(""),
