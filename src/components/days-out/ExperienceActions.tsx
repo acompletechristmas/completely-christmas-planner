@@ -45,9 +45,25 @@ export function ExperienceActions({ experience }: { experience: Experience }) {
     toast.success("Saved to My Festive Activities");
   }
 
+  const eventUrl = experience.affiliateUrl ?? experience.bookingUrl ?? experience.sourceUrl ?? null;
+  const bookable = Boolean(experience.affiliateUrl ?? experience.bookingUrl);
+
   return (
     <div className="flex flex-wrap items-center gap-2">
+      {eventUrl ? (
+        <a
+          href={eventUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={primaryActionClass}
+        >
+          <ExternalLink aria-hidden className="h-3.5 w-3.5" />
+          {bookable ? "View & book" : "View event"}
+        </a>
+      ) : null}
+
       {experience.startDate ? (
+
         <button
           type="button"
           className={actionClass}
