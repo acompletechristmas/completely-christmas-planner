@@ -11,6 +11,7 @@ import { ExperienceCard } from "@/components/days-out/ExperienceCard";
 import { ExperienceActions } from "@/components/days-out/ExperienceActions";
 import { ExperienceEmptyState } from "@/components/days-out/ExperienceEmptyState";
 import { LocationDateSearch } from "@/components/days-out/LocationDateSearch";
+import { SourcesSearched } from "@/components/days-out/SourcesSearched";
 import { useExperienceFilters } from "@/hooks/use-experience-filters";
 import { searchExperiences } from "@/lib/days-out/search.functions";
 import {
