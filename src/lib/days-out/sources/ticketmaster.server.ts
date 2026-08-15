@@ -93,7 +93,7 @@ export const ticketmasterSource: ExperienceSource = {
       const json = (await res.json()) as { _embedded?: { events?: TmEvent[] } };
       const events = json._embedded?.events ?? [];
 
-      return events.map((event) => {
+      return events.filter(isFestive).map((event) => {
         const venue = event._embedded?.venues?.[0];
         const lat = venue?.location?.latitude ? Number(venue.location.latitude) : undefined;
         const lng = venue?.location?.longitude ? Number(venue.location.longitude) : undefined;
