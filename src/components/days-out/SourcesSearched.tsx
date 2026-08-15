@@ -5,16 +5,11 @@ interface SourcesSearchedProps {
 
 /**
  * Quiet transparency line: which enabled providers were actually searched.
- * Never lists dormant/unconfigured providers — the server only reports enabled ones.
+ * Never lists dormant/unconfigured/failed providers — the server only reports
+ * sources that ran successfully.
  */
 export function SourcesSearched({ searching, sources }: SourcesSearchedProps) {
-  if (searching) {
-    return (
-      <p className="mt-1 text-[12px] text-[color:var(--muted-foreground)]">
-        Searching A Complete Christmas + connected event providers…
-      </p>
-    );
-  }
+  if (searching) return null;
 
   if (!sources?.length) return null;
 

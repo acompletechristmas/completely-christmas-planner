@@ -9,9 +9,13 @@ import type {
 
 /** A normalised search request, shared by every source adapter. */
 export interface SearchQuery {
+  /** Raw free-text query typed by the user, e.g. "Santa". */
+  query?: string;
   /** Resolved user origin, when a location was given. */
   lat?: number;
   lng?: number;
+  /** Human label of the resolved origin, e.g. "RH1 3HA". */
+  placeLabel?: string;
   radiusMiles?: number;
   /** ISO dates. */
   from?: string;

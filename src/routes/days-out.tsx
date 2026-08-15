@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
@@ -44,6 +44,8 @@ import { Sparkles, Star } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 const searchSchema = z.object({
+  /** Free text from "What are you looking for?". */
+  q: fallback(z.string(), "").default(""),
   location: fallback(z.string(), "").default(""),
   from: fallback(z.string(), "").default(""),
   to: fallback(z.string(), "").default(""),
@@ -107,24 +109,29 @@ const typeOptions = (Object.keys(TYPE_LABELS) as ExperienceType[]).map((v) => ({
 }));
 
 function DaysOutPage() {
-  const { location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
+  const { q, location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
     Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const runSearch = useServerFn(searchExperiences);
   const runRecommend = useServerFn(recommendIdeas);
+  const [visible, setVisible] = useState(24);
 
 
   const inspireMode = mode === "inspire";
   const selectedGroup = isGroup(group) ? group : undefined;
   const selectedMoods = moods.filter(isMood);
 
+  /** Only an explicit search (or a shared/refreshed search URL) hits the providers. */
+  const submitted = Boolean(q || location || from || to || keywords.length);
+
   const live = useQuery({
-    queryKey: ["experience-search", location, from, to, radius, keywords, types],
-    enabled: !inspireMode,
+    queryKey: ["experience-search", q, location, from, to, radius, keywords, types],
+    enabled: !inspireMode && submitted,
     queryFn: () =>
       runSearch({
         data: {
+          ...(q ? { q } : {}),
           ...(location ? { location } : {}),
           ...(from ? { from } : {}),
           ...(to ? { to } : {}),
@@ -159,11 +166,19 @@ function DaysOutPage() {
   const liveItems: Experience[] = live.data?.items ?? [];
   /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
-  const searched = Boolean(location || from || to || keywords.length);
-  const noLiveResults = searched && !live.isFetching && !live.data?.locationNotFound && !usingLive;
+  const noLiveResults =
+    submitted && !live.isFetching && !live.data?.locationNotFound && !usingLive;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
+
+  /** A fresh search always starts from the first page of results. */
+  useEffect(() => {
+    setVisible(24);
+  }, [q, location, from, to, radius, keywords, types]);
+
+  const shown = results.slice(0, visible);
+  const searchingWithGoogle = (live.data?.sources ?? []).some((s) => s.id === "websearch");
 
   /** Land the user on the results/status area instead of the top of the page. */
   function scrollToResults() {
@@ -251,7 +266,7 @@ function DaysOutPage() {
                 }),
               })
             }
-            searchValues={{ location, from, to, radius }}
+            searchValues={{ q, location, from, to, radius }}
             searching={live.isFetching}
             onSearch={(v) => {
               navigate({
@@ -285,13 +300,17 @@ function DaysOutPage() {
       ) : (
         <section aria-label="Search by location and date" className="mb-8">
           <LocationDateSearch
-            initial={{ location, from, to, radius }}
+            initial={{ q, location, from, to, radius }}
             searching={live.isFetching}
+            showQuery
+            submitLabel="Search Christmas activities"
+            searchingLabel="Searching Christmas activities…"
             onSearch={(v) => {
               navigate({
                 resetScroll: false,
                 search: (prev) => ({
                   ...prev,
+                  q: v.q,
                   location: v.location,
                   from: v.from,
                   to: v.to,
@@ -322,19 +341,30 @@ function DaysOutPage() {
               </button>
             </p>
           ) : null}
-          <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
-            {live.isFetching
-              ? "Searching festive listings…"
-              : live.data?.locationNotFound
+          {live.isFetching ? (
+            <div className="mt-3">
+              <p className="text-[15px] font-medium text-[color:var(--gold-soft)]">
+                Searching Christmas magic near you…
+              </p>
+              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+                {searchingWithGoogle
+                  ? "Searching A Complete Christmas and the live web…"
+                  : "Checking A Complete Christmas and connected live sources."}
+              </p>
+            </div>
+          ) : (
+            <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
+              {live.data?.locationNotFound
                 ? "We couldn't find that place — try a postcode or a nearby town."
                 : noLiveResults
-                  ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
+                  ? "We haven't found matching live listings for those dates yet."
                   : usingLive
                     ? live.data?.origin
                       ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
                       : "Showing festive listings from across the UK."
-                    : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
-          </p>
+                    : "Tell us what you're looking for and where, then press Search Christmas activities."}
+            </p>
+          )}
           <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
           </div>
         </section>
@@ -403,17 +433,16 @@ function DaysOutPage() {
           <div>
             <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
               {usingLive
-                ? `${results.length} festive ${results.length === 1 ? "activity" : "activities"}${
+                ? `Christmas activities${
                     live.data?.origin ? ` near ${live.data.origin.label}` : ""
                   }`
                 : "Christmas ideas to inspire you"}
             </h2>
-            {!usingLive ? (
-              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
-                Ideas to spark a plan — not live listings, so there are no dates or tickets here
-                yet.
-              </p>
-            ) : null}
+            <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+              {usingLive
+                ? `${results.length} festive ${results.length === 1 ? "experience" : "experiences"} found`
+                : "Ideas to spark a plan — not live listings, so there are no dates or tickets here yet."}
+            </p>
           </div>
           {activeCount > 0 ? (
             <button
@@ -428,15 +457,28 @@ function DaysOutPage() {
 
 
         {results.length ? (
-          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((e) => (
-              <ExperienceCard
-                key={e.id}
-                experience={e}
-                actions={usingLive ? <ExperienceActions experience={e} /> : undefined}
-              />
-            ))}
-          </div>
+          <>
+            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {shown.map((e) => (
+                <ExperienceCard
+                  key={e.id}
+                  experience={e}
+                  actions={usingLive ? <ExperienceActions experience={e} /> : undefined}
+                />
+              ))}
+            </div>
+            {results.length > shown.length ? (
+              <div className="mt-8 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setVisible((n) => n + 24)}
+                  className="min-h-11 rounded-full border border-[color:var(--gold)] px-6 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/10"
+                >
+                  Show more results
+                </button>
+              </div>
+            ) : null}
+          </>
         ) : (
           <div className="mt-5">
             <ExperienceEmptyState onClear={clear} />

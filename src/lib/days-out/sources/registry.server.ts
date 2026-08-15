@@ -25,10 +25,14 @@ export async function searchAllSources(query: SearchQuery): Promise<AggregatedRe
 
   settled.forEach((result, i) => {
     const source = active[i]!;
-    // One failing provider must never break the page.
-    const items = result.status === "fulfilled" ? result.value : [];
-    sources.push({ id: source.id, name: source.name, count: items.length });
-    all = all.concat(items);
+    // One failing provider must never break the page — and a provider that
+    // failed is never claimed as "searched".
+    if (result.status !== "fulfilled") {
+      console.error(`[days-out] source "${source.id}" failed:`, result.reason);
+      return;
+    }
+    sources.push({ id: source.id, name: source.name, count: result.value.length });
+    all = all.concat(result.value);
   });
 
   const deduped = dedupeExperiences(all);
