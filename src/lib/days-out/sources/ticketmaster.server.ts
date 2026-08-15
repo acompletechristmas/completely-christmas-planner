@@ -54,7 +54,45 @@ function audiences(event: TmEvent): Audience[] {
   const text = event.name.toLowerCase();
   if (text.includes("family") || text.includes("santa") || text.includes("panto")) {
     return ["toddlers", "children", "teens", "adults"];
-  }
+}
+
+/** Festive keywords — this is a Christmas discovery engine, not a generic events search. */
+const FESTIVE_WORDS = [
+  "christmas",
+  "xmas",
+  "festive",
+  "santa",
+  "grotto",
+  "panto",
+  "nativity",
+  "carol",
+  "nutcracker",
+  "elf",
+  "winter wonderland",
+  "light trail",
+  "christmas market",
+  "yule",
+  "advent",
+  "reindeer",
+  "snowman",
+  "scrooge",
+  "christmas carol",
+  "ice rink",
+  "ice skating",
+  "new year",
+];
+
+/** Drop unrelated concerts/sport that merely matched the API keyword. */
+function isFestive(event: TmEvent): boolean {
+  const text = [
+    event.name,
+    event.info ?? "",
+    event.classifications?.[0]?.genre?.name ?? "",
+  ]
+    .join(" ")
+    .toLowerCase();
+  return FESTIVE_WORDS.some((w) => text.includes(w));
+}
   return ["adults", "teens"];
 }
 
