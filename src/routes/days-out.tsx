@@ -433,17 +433,16 @@ function DaysOutPage() {
           <div>
             <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
               {usingLive
-                ? `${results.length} festive ${results.length === 1 ? "activity" : "activities"}${
+                ? `Christmas activities${
                     live.data?.origin ? ` near ${live.data.origin.label}` : ""
                   }`
                 : "Christmas ideas to inspire you"}
             </h2>
-            {!usingLive ? (
-              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
-                Ideas to spark a plan — not live listings, so there are no dates or tickets here
-                yet.
-              </p>
-            ) : null}
+            <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+              {usingLive
+                ? `${results.length} festive ${results.length === 1 ? "experience" : "experiences"} found`
+                : "Ideas to spark a plan — not live listings, so there are no dates or tickets here yet."}
+            </p>
           </div>
           {activeCount > 0 ? (
             <button
