@@ -457,15 +457,28 @@ function DaysOutPage() {
 
 
         {results.length ? (
-          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((e) => (
-              <ExperienceCard
-                key={e.id}
-                experience={e}
-                actions={usingLive ? <ExperienceActions experience={e} /> : undefined}
-              />
-            ))}
-          </div>
+          <>
+            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {shown.map((e) => (
+                <ExperienceCard
+                  key={e.id}
+                  experience={e}
+                  actions={usingLive ? <ExperienceActions experience={e} /> : undefined}
+                />
+              ))}
+            </div>
+            {results.length > shown.length ? (
+              <div className="mt-8 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setVisible((n) => n + 24)}
+                  className="min-h-11 rounded-full border border-[color:var(--gold)] px-6 text-sm font-semibold text-[color:var(--gold-soft)] transition hover:bg-[color:var(--gold)]/10"
+                >
+                  Show more results
+                </button>
+              </div>
+            ) : null}
+          </>
         ) : (
           <div className="mt-5">
             <ExperienceEmptyState onClear={clear} />
