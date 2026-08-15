@@ -27,7 +27,7 @@ An idea has no price, no date, no venue, no booking link — it cannot be mistak
 
 **A provider-neutral recommendation seam.** `recommendIdeas` server fn takes a `RecommendationRequest` (group, optional ages, moods, plus the existing search context) and returns `ExperienceIdea[]`. Behind it sits a small `Recommender` interface with one implementation now: a curated rules recommender (group × mood → idea pool, deterministic scoring, shuffle seed for "Show me more ideas" / "Surprise me"). A real AI recommender can be registered later with no UI change. No API keys, no AI provider wired now.
 
-**"Find this near me".** Each idea card's primary gold action navigates on the same route to `mode=find` with the idea's `types` applied to the existing search and the location/dates already held in state — i.e. it calls the existing `searchExperiences` flow. Nothing new searches.
+**"Find this near me".** Each idea card's primary gold action navigates on the same route to `mode=find`, carrying **both** the idea's `types` **and** its `keywords` (e.g. "Candlelit Christmas concert" → `christmas concert`, `carols`, `candlelit concert`) alongside the location/dates already held in state. `keywords` is added to the `/days-out` URL search schema (`fallback(z.string().array(), []).default([])`), so the search is shareable and survives refresh, and is passed straight into the existing `searchExperiences` input and on through `SearchQuery` to the registry. Adapters that cannot use keywords ignore them; the future web-search adapter uses them to find the specific real-world experience. The intent is never reduced to a broad `ExperienceType` alone. A small "Searching for: candlelit concert" chip with a clear control sits above the results so the user can widen back to the plain search. One search system, one server function.
 
 **Live-web-search readiness.** `SearchQuery` gains an optional `keywords?: string[]` (ignored by the curated adapter, passed through by the registry) and a new dormant `websearch.server.ts` adapter implementing the existing `ExperienceSource` interface: `enabled()` returns false while unconfigured, `search()` returns `[]`. It contains no provider name, no key, no scraping, no synthesised results — it is the registration point for a general live-web/place source later. Ticketmaster stays one optional source among several.
 
@@ -40,9 +40,10 @@ Heading is composed from group + moods, e.g. "Romantic Christmas ideas for two",
 ## 4. Files
 
 Changed:
-- `src/routes/days-out.tsx` — add `mode`/`group`/`ages`/`moods` to the search schema, render the two-way switch, mount either the existing search panel + results or the Inspire journey. Existing search, filters, collections, results grid untouched.
-- `src/lib/days-out/sources/types.ts` — add optional `keywords?: string[]`.
-- `src/lib/days-out/sources/registry.server.ts` — register the dormant web-search adapter.
+- `src/routes/days-out.tsx` — add `mode`/`group`/`ages`/`moods`/`keywords` to the search schema, render the two-way switch, mount either the existing search panel + results or the Inspire journey, and pass `keywords` into the existing search call. Existing search, filters, collections, results grid untouched.
+- `src/lib/days-out/search.functions.ts` — accept optional `keywords: string[]` in the input schema and forward it to `searchAllSources`.
+- `src/lib/days-out/sources/types.ts` — add optional `keywords?: string[]` to `SearchQuery`.
+- `src/lib/days-out/sources/registry.server.ts` — register the dormant web-search adapter (keywords pass through unchanged).
 
 New:
 - `src/lib/days-out/ideas.ts` — `ExperienceIdea`, `RecommendationRequest`, group/mood label maps, heading builder.
