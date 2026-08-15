@@ -341,19 +341,30 @@ function DaysOutPage() {
               </button>
             </p>
           ) : null}
-          <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
-            {live.isFetching
-              ? "Searching festive listings…"
-              : live.data?.locationNotFound
+          {live.isFetching ? (
+            <div className="mt-3">
+              <p className="text-[15px] font-medium text-[color:var(--gold-soft)]">
+                Searching Christmas magic near you…
+              </p>
+              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+                {searchingWithGoogle
+                  ? "Searching A Complete Christmas and the live web…"
+                  : "Checking A Complete Christmas and connected live sources."}
+              </p>
+            </div>
+          ) : (
+            <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
+              {live.data?.locationNotFound
                 ? "We couldn't find that place — try a postcode or a nearby town."
                 : noLiveResults
-                  ? "We haven't found matching live listings for those dates yet. Here are some Christmas ideas you might enjoy while we keep building our coverage."
+                  ? "We haven't found matching live listings for those dates yet."
                   : usingLive
                     ? live.data?.origin
                       ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
                       : "Showing festive listings from across the UK."
-                    : "Add a postcode or town to see real festive events near you. Until then, here's a little inspiration."}
-          </p>
+                    : "Tell us what you're looking for and where, then press Search Christmas activities."}
+            </p>
+          )}
           <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
           </div>
         </section>
