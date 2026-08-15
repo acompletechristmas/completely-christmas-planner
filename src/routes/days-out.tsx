@@ -103,24 +103,28 @@ function DaysOutPage() {
   });
 
   const liveItems: Experience[] = live.data?.items ?? [];
-  /** Live listings when we have them, our own inspiration catalogue otherwise. */
+  /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
+  const searched = Boolean(location || from || to);
+  const noLiveResults = searched && !live.isFetching && !live.data?.locationNotFound && !usingLive;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
 
-  const freeIdeas = source.filter((e) => e.priceBand === "free" || e.priceBand === "budget");
-  const familyDays = source.filter(
+  /** Collections always come from our inspiration catalogue, never mixed with live listings. */
+  const freeIdeas = EXPERIENCES.filter((e) => e.priceBand === "free" || e.priceBand === "budget");
+  const familyDays = EXPERIENCES.filter(
     (e) => e.audiences.includes("toddlers") || e.audiences.includes("children"),
   );
-  const splashOut = source.filter((e) => e.priceBand === "splash");
-  const grownUps = source.filter(
+  const splashOut = EXPERIENCES.filter((e) => e.priceBand === "splash");
+  const grownUps = EXPERIENCES.filter(
     (e) => e.audiences.includes("adults") && e.timeOfDay.includes("evening"),
   );
-  const bestRated = [...source]
+  const bestRated = [...EXPERIENCES]
     .filter((e) => e.rating != null)
     .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     .slice(0, 6);
+
 
   return (
     <PageShell
