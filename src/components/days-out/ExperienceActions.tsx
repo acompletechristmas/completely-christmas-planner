@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarPlus, Check, Heart, Loader2 } from "lucide-react";
+import { CalendarPlus, Check, ExternalLink, Heart, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -9,6 +9,10 @@ import { TYPE_LABELS, type Experience } from "@/lib/days-out/experience-data";
 
 const actionClass =
   "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-[color:var(--border)] px-3 text-[12px] font-medium text-[color:var(--forest)] transition hover:border-[color:var(--gold)] disabled:opacity-60";
+
+const primaryActionClass =
+  "inline-flex min-h-11 items-center gap-1.5 rounded-full border border-[color:var(--gold)] bg-[color:var(--gold)]/10 px-3.5 text-[12px] font-semibold text-[color:var(--forest)] transition hover:bg-[color:var(--gold)]/20";
+
 
 /** Save an activity into the existing Festive Activities planner (outings). */
 export function ExperienceActions({ experience }: { experience: Experience }) {
