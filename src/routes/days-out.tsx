@@ -297,7 +297,7 @@ function DaysOutPage() {
               scrollToResults();
             }}
           />
-          <div ref={resultsRef} className="scroll-mt-6">
+          <div ref={resultsRef} className="scroll-mt-28">
           {keywords.length ? (
             <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-[color:var(--muted-foreground)]">
               <span>Searching for:</span>
