@@ -266,7 +266,7 @@ function DaysOutPage() {
                 }),
               })
             }
-            searchValues={{ location, from, to, radius }}
+            searchValues={{ q, location, from, to, radius }}
             searching={live.isFetching}
             onSearch={(v) => {
               navigate({
