@@ -227,9 +227,21 @@ function DaysOutPage() {
       {/* Results */}
       <section className="mt-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
-            {results.length} festive {results.length === 1 ? "idea" : "ideas"}
-          </h2>
+          <div>
+            <h2 className="font-display text-[26px] leading-tight tracking-tight sm:text-3xl">
+              {usingLive
+                ? `${results.length} festive ${results.length === 1 ? "activity" : "activities"}${
+                    live.data?.origin ? ` near ${live.data.origin.label}` : ""
+                  }`
+                : "Christmas ideas to inspire you"}
+            </h2>
+            {!usingLive ? (
+              <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)]">
+                Ideas to spark a plan — not live listings, so there are no dates or tickets here
+                yet.
+              </p>
+            ) : null}
+          </div>
           {activeCount > 0 ? (
             <button
               type="button"
@@ -240,6 +252,7 @@ function DaysOutPage() {
             </button>
           ) : null}
         </div>
+
 
         {results.length ? (
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
