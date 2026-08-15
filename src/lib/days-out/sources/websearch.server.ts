@@ -136,7 +136,7 @@ function toExperience(raw: RawResult, index: number, query: SearchQuery): Experi
     timeOfDay: [],
     blurb: str(raw.blurb, 220) ?? "",
     sourceId: "websearch",
-    sourceName: str(raw.sourceName, 60) ?? host || "Web",
+    sourceName: str(raw.sourceName, 60) ?? (host || "Web"),
     sourceUrl,
     ...(bookingUrl ? { bookingUrl } : {}),
     ...(str(raw.venue, 120) ? { venue: str(raw.venue, 120)! } : {}),
