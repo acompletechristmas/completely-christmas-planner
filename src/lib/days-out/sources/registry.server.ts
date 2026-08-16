@@ -64,5 +64,5 @@ export async function searchAllSources(query: SearchQuery): Promise<AggregatedRe
     return (b.rating ?? 0) - (a.rating ?? 0);
   });
 
-  return { items: deduped.slice(0, query.limit ?? 120), sources };
+  return { items: deduped.slice(0, query.limit ?? 120), sources, providerStatus };
 }
