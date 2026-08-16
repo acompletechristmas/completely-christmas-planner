@@ -56,7 +56,7 @@ export const searchExperiences = createServerFn({ method: "POST" })
 
     const origin = data.location ? await geocodeUk(data.location) : null;
 
-    const { items, sources } = await searchAllSources({
+    const { items, sources, providerStatus } = await searchAllSources({
       ...(data.q?.trim() ? { query: data.q.trim() } : {}),
       ...(origin ? { lat: origin.lat, lng: origin.lng, placeLabel: origin.label } : {}),
       radiusMiles: data.radiusMiles ?? 25,
@@ -73,14 +73,21 @@ export const searchExperiences = createServerFn({ method: "POST" })
       items,
       origin,
       sources,
+      providerStatus,
       locationNotFound: Boolean(data.location) && origin === null,
     };
 
-    cache.set(key, { at: Date.now(), value: result });
-    if (cache.size > 100) {
-      const oldest = [...cache.entries()].sort((a, b) => a[1].at - b[1].at)[0];
-      if (oldest) cache.delete(oldest[0]);
+    // Never cache a run where an enabled provider failed — otherwise a broken
+    // live-web search keeps serving its zero-result response after it recovers.
+    const anyFailed = providerStatus.some((p) => p.status === "failed");
+    if (!anyFailed) {
+      cache.set(key, { at: Date.now(), value: result });
+      if (cache.size > 100) {
+        const oldest = [...cache.entries()].sort((a, b) => a[1].at - b[1].at)[0];
+        if (oldest) cache.delete(oldest[0]);
+      }
     }
 
     return result;
   });
+
