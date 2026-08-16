@@ -112,8 +112,21 @@ const typeOptions = (Object.keys(TYPE_LABELS) as ExperienceType[]).map((v) => ({
 }));
 
 function DaysOutPage() {
-  const { q, location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
-    Route.useSearch();
+  const {
+    q,
+    location,
+    from,
+    to,
+    radius,
+    mode,
+    group,
+    ages,
+    moods,
+    keywords,
+    types,
+    seed,
+    search: searchCount,
+  } = Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const runSearch = useServerFn(searchExperiences);
@@ -125,11 +138,11 @@ function DaysOutPage() {
   const selectedGroup = isGroup(group) ? group : undefined;
   const selectedMoods = moods.filter(isMood);
 
-  /** Only an explicit search (or a shared/refreshed search URL) hits the providers. */
-  const submitted = Boolean(q || location || from || to || keywords.length);
+  /** Only a deliberate press of a search button hits the providers. */
+  const submitted = searchCount > 0;
 
   const live = useQuery({
-    queryKey: ["experience-search", q, location, from, to, radius, keywords, types],
+    queryKey: ["experience-search", searchCount, q, location, from, to, radius, keywords, types],
     enabled: !inspireMode && submitted,
     queryFn: () =>
       runSearch({
@@ -145,6 +158,7 @@ function DaysOutPage() {
       }),
     staleTime: 5 * 60_000,
   });
+
 
   const ideas = useQuery({
     queryKey: ["experience-ideas", selectedGroup, ages, selectedMoods, seed],
