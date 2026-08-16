@@ -60,7 +60,10 @@ const searchSchema = z.object({
   /** Existing Experience types carried over from a chosen idea. */
   types: fallback(z.string().array(), []).default([]),
   seed: fallback(z.number(), 0).default(0),
+  /** Explicit search counter — incremented by every deliberate search action. */
+  search: fallback(z.number(), 0).default(0),
 });
+
 
 export const Route = createFileRoute("/days-out")({
   validateSearch: zodValidator(searchSchema),
