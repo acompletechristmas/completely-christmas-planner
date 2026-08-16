@@ -386,16 +386,23 @@ function DaysOutPage() {
             <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
               {live.data?.locationNotFound
                 ? "We couldn't find that place — try a postcode or a nearby town."
-                : noLiveResults
-                  ? "We haven't found matching live listings for those dates yet."
-                  : usingLive
-                    ? live.data?.origin
-                      ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
-                      : "Showing festive listings from across the UK."
-                    : "Tell us what you're looking for and where, then press Search Christmas activities."}
+                : usingLive
+                  ? live.data?.origin
+                    ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+                    : "Showing festive listings from across the UK."
+                  : noLiveResults
+                    ? "We haven't found matching live listings for those dates yet."
+                    : submitted && anyProviderFailed
+                      ? "Showing our Christmas inspiration while one of our live sources is unavailable."
+                      : "Tell us what you're looking for and where, then press Search Christmas activities."}
             </p>
           )}
-          <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
+          <SourcesSearched
+            searching={live.isFetching}
+            sources={live.data?.sources}
+            providerStatus={live.data?.providerStatus}
+          />
+
           </div>
         </section>
 
