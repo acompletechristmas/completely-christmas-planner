@@ -304,10 +304,12 @@ function DaysOutPage() {
                   from: v.from,
                   to: v.to,
                   radius: v.radius,
+                  search: prev.search + 1,
                 }),
               });
               scrollToResults();
             }}
+
             heading={buildIdeasHeading(selectedGroup, selectedMoods)}
             ideas={ideas.data?.ideas ?? []}
             loadingIdeas={ideas.isFetching}
