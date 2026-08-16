@@ -19,8 +19,11 @@ export interface ExperienceSearchResult {
   items: Experience[];
   origin: { label: string; lat: number; lng: number } | null;
   sources: { id: string; name: string; count: number }[];
+  /** Per-provider outcome (no technical detail) so a failure is never shown as "no results". */
+  providerStatus: { id: string; name: string; status: "success" | "failed"; count: number }[];
   locationNotFound: boolean;
 }
+
 
 /** Short-lived cache so identical searches never re-hit paid providers. */
 const CACHE_TTL_MS = 10 * 60_000;
