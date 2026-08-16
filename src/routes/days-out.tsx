@@ -183,8 +183,15 @@ function DaysOutPage() {
   const liveItems: Experience[] = live.data?.items ?? [];
   /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
+  const providerStatus = live.data?.providerStatus ?? [];
+  const anyProviderFailed = providerStatus.some((p) => p.status === "failed");
+  /** Only claim "nothing found" when every enabled provider genuinely completed. */
   const noLiveResults =
-    submitted && !live.isFetching && !live.data?.locationNotFound && !usingLive;
+    submitted &&
+    !live.isFetching &&
+    !live.data?.locationNotFound &&
+    !usingLive &&
+    !anyProviderFailed;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
@@ -192,10 +199,10 @@ function DaysOutPage() {
   /** A fresh search always starts from the first page of results. */
   useEffect(() => {
     setVisible(24);
-  }, [q, location, from, to, radius, keywords, types]);
+  }, [searchCount, q, location, from, to, radius, keywords, types]);
 
   const shown = results.slice(0, visible);
-  const searchingWithGoogle = (live.data?.sources ?? []).some((s) => s.id === "websearch");
+  const searchingWithGoogle = providerStatus.some((p) => p.id === "websearch");
 
   /** Land the user on the results/status area instead of the top of the page. */
   function scrollToResults() {
@@ -220,10 +227,12 @@ function DaysOutPage() {
         mode: "find",
         keywords: idea.keywords,
         types: idea.types,
+        search: prev.search + 1,
       }),
     });
     scrollToResults();
   }
+
 
 
 
