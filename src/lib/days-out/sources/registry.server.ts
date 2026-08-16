@@ -8,10 +8,19 @@ import { dedupeExperiences } from "./dedupe";
 /** Register new providers here — nothing else in the app needs to change. */
 const SOURCES: ExperienceSource[] = [curatedSource, ticketmasterSource, webSearchSource];
 
+export interface ProviderStatus {
+  id: string;
+  name: string;
+  status: "success" | "failed";
+  count: number;
+}
+
 export interface AggregatedResults {
   items: Experience[];
   /** Which adapters actually contributed, for the "sources searched" line. */
   sources: { id: string; name: string; count: number }[];
+  /** Non-sensitive per-provider outcome, so failure is never mistaken for "no results". */
+  providerStatus: ProviderStatus[];
 }
 
 /** Fan out to every enabled source in parallel, normalise, dedupe, sort. */
@@ -21,19 +30,28 @@ export async function searchAllSources(query: SearchQuery): Promise<AggregatedRe
   const settled = await Promise.allSettled(active.map((s) => s.search(query)));
 
   const sources: AggregatedResults["sources"] = [];
+  const providerStatus: ProviderStatus[] = [];
   let all: Experience[] = [];
 
   settled.forEach((result, i) => {
     const source = active[i]!;
     // One failing provider must never break the page — and a provider that
-    // failed is never claimed as "searched".
+    // failed is never claimed as "searched". The technical reason stays server-side.
     if (result.status !== "fulfilled") {
       console.error(`[days-out] source "${source.id}" failed:`, result.reason);
+      providerStatus.push({ id: source.id, name: source.name, status: "failed", count: 0 });
       return;
     }
     sources.push({ id: source.id, name: source.name, count: result.value.length });
+    providerStatus.push({
+      id: source.id,
+      name: source.name,
+      status: "success",
+      count: result.value.length,
+    });
     all = all.concat(result.value);
   });
+
 
   const deduped = dedupeExperiences(all);
 
@@ -46,5 +64,5 @@ export async function searchAllSources(query: SearchQuery): Promise<AggregatedRe
     return (b.rating ?? 0) - (a.rating ?? 0);
   });
 
-  return { items: deduped.slice(0, query.limit ?? 120), sources };
+  return { items: deduped.slice(0, query.limit ?? 120), sources, providerStatus };
 }

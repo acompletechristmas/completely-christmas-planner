@@ -60,7 +60,10 @@ const searchSchema = z.object({
   /** Existing Experience types carried over from a chosen idea. */
   types: fallback(z.string().array(), []).default([]),
   seed: fallback(z.number(), 0).default(0),
+  /** Explicit search counter — incremented by every deliberate search action. */
+  search: fallback(z.number(), 0).default(0),
 });
+
 
 export const Route = createFileRoute("/days-out")({
   validateSearch: zodValidator(searchSchema),
@@ -109,8 +112,21 @@ const typeOptions = (Object.keys(TYPE_LABELS) as ExperienceType[]).map((v) => ({
 }));
 
 function DaysOutPage() {
-  const { q, location, from, to, radius, mode, group, ages, moods, keywords, types, seed } =
-    Route.useSearch();
+  const {
+    q,
+    location,
+    from,
+    to,
+    radius,
+    mode,
+    group,
+    ages,
+    moods,
+    keywords,
+    types,
+    seed,
+    search: searchCount,
+  } = Route.useSearch();
   const navigate = useNavigate({ from: "/days-out" });
   const resultsRef = useRef<HTMLDivElement | null>(null);
   const runSearch = useServerFn(searchExperiences);
@@ -122,11 +138,11 @@ function DaysOutPage() {
   const selectedGroup = isGroup(group) ? group : undefined;
   const selectedMoods = moods.filter(isMood);
 
-  /** Only an explicit search (or a shared/refreshed search URL) hits the providers. */
-  const submitted = Boolean(q || location || from || to || keywords.length);
+  /** Only a deliberate press of a search button hits the providers. */
+  const submitted = searchCount > 0;
 
   const live = useQuery({
-    queryKey: ["experience-search", q, location, from, to, radius, keywords, types],
+    queryKey: ["experience-search", searchCount, q, location, from, to, radius, keywords, types],
     enabled: !inspireMode && submitted,
     queryFn: () =>
       runSearch({
@@ -142,6 +158,7 @@ function DaysOutPage() {
       }),
     staleTime: 5 * 60_000,
   });
+
 
   const ideas = useQuery({
     queryKey: ["experience-ideas", selectedGroup, ages, selectedMoods, seed],
@@ -166,8 +183,15 @@ function DaysOutPage() {
   const liveItems: Experience[] = live.data?.items ?? [];
   /** Real, bookable listings. Inspiration is kept separate and never dressed up as live. */
   const usingLive = liveItems.length > 0;
+  const providerStatus = live.data?.providerStatus ?? [];
+  const anyProviderFailed = providerStatus.some((p) => p.status === "failed");
+  /** Only claim "nothing found" when every enabled provider genuinely completed. */
   const noLiveResults =
-    submitted && !live.isFetching && !live.data?.locationNotFound && !usingLive;
+    submitted &&
+    !live.isFetching &&
+    !live.data?.locationNotFound &&
+    !usingLive &&
+    !anyProviderFailed;
   const source: Experience[] = usingLive ? liveItems : EXPERIENCES;
 
   const { filters, toggleFilter, clear, activeCount, results } = useExperienceFilters(source);
@@ -175,10 +199,10 @@ function DaysOutPage() {
   /** A fresh search always starts from the first page of results. */
   useEffect(() => {
     setVisible(24);
-  }, [q, location, from, to, radius, keywords, types]);
+  }, [searchCount, q, location, from, to, radius, keywords, types]);
 
   const shown = results.slice(0, visible);
-  const searchingWithGoogle = (live.data?.sources ?? []).some((s) => s.id === "websearch");
+  const searchingWithGoogle = providerStatus.some((p) => p.id === "websearch");
 
   /** Land the user on the results/status area instead of the top of the page. */
   function scrollToResults() {
@@ -203,10 +227,12 @@ function DaysOutPage() {
         mode: "find",
         keywords: idea.keywords,
         types: idea.types,
+        search: prev.search + 1,
       }),
     });
     scrollToResults();
   }
+
 
 
 
@@ -278,10 +304,12 @@ function DaysOutPage() {
                   from: v.from,
                   to: v.to,
                   radius: v.radius,
+                  search: prev.search + 1,
                 }),
               });
               scrollToResults();
             }}
+
             heading={buildIdeasHeading(selectedGroup, selectedMoods)}
             ideas={ideas.data?.ideas ?? []}
             loadingIdeas={ideas.isFetching}
@@ -315,11 +343,13 @@ function DaysOutPage() {
                   from: v.from,
                   to: v.to,
                   radius: v.radius,
+                  search: prev.search + 1,
                 }),
               });
               scrollToResults();
             }}
           />
+
           <div ref={resultsRef} className="scroll-mt-28">
           {keywords.length ? (
             <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-[color:var(--muted-foreground)]">
@@ -356,16 +386,23 @@ function DaysOutPage() {
             <p className="mt-3 text-[13px] text-[color:var(--muted-foreground)]">
               {live.data?.locationNotFound
                 ? "We couldn't find that place — try a postcode or a nearby town."
-                : noLiveResults
-                  ? "We haven't found matching live listings for those dates yet."
-                  : usingLive
-                    ? live.data?.origin
-                      ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
-                      : "Showing festive listings from across the UK."
-                    : "Tell us what you're looking for and where, then press Search Christmas activities."}
+                : usingLive
+                  ? live.data?.origin
+                    ? `Showing what's on within ${radius} miles of ${live.data.origin.label}.`
+                    : "Showing festive listings from across the UK."
+                  : noLiveResults
+                    ? "We haven't found matching live listings for those dates yet."
+                    : submitted && anyProviderFailed
+                      ? "Showing our Christmas inspiration while one of our live sources is unavailable."
+                      : "Tell us what you're looking for and where, then press Search Christmas activities."}
             </p>
           )}
-          <SourcesSearched searching={live.isFetching} sources={live.data?.sources} />
+          <SourcesSearched
+            searching={live.isFetching}
+            sources={live.data?.sources}
+            providerStatus={live.data?.providerStatus}
+          />
+
           </div>
         </section>
 
