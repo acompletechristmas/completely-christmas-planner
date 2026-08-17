@@ -47,6 +47,7 @@ import { Route as AuthenticatedPlannerMyRouteImport } from './routes/_authentica
 import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
 import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
+import { Route as AuthenticatedPlannerFoodRouteImport } from './routes/_authenticated/planner.food'
 import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -255,6 +256,12 @@ const AuthenticatedPlannerGiftsRoute =
     path: '/gifts',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
+const AuthenticatedPlannerFoodRoute =
+  AuthenticatedPlannerFoodRouteImport.update({
+    id: '/food',
+    path: '/food',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerCardsRoute =
   AuthenticatedPlannerCardsRouteImport.update({
     id: '/cards',
@@ -318,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/planner/food': typeof AuthenticatedPlannerFoodRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
@@ -360,6 +368,7 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/planner/food': typeof AuthenticatedPlannerFoodRoute
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
@@ -406,6 +415,7 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/_authenticated/planner/cards': typeof AuthenticatedPlannerCardsRoute
+  '/_authenticated/planner/food': typeof AuthenticatedPlannerFoodRoute
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/_authenticated/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
@@ -453,6 +463,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
+    | '/planner/food'
     | '/planner/gifts'
     | '/planner/helper'
     | '/planner/list'
@@ -495,6 +506,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/planner/cards'
+    | '/planner/food'
     | '/planner/gifts'
     | '/planner/helper'
     | '/planner/list'
@@ -540,6 +552,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/_authenticated/planner/cards'
+    | '/_authenticated/planner/food'
     | '/_authenticated/planner/gifts'
     | '/_authenticated/planner/helper'
     | '/_authenticated/planner/list'
@@ -852,6 +865,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerGiftsRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/food': {
+      id: '/_authenticated/planner/food'
+      path: '/food'
+      fullPath: '/planner/food'
+      preLoaderRoute: typeof AuthenticatedPlannerFoodRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/cards': {
       id: '/_authenticated/planner/cards'
       path: '/cards'
@@ -914,6 +934,7 @@ const AuthenticatedPlannerPeopleRouteWithChildren =
 
 interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerCardsRoute: typeof AuthenticatedPlannerCardsRoute
+  AuthenticatedPlannerFoodRoute: typeof AuthenticatedPlannerFoodRoute
   AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
   AuthenticatedPlannerHelperRoute: typeof AuthenticatedPlannerHelperRoute
   AuthenticatedPlannerListRoute: typeof AuthenticatedPlannerListRoute
@@ -929,6 +950,7 @@ interface AuthenticatedPlannerRouteChildren {
 
 const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerCardsRoute: AuthenticatedPlannerCardsRoute,
+  AuthenticatedPlannerFoodRoute: AuthenticatedPlannerFoodRoute,
   AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
   AuthenticatedPlannerHelperRoute: AuthenticatedPlannerHelperRoute,
   AuthenticatedPlannerListRoute: AuthenticatedPlannerListRoute,
