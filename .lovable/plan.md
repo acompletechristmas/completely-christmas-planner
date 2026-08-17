@@ -81,6 +81,8 @@ Unchanged: homepage, header, logo, Gifts, People, Decorations, Looks, Days Out, 
 
 One migration creating the four tables, each with GRANTs to `authenticated` and `service_role`, RLS enabled, owner-only policies on `auth.uid() = user_id` (guests/shopping scoped through their parent), plus `updated_at` triggers. Three default occasions are created in-app on first visit (per user), not seeded in SQL.
 
+The three default occasions must use the user's active Christmas planning year when assigning dates. Do not hard-code a single calendar year. Christmas Eve = 24 December, Christmas Day = 25 December, and Boxing Day = 26 December of the active planning year. Reuse the project's existing active/planning-year logic if one already exists; do not create a second year-selection system.
+
 ## 9. Mobile-first
 
 Built and checked at 360px and 390px: single column, 44px minimum targets, dish add is one field plus one button, shopping rows are large tick targets, prep plan is a clean date-grouped read. Progressive disclosure everywhere; no long forms.
