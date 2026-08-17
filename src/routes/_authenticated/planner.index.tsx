@@ -125,11 +125,12 @@ const SECTIONS: Section[] = [
   {
     key: "food",
     eyebrow: "FOOD & HOSTING",
-    title: "Food & Hosting",
-    tagline: "Menus, orders, mince pies, the big day itself.",
-    action: "View food plans",
+    title: "My Christmas Food",
+    tagline: "Occasions, menus, guests, one shopping list, prep plan.",
+    action: "View my food plan",
     icon: UtensilsCrossed,
-    to: "/planner/my",
+    to: "/planner/food",
+
     photo: photoFood,
     accent: "oklch(0.86 0.10 88 / 0.7)",
     border: "oklch(0.55 0.16 25 / 0.4)",

@@ -260,6 +260,236 @@ export type Database = {
         }
         Relationships: []
       }
+      food_items: {
+        Row: {
+          created_at: string
+          dietary_tags: string[]
+          id: string
+          meal: string
+          name: string
+          needs_shopping: boolean
+          notes: string | null
+          occasion_id: string
+          prep_date: string | null
+          responsible_name: string | null
+          responsible_person_id: string | null
+          servings: number | null
+          sort_order: number
+          source: string
+          status: string
+          suggestion_key: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dietary_tags?: string[]
+          id?: string
+          meal?: string
+          name: string
+          needs_shopping?: boolean
+          notes?: string | null
+          occasion_id: string
+          prep_date?: string | null
+          responsible_name?: string | null
+          responsible_person_id?: string | null
+          servings?: number | null
+          sort_order?: number
+          source?: string
+          status?: string
+          suggestion_key?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dietary_tags?: string[]
+          id?: string
+          meal?: string
+          name?: string
+          needs_shopping?: boolean
+          notes?: string | null
+          occasion_id?: string
+          prep_date?: string | null
+          responsible_name?: string | null
+          responsible_person_id?: string | null
+          servings?: number | null
+          sort_order?: number
+          source?: string
+          status?: string
+          suggestion_key?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_items_occasion_id_fkey"
+            columns: ["occasion_id"]
+            isOneToOne: false
+            referencedRelation: "food_occasions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_items_responsible_person_id_fkey"
+            columns: ["responsible_person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      food_occasion_guests: {
+        Row: {
+          created_at: string
+          dietary_notes: string | null
+          dietary_tags: string[]
+          guest_name: string | null
+          id: string
+          occasion_id: string
+          person_id: string | null
+          sort_order: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          dietary_notes?: string | null
+          dietary_tags?: string[]
+          guest_name?: string | null
+          id?: string
+          occasion_id: string
+          person_id?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          dietary_notes?: string | null
+          dietary_tags?: string[]
+          guest_name?: string | null
+          id?: string
+          occasion_id?: string
+          person_id?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_occasion_guests_occasion_id_fkey"
+            columns: ["occasion_id"]
+            isOneToOne: false
+            referencedRelation: "food_occasions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_occasion_guests_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      food_occasions: {
+        Row: {
+          created_at: string
+          default_key: string | null
+          id: string
+          is_default: boolean
+          name: string
+          notes: string | null
+          num_adults: number
+          num_children: number
+          occasion_date: string | null
+          sort_order: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_key?: string | null
+          id?: string
+          is_default?: boolean
+          name: string
+          notes?: string | null
+          num_adults?: number
+          num_children?: number
+          occasion_date?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          default_key?: string | null
+          id?: string
+          is_default?: boolean
+          name?: string
+          notes?: string | null
+          num_adults?: number
+          num_children?: number
+          occasion_date?: string | null
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      food_shopping_items: {
+        Row: {
+          bought: boolean
+          category: string | null
+          created_at: string
+          food_item_id: string | null
+          id: string
+          item: string
+          notes: string | null
+          quantity: number | null
+          sort_order: number
+          unit: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bought?: boolean
+          category?: string | null
+          created_at?: string
+          food_item_id?: string | null
+          id?: string
+          item: string
+          notes?: string | null
+          quantity?: number | null
+          sort_order?: number
+          unit?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bought?: boolean
+          category?: string | null
+          created_at?: string
+          food_item_id?: string | null
+          id?: string
+          item?: string
+          notes?: string | null
+          quantity?: number | null
+          sort_order?: number
+          unit?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_shopping_items_food_item_id_fkey"
+            columns: ["food_item_id"]
+            isOneToOne: false
+            referencedRelation: "food_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gifts: {
         Row: {
           arrived: boolean
