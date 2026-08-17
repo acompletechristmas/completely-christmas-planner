@@ -670,3 +670,16 @@
   transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
   &:hover { transform: translateY(-1px); filter: brightness(1.03); }
 }
+
+/* Food planner inputs — calm cream fields with a gold hairline */
+@utility input-food {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.75rem;
+  border: 1px solid oklch(0.74 0.12 80 / 0.3);
+  background: oklch(1 0 0 / 0.6);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  color: inherit;
+  &:focus { outline: none; border-color: oklch(0.74 0.12 80 / 0.85); }
+}
