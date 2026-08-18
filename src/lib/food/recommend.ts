@@ -163,6 +163,8 @@ function score(suggestion: Suggestion, ctx: RecommendationContext): number {
 
   // Effort / stress
   if (ctx.stressFree) {
+    if (suggestion.makeAhead === "make_ahead") score += 4;
+    if (suggestion.makeAhead === "day_before") score += 2;
     if (suggestion.effort === 1) score += 4;
     if (suggestion.effort === 3) score -= 3;
   }
