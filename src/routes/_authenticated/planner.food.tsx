@@ -13,6 +13,7 @@ import {
 
 import { useAuth } from "@/hooks/use-auth";
 import { usePeople } from "@/hooks/use-people";
+import { usePlannerSettings } from "@/hooks/use-planner-settings";
 import { useFood } from "@/hooks/use-food";
 import { DishRow, Field } from "@/components/food/DishRow";
 import { HelpMePlan } from "@/components/food/HelpMePlan";
@@ -28,6 +29,7 @@ import {
 } from "@/lib/food/constants";
 import type { FoodItem } from "@/lib/food/types";
 import type { Suggestion } from "@/lib/food/curated-menus";
+import type { CustomItem } from "@/lib/food/recommend";
 
 export const Route = createFileRoute("/_authenticated/planner/food")({
   head: () => ({
