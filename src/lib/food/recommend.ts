@@ -1,5 +1,6 @@
 import { MENU_STYLES, COURSE_ORDER, SUGGESTIONS, type MenuStyleKey, type Suggestion } from "./curated-menus";
-import { type FoodOccasion, type FoodGuest, type Person } from "./types";
+import { type FoodOccasion, type FoodGuest } from "./types";
+import type { Person } from "@/hooks/use-people";
 import type { PlannerSettings } from "@/hooks/use-planner-settings";
 
 export type GroupType =
