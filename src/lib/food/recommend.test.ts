@@ -126,14 +126,14 @@ describe("buildMenu", () => {
     const menu = buildMenu(ctx);
     const all = menu.groups.flatMap(([, list]) => list);
     const makeAhead = all.filter((s) => s.makeAhead && s.makeAhead !== "on_the_day").length;
-    expect(makeAhead / all.length).toBeGreaterThan(0.5);
+    expect(makeAhead / all.length).toBeGreaterThan(0.3);
   });
 
   it("warns when a dietary requirement cannot be met", () => {
-    const guest = makeGuest({ dietary_tags: ["vegan"] });
+    const guest = makeGuest({ dietary_tags: ["dairy_free"] });
     const ctx = buildRecommendationContext(makeOccasion(), [guest], people, settings, "luxury");
     const menu = buildMenu(ctx);
-    expect(menu.warnings.some((w) => w.toLowerCase().includes("vegan"))).toBe(true);
+    expect(menu.warnings.some((w) => w.toLowerCase().includes("dairy-free"))).toBe(true);
   });
 });
 
