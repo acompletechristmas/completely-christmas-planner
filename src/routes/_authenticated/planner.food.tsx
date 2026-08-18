@@ -65,6 +65,7 @@ const TABS: { key: TabKey; label: string; icon: typeof ChefHat }[] = [
 function FoodPlannerPage() {
   const { user } = useAuth();
   const { people } = usePeople(user?.id);
+  const { settings } = usePlannerSettings(user?.id);
   const food = useFood(user?.id);
   const [tab, setTab] = useState<TabKey>("menu");
   const [helping, setHelping] = useState(false);
@@ -73,7 +74,21 @@ function FoodPlannerPage() {
   const occasions = food.occasions;
   const activeOccasion = occasions.find((o) => o.id === activeId) ?? occasions[0] ?? null;
 
-  const acceptSuggestions = async (occasionId: string, chosen: Suggestion[]) => {
+  const acceptSuggestions = async (
+    occasionId: string,
+    chosen: Suggestion[],
+    custom: CustomItem[],
+    servings: number,
+    styleKey: string,
+  ) => {
+    const addNote = (s: Suggestion) => {
+      const isLowStress = styleKey === "easy" || settings?.stress_free === true;
+      if (!isLowStress || !s.makeAhead) return null;
+      if (s.makeAhead === "make_ahead") return "Make ahead";
+      if (s.makeAhead === "day_before") return "Prepare the day before";
+      return "Best cooked on the day";
+    };
+
     for (const s of chosen) {
       await food.addItem({
         occasion_id: occasionId,
@@ -82,6 +97,17 @@ function FoodPlannerPage() {
         dietary_tags: s.dietary_tags ?? [],
         source: "suggested",
         suggestion_key: s.key,
+        servings,
+        notes: addNote(s),
+      });
+    }
+    for (const c of custom) {
+      await food.addItem({
+        occasion_id: occasionId,
+        name: c.name,
+        meal: c.meal,
+        source: "manual",
+        suggestion_key: null,
       });
     }
     setActiveId(occasionId);
@@ -119,7 +145,15 @@ function FoodPlannerPage() {
       </header>
 
       {helping && occasions.length > 0 && (
-        <HelpMePlan occasions={occasions} onClose={() => setHelping(false)} onAccept={acceptSuggestions} />
+        <HelpMePlan
+          occasions={occasions}
+          guests={food.guests}
+          people={people}
+          settings={settings}
+          onClose={() => setHelping(false)}
+          onAccept={acceptSuggestions}
+          onUpdateOccasion={food.updateOccasion}
+        />
       )}
 
       {/* Tabs */}
