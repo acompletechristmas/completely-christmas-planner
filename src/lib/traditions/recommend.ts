@@ -127,9 +127,10 @@ function scoreIdea(idea: TraditionIdea, profile: HouseholdProfile): number {
     else score += 5 + audienceHits;
   }
 
-  // Ideas that suit almost everybody are useful but shouldn't beat a
-  // genuinely targeted match.
-  if (idea.audiences.length >= 7) score += 1;
+  // An idea written for this exact household beats one that suits everybody.
+  if (profile.audiences.length && audienceHits > 0) {
+    score += (audienceHits / idea.audiences.length) * 5;
+  }
 
   const moodHits = idea.moods.filter((m) => profile.moods.includes(m)).length;
   score += moodHits * 2;
