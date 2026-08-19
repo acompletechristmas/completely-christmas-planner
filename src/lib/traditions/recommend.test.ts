@@ -35,7 +35,8 @@ describe("recommendTraditions", () => {
     });
     expect(r.heading).toMatch(/young children/i);
     const keys = r.ideas.map((i) => i.key);
-    expect(keys).toContain("christmas_eve_box");
+    const childhood = ["christmas_eve_box", "leave_for_santa", "santa_footprints", "bedtime_story", "posting_letters"];
+    expect(keys.filter((k) => childhood.includes(k)).length).toBeGreaterThanOrEqual(2);
     expect(r.ideas.length).toBeGreaterThanOrEqual(8);
   });
 
