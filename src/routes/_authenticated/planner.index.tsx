@@ -186,7 +186,7 @@ const SECTIONS: Section[] = [
     tagline: "Elf on the shelf, midnight mass, family calls.",
     action: "View traditions",
     icon: PartyPopper,
-    to: "/planner/my",
+    to: "/planner/traditions",
     photo: photoTraditions,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.12 300 / 0.4)",
