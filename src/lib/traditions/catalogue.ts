@@ -277,7 +277,7 @@ export const TRADITION_IDEAS: TraditionIdea[] = [
     how: "Twenty questions, half about the family, prizes from the pound shop.",
     category: "games",
     timing: "christmas_day",
-    audiences: ["teenagers", "young_adults", "mixed_ages", "extended", "adults_no_children", "friends" as Audience],
+    audiences: ["teenagers", "young_adults", "mixed_ages", "extended", "adults_no_children"],
     moods: ["fun"],
     cost: "free",
     place: "home",
