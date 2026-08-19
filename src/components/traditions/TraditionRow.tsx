@@ -14,7 +14,7 @@ export function TraditionRow({
 }: {
   tradition: Tradition;
   people: Person[];
-  onUpdate: <K extends keyof Tradition>(id: string, field: K, value: Tradition[K]) => void;
+  onUpdate: <K extends keyof Tradition>(id: string, field: K, value: Tradition[K], delay?: number) => void;
   onRemove: (id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
