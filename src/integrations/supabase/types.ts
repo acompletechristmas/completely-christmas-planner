@@ -1187,6 +1187,66 @@ export type Database = {
         }
         Relationships: []
       }
+      traditions: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          done: boolean
+          event_date: string | null
+          id: string
+          is_annual: boolean
+          name: string
+          participant_note: string | null
+          participants: string[]
+          sort_order: number
+          source: string
+          started_year: number | null
+          suggestion_key: string | null
+          timing: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          done?: boolean
+          event_date?: string | null
+          id?: string
+          is_annual?: boolean
+          name: string
+          participant_note?: string | null
+          participants?: string[]
+          sort_order?: number
+          source?: string
+          started_year?: number | null
+          suggestion_key?: string | null
+          timing?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          done?: boolean
+          event_date?: string | null
+          id?: string
+          is_annual?: boolean
+          name?: string
+          participant_note?: string | null
+          participants?: string[]
+          sort_order?: number
+          source?: string
+          started_year?: number | null
+          suggestion_key?: string | null
+          timing?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
