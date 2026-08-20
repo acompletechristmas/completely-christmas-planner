@@ -123,6 +123,7 @@ const SECTIONS: Section[] = [
     border: "oklch(0.55 0.14 155 / 0.35)",
     iconTint: "oklch(0.94 0.05 90)",
     glow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
+    live: true,
   },
   {
     key: "food",
