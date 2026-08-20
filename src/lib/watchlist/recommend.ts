@@ -8,14 +8,20 @@
 import { AGE_ORDER, isSuitableForAge, MOODS, typeLabel } from "./constants";
 import { WATCHLIST_IDEAS, type Audience, type Mood, type WatchlistIdea } from "./catalogue";
 import type { WatchlistContentType } from "@/hooks/use-watchlist";
-import type { Database } from "@/integrations/supabase/types";
 
-type PersonRow = Database["public"]["Tables"]["people"]["Row"];
-type SettingsRow = Database["public"]["Tables"]["planner_settings"]["Row"];
+export interface PersonShape {
+  age_range?: string | null;
+}
+
+export interface PlannerSettingsShape {
+  num_children?: number;
+  household_types?: string[];
+  celebration_style?: string[];
+}
 
 export interface HouseholdContext {
-  settings?: SettingsRow | null;
-  people?: PersonRow[] | null;
+  settings?: PlannerSettingsShape | null;
+  people?: PersonShape[] | null;
 }
 
 export interface WatchlistRefinements {
