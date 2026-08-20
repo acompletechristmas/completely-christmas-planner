@@ -37,6 +37,7 @@ import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]
 import { Route as InspireLooksIndexRouteImport } from './routes/inspire.looks.index'
 import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
 import { Route as InspireLooksSlugRouteImport } from './routes/inspire.looks.$slug'
+import { Route as AuthenticatedPlannerWatchlistRouteImport } from './routes/_authenticated/planner.watchlist'
 import { Route as AuthenticatedPlannerTraditionsRouteImport } from './routes/_authenticated/planner.traditions'
 import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
 import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
@@ -198,6 +199,12 @@ const InspireLooksSlugRoute = InspireLooksSlugRouteImport.update({
   path: '/looks/$slug',
   getParentRoute: () => InspireRoute,
 } as any)
+const AuthenticatedPlannerWatchlistRoute =
+  AuthenticatedPlannerWatchlistRouteImport.update({
+    id: '/watchlist',
+    path: '/watchlist',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerTraditionsRoute =
   AuthenticatedPlannerTraditionsRouteImport.update({
     id: '/traditions',
@@ -344,6 +351,7 @@ export interface FileRoutesByFullPath {
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner/traditions': typeof AuthenticatedPlannerTraditionsRoute
+  '/planner/watchlist': typeof AuthenticatedPlannerWatchlistRoute
   '/inspire/looks/$slug': typeof InspireLooksSlugRouteWithChildren
   '/planner/': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks/': typeof InspireLooksIndexRoute
@@ -388,6 +396,7 @@ export interface FileRoutesByTo {
   '/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/planner/traditions': typeof AuthenticatedPlannerTraditionsRoute
+  '/planner/watchlist': typeof AuthenticatedPlannerWatchlistRoute
   '/planner': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks': typeof InspireLooksIndexRoute
   '/planner/people/$personId': typeof AuthenticatedPlannerPeoplePersonIdRoute
@@ -436,6 +445,7 @@ export interface FileRoutesById {
   '/_authenticated/planner/timeline': typeof AuthenticatedPlannerTimelineRoute
   '/_authenticated/planner/todos': typeof AuthenticatedPlannerTodosRoute
   '/_authenticated/planner/traditions': typeof AuthenticatedPlannerTraditionsRoute
+  '/_authenticated/planner/watchlist': typeof AuthenticatedPlannerWatchlistRoute
   '/inspire/looks/$slug': typeof InspireLooksSlugRouteWithChildren
   '/_authenticated/planner/': typeof AuthenticatedPlannerIndexRoute
   '/inspire/looks/': typeof InspireLooksIndexRoute
@@ -485,6 +495,7 @@ export interface FileRouteTypes {
     | '/planner/timeline'
     | '/planner/todos'
     | '/planner/traditions'
+    | '/planner/watchlist'
     | '/inspire/looks/$slug'
     | '/planner/'
     | '/inspire/looks/'
@@ -529,6 +540,7 @@ export interface FileRouteTypes {
     | '/planner/timeline'
     | '/planner/todos'
     | '/planner/traditions'
+    | '/planner/watchlist'
     | '/planner'
     | '/inspire/looks'
     | '/planner/people/$personId'
@@ -576,6 +588,7 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/timeline'
     | '/_authenticated/planner/todos'
     | '/_authenticated/planner/traditions'
+    | '/_authenticated/planner/watchlist'
     | '/inspire/looks/$slug'
     | '/_authenticated/planner/'
     | '/inspire/looks/'
@@ -808,6 +821,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InspireLooksSlugRouteImport
       parentRoute: typeof InspireRoute
     }
+    '/_authenticated/planner/watchlist': {
+      id: '/_authenticated/planner/watchlist'
+      path: '/watchlist'
+      fullPath: '/planner/watchlist'
+      preLoaderRoute: typeof AuthenticatedPlannerWatchlistRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/traditions': {
       id: '/_authenticated/planner/traditions'
       path: '/traditions'
@@ -966,6 +986,7 @@ interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerTimelineRoute: typeof AuthenticatedPlannerTimelineRoute
   AuthenticatedPlannerTodosRoute: typeof AuthenticatedPlannerTodosRoute
   AuthenticatedPlannerTraditionsRoute: typeof AuthenticatedPlannerTraditionsRoute
+  AuthenticatedPlannerWatchlistRoute: typeof AuthenticatedPlannerWatchlistRoute
   AuthenticatedPlannerIndexRoute: typeof AuthenticatedPlannerIndexRoute
 }
 
@@ -983,6 +1004,7 @@ const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerTimelineRoute: AuthenticatedPlannerTimelineRoute,
   AuthenticatedPlannerTodosRoute: AuthenticatedPlannerTodosRoute,
   AuthenticatedPlannerTraditionsRoute: AuthenticatedPlannerTraditionsRoute,
+  AuthenticatedPlannerWatchlistRoute: AuthenticatedPlannerWatchlistRoute,
   AuthenticatedPlannerIndexRoute: AuthenticatedPlannerIndexRoute,
 }
 
