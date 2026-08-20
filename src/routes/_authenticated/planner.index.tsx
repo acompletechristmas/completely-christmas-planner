@@ -577,8 +577,11 @@ function PlannerOverview() {
                       {s.action}
                       <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
                     </span>
-                    <span className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60" style={{ borderColor: s.border }}>
-                      Coming soon
+                    <span
+                      className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60"
+                      style={{ borderColor: s.border }}
+                    >
+                      {s.live ? "Open" : "Coming soon"}
                     </span>
                   </div>
                 </Link>
