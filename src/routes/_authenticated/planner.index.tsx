@@ -91,6 +91,7 @@ interface Section {
   border: string;
   iconTint: string;
   glow: string;
+  live?: boolean;
 }
 
 const SECTIONS: Section[] = [
@@ -107,6 +108,7 @@ const SECTIONS: Section[] = [
     border: "oklch(0.55 0.14 350 / 0.4)",
     iconTint: "oklch(0.90 0.09 88)",
     glow: "0 14px 40px -20px oklch(0.55 0.16 350 / 0.55)",
+    live: true,
   },
   {
     key: "home",
@@ -121,6 +123,7 @@ const SECTIONS: Section[] = [
     border: "oklch(0.55 0.14 155 / 0.35)",
     iconTint: "oklch(0.94 0.05 90)",
     glow: "0 14px 40px -20px oklch(0.55 0.14 155 / 0.5)",
+    live: true,
   },
   {
     key: "food",
@@ -136,20 +139,22 @@ const SECTIONS: Section[] = [
     border: "oklch(0.55 0.16 25 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
     glow: "0 14px 40px -20px oklch(0.55 0.18 25 / 0.55)",
+    live: true,
   },
   {
     key: "films",
     eyebrow: "FILMS & TV",
-    title: "Films & TV",
-    tagline: "The nights-in list — classics and comfort re-watches.",
-    action: "View films",
+    title: "My Christmas Watchlist",
+    tagline: "Save what you want to watch and discover cosy recommendations for your household.",
+    action: "View my watchlist",
     icon: Star,
-    to: "/planner/my",
+    to: "/planner/watchlist",
     photo: photoFilms,
     accent: "oklch(0.86 0.09 88 / 0.65)",
     border: "oklch(0.50 0.10 260 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
     glow: "0 14px 40px -20px oklch(0.45 0.12 260 / 0.55)",
+    live: true,
   },
   {
     key: "music",
@@ -572,8 +577,11 @@ function PlannerOverview() {
                       {s.action}
                       <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
                     </span>
-                    <span className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60" style={{ borderColor: s.border }}>
-                      Coming soon
+                    <span
+                      className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60"
+                      style={{ borderColor: s.border }}
+                    >
+                      {s.live ? "Open" : "Coming soon"}
                     </span>
                   </div>
                 </Link>

@@ -1298,6 +1298,72 @@ export type Database = {
         }
         Relationships: []
       }
+      watchlist_items: {
+        Row: {
+          age_guidance: string | null
+          content_type: string | null
+          created_at: string
+          id: string
+          is_annual: boolean
+          is_favourite: boolean
+          moods: string[]
+          note: string | null
+          participant_note: string | null
+          participants: string[]
+          release_year: number | null
+          sort_order: number
+          source: string
+          suggestion_key: string | null
+          timing: string
+          title: string
+          updated_at: string
+          user_id: string
+          watched: boolean
+        }
+        Insert: {
+          age_guidance?: string | null
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          is_annual?: boolean
+          is_favourite?: boolean
+          moods?: string[]
+          note?: string | null
+          participant_note?: string | null
+          participants?: string[]
+          release_year?: number | null
+          sort_order?: number
+          source?: string
+          suggestion_key?: string | null
+          timing?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          watched?: boolean
+        }
+        Update: {
+          age_guidance?: string | null
+          content_type?: string | null
+          created_at?: string
+          id?: string
+          is_annual?: boolean
+          is_favourite?: boolean
+          moods?: string[]
+          note?: string | null
+          participant_note?: string | null
+          participants?: string[]
+          release_year?: number | null
+          sort_order?: number
+          source?: string
+          suggestion_key?: string | null
+          timing?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          watched?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
