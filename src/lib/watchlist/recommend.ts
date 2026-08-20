@@ -5,7 +5,7 @@
  * always return the same recommendations.
  */
 
-import { AGE_ORDER, isSuitableForAge, MOODS } from "./constants";
+import { AGE_ORDER, isSuitableForAge, MOODS, typeLabel } from "./constants";
 import { WATCHLIST_IDEAS, type Audience, type Mood, type WatchlistIdea } from "./catalogue";
 import type { Database } from "@/integrations/supabase/types";
 
