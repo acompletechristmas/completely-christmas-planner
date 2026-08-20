@@ -427,7 +427,7 @@ export function watchlistItemToSavedFields(
   item: WatchlistIdea,
 ): {
   title: string;
-  content_type?: string;
+  content_type?: WatchlistContentType;
   release_year?: number;
   suggestion_key?: string;
   source: string;
@@ -436,7 +436,7 @@ export function watchlistItemToSavedFields(
 } {
   return {
     title: item.title,
-    content_type: item.type,
+    content_type: item.type as WatchlistContentType,
     release_year: item.year,
     suggestion_key: item.key,
     source: "recommendation",
