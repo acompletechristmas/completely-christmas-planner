@@ -425,23 +425,22 @@ export function surpriseWatchlistItem(
 
 export function watchlistItemToSavedFields(
   item: WatchlistIdea,
-  context: HouseholdContext,
 ): {
   title: string;
   content_type?: string;
-  year?: number;
-  recommendation_key?: string;
+  release_year?: number;
+  suggestion_key?: string;
   source: string;
-  mood_tags: string[];
-  timing?: string;
+  moods: string[];
+  timing: string;
 } {
   return {
     title: item.title,
     content_type: item.type,
-    year: item.year,
-    recommendation_key: item.key,
+    release_year: item.year,
+    suggestion_key: item.key,
     source: "recommendation",
-    mood_tags: item.moods,
+    moods: item.moods,
     timing: item.timings[0] ?? "any_time",
   };
 }
