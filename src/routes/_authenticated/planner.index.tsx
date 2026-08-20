@@ -91,6 +91,7 @@ interface Section {
   border: string;
   iconTint: string;
   glow: string;
+  live?: boolean;
 }
 
 const SECTIONS: Section[] = [
