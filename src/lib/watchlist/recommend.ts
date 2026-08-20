@@ -7,6 +7,7 @@
 
 import { AGE_ORDER, isSuitableForAge, MOODS, typeLabel } from "./constants";
 import { WATCHLIST_IDEAS, type Audience, type Mood, type WatchlistIdea } from "./catalogue";
+import type { WatchlistContentType } from "@/hooks/use-watchlist";
 import type { Database } from "@/integrations/supabase/types";
 
 type PersonRow = Database["public"]["Tables"]["people"]["Row"];
