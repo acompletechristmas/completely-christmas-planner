@@ -14,18 +14,18 @@ export interface WatchlistItem {
   user_id: string;
   title: string;
   content_type: WatchlistContentType | null;
-  year: number | null;
-  short_note: string | null;
+  release_year: number | null;
+  note: string | null;
   age_guidance: string | null;
   participants: string[];
   participant_note: string | null;
-  timing: string | null;
-  mood_tags: string[];
+  timing: string;
+  moods: string[];
   watched: boolean;
-  favourite: boolean;
-  annual_tradition: boolean;
+  is_favourite: boolean;
+  is_annual: boolean;
   source: string;
-  recommendation_key: string | null;
+  suggestion_key: string | null;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -35,18 +35,18 @@ export type NewWatchlistItem = Partial<
   Pick<
     WatchlistItem,
     | "content_type"
-    | "year"
-    | "short_note"
+    | "release_year"
+    | "note"
     | "age_guidance"
     | "participants"
     | "participant_note"
     | "timing"
-    | "mood_tags"
+    | "moods"
     | "watched"
-    | "favourite"
-    | "annual_tradition"
+    | "is_favourite"
+    | "is_annual"
     | "source"
-    | "recommendation_key"
+    | "suggestion_key"
   >
 > & { title: string };
 
@@ -74,7 +74,7 @@ export function useWatchlist(userId: string | undefined) {
         console.error("[useWatchlist] load failed", error);
         toast.error("Couldn't load your watchlist");
       } else {
-        setItems((data ?? []) as WatchlistItem[]);
+        setItems((data ?? []) as unknown as WatchlistItem[]);
       }
       setLoading(false);
     })();
@@ -91,18 +91,18 @@ export function useWatchlist(userId: string | undefined) {
         user_id: userId,
         sort_order,
         content_type: null,
-        year: null,
-        short_note: null,
+        release_year: null,
+        note: null,
         age_guidance: null,
         participants: [],
         participant_note: null,
-        timing: null,
-        mood_tags: [],
+        timing: "any_time",
+        moods: [] as string[],
         watched: false,
-        favourite: false,
-        annual_tradition: false,
+        is_favourite: false,
+        is_annual: false,
         source: "manual",
-        recommendation_key: null,
+        suggestion_key: null,
         ...input,
         title: input.title.trim(),
       };
@@ -112,7 +112,7 @@ export function useWatchlist(userId: string | undefined) {
         toast.error("Couldn't save that title");
         return null;
       }
-      const saved = data as WatchlistItem;
+      const saved = data as unknown as WatchlistItem;
       setItems((prev) => [...prev, saved]);
       return saved;
     },
@@ -142,22 +142,25 @@ export function useWatchlist(userId: string | undefined) {
     [],
   );
 
-  /** Immediate save for booleans (watched, favourite, annual). */
-  const toggle = useCallback(async <K extends "watched" | "favourite" | "annual_tradition">(
-    id: string,
-    field: K,
-    value: boolean,
-  ) => {
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-    const { error } = await supabase
-      .from("watchlist_items")
-      .update({ [field]: value } as never)
-      .eq("id", id);
-    if (error) {
-      console.error("[useWatchlist] toggle failed", error);
-      toast.error("Save failed");
-    }
-  }, []);
+  /** Immediate save for booleans (watched, is_favourite, is_annual). */
+  const toggle = useCallback(
+    async <K extends "watched" | "is_favourite" | "is_annual">(
+      id: string,
+      field: K,
+      value: boolean,
+    ) => {
+      setItems((prev) => prev.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+      const { error } = await supabase
+        .from("watchlist_items")
+        .update({ [field]: value } as never)
+        .eq("id", id);
+      if (error) {
+        console.error("[useWatchlist] toggle failed", error);
+        toast.error("Save failed");
+      }
+    },
+    [],
+  );
 
   const remove = useCallback(async (id: string) => {
     setItems((prev) => prev.filter((i) => i.id !== id));
