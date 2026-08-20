@@ -3,37 +3,63 @@ import { recommendWatchlistItems, surpriseWatchlistItem } from "./recommend";
 import { WATCHLIST_IDEAS } from "./catalogue";
 import type { Database } from "@/integrations/supabase/types";
 
-function makeSettings(overrides?: Partial<Database["public"]["Tables"]["planner_settings"]["Row"]>) {
+function makeSettings(
+  overrides?: Partial<Database["public"]["Tables"]["planner_settings"]["Row"]>,
+): Database["public"]["Tables"]["planner_settings"]["Row"] {
   return {
     user_id: "00000000-0000-0000-0000-000000000001",
+    budget_total: null,
+    is_hosting: false,
     num_adults: 2,
     num_children: 0,
-    household_types: [] as string[],
-    celebration_style: [] as string[],
-    is_hosting: false,
     is_travelling: false,
     sends_cards: false,
     decorates_indoor: false,
     decorates_outdoor: false,
+    dietary_notes: null,
     planning_style: "balanced",
     stress_free: false,
     setup_completed: false,
+    notes: null,
+    household_types: [] as string[],
+    celebration_style: [] as string[],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     ...overrides,
-  };
+  } as Database["public"]["Tables"]["planner_settings"]["Row"];
 }
 
-function makePerson(ageRange: string) {
+function makePerson(
+  ageRange: string,
+): Database["public"]["Tables"]["people"]["Row"] {
   return {
     id: "00000000-0000-0000-0000-000000000002",
     user_id: "00000000-0000-0000-0000-000000000001",
     name: "Test",
     age_range: ageRange,
+    relationship: null,
+    date_of_birth: null,
+    clothing_size: null,
+    shoe_size: null,
+    favourite_colours: null,
+    favourite_shops: null,
+    hobbies: null,
+    favourite_films: null,
+    favourite_books: null,
+    favourite_games: null,
+    favourite_characters: null,
+    wishlist: null,
+    notes: null,
+    gift_budget: null,
+    avatar_url: null,
     sort_order: 0,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-  };
+    dislikes: null,
+    initial_ideas: null,
+    needs_stocking: false,
+    needs_card: false,
+  } as Database["public"]["Tables"]["people"]["Row"];
 }
 
 describe("recommendWatchlistItems", () => {
@@ -61,10 +87,16 @@ describe("recommendWatchlistItems", () => {
   });
 
   it("excludes already-saved recommendation keys", () => {
+    const first = recommendWatchlistItems(
+      { settings: makeSettings({ household_types: ["couple"] }) },
+      { audiences: ["couple"] },
+    );
+    const savedKey = first.items[0].key;
     const result = recommendWatchlistItems(
       { settings: makeSettings({ household_types: ["couple"] }) },
-      { excludeSavedKeys: [result.items[0]?.key ?? ""] },
+      { audiences: ["couple"], excludeSavedKeys: [savedKey] },
     );
+    expect(result.items.some((i) => i.key === savedKey)).toBe(false);
   });
 
   it("diversifies results by mood and type", () => {
