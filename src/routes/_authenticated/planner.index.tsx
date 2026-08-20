@@ -108,6 +108,7 @@ const SECTIONS: Section[] = [
     border: "oklch(0.55 0.14 350 / 0.4)",
     iconTint: "oklch(0.90 0.09 88)",
     glow: "0 14px 40px -20px oklch(0.55 0.16 350 / 0.55)",
+    live: true,
   },
   {
     key: "home",
