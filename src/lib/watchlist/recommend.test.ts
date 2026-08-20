@@ -70,7 +70,7 @@ describe("recommendWatchlistItems", () => {
     });
     expect(result.items.length).toBeGreaterThan(0);
     expect(result.items.every((i) => i.ageBand === "all" || i.ageBand === "5+" || i.ageBand === "8+")).toBe(true);
-    expect(result.heading).toContain("family");
+    expect(result.heading).toContain("little ones");
   });
 
   it("allows adult-only suggestions when the user explicitly selects adults", () => {
