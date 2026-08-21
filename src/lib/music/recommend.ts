@@ -284,7 +284,7 @@ function buildHeading(
 
   let heading = "Your suggested soundtrack";
   if (moment && moment !== "any_time") {
-    heading = `A soundtrack for ${momentLabel(moment).toLowerCase()}`;
+    heading = `A soundtrack for ${momentLabel(moment)}`;
   }
 
   const moodText = moods.map((m) => musicMoodLabel(m).toLowerCase()).join(" and ");
@@ -293,7 +293,7 @@ function buildHeading(
     : "Chosen for your household and paced for the moment.";
 
   const explanation = `Suggestions matched to ${audienceLabel(primary as Audience)}${
-    moment && moment !== "any_time" ? ` and ${momentLabel(moment).toLowerCase()}` : ""
+    moment && moment !== "any_time" ? ` and ${momentLabel(moment)}` : ""
   }${moodText ? `, leaning ${moodText}` : ""}. ${total} ideas fit right now.`;
 
   return { heading, subheading, explanation };
