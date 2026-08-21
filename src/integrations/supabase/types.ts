@@ -773,6 +773,66 @@ export type Database = {
           },
         ]
       }
+      music_items: {
+        Row: {
+          artist: string | null
+          created_at: string
+          id: string
+          is_annual: boolean
+          is_favourite: boolean
+          item_type: string
+          moment: string
+          moods: string[]
+          notes: string | null
+          participant_note: string | null
+          participants: string[]
+          sort_order: number
+          source: string
+          suggestion_key: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          artist?: string | null
+          created_at?: string
+          id?: string
+          is_annual?: boolean
+          is_favourite?: boolean
+          item_type?: string
+          moment?: string
+          moods?: string[]
+          notes?: string | null
+          participant_note?: string | null
+          participants?: string[]
+          sort_order?: number
+          source?: string
+          suggestion_key?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          artist?: string | null
+          created_at?: string
+          id?: string
+          is_annual?: boolean
+          is_favourite?: boolean
+          item_type?: string
+          moment?: string
+          moods?: string[]
+          notes?: string | null
+          participant_note?: string | null
+          participants?: string[]
+          sort_order?: number
+          source?: string
+          suggestion_key?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       outings: {
         Row: {
           attendees: string | null
