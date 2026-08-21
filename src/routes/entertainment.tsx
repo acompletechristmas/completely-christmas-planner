@@ -40,6 +40,7 @@ function EntertainmentPage() {
       </div>
       <div className="mt-16 flex flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-2 text-[color:var(--gold-soft)]"><Star className="h-4 w-4" /><span className="text-xs uppercase tracking-[0.24em]">Save favourites to your planner</span></div>
+        <GoldCTA to="/planner/music"><Music className="h-4 w-4" /> Plan my Christmas music</GoldCTA>
         <GoldCTA to="/planner"><Sparkles className="h-4 w-4" /> Open my planner</GoldCTA>
       </div>
     </PageShell>

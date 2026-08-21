@@ -46,6 +46,7 @@ import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_aut
 import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
 import { Route as AuthenticatedPlannerOutingsRouteImport } from './routes/_authenticated/planner.outings'
 import { Route as AuthenticatedPlannerMyRouteImport } from './routes/_authenticated/planner.my'
+import { Route as AuthenticatedPlannerMusicRouteImport } from './routes/_authenticated/planner.music'
 import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
 import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
 import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
@@ -252,6 +253,12 @@ const AuthenticatedPlannerMyRoute = AuthenticatedPlannerMyRouteImport.update({
   path: '/my',
   getParentRoute: () => AuthenticatedPlannerRoute,
 } as any)
+const AuthenticatedPlannerMusicRoute =
+  AuthenticatedPlannerMusicRouteImport.update({
+    id: '/music',
+    path: '/music',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
 const AuthenticatedPlannerListRoute =
   AuthenticatedPlannerListRouteImport.update({
     id: '/list',
@@ -343,6 +350,7 @@ export interface FileRoutesByFullPath {
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
+  '/planner/music': typeof AuthenticatedPlannerMusicRoute
   '/planner/my': typeof AuthenticatedPlannerMyRoute
   '/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -388,6 +396,7 @@ export interface FileRoutesByTo {
   '/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/planner/list': typeof AuthenticatedPlannerListRoute
+  '/planner/music': typeof AuthenticatedPlannerMusicRoute
   '/planner/my': typeof AuthenticatedPlannerMyRoute
   '/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -437,6 +446,7 @@ export interface FileRoutesById {
   '/_authenticated/planner/gifts': typeof AuthenticatedPlannerGiftsRoute
   '/_authenticated/planner/helper': typeof AuthenticatedPlannerHelperRoute
   '/_authenticated/planner/list': typeof AuthenticatedPlannerListRoute
+  '/_authenticated/planner/music': typeof AuthenticatedPlannerMusicRoute
   '/_authenticated/planner/my': typeof AuthenticatedPlannerMyRoute
   '/_authenticated/planner/outings': typeof AuthenticatedPlannerOutingsRoute
   '/_authenticated/planner/people': typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -487,6 +497,7 @@ export interface FileRouteTypes {
     | '/planner/gifts'
     | '/planner/helper'
     | '/planner/list'
+    | '/planner/music'
     | '/planner/my'
     | '/planner/outings'
     | '/planner/people'
@@ -532,6 +543,7 @@ export interface FileRouteTypes {
     | '/planner/gifts'
     | '/planner/helper'
     | '/planner/list'
+    | '/planner/music'
     | '/planner/my'
     | '/planner/outings'
     | '/planner/people'
@@ -580,6 +592,7 @@ export interface FileRouteTypes {
     | '/_authenticated/planner/gifts'
     | '/_authenticated/planner/helper'
     | '/_authenticated/planner/list'
+    | '/_authenticated/planner/music'
     | '/_authenticated/planner/my'
     | '/_authenticated/planner/outings'
     | '/_authenticated/planner/people'
@@ -884,6 +897,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerMyRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
+    '/_authenticated/planner/music': {
+      id: '/_authenticated/planner/music'
+      path: '/music'
+      fullPath: '/planner/music'
+      preLoaderRoute: typeof AuthenticatedPlannerMusicRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
     '/_authenticated/planner/list': {
       id: '/_authenticated/planner/list'
       path: '/list'
@@ -978,6 +998,7 @@ interface AuthenticatedPlannerRouteChildren {
   AuthenticatedPlannerGiftsRoute: typeof AuthenticatedPlannerGiftsRoute
   AuthenticatedPlannerHelperRoute: typeof AuthenticatedPlannerHelperRoute
   AuthenticatedPlannerListRoute: typeof AuthenticatedPlannerListRoute
+  AuthenticatedPlannerMusicRoute: typeof AuthenticatedPlannerMusicRoute
   AuthenticatedPlannerMyRoute: typeof AuthenticatedPlannerMyRoute
   AuthenticatedPlannerOutingsRoute: typeof AuthenticatedPlannerOutingsRoute
   AuthenticatedPlannerPeopleRoute: typeof AuthenticatedPlannerPeopleRouteWithChildren
@@ -996,6 +1017,7 @@ const AuthenticatedPlannerRouteChildren: AuthenticatedPlannerRouteChildren = {
   AuthenticatedPlannerGiftsRoute: AuthenticatedPlannerGiftsRoute,
   AuthenticatedPlannerHelperRoute: AuthenticatedPlannerHelperRoute,
   AuthenticatedPlannerListRoute: AuthenticatedPlannerListRoute,
+  AuthenticatedPlannerMusicRoute: AuthenticatedPlannerMusicRoute,
   AuthenticatedPlannerMyRoute: AuthenticatedPlannerMyRoute,
   AuthenticatedPlannerOutingsRoute: AuthenticatedPlannerOutingsRoute,
   AuthenticatedPlannerPeopleRoute: AuthenticatedPlannerPeopleRouteWithChildren,
