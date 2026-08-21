@@ -30,6 +30,8 @@ Single migration creating `public.music_items`:
 
 `id`, `user_id`, `title` (required), `artist`, `item_type` (song / album / playlist_idea / artist / other), `moment`, `moods text[]`, `participants text[]`, `participant_note`, `is_favourite`, `is_annual`, `notes`, `source` (manual | suggestion), `suggestion_key`, `sort_order`, `created_at`, `updated_at`.
 
+**Participants reuse the existing convention exactly** — the same shape Traditions and Watchlist already use, no third convention: `participants text[]` holds `people.id` values only (as `WatchRow` does when toggling a person), and `participant_note` holds free text such as "Everyone" or "the neighbours". Names are never written into `participants`, and the People chip UI is the same pattern as the Watchlist row.
+
 GRANT SELECT/INSERT/UPDATE/DELETE to `authenticated`, ALL to `service_role`, no anon. RLS enabled with a single `auth.uid() = user_id` ALL policy. `BEFORE UPDATE` trigger on `update_updated_at_column()`. No platform URL columns — future Spotify/Apple/YouTube/Amazon links become a later additive layer.
 
 **One dataset:** both manual adds and accepted recommendations insert into `music_items`. Recommendations carry `source: "suggestion"` and a `suggestion_key`, and are then fully editable like any other row.
