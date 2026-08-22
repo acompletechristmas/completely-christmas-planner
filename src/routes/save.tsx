@@ -40,7 +40,7 @@ function SavePage() {
       </div>
       <div className="mt-16 flex flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-2 text-[color:var(--gold-soft)]"><Star className="h-4 w-4" /><span className="text-xs uppercase tracking-[0.24em]">Track every penny in your planner</span></div>
-        <GoldCTA to="/planner/gifts"><Sparkles className="h-4 w-4" /> Start my budget</GoldCTA>
+        <GoldCTA to="/planner/setup"><Sparkles className="h-4 w-4" /> Start my budget</GoldCTA>
       </div>
     </PageShell>
   );
