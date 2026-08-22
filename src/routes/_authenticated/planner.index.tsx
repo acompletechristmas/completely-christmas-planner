@@ -117,7 +117,7 @@ const SECTIONS: Section[] = [
     tagline: "Tree, lights, wreaths, guest beds, cosy corners.",
     action: "View home ideas",
     icon: Home,
-    to: "/planner/my",
+    to: "/planner/home",
     photo: photoHome,
     accent: "oklch(0.94 0.05 90 / 0.7)",
     border: "oklch(0.55 0.14 155 / 0.35)",
