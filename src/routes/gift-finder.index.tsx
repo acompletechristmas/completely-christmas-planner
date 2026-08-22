@@ -106,16 +106,18 @@ function GiftFinderPage() {
         <label className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">Who is the gift for?</label>
         <input
           type="text"
+          disabled
+          aria-disabled="true"
           placeholder="e.g. My mum, loves gardening, £50 budget"
-          className="mt-2 w-full rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-[color:var(--gold)] focus:outline-none"
+          className="mt-2 w-full cursor-not-allowed rounded-full border border-[oklch(0.80_0.14_85_/_0.25)] bg-[oklch(0.20_0.04_245_/_0.6)] px-4 py-3 text-sm text-foreground opacity-60 placeholder:text-muted-foreground focus:outline-none"
         />
-        <button
-          type="button"
-          className="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] gold-glow transition hover:brightness-110"
+        <span
+          aria-disabled="true"
+          className="mt-4 inline-flex cursor-not-allowed items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-[color:var(--primary-foreground)] opacity-55"
           style={{ background: "var(--gradient-gold)" }}
         >
-          <Bot className="h-4 w-4" /> Conjure ideas
-        </button>
+          <Bot className="h-4 w-4" /> Gift idea helper — coming soon
+        </span>
         <p className="mt-3 text-xs text-muted-foreground">Full AI suggestions unlock this season — VIP gets unlimited.</p>
       </div>
 
