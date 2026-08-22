@@ -199,6 +199,7 @@ const SECTIONS: Section[] = [
     border: "oklch(0.50 0.12 300 / 0.4)",
     iconTint: "oklch(0.88 0.10 88)",
     glow: "0 14px 40px -20px oklch(0.50 0.14 300 / 0.55)",
+    live: true,
   },
   {
     key: "checklist",
