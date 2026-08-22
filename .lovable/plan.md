@@ -31,7 +31,7 @@ Home / Decorations links found:
 
 Both get `GRANT` to `authenticated` + `service_role`, owner-only RLS on `auth.uid() = user_id`, and the existing `update_updated_at_column` trigger. No public write. No third table: need-to-buy, already-owned, ideas, jobs and done are all states/flags on `home_items`.
 
-- **Need to buy** = filter `status = 'buy' OR (already_owned = false AND …)` over the same rows — a view tab, no second list.
+- **Need to buy** = items where `status = 'buy'`, and nothing else. `already_owned` is an independent boolean and never puts an item in this tab; an item can be `already_owned = true` with any status. Changing status to `buy` adds it, changing status away removes it immediately. **Already have** = items where `already_owned = true`. Both are filters over the same `home_items` rows — no separate shopping-list record or table.
 - **Area completion** = derived in the client: an area is complete when it has items and every non-idea item has `status = 'done'`.
 - **Responsibility** reuses the existing People records via `responsible_person_id` (same pattern as `food_items`), with `responsible_name` only for free text.
 - **Inspiration** is referenced by slug only (`look_slug` / `inspiration_slug`); no images, products or inspiration rows are copied.
