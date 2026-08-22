@@ -4,7 +4,7 @@ import { Home, Palette, ShoppingBasket, Sparkles, PackageCheck, ArrowRight } fro
 
 import { useAuth } from "@/hooks/use-auth";
 import { usePeople } from "@/hooks/use-people";
-import { areaStats, useHome, type HomeItem } from "@/hooks/use-home";
+import { useHome, type HomeItem } from "@/hooks/use-home";
 import { AreaCard } from "@/components/home/AreaCard";
 import { AddArea } from "@/components/home/AddArea";
 import { HomeItemRow } from "@/components/home/HomeItemRow";
@@ -217,5 +217,3 @@ function FilteredList({
     </ul>
   );
 }
-
-export { areaStats };
