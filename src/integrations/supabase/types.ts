@@ -612,6 +612,111 @@ export type Database = {
           },
         ]
       }
+      home_areas: {
+        Row: {
+          created_at: string
+          id: string
+          is_hidden: boolean
+          name: string
+          sort_order: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_hidden?: boolean
+          name: string
+          sort_order?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_hidden?: boolean
+          name?: string
+          sort_order?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      home_items: {
+        Row: {
+          already_owned: boolean
+          area_id: string
+          category: string | null
+          created_at: string
+          estimated_cost: number | null
+          id: string
+          inspiration_slug: string | null
+          look_slug: string | null
+          name: string
+          notes: string | null
+          quantity: number | null
+          responsible_name: string | null
+          responsible_person_id: string | null
+          sort_order: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          already_owned?: boolean
+          area_id: string
+          category?: string | null
+          created_at?: string
+          estimated_cost?: number | null
+          id?: string
+          inspiration_slug?: string | null
+          look_slug?: string | null
+          name: string
+          notes?: string | null
+          quantity?: number | null
+          responsible_name?: string | null
+          responsible_person_id?: string | null
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          already_owned?: boolean
+          area_id?: string
+          category?: string | null
+          created_at?: string
+          estimated_cost?: number | null
+          id?: string
+          inspiration_slug?: string | null
+          look_slug?: string | null
+          name?: string
+          notes?: string | null
+          quantity?: number | null
+          responsible_name?: string | null
+          responsible_person_id?: string | null
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "home_items_area_id_fkey"
+            columns: ["area_id"]
+            isOneToOne: false
+            referencedRelation: "home_areas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "home_items_responsible_person_id_fkey"
+            columns: ["responsible_person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inspiration_products: {
         Row: {
           category: string
