@@ -45,7 +45,7 @@ export function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => { setOpen(false); }, [pathname, searchStr, hash]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
