@@ -216,6 +216,7 @@ function DaysOutPage() {
   }
 
   useEffect(() => {
+    console.log("SCROLLDBG", scrollTarget, searchCount, inspireMode, !!resultsRef.current);
     if (scrollTarget === null) return;
     if (inspireMode) return;
     if (searchCount !== scrollTarget) return;
