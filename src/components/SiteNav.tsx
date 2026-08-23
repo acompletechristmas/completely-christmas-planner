@@ -128,7 +128,9 @@ export function SiteNav() {
                   <Link
                     key={item.label}
                     to={href}
+                    onClick={() => setOpen(false)}
                     aria-current={active ? "page" : undefined}
+
                     className={
                       "group relative rounded-2xl border px-5 py-4 transition-all duration-300 " +
                       (active
