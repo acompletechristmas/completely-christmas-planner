@@ -242,7 +242,7 @@ function DaysOutPage() {
         search: prev.search + 1,
       }),
     });
-    setPendingScroll(true);
+    armScrollToResults();
   }
 
 
@@ -320,7 +320,7 @@ function DaysOutPage() {
                   search: prev.search + 1,
                 }),
               });
-              setPendingScroll(true);
+              armScrollToResults();
             }}
 
             heading={buildIdeasHeading(selectedGroup, selectedMoods)}
@@ -359,7 +359,7 @@ function DaysOutPage() {
                   search: prev.search + 1,
                 }),
               });
-              setPendingScroll(true);
+              armScrollToResults();
             }}
           />
 
