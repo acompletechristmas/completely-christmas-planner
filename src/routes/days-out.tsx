@@ -204,19 +204,21 @@ function DaysOutPage() {
   const shown = results.slice(0, visible);
   const searchingWithGoogle = providerStatus.some((p) => p.id === "websearch");
 
-  /** Land the user on the results/status area instead of the top of the page. */
-  function scrollToResults() {
-    if (typeof window === "undefined") return;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = resultsRef.current;
-        if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
-      });
-    });
-  }
+  /**
+   * Land the user on the results/status area — but only once it has actually
+   * rendered. A deliberate search arms the flag; the effect below fires when
+   * Find mode is on and the element exists.
+   */
+  const [pendingScroll, setPendingScroll] = useState(false);
 
+  useEffect(() => {
+    if (!pendingScroll) return;
+    if (inspireMode) return;
+    const el = resultsRef.current;
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setPendingScroll(false);
+  }, [pendingScroll, inspireMode, searchCount, keywords, types]);
 
   /** An idea becomes a real search: its intent words and types are carried over. */
   function findIdeaNearMe(idea: ExperienceIdea) {
@@ -230,8 +232,9 @@ function DaysOutPage() {
         search: prev.search + 1,
       }),
     });
-    scrollToResults();
+    setPendingScroll(true);
   }
+
 
 
 
