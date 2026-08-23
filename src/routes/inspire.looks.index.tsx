@@ -105,7 +105,7 @@ function LooksGallery() {
       </section>
 
       {/* Gallery */}
-      <main id="looks-grid" className="relative mx-auto max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
+      <main id="looks-grid" className="relative mx-auto max-w-6xl scroll-mt-28 px-4 py-12 sm:px-8 sm:py-16">
         <h2 className="text-center font-display text-[26px] leading-tight tracking-tight sm:text-[30px]">
           What style speaks to you?
         </h2>
