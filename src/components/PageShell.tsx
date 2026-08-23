@@ -11,9 +11,13 @@ interface PageShellProps {
   intro?: ReactNode;
   children: ReactNode;
   heroImage?: string;
+  /** Explicit parent destination for the Back control. Defaults to the homepage. */
+  backTo?: string;
+  backLabel?: string;
 }
 
-export function PageShell({ eyebrow, title, intro, children, heroImage }: PageShellProps) {
+export function PageShell({ eyebrow, title, intro, children, heroImage, backTo = "/", backLabel = "Back" }: PageShellProps) {
+
   return (
     <div className="relative min-h-screen text-[color:var(--foreground)]">
       <Snowfall count={45} />
