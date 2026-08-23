@@ -204,18 +204,30 @@ function DaysOutPage() {
   const shown = results.slice(0, visible);
   const searchingWithGoogle = providerStatus.some((p) => p.id === "websearch");
 
-  /** Land the user on the results/status area instead of the top of the page. */
-  function scrollToResults() {
-    if (typeof window === "undefined") return;
-    requestAnimationFrame(() => {
+  /**
+   * Land the user on the results/status area — but only once the new search
+   * state has actually rendered in Find mode. Pressing a search button arms
+   * the nonce it is about to create; the effect fires when that nonce lands.
+   */
+  const [scrollTarget, setScrollTarget] = useState<number | null>(null);
+
+  function armScrollToResults() {
+    setScrollTarget(searchCount + 1);
+  }
+
+  useEffect(() => {
+    if (scrollTarget === null) return;
+    if (inspireMode) return;
+    if (searchCount !== scrollTarget) return;
+    if (!resultsRef.current) return;
+    const id = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const el = resultsRef.current;
-        if (!el) return;
-        const top = el.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
-  }
+    setScrollTarget(null);
+    return () => cancelAnimationFrame(id);
+  }, [scrollTarget, inspireMode, searchCount]);
 
 
   /** An idea becomes a real search: its intent words and types are carried over. */
@@ -230,8 +242,9 @@ function DaysOutPage() {
         search: prev.search + 1,
       }),
     });
-    scrollToResults();
+    armScrollToResults();
   }
+
 
 
 
@@ -307,7 +320,7 @@ function DaysOutPage() {
                   search: prev.search + 1,
                 }),
               });
-              scrollToResults();
+              armScrollToResults();
             }}
 
             heading={buildIdeasHeading(selectedGroup, selectedMoods)}
@@ -346,7 +359,7 @@ function DaysOutPage() {
                   search: prev.search + 1,
                 }),
               });
-              scrollToResults();
+              armScrollToResults();
             }}
           />
 

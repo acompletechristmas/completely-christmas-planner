@@ -83,7 +83,10 @@ function InspirationDetail() {
       eyebrow={`${look.name} · ${inspirationCategoryLabel(inspiration.category)}`}
       title={<span className="block gold-text">{inspiration.title}</span>}
       intro={inspiration.description ?? undefined}
+      backTo={`/inspire/looks/${slug}`}
+      backLabel={`Back to ${look.name}`}
     >
+
       <Link
         to="/inspire/looks/$slug"
         params={{ slug }}

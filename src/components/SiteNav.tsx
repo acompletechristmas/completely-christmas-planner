@@ -32,6 +32,9 @@ function isActive(item: NavItem, pathname: string): boolean {
 export function SiteNav() {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const searchStr = useRouterState({ select: (s) => s.location.searchStr });
+  const hash = useRouterState({ select: (s) => s.location.hash });
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -42,7 +45,7 @@ export function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => { setOpen(false); }, [pathname, searchStr, hash]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -125,7 +128,9 @@ export function SiteNav() {
                   <Link
                     key={item.label}
                     to={href}
+                    onClick={() => setOpen(false)}
                     aria-current={active ? "page" : undefined}
+
                     className={
                       "group relative rounded-2xl border px-5 py-4 transition-all duration-300 " +
                       (active
@@ -153,7 +158,9 @@ export function SiteNav() {
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <Link
                 to={authHref}
+                onClick={() => setOpen(false)}
                 className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[color:var(--gold)]/60 px-5 py-2.5 text-[13px] font-medium tracking-wide text-[color:var(--cream)] transition-all hover:border-[color:var(--gold)] hover:bg-[color:var(--gold)]/10"
+
               >
                 <UserCircle2 className="h-4 w-4" />
                 {user ? "Open my planner" : "Login or sign up"}
