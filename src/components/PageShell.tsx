@@ -51,11 +51,12 @@ export function PageShell({ eyebrow, title, intro, children, heroImage, backTo =
           }`}
         >
           <Link
-            to="/"
+            to={backTo}
             className="rise-in inline-flex w-fit items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--muted-foreground)] transition hover:text-[color:var(--gold)]"
           >
-            <ArrowLeft className="h-3 w-3" /> Back
+            <ArrowLeft className="h-3 w-3" /> {backLabel}
           </Link>
+
           {eyebrow ? (
             <p className="rise-in mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
               {eyebrow}
