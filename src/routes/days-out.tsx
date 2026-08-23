@@ -205,20 +205,30 @@ function DaysOutPage() {
   const searchingWithGoogle = providerStatus.some((p) => p.id === "websearch");
 
   /**
-   * Land the user on the results/status area — but only once it has actually
-   * rendered. A deliberate search arms the flag; the effect below fires when
-   * Find mode is on and the element exists.
+   * Land the user on the results/status area — but only once the new search
+   * state has actually rendered in Find mode. Pressing a search button arms
+   * the nonce it is about to create; the effect fires when that nonce lands.
    */
-  const [pendingScroll, setPendingScroll] = useState(false);
+  const [scrollTarget, setScrollTarget] = useState<number | null>(null);
+
+  function armScrollToResults() {
+    setScrollTarget(searchCount + 1);
+  }
 
   useEffect(() => {
-    if (!pendingScroll) return;
+    if (scrollTarget === null) return;
     if (inspireMode) return;
-    const el = resultsRef.current;
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setPendingScroll(false);
-  }, [pendingScroll, inspireMode, searchCount, keywords, types]);
+    if (searchCount !== scrollTarget) return;
+    if (!resultsRef.current) return;
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    setScrollTarget(null);
+    return () => cancelAnimationFrame(id);
+  }, [scrollTarget, inspireMode, searchCount]);
+
 
   /** An idea becomes a real search: its intent words and types are carried over. */
   function findIdeaNearMe(idea: ExperienceIdea) {
