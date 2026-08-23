@@ -92,7 +92,10 @@ function LookDetail() {
       eyebrow="Choose your Christmas look"
       title={<span className="block gold-text">{look.name}</span>}
       intro={look.longDescription ?? look.shortDescription}
+      backTo="/inspire/looks"
+      backLabel="All looks"
     >
+
       <Link
         to="/inspire/looks"
         className="inline-flex min-h-11 items-center gap-2 text-sm text-[color:var(--gold-soft)]"
