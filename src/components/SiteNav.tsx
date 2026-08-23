@@ -32,6 +32,9 @@ function isActive(item: NavItem, pathname: string): boolean {
 export function SiteNav() {
   const { user } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const searchStr = useRouterState({ select: (s) => s.location.searchStr });
+  const hash = useRouterState({ select: (s) => s.location.hash });
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
