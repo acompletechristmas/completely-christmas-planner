@@ -97,10 +97,10 @@ interface Section {
 const SECTIONS: Section[] = [
   {
     key: "plans",
-    eyebrow: "YOUR MASTER PLAN",
-    title: "My Christmas Plans",
-    tagline: "Your master list — every to-do, ticked off in time.",
-    action: "View my plans",
+    eyebrow: "YOUR MASTER CHECKLIST",
+    title: "My Christmas To-Do List",
+    tagline: "All the little jobs you want to remember, in one place.",
+    action: "View my to-dos",
     icon: ListChecks,
     to: "/planner/todos",
     photo: photoPlans,
