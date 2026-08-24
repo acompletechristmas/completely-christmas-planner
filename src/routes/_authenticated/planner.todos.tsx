@@ -21,6 +21,18 @@ function TodosPage() {
 
   return (
     <div className="rise-in space-y-6">
+      <div className="space-y-2">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--gold-soft)]">
+          YOUR MASTER CHECKLIST
+        </p>
+        <h1 className="font-display text-3xl tracking-tight text-[color:var(--foreground)]">
+          My Christmas To-Do List
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          All the little jobs you want to remember, in one place.
+        </p>
+      </div>
+
       <div className="grid gap-3 sm:grid-cols-3">
         <Stat label="Tasks" value={String(rows.length)} />
         <Stat label="Done" value={String(done)} />
