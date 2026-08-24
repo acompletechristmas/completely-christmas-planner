@@ -85,7 +85,7 @@ interface Section {
   tagline: string;
   action: string;
   icon: LucideIcon;
-  to: string;
+  to?: string;
   photo: string;
   accent: string;
   border: string;
@@ -208,7 +208,6 @@ const SECTIONS: Section[] = [
     tagline: "The final sweep so nothing's forgotten.",
     action: "View checklist",
     icon: ListChecks,
-    to: "/planner/todos",
     photo: photoChecklist,
     accent: "oklch(0.88 0.11 88 / 0.75)",
     border: "oklch(0.55 0.10 245 / 0.4)",
