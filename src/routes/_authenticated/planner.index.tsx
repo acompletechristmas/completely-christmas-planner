@@ -516,77 +516,84 @@ function PlannerOverview() {
         <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {SECTIONS.map((s) => {
             const Icon = s.icon;
-            return (
-              <li key={s.key}>
-                <Link
-                  to={s.to}
-                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0"
+            const cardBody = (
+              <>
+                <img
+                  src={s.photo}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  width={1024}
+                  height={768}
+                  className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  style={{ filter: PHOTO_FILTER }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 z-0"
+                  style={{ background: CARD_VEIL }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-4 top-0 z-10 h-px"
                   style={{
-                    borderColor: s.border,
-                    boxShadow: s.glow,
+                    background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)`,
                   }}
-                >
-                  <img
-                    src={s.photo}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    width={1024}
-                    height={768}
-                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    style={{ filter: PHOTO_FILTER }}
-                  />
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 z-0"
-                    style={{ background: CARD_VEIL }}
-                  />
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-4 top-0 z-10 h-px"
+                />
+                <div className="relative z-10 flex items-start gap-3">
+                  <div
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
                     style={{
-                      background: `linear-gradient(90deg, transparent, ${s.accent}, transparent)`,
+                      borderColor: s.accent,
+                      background: "oklch(0 0 0 / 0.3)",
                     }}
-                  />
-                  <div className="relative z-10 flex items-start gap-3">
-                    <div
-                      className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border"
-                      style={{
-                        borderColor: s.accent,
-                        background: "oklch(0 0 0 / 0.3)",
-                      }}
-                    >
-                      <Icon className="h-5 w-5" style={{ color: s.iconTint }} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p
-                        className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-                        style={{ color: s.iconTint }}
-                      >
-                        {s.eyebrow}
-                      </p>
-                      <p className="mt-0.5 font-display text-lg leading-tight text-[color:var(--cream)]">
-                        {s.title}
-                      </p>
-                    </div>
+                  >
+                    <Icon className="h-5 w-5" style={{ color: s.iconTint }} />
                   </div>
-                  <p className="relative z-10 mt-3 text-xs text-[color:var(--cream)]/80">{s.tagline}</p>
-                  <div className="relative z-10 mt-4 flex items-center justify-between">
-                    <span
-                      className="inline-flex items-center gap-1 text-xs font-semibold"
+                  <div className="min-w-0 flex-1">
+                    <p
+                      className="text-[10px] font-semibold uppercase tracking-[0.22em]"
                       style={{ color: s.iconTint }}
                     >
-                      {s.action}
-                      <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
-                    </span>
-                    <span
-                      className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60"
-                      style={{ borderColor: s.border }}
-                    >
-                      {s.live ? "Open" : "Coming soon"}
-                    </span>
+                      {s.eyebrow}
+                    </p>
+                    <p className="mt-0.5 font-display text-lg leading-tight text-[color:var(--cream)]">
+                      {s.title}
+                    </p>
                   </div>
-                </Link>
+                </div>
+                <p className="relative z-10 mt-3 text-xs text-[color:var(--cream)]/80">{s.tagline}</p>
+                <div className="relative z-10 mt-4 flex items-center justify-between">
+                  <span
+                    className="inline-flex items-center gap-1 text-xs font-semibold"
+                    style={{ color: s.iconTint }}
+                  >
+                    {s.action}
+                    <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                  </span>
+                  <span
+                    className="rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-[color:var(--cream)]/60"
+                    style={{ borderColor: s.border }}
+                  >
+                    {s.live ? "Open" : "Coming soon"}
+                  </span>
+                </div>
+              </>
+            );
+            const cardClasses =
+              "group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0";
+            const cardStyle = { borderColor: s.border, boxShadow: s.glow };
+            return (
+              <li key={s.key}>
+                {s.to ? (
+                  <Link to={s.to} className={cardClasses} style={cardStyle}>
+                    {cardBody}
+                  </Link>
+                ) : (
+                  <div className={cardClasses} style={cardStyle}>
+                    {cardBody}
+                  </div>
+                )}
               </li>
             );
           })}
