@@ -294,7 +294,7 @@ export const WATCHLIST_IDEAS: CatalogueTitle[] = [
     suitability: "12+",
     timings: ["december", "boxing_day"],
     strength: {
-      comedy: "strong",
+      comedy: "essential",
       family: "strong",
       teenagers: "strong",
       adult_children: "strong",
