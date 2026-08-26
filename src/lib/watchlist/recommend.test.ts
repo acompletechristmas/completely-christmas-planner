@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { recommendWatchlistItems, surpriseWatchlistItem } from "./recommend";
+import { recommendWatchlistItems, surpriseWatchlistItem, type WatchlistRefinements } from "./recommend";
 import { WATCHLIST_IDEAS } from "./catalogue";
 import { COLLECTIONS } from "./collections";
 import type { Database } from "@/integrations/supabase/types";
@@ -207,7 +207,7 @@ describe("engine behaviour", () => {
   });
 
   it("returns a surprise item that is not the top pick", () => {
-    const refinements = { audiences: ["adults"] } as const;
+    const refinements: WatchlistRefinements = { audiences: ["adults"] };
     const result = recommendWatchlistItems({}, { ...refinements });
     const surprise = surpriseWatchlistItem({}, { ...refinements });
     expect(surprise).not.toBeNull();
