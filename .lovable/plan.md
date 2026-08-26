@@ -156,49 +156,65 @@ Proposed refinement (same component, same layout language, no questionnaire):
 
 `watchlist_items` is unchanged. `watchlistItemToSavedFields` keeps writing `title`, `content_type`, `release_year`, `suggestion_key`, `source: "recommendation"`, `moods`, `timing` — the `moods` written are the mood-namespace keys the title is strongest for, so existing saved rows with old mood keys still render (labels fall back to the raw key, as today). Old `suggestion_key` values continue to exclude re-suggestion for any title whose key we keep; keys are preserved wherever a title survives curation.
 
-## 11. Expected behaviour (using the approved titles)
+## 11. Expected behaviour (pilot titles)
 
 | Request | Should lead with |
 | --- | --- |
-| couple + romance | The Holiday, Love Actually, Last Christmas, Love Hard, The Family Stone, Happiest Season |
-| family, young children + magical | The Polar Express, Arthur Christmas, The Santa Clause, Klaus, The Christmas Chronicles — never Bad Santa/Violent Night |
-| family with teenagers + comedy | Home Alone, Elf, Daddy's Home 2, Jingle All the Way |
-| parents + adult children + comedy | Daddy's Home 2, Four Christmases, Love Actually, Office Christmas Party |
-| adults + dark comedy | Bad Santa, Violent Night, The Night Before, A Very Harold & Kumar Christmas |
-| adults + action | Violent Night (Die Hard if curated in) |
-| mixed-age family, everyone can watch | Elf, Muppet Christmas Carol, Home Alone, Nativity!, Arthur Christmas |
+| couple + romance | The Holiday, Love Actually, Last Christmas, Love Hard |
+| family, young children + magical | The Polar Express, Arthur Christmas — never Bad Santa/Violent Night |
+| family with teenagers + comedy | Home Alone, Elf, Daddy's Home 2 |
+| parents + grown-up children + comedy | Daddy's Home 2, Love Actually, Spirited |
+| adults + dark comedy | Bad Santa, Violent Night |
+| adults + action | Violent Night |
+| mixed-age family, everyone can watch | Elf, Home Alone, Arthur Christmas |
 | Secret Christmas Films | Bridget Jones's Diary, While You Were Sleeping, When Harry Met Sally… |
 
 ## 12. Files that change
 
 - `src/lib/watchlist/vocabulary.ts` — **new**: audience, mood, relevance, strength, collection keys + labels.
 - `src/lib/watchlist/collections.ts` — **new**: collection definitions (title, subtitle, context key, relevance handling).
-- `src/lib/watchlist/catalogue.ts` — types replaced; entries migrated mechanically from the current shape into `strength` maps, duplicates merged. **You curate the content afterwards; this task's build step only converts and de-duplicates, it does not decide the film list.**
+- `src/lib/watchlist/catalogue.ts` — new `CatalogueTitle` type; contents replaced by the 15 approved pilot titles only. The existing 117 entries are **not** mechanically converted and are not treated as authoritative.
 - `src/lib/watchlist/recommend.ts` — new gate/score/diversify pipeline.
-- `src/lib/watchlist/constants.ts` — label lookups re-pointed at the vocabulary module; timing vocabulary unchanged.
+- `src/lib/watchlist/constants.ts` — label lookups fall back to the new vocabulary; timing vocabulary unchanged.
 - `src/components/watchlist/ChooseForMe.tsx` — refined controls + collections strip + badges.
-- `src/lib/watchlist/recommend.test.ts` — extended.
+- `src/lib/watchlist/recommend.test.ts` — rewritten for the pilot set.
 - No migration. No other route, table or feature touched.
 
 ## 13. Tests
 
-1. Suitability gate: no `adult` title, and nothing marked `unsuitable`, ever reaches a young-children context.
-2. Curated dominance: an `essential` romance always outranks a title matching more generic tags.
-3. Named expectations: each row of the table in §11 asserts its leading titles appear in the top results.
-4. Christmas relevance: an adjacent title never outranks a `core` title at equal strength — except under `secret_christmas`, where it does.
-5. Crossover: every title key is unique, and no title string appears twice (this currently fails — Klaus, It's a Wonderful Life, Miracle on 34th Street, Noelle).
-6. Collections: every collection returns only titles opting into it, from the single catalogue array.
-7. Determinism: identical input returns byte-identical output across runs.
-8. Saved exclusion: `excludeSavedKeys` still removes previously saved suggestions.
+1. Suitability gate: no `adult`-band title, and nothing marked `unsuitable` for the *selected* viewers, reaches a young-children context.
+2. Selected viewers win: a young child in the household does not block teen/adult recommendations when the user selects adults or teenagers as the viewing group.
+3. Curated dominance: an `essential` context always outranks a title matching more generic keys.
+4. Named expectations: each row of the table in §11 asserts its leading titles appear in the top results.
+5. Christmas relevance: an adjacent title never outranks a `core` title at equal strength — except under `secret_christmas`, where it does.
+6. Catalogue integrity: unique keys, no duplicate titles.
+7. Collections: every collection returns only titles opting into it, from the single catalogue array.
+8. Determinism: identical input returns identical output across runs.
+9. Saved exclusion: `excludeSavedKeys` still removes previously saved suggestions.
 
-## 14. Smallest safe implementation order
+## 14. Build scope for this task — architecture and pilot only
 
-1. Add `vocabulary.ts` and the new types — no behaviour change yet.
-2. Mechanically convert existing 117 entries to the new shape (default strengths derived from current audiences/moods), merge the four duplicate titles. Catalogue content still yours to curate.
-3. Rewrite `recommend.ts` against the new shape; land tests 1, 2, 4, 7, 8.
-4. Add `collections.ts` and the Secret Christmas collection wiring; test 6.
-5. Refine `ChooseForMe.tsx`.
-6. You curate the definitive catalogue; test 3 grows with it.
+Build now:
+
+1. `vocabulary.ts` — audience, mood/genre, Christmas relevance, strength, collection keys.
+2. `collections.ts` — collection architecture including `secret_christmas`, membership driven from the same master title records.
+3. New catalogue type supporting `christmas`, `suitability`, contextual `strength`, `timings`, optional `note`.
+4. Convert **only** these 15 human-approved pilot titles: The Holiday, Love Actually, Last Christmas, Love Hard, Bridget Jones's Diary, While You Were Sleeping, When Harry Met Sally…, Elf, Home Alone, Daddy's Home 2, Arthur Christmas, The Polar Express, Bad Santa, Violent Night, Spirited.
+5. Rewrite `recommend.ts` around viewer suitability, contextual human strength, Christmas relevance, household fit, timing and gentle diversity — curation dominates generic matching.
+6. Secret Christmas Films collection over the same records.
+7. `ChooseForMe.tsx` updated only as far as needed to exercise the new structure and collections.
+8. Tests proving the behaviour with the pilot titles.
+
+Not built now: converting the remaining 117 entries, preserving duplicates, inferring strengths beyond the pilot set, catalogue expansion, streaming availability, JustWatch, any AI or external API, any change to `watchlist_items`, any migration.
+
+### Suitability clarification
+
+`unsuitable` is not a blanket removal. The safety constraint comes from the **actual intended viewers**: the youngest relevant viewer when the choice is for the whole group, or the specific viewers the user selects when they refine. A younger household member outside the selected viewing group never suppresses valid teen or adult recommendations. `unsuitable` acts as an extra hard block only against the audiences actually in play.
+
+### Internal age guidance
+
+`suitability` is internal A Complete Christmas viewing guidance only. It is never displayed as an official age rating and no BBFC or other certification is implied or invented.
+
 
 ## 15. Where can I watch this?
 
