@@ -442,7 +442,8 @@ export function curationBadge(item: CatalogueTitle, topContext?: ContextKey): st
   if (item.strength.secret_christmas) return "Secret Christmas film";
   if (topContext && item.strength[topContext] === "essential") {
     const phrase = contextPhrase(topContext);
-    return `Essential ${phrase}`;
+    const isMood = (MOOD_KEYS as string[]).includes(topContext);
+    return isMood ? `Essential Christmas ${phrase}` : `Essential for ${phrase}`;
   }
   return null;
 }
