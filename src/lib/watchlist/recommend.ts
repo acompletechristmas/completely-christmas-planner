@@ -1,13 +1,37 @@
 /**
  * Deterministic recommendation engine for My Christmas Watchlist.
  *
- * No external APIs, no AI, no randomness. The same household + preferences
- * always return the same recommendations.
+ * Pipeline: suitability gate -> curated human strength -> Christmas relevance
+ * -> household & occasion fit -> gentle diversification.
+ *
+ * Human curation dominates: one `essential` context beats any amount of
+ * generic metadata matching. No AI, no network, no randomness — the same input
+ * always returns the same output.
  */
 
-import { AGE_ORDER, isSuitableForAge, MOODS, typeLabel } from "./constants";
-import { WATCHLIST_IDEAS, type Audience, type Mood, type WatchlistIdea } from "./catalogue";
+import { typeLabel } from "./constants";
+import { WATCHLIST_IDEAS, type CatalogueTitle, type WatchlistIdea } from "./catalogue";
+import { COLLECTIONS, isCollectionKey } from "./collections";
+import {
+  AGE_BAND_ORDER,
+  audienceCeiling,
+  audienceLabel as vocabAudienceLabel,
+  isSuitableFor,
+  moodKeyLabel,
+  MOOD_KEYS,
+  RELEVANCE_MULTIPLIER,
+  SECRET_RELEVANCE_MULTIPLIER,
+  strengthValue,
+  type AgeBand,
+  type AudienceKey,
+  type CollectionKey,
+  type ContextKey,
+  type MoodKey,
+} from "./vocabulary";
 import type { WatchlistContentType } from "@/hooks/use-watchlist";
+
+export type Audience = AudienceKey;
+export type Mood = MoodKey;
 
 export interface PersonShape {
   age_range?: string | null;
@@ -25,62 +49,44 @@ export interface HouseholdContext {
 }
 
 export interface WatchlistRefinements {
-  /** If the user chose specific audiences, use those. Otherwise infer from household. */
-  audiences?: Audience[];
-  /** Selected mood filters. */
-  moods?: Mood[];
+  /** The people actually watching. If omitted, inferred from the household. */
+  audiences?: AudienceKey[];
+  /** Selected mood/genre keys. */
+  moods?: MoodKey[];
+  /** A curated collection, e.g. secret_christmas. */
+  collection?: CollectionKey;
   /** Preferred timing, if any. */
   timing?: string;
-  /** If true, exclude items whose recommendation key is already saved. */
+  /** Recommendation keys already saved — never suggested again. */
   excludeSavedKeys?: string[];
-  /** If true, boost the "surprise" mood at the end. */
+  /** Deterministic alternative pick. */
   surprise?: boolean;
+}
+
+export interface ScoredTitle {
+  item: CatalogueTitle;
+  score: number;
+  /** Strongest curated context matched, used for the badge line. */
+  topContext?: ContextKey;
 }
 
 export interface RecommendationResult {
   heading: string;
   subheading: string;
-  items: WatchlistIdea[];
+  items: CatalogueTitle[];
+  scored: ScoredTitle[];
   explanation: string;
   totalAvailable: number;
   filter: {
-    ageBand: string;
-    audiences: Audience[];
+    ageBand: AgeBand;
+    audiences: AudienceKey[];
   };
 }
 
-const AUDIENCE_PRIORITY: Audience[] = [
-  "alone",
-  "adults_no_children",
-  "couple",
-  "young_adults",
-  "teenagers",
-  "older_children",
-  "young_children",
-  "mixed_ages",
-  "extended",
-];
+/* ------------------------------------------------------------- household */
 
-const MOOD_WEIGHTS: Record<Mood, number> = {
-  classic: 1,
-  funny: 1,
-  romantic: 1,
-  cosy: 1,
-  magical: 1,
-  nostalgic: 1,
-  family: 1.2,
-  newer: 1,
-  easy: 1,
-  tearjerker: 1,
-  musical: 1,
-  animated: 1,
-  adventure: 1,
-  feel_good: 1.1,
-  surprise: 1,
-};
-
-/** Convert a person age_range string into a maximum age band. */
-function ageRangeToMaxBand(ageRange?: string | null): string {
+/** Convert a person age_range string into the age band they can safely watch. */
+function ageRangeToBand(ageRange?: string | null): AgeBand {
   if (!ageRange) return "adult";
   const ar = ageRange.toLowerCase();
   if (ar.includes("0-4") || ar.includes("toddler") || ar.includes("baby")) return "all";
@@ -90,315 +96,261 @@ function ageRangeToMaxBand(ageRange?: string | null): string {
   return "adult";
 }
 
-/** The most restrictive age band the selected audience(s) can safely watch. */
-function audienceToMaxAgeBand(audience: Audience): string {
-  switch (audience) {
-    case "young_children":
-      return "all";
-    case "older_children":
-      return "8+";
-    case "teenagers":
-      return "12+";
-    case "young_adults":
-    case "adults_no_children":
-    case "couple":
-    case "alone":
-      return "adult";
-    case "mixed_ages":
-    case "extended":
-      // These groups may include children, so we must default to the safest
-      // unless they are paired with a specific age. The recommendation function
-      // combines this with the household's youngest member.
-      return "all";
-    default:
-      return "all";
-  }
-}
+/** The youngest viewer present in the household. */
+function householdCeiling(context: HouseholdContext): AgeBand {
+  const bands: AgeBand[] = (context.people ?? []).map((p) => ageRangeToBand(p.age_range));
+  if ((context.settings?.num_children ?? 0) > 0) bands.push("all");
 
-/** Derive the youngest age band present in the household. */
-function householdMaxAgeBand(context: HouseholdContext): string {
-  const { settings, people } = context;
-  const fromPeople = (people ?? []).map((p) => ageRangeToMaxBand(p.age_range));
-  const bands: string[] = [...fromPeople];
-
-  // If there are children in the planner settings, assume a young child.
-  const numChildren = settings?.num_children ?? 0;
-  if (numChildren > 0) bands.push("all");
-
-  // A couple with no children and no people data is treated as adult.
   if (bands.length === 0) {
-    const householdTypes = settings?.household_types ?? [];
-    if (householdTypes.includes("alone") || householdTypes.includes("couple")) {
-      return "adult";
-    }
-    return "all"; // Default to family-safe when uncertain.
+    const types = context.settings?.household_types ?? [];
+    if (types.includes("alone") || types.includes("couple")) return "adult";
+    return "all";
   }
 
-  return bands.reduce((youngest, band) => {
-    return AGE_ORDER[band] < AGE_ORDER[youngest] ? band : youngest;
-  }, "adult");
+  return bands.reduce<AgeBand>(
+    (youngest, band) => (AGE_BAND_ORDER[band] < AGE_BAND_ORDER[youngest] ? band : youngest),
+    "adult",
+  );
 }
 
-/** Infer intended audiences from household composition if the user didn't specify. */
-function inferAudiences(context: HouseholdContext): Audience[] {
-  const { settings, people } = context;
-  const types = settings?.household_types ?? [];
-  const numChildren = settings?.num_children ?? 0;
-  const peopleAges = (people ?? []).map((p) => ageRangeToMaxBand(p.age_range));
-  const hasYoungChild =
-    peopleAges.includes("all") || peopleAges.includes("5+") || numChildren > 0;
-  const hasOlderChild = peopleAges.includes("8+");
-  const hasTeen = peopleAges.includes("12+");
-  const hasAdult = peopleAges.length === 0 || peopleAges.includes("adult");
+/** Infer likely viewers from the household when the user has not chosen. */
+function inferAudiences(context: HouseholdContext): AudienceKey[] {
+  const types = context.settings?.household_types ?? [];
+  const ages = (context.people ?? []).map((p) => ageRangeToBand(p.age_range));
+  const numChildren = context.settings?.num_children ?? 0;
 
-  const audiences: Audience[] = [];
+  const hasYoung = numChildren > 0 || ages.includes("all") || ages.includes("5+");
+  const hasOlderChild = ages.includes("8+");
+  const hasTeen = ages.includes("12+");
 
+  const audiences: AudienceKey[] = [];
   if (types.includes("alone")) audiences.push("alone");
-  if (types.includes("couple")) audiences.push("couple");
-  if (types.includes("family_with_young_children") || hasYoungChild) {
-    audiences.push("young_children", "mixed_ages", "extended");
+  if (types.includes("couple")) audiences.push("couple", "adults");
+  if (types.includes("family_with_young_children") || hasYoung) {
+    audiences.push("young_children", "mixed_ages", "multigenerational");
   }
   if (types.includes("family_with_older_children") || hasOlderChild) {
-    audiences.push("older_children", "mixed_ages", "extended");
+    audiences.push("older_children", "mixed_ages");
   }
   if (types.includes("family_with_teenagers") || hasTeen) {
-    audiences.push("teenagers", "mixed_ages", "extended");
+    audiences.push("teenagers", "mixed_ages");
   }
-  if (types.includes("family_with_adult_children") || hasAdult) {
-    audiences.push("young_adults", "adults_no_children");
+  if (types.includes("family_with_adult_children")) {
+    audiences.push("adult_children", "adults");
   }
 
-  // Deduplicate and default to family-mixed if nothing found.
   const unique = Array.from(new Set(audiences));
-  if (unique.length === 0) return ["mixed_ages"];
-  return unique;
+  return unique.length > 0 ? unique : ["mixed_ages"];
 }
 
-function buildHeading(
-  audiences: Audience[],
-  moods: Mood[],
-  timing?: string,
-  totalItems?: number,
-): { heading: string; subheading: string; explanation: string } {
-  const audience = audiences[0] ?? "mixed_ages";
-  const moodLabel = moods[0] ? MOODS.find((m) => m.key === moods[0])?.label : undefined;
+/* ------------------------------------------------------------------ gate */
 
-  const headings: Record<Audience, string[]> = {
-    young_children: [
-      "Gentle Christmas viewing for little ones",
-      "Magical Christmas stories for children",
-    ],
-    older_children: [
-      "Family Christmas adventures",
-      "Christmas films the children will love",
-    ],
-    teenagers: [
-      "Christmas picks for teenagers",
-      "Festive viewing they'll actually watch",
-    ],
-    young_adults: [
-      "Christmas viewing for grown-up children",
-      "Festive picks for young adults",
-    ],
-    couple: [
-      "Cosy Christmas viewing for two",
-      "Christmas films for a quiet night in",
-    ],
-    adults_no_children: [
-      "Christmas viewing for adults",
-      "Grown-up festive films and specials",
-    ],
-    mixed_ages: [
-      "Christmas viewing for the whole family",
-      "Festive favourites for every generation",
-    ],
-    extended: [
-      "Christmas viewing for a full house",
-      "Festive picks that suit everyone together",
-    ],
-    alone: [
-      "Christmas comfort viewing",
-      "A little festive time just for you",
-    ],
-  };
-
-  const baseHeadings = headings[audience] ?? headings.mixed_ages;
-  let heading = baseHeadings[0];
-  if (moodLabel) {
-    heading = `${moodLabel} for your Christmas watchlist`;
+/**
+ * The safety ceiling comes from the ACTUAL intended viewers: the selected
+ * audiences when the user has chosen, otherwise the youngest person in the
+ * household. A younger household member outside the selected viewing group
+ * never suppresses valid teen or adult recommendations.
+ */
+function effectiveCeiling(
+  context: HouseholdContext,
+  selected: AudienceKey[] | undefined,
+): AgeBand {
+  if (selected && selected.length > 0) {
+    return selected.reduce<AgeBand>(
+      (youngest, a) => {
+        const band = audienceCeiling(a);
+        return AGE_BAND_ORDER[band] < AGE_BAND_ORDER[youngest] ? band : youngest;
+      },
+      "adult",
+    );
   }
+  return householdCeiling(context);
+}
+
+/* ---------------------------------------------------------------- copy */
+
+function contextPhrase(key: ContextKey): string {
+  if (isCollectionKey(key)) return COLLECTIONS.find((c) => c.key === key)!.title.toLowerCase();
+  if ((MOOD_KEYS as string[]).includes(key)) return moodKeyLabel(key as MoodKey).toLowerCase();
+  return vocabAudienceLabel(key as AudienceKey).toLowerCase();
+}
+
+function buildCopy(
+  audiences: AudienceKey[],
+  moods: MoodKey[],
+  collection: CollectionKey | undefined,
+  timing: string | undefined,
+  total: number,
+) {
+  const collectionDef = collection ? COLLECTIONS.find((c) => c.key === collection) : undefined;
+
+  let heading: string;
+  if (collectionDef) {
+    heading = collectionDef.title;
+  } else if (moods.length > 0) {
+    heading = `${moodKeyLabel(moods[0])} Christmas viewing`;
+  } else {
+    const a = audiences[0] ?? "mixed_ages";
+    heading =
+      a === "young_children"
+        ? "Gentle Christmas viewing for little ones"
+        : a === "couple"
+          ? "Cosy Christmas viewing for two"
+          : a === "alone"
+            ? "Christmas comfort viewing"
+            : a === "teenagers"
+              ? "Christmas picks for teenagers"
+              : a === "adults" || a === "adults_no_children"
+                ? "Grown-up Christmas viewing"
+                : "Christmas viewing for the whole family";
+  }
+
   if (timing && timing !== "any_time") {
-    const timingMap: Record<string, string> = {
+    const map: Record<string, string> = {
       christmas_eve: "Christmas Eve",
       christmas_morning: "Christmas morning",
       christmas_day: "Christmas Day",
       boxing_day: "Boxing Day",
       december: "December",
       weekend: "A December weekend",
-      any_time: "Any time",
     };
-    heading = `${heading} — ${timingMap[timing] ?? ""}`;
+    if (map[timing]) heading = `${heading} — ${map[timing]}`;
   }
 
   const subheading =
-    totalItems && totalItems > 0
-      ? `We found ${totalItems} suggestion${totalItems === 1 ? "" : "s"} that fit your household.`
-      : "A few Christmas viewing ideas chosen for your household.";
+    collectionDef?.subtitle ??
+    (total > 0
+      ? `${total} hand-picked suggestion${total === 1 ? "" : "s"} for who's actually watching.`
+      : "A few Christmas viewing ideas chosen for your household.");
 
-  const explanation = `Suggestions matched to ${audiences
-    .map((a) => {
-      const map: Record<string, string> = {
-        young_children: "young children",
-        older_children: "older children",
-        teenagers: "teenagers",
-        young_adults: "young adults",
-        couple: "a couple",
-        adults_no_children: "adults",
-        mixed_ages: "mixed ages",
-        extended: "extended family",
-        alone: "watching alone",
-      };
-      return map[a] ?? a;
-    })
-    .join(", ")}${moodLabel ? ` and a ${moodLabel.toLowerCase()} mood` : ""}.`;
+  const parts = [
+    audiences.length > 0 ? audiences.map(contextPhrase).join(", ") : "your household",
+    moods.length > 0 ? `a ${moods.map((m) => moodKeyLabel(m).toLowerCase()).join(" / ")} mood` : "",
+  ].filter(Boolean);
 
-  return { heading, subheading, explanation };
+  return {
+    heading,
+    subheading,
+    explanation: `Chosen for ${parts.join(" and ")}.`,
+  };
 }
+
+/* --------------------------------------------------------------- engine */
 
 export function recommendWatchlistItems(
   context: HouseholdContext,
   refinements: WatchlistRefinements = {},
 ): RecommendationResult {
-  const selectedAudiences =
-    refinements.audiences && refinements.audiences.length > 0
-      ? refinements.audiences
-      : inferAudiences(context);
+  const userChose = Boolean(refinements.audiences && refinements.audiences.length > 0);
+  const selectedAudiences = userChose ? refinements.audiences! : inferAudiences(context);
+  const ceiling = effectiveCeiling(context, userChose ? refinements.audiences : undefined);
 
-  // The user-chosen audience sets the intended viewing context. If they did not
-  // choose one, fall back to the youngest person in the household so children are
-  // protected by default.
-  const audienceMaxAgeBand = selectedAudiences.reduce((youngest, a) => {
-    const band = audienceToMaxAgeBand(a);
-    return AGE_ORDER[band] < AGE_ORDER[youngest] ? band : youngest;
-  }, "adult" as string);
-
-  const householdMaxAge = householdMaxAgeBand(context);
-  const effectiveAgeBand =
-    refinements.audiences && refinements.audiences.length > 0
-      ? audienceMaxAgeBand
-      : householdMaxAge;
-
+  const selectedMoods = refinements.moods ?? [];
+  const collection = refinements.collection;
   const savedKeys = new Set(refinements.excludeSavedKeys ?? []);
-  const selectedMoods = new Set(refinements.moods ?? []);
 
-  let candidates = WATCHLIST_IDEAS.filter((item) => {
-    // Safety filter: the item must be suitable for the effective age band.
-    if (!isSuitableForAge(item.ageBand, effectiveAgeBand)) return false;
+  const relevanceMultiplier =
+    collection && COLLECTIONS.find((c) => c.key === collection)?.favoursAdjacent
+      ? SECRET_RELEVANCE_MULTIPLIER
+      : RELEVANCE_MULTIPLIER;
 
-    // If the user explicitly selected audiences, keep only items that are
-    // intended for at least one of those audiences. This lets adults find
-    // date-night picks even if children exist in the household.
-    if (refinements.audiences && refinements.audiences.length > 0) {
-      return item.audiences.some((a) => selectedAudiences.includes(a));
+  const selectedContexts: ContextKey[] = [
+    ...selectedAudiences,
+    ...selectedMoods,
+    ...(collection ? [collection] : []),
+  ];
+
+  const householdAudiences = inferAudiences(context);
+
+  const scored: ScoredTitle[] = [];
+
+  for (const item of WATCHLIST_IDEAS) {
+    if (savedKeys.has(item.key)) continue;
+
+    // 1. Hard suitability gate.
+    if (!isSuitableFor(item.suitability, ceiling)) continue;
+    if (selectedContexts.some((c) => item.strength[c] === "unsuitable")) continue;
+    // A collection filters to titles that opted into it.
+    if (collection && !item.strength[collection]) continue;
+
+    // 2. Curated strength — the dominant term.
+    let base = 0;
+    let topContext: ContextKey | undefined;
+    let topValue = 0;
+    let matches = 0;
+    for (const c of selectedContexts) {
+      const value = strengthValue(item.strength[c]);
+      if (value > 0) {
+        base += value;
+        matches++;
+        if (value > topValue) {
+          topValue = value;
+          topContext = c;
+        }
+      }
     }
 
-    return true;
-  });
+    // Nothing curated for what was asked: only keep it as a weak fallback when
+    // the user has not specified a mood or collection.
+    if (base === 0 && (selectedMoods.length > 0 || collection)) continue;
 
-  // Exclude already-saved items unless this is a "Show me more" request.
-  if (savedKeys.size > 0) {
-    candidates = candidates.filter((item) => !savedKeys.has(item.key));
+    // 3. Christmas relevance.
+    let score = base * relevanceMultiplier[item.christmas];
+
+    // 4. Household fit (small, additive).
+    for (const a of householdAudiences) {
+      if (selectedAudiences.includes(a)) continue;
+      const value = strengthValue(item.strength[a]);
+      if (value >= 100) score += 8;
+      else if (value >= 60) score += 5;
+      else if (value > 0) score += 2;
+    }
+
+    // 5. Occasion fit.
+    if (refinements.timing && (item.timings ?? []).includes(refinements.timing)) {
+      score += 10;
+    }
+
+    // 6. Gentle household style nudges.
+    const styles = context.settings?.celebration_style ?? [];
+    if (styles.includes("traditional") && item.strength.classic) score += 3;
+    if (styles.includes("relaxed") && item.strength.cosy) score += 3;
+
+    scored.push({ item, score: Math.round(score * 100) / 100, topContext });
+
+    void matches;
   }
-
-  // Score and diversify.
-  const scored = candidates.map((item) => {
-    let score = 0;
-    let audienceMatches = 0;
-    let moodMatches = 0;
-
-    for (const a of selectedAudiences) {
-      if (item.audiences.includes(a)) {
-        audienceMatches++;
-        score += AUDIENCE_PRIORITY.indexOf(a) >= 0 ? 2 : 1;
-      }
-    }
-
-    for (const m of item.moods) {
-      if (selectedMoods.has(m)) {
-        moodMatches++;
-        score += MOOD_WEIGHTS[m] ?? 1;
-      }
-    }
-
-    // Timing match.
-    if (refinements.timing && item.timings.includes(refinements.timing)) {
-      score += 1.5;
-    }
-
-    // Family-wide bonus when the group is mixed or extended.
-    if (
-      selectedAudiences.includes("mixed_ages") ||
-      selectedAudiences.includes("extended") ||
-      selectedAudiences.includes("young_children")
-    ) {
-      if (item.audiences.includes("young_children")) score += 1.5;
-    }
-
-    // Celebration-style hints from planner settings.
-    const celebrationStyles = context.settings?.celebration_style ?? [];
-    if (celebrationStyles.includes("traditional") && item.moods.includes("classic")) {
-      score += 1;
-    }
-    if (celebrationStyles.includes("relaxed") && item.moods.includes("easy")) {
-      score += 0.5;
-    }
-    if (
-      (celebrationStyles.includes("big_gathering") ||
-        celebrationStyles.includes("extended_family")) &&
-      item.audiences.includes("extended")
-    ) {
-      score += 1;
-    }
-
-    // Surprise boost: if nothing is selected, add a small surprise-friendly lift.
-    if (refinements.surprise && item.moods.includes("surprise")) {
-      score += 0.5;
-    }
-
-    // Slight tie-breakers.
-    if (item.audiences.includes("alone") && selectedAudiences.includes("alone")) score += 0.5;
-    if (item.year && item.year >= 2015) score += 0.2; // newer gets a tiny bump
-
-    return { item, score, audienceMatches, moodMatches };
-  });
 
   scored.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
-    if (b.audienceMatches !== a.audienceMatches) return b.audienceMatches - a.audienceMatches;
-    if (b.moodMatches !== a.moodMatches) return b.moodMatches - a.moodMatches;
+    const aEssential = Object.values(a.item.strength).filter((s) => s === "essential").length;
+    const bEssential = Object.values(b.item.strength).filter((s) => s === "essential").length;
+    if (bEssential !== aEssential) return bEssential - aEssential;
+    if (a.item.christmas !== b.item.christmas) {
+      const order = { core: 0, strong_setting: 1, christmas_adjacent: 2 } as const;
+      return order[a.item.christmas] - order[b.item.christmas];
+    }
     return a.item.title.localeCompare(b.item.title);
   });
 
-  // Diversify by picking at most 3 from the same mood, then the same type.
-  const picked: WatchlistIdea[] = [];
-  const moodCounts: Record<string, number> = {};
+  // 7. Softened diversification: an essential match for the requested context is
+  // never dropped; only `extra`-strength titles are capped by type.
+  const picked: CatalogueTitle[] = [];
   const typeCounts: Record<string, number> = {};
-  const maxPerMood = 3;
-  const maxPerType = 5;
-
-  for (const { item } of scored) {
-    const primaryMood = item.moods[0] ?? "classic";
-    if ((moodCounts[primaryMood] ?? 0) >= maxPerMood) continue;
-    if ((typeCounts[item.type] ?? 0) >= maxPerType) continue;
-    picked.push(item);
-    moodCounts[primaryMood] = (moodCounts[primaryMood] ?? 0) + 1;
-    typeCounts[item.type] = (typeCounts[item.type] ?? 0) + 1;
-    if (picked.length >= 24) break; // First manageable set.
+  for (const entry of scored) {
+    const isEssential = selectedContexts.some((c) => entry.item.strength[c] === "essential");
+    const isExtraOnly =
+      !isEssential && selectedContexts.every((c) => entry.item.strength[c] !== "strong");
+    if (isExtraOnly && (typeCounts[entry.item.type] ?? 0) >= 8) continue;
+    picked.push(entry.item);
+    typeCounts[entry.item.type] = (typeCounts[entry.item.type] ?? 0) + 1;
+    if (picked.length >= 24) break;
   }
 
-  const { heading, subheading, explanation } = buildHeading(
+  const { heading, subheading, explanation } = buildCopy(
     selectedAudiences,
-    refinements.moods ?? [],
+    selectedMoods,
+    collection,
     refinements.timing,
     scored.length,
   );
@@ -407,32 +359,35 @@ export function recommendWatchlistItems(
     heading,
     subheading,
     items: picked,
+    scored,
     explanation,
     totalAvailable: scored.length,
-    filter: {
-      ageBand: effectiveAgeBand,
-      audiences: selectedAudiences,
-    },
+    filter: { ageBand: ceiling, audiences: selectedAudiences },
   };
 }
 
+/** Deterministic alternative pick — never the obvious top result. */
 export function surpriseWatchlistItem(
   context: HouseholdContext,
   refinements: WatchlistRefinements = {},
-): WatchlistIdea | null {
-  const result = recommendWatchlistItems(context, {
-    ...refinements,
-    surprise: true,
-  });
+): CatalogueTitle | null {
+  const result = recommendWatchlistItems(context, { ...refinements, surprise: true });
   if (result.items.length === 0) return null;
-  // Return a mid-ranked item so it is not the same top pick every time.
-  const idx = Math.min(4, result.items.length - 1);
-  return result.items[idx] ?? null;
+  if (result.items.length === 1) return result.items[0];
+  const seed = [
+    ...(refinements.audiences ?? []),
+    ...(refinements.moods ?? []),
+    refinements.collection ?? "",
+    refinements.timing ?? "",
+  ]
+    .join("|")
+    .split("")
+    .reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) % 9973, 7);
+  const idx = 1 + (seed % (result.items.length - 1));
+  return result.items[idx] ?? result.items[1];
 }
 
-export function watchlistItemToSavedFields(
-  item: WatchlistIdea,
-): {
+export function watchlistItemToSavedFields(item: CatalogueTitle): {
   title: string;
   content_type?: WatchlistContentType;
   release_year?: number;
@@ -441,41 +396,56 @@ export function watchlistItemToSavedFields(
   moods: string[];
   timing: string;
 } {
+  const moods = MOOD_KEYS.filter((m) => {
+    const s = item.strength[m];
+    return s !== undefined && s !== "unsuitable";
+  });
   return {
     title: item.title,
     content_type: item.type as WatchlistContentType,
     release_year: item.year,
     suggestion_key: item.key,
     source: "recommendation",
-    moods: item.moods,
-    timing: item.timings[0] ?? "any_time",
+    moods,
+    timing: item.timings?.[0] ?? "any_time",
   };
 }
 
-export function audienceLabel(audience: Audience): string {
-  const map: Record<Audience, string> = {
-    young_children: "Young children",
-    older_children: "Older children",
-    teenagers: "Teenagers",
-    young_adults: "Young adults",
-    couple: "A couple",
-    adults_no_children: "Adults",
-    mixed_ages: "Mixed ages",
-    extended: "Extended family",
-    alone: "Just me",
-  };
-  return map[audience];
+export function audienceLabel(audience: AudienceKey): string {
+  return vocabAudienceLabel(audience);
 }
 
-export function describeWhy(item: WatchlistIdea, audiences: Audience[]): string {
-  const audience = audiences.find((a) => item.audiences.includes(a)) ?? item.audiences[0];
-  const type = typeLabel(item.type);
+/** The short "why this one" line under each suggestion. */
+export function describeWhy(
+  item: CatalogueTitle,
+  audiences: AudienceKey[],
+  topContext?: ContextKey,
+): string {
+  if (item.note) return item.note;
+
   const reasons: string[] = [];
-
-  if (audience) reasons.push(`A good fit for ${audienceLabel(audience).toLowerCase()}`);
+  const context =
+    topContext ?? audiences.find((a) => item.strength[a] && item.strength[a] !== "unsuitable");
+  if (context) {
+    const strength = item.strength[context];
+    const prefix = strength === "essential" ? "Essential for" : "A good fit for";
+    reasons.push(`${prefix} ${contextPhrase(context)}`);
+  }
   if (item.minutes) reasons.push(`${item.minutes} minutes`);
   if (item.year) reasons.push(`${item.year}`);
-  reasons.push(type);
-
+  reasons.push(typeLabel(item.type));
   return reasons.join(" · ");
 }
+
+/** Badge text driven purely by curation. */
+export function curationBadge(item: CatalogueTitle, topContext?: ContextKey): string | null {
+  if (item.strength.secret_christmas) return "Secret Christmas film";
+  if (topContext && item.strength[topContext] === "essential") {
+    const phrase = contextPhrase(topContext);
+    const isMood = (MOOD_KEYS as string[]).includes(topContext);
+    return isMood ? `Essential Christmas ${phrase}` : `Essential for ${phrase}`;
+  }
+  return null;
+}
+
+export type { WatchlistIdea };

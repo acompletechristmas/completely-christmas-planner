@@ -1,9 +1,16 @@
 import { useMemo, useState } from "react";
 import { Sparkles, Wand2 } from "lucide-react";
-import { MOODS, TIMINGS } from "@/lib/watchlist/constants";
-import { type Audience, WATCHLIST_IDEAS } from "@/lib/watchlist/catalogue";
+import { TIMINGS } from "@/lib/watchlist/constants";
+import { COLLECTIONS } from "@/lib/watchlist/collections";
+import {
+  MOOD_VOCABULARY,
+  type AudienceKey,
+  type CollectionKey,
+  type MoodKey,
+} from "@/lib/watchlist/vocabulary";
 import {
   audienceLabel,
+  curationBadge,
   describeWhy,
   recommendWatchlistItems,
   surpriseWatchlistItem,
@@ -19,36 +26,63 @@ interface ChooseForMeProps {
   onAdd: (input: NewWatchlistItem) => void;
 }
 
-const AUDIENCES: Audience[] = [
+/** Short, human list of who might actually be watching. */
+const AUDIENCES: AudienceKey[] = [
+  "multigenerational",
+  "adults",
+  "couple",
   "young_children",
   "older_children",
   "teenagers",
-  "young_adults",
-  "couple",
-  "adults_no_children",
-  "mixed_ages",
-  "extended",
+  "adult_children",
   "alone",
 ];
 
+/** The moods worth offering up front; the full vocabulary stays available in data. */
+const OFFERED_MOODS: MoodKey[] = [
+  "comedy",
+  "romance",
+  "cosy",
+  "magical",
+  "action",
+  "nostalgic",
+  "musical",
+  "dark_comedy",
+  "alternative",
+];
+
+const pill = (active: boolean) =>
+  `px-3 py-2 rounded-full text-xs border min-h-[44px] transition-colors ${
+    active
+      ? "bg-[#D4AF37] text-white border-[#D4AF37]"
+      : "bg-white border-[#D4AF37]/30 text-[#2A3A4A]/80"
+  }`;
+
 export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
-  const [audiences, setAudiences] = useState<Audience[]>([]);
-  const [moods, setMoods] = useState<string[]>([]);
+  const [audiences, setAudiences] = useState<AudienceKey[]>([]);
+  const [moods, setMoods] = useState<MoodKey[]>([]);
+  const [collection, setCollection] = useState<CollectionKey | "">("");
   const [timing, setTiming] = useState<string>("");
 
   const refinements: WatchlistRefinements = useMemo(
     () => ({
       audiences: audiences.length > 0 ? audiences : undefined,
-      moods: moods.length > 0 ? (moods as WatchlistRefinements["moods"]) : undefined,
+      moods: moods.length > 0 ? moods : undefined,
+      collection: collection || undefined,
       timing: timing || undefined,
       excludeSavedKeys: savedKeys,
     }),
-    [audiences, moods, timing, savedKeys],
+    [audiences, moods, collection, timing, savedKeys],
   );
 
-  const { heading, subheading, explanation, items, totalAvailable } = useMemo(
+  const { heading, subheading, explanation, scored, items, totalAvailable } = useMemo(
     () => recommendWatchlistItems(context, refinements),
     [context, refinements],
+  );
+
+  const contextByKey = useMemo(
+    () => new Map(scored.map((s) => [s.item.key, s.topContext])),
+    [scored],
   );
 
   const handleSurprise = () => {
@@ -56,13 +90,11 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
     if (item) onAdd(watchlistItemToSavedFields(item));
   };
 
-  const toggleAudience = (a: Audience) => {
+  const toggleAudience = (a: AudienceKey) =>
     setAudiences((prev) => (prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]));
-  };
 
-  const toggleMood = (m: string) => {
+  const toggleMood = (m: MoodKey) =>
     setMoods((prev) => (prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]));
-  };
 
   return (
     <div className="space-y-6">
@@ -71,16 +103,7 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
           <p className="text-xs uppercase tracking-wide text-[#2A3A4A]/50 mb-2">Who is watching?</p>
           <div className="flex flex-wrap gap-2">
             {AUDIENCES.map((a) => (
-              <button
-                key={a}
-                type="button"
-                onClick={() => toggleAudience(a)}
-                className={`px-3 py-2 rounded-full text-xs border min-h-[44px] transition-colors ${
-                  audiences.includes(a)
-                    ? "bg-[#D4AF37] text-white border-[#D4AF37]"
-                    : "bg-white border-[#D4AF37]/30 text-[#2A3A4A]/80"
-                }`}
-              >
+              <button key={a} type="button" onClick={() => toggleAudience(a)} className={pill(audiences.includes(a))}>
                 {audienceLabel(a)}
               </button>
             ))}
@@ -88,22 +111,16 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
         </div>
 
         <div>
-          <p className="text-xs uppercase tracking-wide text-[#2A3A4A]/50 mb-2">Mood or style</p>
+          <p className="text-xs uppercase tracking-wide text-[#2A3A4A]/50 mb-2">In the mood for?</p>
           <div className="flex flex-wrap gap-2">
-            {MOODS.map((m) => (
-              <button
-                key={m.key}
-                type="button"
-                onClick={() => toggleMood(m.key)}
-                className={`px-3 py-2 rounded-full text-xs border min-h-[44px] transition-colors ${
-                  moods.includes(m.key)
-                    ? "bg-[#D4AF37] text-white border-[#D4AF37]"
-                    : "bg-white border-[#D4AF37]/30 text-[#2A3A4A]/80"
-                }`}
-              >
-                {m.label}
-              </button>
-            ))}
+            {OFFERED_MOODS.map((m) => {
+              const label = MOOD_VOCABULARY.find((x) => x.key === m)?.label ?? m;
+              return (
+                <button key={m} type="button" onClick={() => toggleMood(m)} className={pill(moods.includes(m))}>
+                  {label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -115,11 +132,7 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
                 key={t.key}
                 type="button"
                 onClick={() => setTiming((prev) => (prev === t.key ? "" : t.key))}
-                className={`px-3 py-2 rounded-full text-xs border min-h-[44px] transition-colors ${
-                  timing === t.key
-                    ? "bg-[#D4AF37] text-white border-[#D4AF37]"
-                    : "bg-white border-[#D4AF37]/30 text-[#2A3A4A]/80"
-                }`}
+                className={pill(timing === t.key)}
               >
                 {t.label}
               </button>
@@ -135,6 +148,32 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
           <Wand2 className="w-4 h-4" />
           Surprise me
         </button>
+      </div>
+
+      <div>
+        <p className="text-xs uppercase tracking-wide text-[#2A3A4A]/50 mb-2">Collections</p>
+        <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1">
+          {COLLECTIONS.map((c) => {
+            const active = collection === c.key;
+            return (
+              <button
+                key={c.key}
+                type="button"
+                onClick={() => setCollection((prev) => (prev === c.key ? "" : c.key))}
+                className={`flex-shrink-0 w-56 text-left rounded-2xl border p-3 min-h-[44px] transition-colors ${
+                  active
+                    ? "bg-[#D4AF37] text-white border-[#D4AF37]"
+                    : "bg-white border-[#D4AF37]/30 text-[#2A3A4A]"
+                }`}
+              >
+                <span className="block font-serif text-sm">{c.title}</span>
+                <span className={`block text-xs mt-1 ${active ? "text-white/80" : "text-[#2A3A4A]/60"}`}>
+                  {c.subtitle}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="space-y-2">
@@ -156,41 +195,37 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
         </div>
       ) : (
         <div className="grid gap-4">
-          {items.map((item) => (
-            <div
-              key={item.key}
-              className="rounded-2xl bg-white border border-[#D4AF37]/30 p-4 shadow-sm"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h4 className="font-serif text-[#2A3A4A] text-base">{item.title}</h4>
-                  <p className="text-xs text-[#2A3A4A]/60 mt-0.5">
-                    {item.year ? `${item.year} · ` : ""}
-                    {item.type.replace("tv_special", "TV special").replace("episode", "Festive episode")}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => onAdd(watchlistItemToSavedFields(item))}
-                  className="flex-shrink-0 px-3 py-2 rounded-full bg-[#D4AF37] text-white text-xs min-h-[44px] hover:bg-[#B5952F] transition-colors"
-                >
-                  Add to my watchlist
-                </button>
-              </div>
-              <p className="text-sm text-[#2A3A4A]/80 mt-3 leading-relaxed">{item.blurb}</p>
-              <p className="text-xs text-[#2A3A4A]/60 mt-2">{describeWhy(item, audiences)}</p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {item.moods.slice(0, 3).map((m) => (
-                  <span
-                    key={m}
-                    className="px-2 py-1 rounded-full bg-[#D4AF37]/10 text-[#2A3A4A]/80 text-xs border border-[#D4AF37]/20"
+          {items.map((item) => {
+            const topContext = contextByKey.get(item.key);
+            const badge = curationBadge(item, topContext);
+            return (
+              <div key={item.key} className="rounded-2xl bg-white border border-[#D4AF37]/30 p-4 shadow-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h4 className="font-serif text-[#2A3A4A] text-base">{item.title}</h4>
+                    <p className="text-xs text-[#2A3A4A]/60 mt-0.5">
+                      {item.year ? `${item.year} · ` : ""}
+                      {item.type.replace("tv_special", "TV special").replace("episode", "Festive episode")}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onAdd(watchlistItemToSavedFields(item))}
+                    className="flex-shrink-0 px-3 py-2 rounded-full bg-[#D4AF37] text-white text-xs min-h-[44px] hover:bg-[#B5952F] transition-colors"
                   >
-                    {MOODS.find((x) => x.key === m)?.label ?? m}
+                    Add to my watchlist
+                  </button>
+                </div>
+                {badge && (
+                  <span className="inline-block mt-3 px-2 py-1 rounded-full bg-[#D4AF37]/15 text-[#2A3A4A] text-xs border border-[#D4AF37]/30">
+                    {badge}
                   </span>
-                ))}
+                )}
+                <p className="text-sm text-[#2A3A4A]/80 mt-3 leading-relaxed">{item.blurb}</p>
+                <p className="text-xs text-[#2A3A4A]/60 mt-2">{describeWhy(item, audiences, topContext)}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
