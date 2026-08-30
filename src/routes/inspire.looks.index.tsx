@@ -42,14 +42,14 @@ export const Route = createFileRoute("/inspire/looks/")({
   }),
   component: LooksGallery,
   errorComponent: () => (
-    <PageShell eyebrow="Decorations" title="Christmas looks">
+    <PageShell eyebrow="Decorations" title="Christmas looks" backTo="/inspire" backLabel="Back to Get Inspired">
       <p className="text-[color:var(--muted-foreground)]">
         We couldn't load the Christmas looks just now. Please try again in a moment.
       </p>
     </PageShell>
   ),
   notFoundComponent: () => (
-    <PageShell eyebrow="Decorations" title="Not found">
+    <PageShell eyebrow="Decorations" title="Not found" backTo="/inspire" backLabel="Back to Get Inspired">
       <p className="text-[color:var(--muted-foreground)]">That page doesn't exist.</p>
     </PageShell>
   ),
@@ -79,7 +79,14 @@ function LooksGallery() {
               "linear-gradient(90deg, oklch(0.20 0.03 250 / 0.15) 0%, oklch(0.18 0.03 250 / 0.35) 42%, oklch(0.16 0.03 250 / 0.78) 68%, oklch(0.14 0.03 250 / 0.88) 100%)",
           }}
         />
-        <div className="relative z-10 mx-auto flex min-h-[360px] max-w-6xl items-center justify-center px-5 py-16 sm:min-h-[420px] sm:justify-end sm:px-8">
+        <div className="relative z-10 mx-auto flex min-h-[360px] max-w-6xl flex-col px-5 py-16 sm:min-h-[420px] sm:px-8">
+          <Link
+            to="/inspire"
+            className="rise-in inline-flex w-fit items-center gap-2 pt-8 text-xs uppercase tracking-[0.2em] text-[oklch(0.93_0.01_90_/_0.7)] transition hover:text-[oklch(0.86_0.11_86)]"
+          >
+            <ArrowLeft className="h-3 w-3" /> Back to Get Inspired
+          </Link>
+          <div className="flex flex-1 items-center justify-center sm:justify-end">
           <div className="max-w-lg text-center sm:text-right">
             <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[oklch(0.86_0.11_86)]">
               Christmas Decorations
