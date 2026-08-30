@@ -3,7 +3,6 @@ import { ChevronDown, Clapperboard, Sparkles } from "lucide-react";
 import { TIMINGS } from "@/lib/watchlist/constants";
 import { COLLECTIONS } from "@/lib/watchlist/collections";
 import {
-  MOOD_VOCABULARY,
   type AudienceKey,
   type CollectionKey,
   type MoodKey,
