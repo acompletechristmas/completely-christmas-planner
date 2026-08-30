@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { ArrowRight, TreePine } from "lucide-react";
+import { ArrowLeft, ArrowRight, TreePine } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { PageShell } from "@/components/PageShell";
@@ -107,6 +107,7 @@ function LooksGallery() {
             <p className="mt-5 font-display text-[15px] italic text-[oklch(0.94_0.01_90_/_0.9)]">
               Find your style &middot; Get inspired &middot; Shop the look
             </p>
+          </div>
           </div>
         </div>
       </section>
