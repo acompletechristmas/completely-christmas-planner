@@ -20,6 +20,7 @@ import type {
   ContextKey,
   MoodKey,
   Strength,
+  UkCertificate,
 } from "./vocabulary";
 
 export type ContentType = "film" | "tv_special" | "episode" | "series" | "other";
