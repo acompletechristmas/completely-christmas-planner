@@ -162,6 +162,14 @@ export function relevanceLabel(relevance: ChristmasRelevance): string {
 /* -------------------------------------------------------------- suitability */
 
 /**
+ * Official UK film certificate (BBFC classification). Display metadata only.
+ * It is entirely separate from — and never feeds — the internal suitability
+ * engine below. Values are populated from verified UK classification data
+ * during human catalogue curation, never inferred.
+ */
+export type UkCertificate = "U" | "PG" | "12A" | "12" | "15" | "18";
+
+/**
  * INTERNAL A Complete Christmas viewing guidance only.
  * This is NOT an official BBFC classification and must never be presented as one.
  */

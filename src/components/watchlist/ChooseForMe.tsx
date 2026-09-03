@@ -18,6 +18,8 @@ import {
   type WatchlistRefinements,
 } from "@/lib/watchlist/recommend";
 import type { NewWatchlistItem } from "@/hooks/use-watchlist";
+import { SearchCatalogue } from "@/components/watchlist/SearchCatalogue";
+import { WatchCard } from "@/components/watchlist/WatchCard";
 
 interface ChooseForMeProps {
   context: HouseholdContext;
@@ -113,6 +115,9 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
 
   return (
     <div className="space-y-7">
+      {/* "I know what I want" — local catalogue search, separate from discovery below */}
+      <SearchCatalogue savedKeys={savedKeys} onAdd={onAdd} />
+
       {/* Opening */}
       <div className="text-center">
         <h3 className="font-serif text-2xl text-[#2A3A4A]">What shall we watch?</h3>
@@ -277,38 +282,14 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
                 selectedContexts.length > 0 &&
                 selectedContexts.some((c) => item.strength[c as keyof typeof item.strength] === "essential");
               return (
-                <div
+                <WatchCard
                   key={item.key}
-                  className={`rounded-2xl bg-white p-4 transition-shadow ${
-                    isTopPick
-                      ? "border-2 border-[#D4AF37]/70 shadow-[0_4px_16px_rgba(212,175,55,0.25)]"
-                      : "border border-[#D4AF37]/30 shadow-sm"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h4 className="font-serif text-[#2A3A4A] text-base">{item.title}</h4>
-                      <p className="text-xs text-[#2A3A4A]/60 mt-0.5">
-                        {item.year ? `${item.year} · ` : ""}
-                        {item.type.replace("tv_special", "TV special").replace("episode", "Festive episode")}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => onAdd(watchlistItemToSavedFields(item))}
-                      className="flex-shrink-0 px-3 py-2 rounded-full bg-[#D4AF37] text-white text-xs min-h-[44px] hover:bg-[#B5952F] transition-colors"
-                    >
-                      Add to my watchlist
-                    </button>
-                  </div>
-                  {badge && (
-                    <span className="inline-block mt-3 px-2 py-1 rounded-full bg-[#D4AF37]/15 text-[#2A3A4A] text-xs border border-[#D4AF37]/30">
-                      {badge}
-                    </span>
-                  )}
-                  <p className="text-sm text-[#2A3A4A]/80 mt-3 leading-relaxed">{item.blurb}</p>
-                  <p className="text-xs text-[#2A3A4A]/60 mt-2">{describeWhy(item, audiences, topContext)}</p>
-                </div>
+                  item={item}
+                  badge={badge}
+                  why={describeWhy(item, audiences, topContext)}
+                  topPick={isTopPick}
+                  onAdd={onAdd}
+                />
               );
             })}
           </div>
