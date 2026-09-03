@@ -36,6 +36,16 @@ export interface CatalogueTitle {
   blurb: string;
   minutes?: number;
 
+  /**
+   * Official UK certificate (BBFC classification). Display metadata only —
+   * never used by the internal suitability/recommendation engine. Populated
+   * only from verified UK classification data; currently unset on all titles.
+   */
+  ukCertificate?: UkCertificate;
+
+  /** Film artwork URL. Unset until poster artwork is added; cards show a placeholder meanwhile. */
+  posterUrl?: string;
+
   /** How fundamentally the title relates to Christmas. */
   christmas: ChristmasRelevance;
 
