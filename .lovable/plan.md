@@ -17,11 +17,11 @@ A new `src/components/watchlist/SearchCatalogue.tsx` placed at the top of the **
 
 No `use-watchlist` changes — reuse the existing `onAdd` prop pattern.
 
-## Job 2 — UK certificate as separate catalogue metadata
+## Job 2 — UK certificate as separate catalogue metadata (architecture only)
 
 - `src/lib/watchlist/vocabulary.ts`: add `export type UkCertificate = "U" | "PG" | "12A" | "12" | "15" | "18"` with a short comment stating it mirrors official UK certificates and is **not** used by the internal suitability engine.
-- `src/lib/watchlist/catalogue.ts`: add optional `ukCertificate?: UkCertificate` to `CatalogueTitle`, populated with the known certificates for the 15 pilot titles (The Holiday 12A, Love Actually 15, Last Christmas 12A, Love Hard 15, Bridget Jones's Diary 15, While You Were Sleeping PG, When Harry Met Sally… 15, Elf PG, Home Alone PG, Daddy's Home 2 12A, Arthur Christmas U, The Polar Express U, Bad Santa 15, Violent Night 15, Spirited PG).
-- Displayed as a small "12A"-style badge on result/search cards, visually distinct from the internal suitability guidance (which stays as-is and is never relabelled).
+- `src/lib/watchlist/catalogue.ts`: add optional `ukCertificate?: UkCertificate` to `CatalogueTitle`. **It is left undefined on every pilot title** — values must come from verified UK classification data during the future human-curated catalogue work, never inferred from model knowledge.
+- Card rendering: the WatchCard (Job 3) displays the certificate badge **only when `ukCertificate` is present**; nothing renders when undefined. The internal suitability value is never displayed as, or restyled to look like, a certificate.
 - `recommend.ts` scoring, suitability gates, and `AGE_BAND_ORDER` are **not** touched. `watchlist_items` table unchanged — the certificate lives only in the static catalogue.
 
 ## Job 3 — Poster-ready cards (placeholders only)
