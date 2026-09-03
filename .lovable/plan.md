@@ -34,7 +34,8 @@ No `use-watchlist` changes — reuse the existing `onAdd` prop pattern.
 
 - `bunx vitest run src/lib/watchlist/recommend.test.ts` — all 19 existing tests must pass unchanged.
 - Typecheck passes.
-- Playwright at 390px on `/planner/watchlist`: search finds "The Holiday" from `Holiday`, empty-state message for gibberish, add-to-watchlist from a search result, certificate badges render, placeholders show, no overflow.
+- Certificate badge rendering is verified with a mock catalogue title in a test or temporary local mock only — **no certificate value is ever added to the production pilot catalogue**, even for verification.
+- Playwright at 390px on `/planner/watchlist`: search finds "The Holiday" from `Holiday`, empty-state message for gibberish, add-to-watchlist from a search result, no certificate badge shown on pilot titles, poster placeholders show, no overflow.
 
 ## Explicitly out of scope
 
