@@ -18,7 +18,7 @@ import {
   type WatchlistRefinements,
 } from "@/lib/watchlist/recommend";
 import type { NewWatchlistItem } from "@/hooks/use-watchlist";
-import { SearchCatalogue } from "@/components/watchlist/SearchCatalogue";
+
 import { WatchCard } from "@/components/watchlist/WatchCard";
 
 interface ChooseForMeProps {
@@ -115,9 +115,6 @@ export function ChooseForMe({ context, savedKeys, onAdd }: ChooseForMeProps) {
 
   return (
     <div className="space-y-7">
-      {/* "I know what I want" — local catalogue search, separate from discovery below */}
-      <SearchCatalogue savedKeys={savedKeys} onAdd={onAdd} />
-
       {/* Opening */}
       <div className="text-center">
         <h3 className="font-serif text-2xl text-[#2A3A4A]">What shall we watch?</h3>
