@@ -10,6 +10,7 @@ import { AddWatchItem } from "@/components/watchlist/AddWatchItem";
 import { WatchRow } from "@/components/watchlist/WatchRow";
 import { WatchlistFilters } from "@/components/watchlist/WatchlistFilters";
 import { ChooseForMe } from "@/components/watchlist/ChooseForMe";
+import { SearchCatalogue } from "@/components/watchlist/SearchCatalogue";
 import { typeLabel } from "@/lib/watchlist/constants";
 import { activePlanningYear } from "@/lib/food/constants";
 
@@ -134,6 +135,9 @@ function WatchlistPage() {
           </span>
         </div>
       </header>
+
+      {/* "I know what I want" — shared top-level catalogue search, above the tabs */}
+      <SearchCatalogue savedKeys={savedKeys} onAdd={add} />
 
       <div className="flex gap-2 border-b border-[color:var(--gold)]/30 pb-0">
         <button

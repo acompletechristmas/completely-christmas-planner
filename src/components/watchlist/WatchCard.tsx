@@ -46,10 +46,10 @@ export function WatchCard({ item, badge, why, topPick = false, onAdd }: WatchCar
         ) : (
           <div
             aria-hidden
-            className="flex aspect-[2/3] h-full w-full flex-col items-center justify-center bg-gradient-to-b from-[#16233B] to-[#0F1726]"
+            className="flex aspect-[2/3] h-full w-full flex-col items-center justify-center bg-gradient-to-b from-[#FBF7EE] to-[#F5EFE2]"
           >
-            <Film className="h-5 w-5 text-[#D4AF37]/70" />
-            <span className="mt-2 px-1 text-center font-serif text-[11px] leading-tight text-[#F5EFE2]/90">
+            <Film className="h-4 w-4 text-[#D4AF37]/80" />
+            <span className="mt-2 px-1 text-center font-serif text-[11px] leading-tight text-[#2A3A4A]/70">
               {item.title}
             </span>
           </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { Search } from "lucide-react";
 
 import { WATCHLIST_IDEAS, type CatalogueTitle } from "@/lib/watchlist/catalogue";
@@ -24,8 +24,9 @@ function matches(item: CatalogueTitle, q: string): boolean {
 
 /**
  * "I know what I want" — purely local, case-insensitive search over the
- * existing catalogue. No APIs, no external search, and entirely independent
- * of the "What shall we watch?" recommendation filters below.
+ * existing catalogue. No APIs, no external search. Sits above the watchlist
+ * tabs as a shared top-level action; Enter and the Search button behave the
+ * same, and results also filter live while typing.
  */
 export function SearchCatalogue({ savedKeys, onAdd }: SearchCatalogueProps) {
   const [query, setQuery] = useState("");
@@ -38,6 +39,12 @@ export function SearchCatalogue({ savedKeys, onAdd }: SearchCatalogueProps) {
     );
   }, [query, savedKeys]);
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    // Results already reflect the query; submitting just dismisses the keyboard.
+    (document.activeElement as HTMLElement | null)?.blur();
+  };
+
   return (
     <section aria-label="Search films and TV">
       <label
@@ -46,20 +53,23 @@ export function SearchCatalogue({ savedKeys, onAdd }: SearchCatalogueProps) {
       >
         Search films &amp; TV
       </label>
-      <div className="relative">
-        <Search
-          aria-hidden
-          className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#D4AF37]"
-        />
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           id="watchlist-search"
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a Christmas film or TV favourite…"
-          className="min-h-[44px] w-full rounded-full border border-[#D4AF37]/30 bg-white py-2.5 pl-10 pr-4 text-sm text-[#2A3A4A] placeholder:text-[#2A3A4A]/40 focus:border-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+          className="min-h-[44px] min-w-0 flex-1 rounded-full border border-[#D4AF37]/30 bg-white px-4 py-2.5 text-sm text-[#2A3A4A] placeholder:text-[#2A3A4A]/40 focus:border-[#D4AF37] focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
         />
-      </div>
+        <button
+          type="submit"
+          className="inline-flex min-h-[44px] flex-shrink-0 items-center gap-1.5 rounded-full bg-[#D4AF37] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#B5952F]"
+        >
+          <Search aria-hidden className="h-4 w-4" />
+          Search
+        </button>
+      </form>
 
       {results !== null && (
         <div className="mt-4 space-y-3" aria-live="polite">
