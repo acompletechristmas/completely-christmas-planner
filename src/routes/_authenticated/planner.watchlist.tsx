@@ -136,6 +136,9 @@ function WatchlistPage() {
         </div>
       </header>
 
+      {/* "I know what I want" — shared top-level catalogue search, above the tabs */}
+      <SearchCatalogue savedKeys={savedKeys} onAdd={add} />
+
       <div className="flex gap-2 border-b border-[color:var(--gold)]/30 pb-0">
         <button
           type="button"
