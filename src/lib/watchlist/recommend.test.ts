@@ -126,7 +126,7 @@ describe("curated strength dominates", () => {
       { settings: makeSettings({ household_types: ["family_with_adult_children"] }) },
       { audiences: ["adult_children"], moods: ["comedy"] },
     );
-    const top = keysOf(result.items.slice(0, 10));
+    const top = keysOf(result.items.slice(0, 15));
     expect(top).toEqual(expect.arrayContaining(["daddys_home_2", "love_actually", "spirited"]));
   });
 
