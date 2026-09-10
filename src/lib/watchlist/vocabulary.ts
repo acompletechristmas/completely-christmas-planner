@@ -54,6 +54,8 @@ export type MoodKey =
   | "emotional"
   | "feel_good"
   | "action"
+  | "adventure"
+  | "horror"
   | "dark_comedy"
   | "musical"
   | "animation"
@@ -73,6 +75,8 @@ export const MOOD_VOCABULARY: { key: MoodKey; label: string }[] = [
   { key: "emotional", label: "Emotional" },
   { key: "feel_good", label: "Feel-good" },
   { key: "action", label: "Action" },
+  { key: "adventure", label: "Adventure" },
+  { key: "horror", label: "Christmas horror" },
   { key: "dark_comedy", label: "Dark comedy" },
   { key: "musical", label: "Musical" },
   { key: "animation", label: "Animation" },
@@ -103,6 +107,7 @@ export type CollectionKey =
   | "cosy_night"
   | "christmas_romance"
   | "christmas_classics"
+  | "not_your_usual_christmas"
   | "modern_classic";
 
 /* ---------------------------------------------------------- context + rank */
