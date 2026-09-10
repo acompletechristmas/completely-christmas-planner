@@ -72,6 +72,11 @@ export const COLLECTIONS: Collection[] = [
     subtitle: "The ones that come back every single year.",
   },
   {
+    key: "not_your_usual_christmas",
+    title: "Not your usual Christmas",
+    subtitle: "Darker, louder and a long way from the nativity play.",
+  },
+  {
     key: "modern_classic",
     title: "Modern classics",
     subtitle: "Newer films that already feel like tradition.",
