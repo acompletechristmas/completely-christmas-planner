@@ -106,7 +106,7 @@ function has(item: CatalogueTitle, key: string): boolean {
 /** First matching rule wins, so a title always looks the same. */
 export function pickTheme(item: CatalogueTitle): ThemeName {
   if (has(item, "horror") || has(item, "alternative") || has(item, "dark_comedy")) return "dark";
-  if (item.type === "episode" || item.type === "tv_special" || has(item, "british")) return "british";
+  if (item.type === "episode" || item.type === "tv_special" || item.type === "series") return "british";
   if (has(item, "musical")) return "musical";
   if (item.suitability === "all" && has(item, "young_children")) return "young";
   if (has(item, "romance") || has(item, "christmas_romance")) return "romance";
