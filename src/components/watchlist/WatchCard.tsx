@@ -44,15 +44,7 @@ export function WatchCard({ item, badge, why, topPick = false, onAdd }: WatchCar
             className="aspect-[2/3] h-full w-full object-cover"
           />
         ) : (
-          <div
-            aria-hidden
-            className="flex aspect-[2/3] h-full w-full flex-col items-center justify-center bg-gradient-to-b from-[#FBF7EE] to-[#F5EFE2]"
-          >
-            <Film className="h-4 w-4 text-[#D4AF37]/80" />
-            <span className="mt-2 px-1 text-center font-serif text-[11px] leading-tight text-[#2A3A4A]/70">
-              {item.title}
-            </span>
-          </div>
+          <PosterFallback item={item} />
         )}
       </div>
 
