@@ -1,6 +1,5 @@
-import { Film } from "lucide-react";
-
 import type { CatalogueTitle } from "@/lib/watchlist/catalogue";
+import { PosterFallback } from "@/components/watchlist/PosterFallback";
 import { watchlistItemToSavedFields } from "@/lib/watchlist/recommend";
 import type { NewWatchlistItem } from "@/hooks/use-watchlist";
 
