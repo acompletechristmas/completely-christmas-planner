@@ -1,4 +1,5 @@
 import type { LookInspiration } from "@/lib/decorations/inspirations";
+import { Sparkles } from "lucide-react";
 import { InspirationCard } from "./InspirationCard";
 
 export function InspirationGallery({
@@ -34,6 +35,20 @@ export function InspirationGallery({
             feature={index === 0}
           />
         ))}
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-[oklch(0.80_0.14_85_/_0.22)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-soft)]">
+        <h3 className="font-display text-2xl">Love this look?</h3>
+        <p className="mt-1.5 text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
+          Shop pieces to recreate it at home.
+        </p>
+        <a
+          href="#shop-the-look"
+          className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border border-[color:var(--gold)] bg-[color:var(--gold)]/10 px-5 py-2.5 text-sm font-medium text-[color:var(--gold)] transition hover:bg-[color:var(--gold)]/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--gold)]"
+        >
+          <Sparkles className="h-4 w-4" aria-hidden="true" />
+          Shop this look ↓
+        </a>
       </div>
     </section>
   );
