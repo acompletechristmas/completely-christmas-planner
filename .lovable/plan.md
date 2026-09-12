@@ -19,7 +19,9 @@ Add `id="shop-the-look"` to the existing `<section>` that wraps the Shop the Loo
 ### 2. Add a contextual CTA inside the Inspiration Gallery area
 Inside `InspirationGallery`, after the inspiration grid, add a compact editorial CTA:
 
-- Copy: "Love this look? Shop pieces to recreate it at home." with a "Shop this look ↓" action.
+- "Love this look?" as the prominent heading.
+- "Shop pieces to recreate it at home." as supporting copy.
+- "Shop this look ↓" as the clear clickable action that scrolls to `#shop-the-look`.
 - Styled as a cream/gold card or inline link treatment consistent with the existing palette (gold text, subtle border, surface-card background if card-based).
 - It is a same-page anchor link (`<a href="#shop-the-look">`) so it scrolls smoothly to the existing products section.
 - Only rendered when inspirations exist (the component already returns `null` otherwise).
