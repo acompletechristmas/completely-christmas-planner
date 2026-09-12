@@ -163,7 +163,7 @@ function LookDetail() {
         inspirations={inspirationData.inspirations}
       />
 
-      <section className="mt-14">
+      <section id="shop-the-look" className="mt-14 scroll-mt-28">
         <p className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
           Shop the look
         </p>
