@@ -251,39 +251,69 @@ export function BuyingForPage() {
           <GiftHeadingIcon className="h-4 w-4" strokeWidth={1.5} /> GIFTS &amp; PEOPLE
         </p>
         <h1 className="relative mt-2 font-display text-[34px] leading-[1.05] tracking-tight text-[color:var(--foreground)] sm:text-5xl">
-          My Christmas Gifts
+          My Christmas Gift List
         </h1>
         <p className="relative mt-3 max-w-xl text-[15px] leading-relaxed text-[color:var(--muted-foreground)]">
-          Everyone you love, every little idea and every budget — kept safe in one beautiful place.
+          Everyone you're buying for, every gift idea, and everything still to do — all in one place.
         </p>
         <p className="relative mt-2 text-[12px] uppercase tracking-[0.22em] text-[color:var(--gold-soft)]">
           {sleeps} sleeps until Christmas
         </p>
 
-        <div className="relative mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <PlannerButton icon={Plus} onClick={() => setAddOpen(true)}>
-            Add person
+        <div className="relative mt-6 space-y-3">
+          <PlannerButton icon={Plus} onClick={() => setAddOpen(true)} className="gold-glow">
+            Add a person
           </PlannerButton>
-          <PlannerButton
-            icon={Package}
-            onClick={() => {
-              if (people.length === 0) {
-                toast.info("Add someone first, then you can add presents for them.");
-                return;
-              }
-              openAddGift("present");
-            }}
-          >
-            Add present
-          </PlannerButton>
-          <PlannerButton to="/gift-finder" icon={Sparkles}>
-            Find gift ideas
-          </PlannerButton>
-          <PlannerButton to="/gift-finder/secret-santa" icon={Snowflake}>
-            Secret Santa
-          </PlannerButton>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <PlannerButton
+              icon={Package}
+              className="!min-h-[46px] text-[13px]"
+              onClick={() => {
+                if (people.length === 0) {
+                  toast.info("Add someone first, then you can add presents for them.");
+                  return;
+                }
+                openAddGift("present");
+              }}
+            >
+              Add present
+            </PlannerButton>
+            <PlannerButton to="/gift-finder" icon={Sparkles} className="!min-h-[46px] text-[13px]">
+              Find gift ideas
+            </PlannerButton>
+            <PlannerButton to="/gift-finder/secret-santa" icon={Snowflake} className="!min-h-[46px] text-[13px]">
+              Secret Santa
+            </PlannerButton>
+          </div>
         </div>
       </header>
+
+      {/* How it works — compact intro; collapses to one line once people exist */}
+      {people.length === 0 ? (
+        <div className="rounded-2xl border border-[color:var(--gold)]/25 bg-[color:var(--card)] px-5 py-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--gold-soft)]">
+            Your Christmas gifts, sorted
+          </p>
+          <ol className="mt-2 space-y-1 text-sm leading-snug text-[color:var(--foreground)]/90">
+            <li>
+              <span className="font-semibold text-[color:var(--gold-soft)]">1. Add someone</span> — everyone
+              you're buying for.
+            </li>
+            <li>
+              <span className="font-semibold text-[color:var(--gold-soft)]">2. Add their gifts</span> — save an
+              idea, add something you've chosen or bought, or get help finding the right present.
+            </li>
+            <li>
+              <span className="font-semibold text-[color:var(--gold-soft)]">3. Watch your progress</span> —
+              Bought changes colour · Wrapped gets a bow · Given or sent gets the Christmas seal.
+            </li>
+          </ol>
+        </div>
+      ) : (
+        <p className="-mt-2 text-center text-xs text-muted-foreground">
+          Bought changes colour · Wrapped gets a bow · Given or sent gets the seal
+        </p>
+      )}
 
 
       {people.length === 0 && (
