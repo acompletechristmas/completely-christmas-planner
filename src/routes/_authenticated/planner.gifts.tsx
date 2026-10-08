@@ -618,6 +618,25 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
 
 /* ---------------------- Recipient card (expandable) ---------------------- */
 
+type PresentProgressState = "chosen" | "ordered" | "arrived" | "wrapped" | "sent" | "given";
+
+function presentProgress(gift: GiftRow): { state: PresentProgressState; label: string } {
+  if (gift.given) return { state: "given", label: "Given" };
+  if (gift.sent) return { state: "sent", label: "Sent" };
+  if (gift.wrapped) return { state: "wrapped", label: "Wrapped" };
+  if (gift.arrived) return { state: "arrived", label: "Arrived" };
+  if (gift.ordered) return { state: "ordered", label: "Ordered" };
+  return { state: "chosen", label: "Chosen" };
+}
+
+function PresentStateIcon({ state, className = "h-3.5 w-3.5" }: { state: PresentProgressState; className?: string }) {
+  if (state === "given" || state === "sent") return <Stamp className={className} />;
+  if (state === "wrapped") return <RibbonMark className={className} />;
+  if (state === "arrived") return <Package className={className} />;
+  if (state === "ordered") return <ShoppingBag className={className} />;
+  return <GiftIcon className={className} />;
+}
+
 function RecipientCard({
   person,
   gifts,
@@ -677,6 +696,7 @@ function RecipientCard({
 
   const stage: 1 | 2 | 3 | 4 = allGiven ? 4 : allWrapped ? 3 : allBought ? 2 : 1;
   const isGold = stage >= 2;
+  const previewPresents = presents.slice(0, 2);
 
   const budgetPct = budget && budget > 0 ? Math.min(100, Math.round((spent / budget) * 100)) : 0;
   const budgetTone =
@@ -836,6 +856,42 @@ function RecipientCard({
           <ProgressPip icon={<Stamp className="h-4 w-4" />} value={givenCount} label="Given" done={allGiven} muted={textMuted} ink={textInk} accent="oklch(0.45 0.22 22)" />
         </div>
 
+        {/* Compact read-only preview — keeps Ideas distinct from chosen Presents */}
+        {(previewPresents.length > 0 || ideas.length > 0) && (
+          <div
+            className="mt-4 rounded-2xl border px-3 py-2.5"
+            style={{
+              borderColor: "oklch(0.65 0.12 75 / 0.35)",
+              background: isGold ? "oklch(1 0 0 / 0.28)" : "oklch(0.96 0.025 85 / 0.72)",
+            }}
+          >
+            {previewPresents.length > 0 && (
+              <ul className="space-y-1.5" aria-label={`${person.name || "Recipient"}'s present preview`}>
+                {previewPresents.map((gift) => {
+                  const progress = presentProgress(gift);
+                  const complete = progress.state === "given" || progress.state === "sent";
+                  return (
+                    <li key={gift.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-[12px]">
+                      <span className="truncate font-semibold" style={{ color: textInk }}>{gift.item}</span>
+                      <span
+                        className="inline-flex shrink-0 items-center gap-1 font-semibold"
+                        style={{ color: complete ? "oklch(0.42 0.20 22)" : progress.state === "wrapped" ? "oklch(0.46 0.18 22)" : "oklch(0.38 0.10 65)" }}
+                      >
+                        <PresentStateIcon state={progress.state} />
+                        {progress.label}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            <div className={(previewPresents.length > 0 ? "mt-2 border-t pt-2 " : "") + "flex min-w-0 items-center justify-between gap-2 text-[11px] font-medium"} style={{ borderColor: "oklch(0.65 0.12 75 / 0.22)", color: textMuted }}>
+              <span>{presents.length > 2 ? `+ ${presents.length - 2} more present${presents.length - 2 === 1 ? "" : "s"}` : `${presents.length} present${presents.length === 1 ? "" : "s"}`}</span>
+              {ideas.length > 0 && <span className="shrink-0">{ideas.length} gift idea{ideas.length === 1 ? "" : "s"}</span>}
+            </div>
+          </div>
+        )}
+
         {/* View Gifts — premium outlined button */}
         <button
           onClick={onToggle}
@@ -847,7 +903,7 @@ function RecipientCard({
             background: isGold ? "oklch(1 0 0 / 0.35)" : "transparent",
           }}
         >
-          {expanded ? "Hide gifts" : "View gifts"}
+          {expanded ? "Hide gifts" : "View all gifts"}
           <span aria-hidden className="text-base leading-none">→</span>
         </button>
       </div>
@@ -859,7 +915,7 @@ function RecipientCard({
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             <SmallAction onClick={onAddPresent} icon={<Package className="h-4 w-4" />} label="+ Add present" primary />
             <SmallAction onClick={onAddIdea} icon={<Lightbulb className="h-4 w-4" />} label="+ Add gift idea" />
-            <SmallAction onClick={onFindIdeas} icon={<Sparkles className="h-4 w-4" />} label="Find ideas" />
+            <SmallAction onClick={onFindIdeas} icon={<Sparkles className="h-4 w-4" />} label={`Find ideas for ${person.name || "them"}`} />
             <SmallAction onClick={onEdit} icon={<Pencil className="h-4 w-4" />} label="Edit person" />
           </div>
 
@@ -1175,7 +1231,7 @@ function IdeaRow({
           />
         </div>
       ) : (
-        <div className="flex items-start justify-between gap-3">
+        <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-bold" style={{ color: "var(--surface-deep)" }}>
               {gift.item}
@@ -1201,19 +1257,19 @@ function IdeaRow({
               </a>
             )}
           </div>
-          <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <div className="flex min-w-0 flex-col gap-1.5 sm:shrink-0 sm:items-end">
             <button
               onClick={onChoose}
-              className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-bold text-[color:var(--forest-deep)] shadow-sm transition hover:brightness-110"
+              className="inline-flex min-h-[44px] w-full items-center justify-center gap-1 rounded-full px-3 py-2 text-[11px] font-bold text-[color:var(--forest-deep)] shadow-sm transition hover:brightness-110 sm:w-auto"
               style={{ background: "var(--gradient-gold)" }}
             >
-              Choose this present
+              Love this idea? Make it a present
             </button>
             <div className="flex justify-end gap-1">
               <button
                 onClick={() => setEditing(true)}
                 aria-label="Edit"
-                className="rounded-full border p-1.5 text-[11px] transition hover:bg-black/5"
+                className="grid h-11 w-11 place-items-center rounded-full border text-[11px] transition hover:bg-black/5"
                 style={{
                   borderColor: "oklch(0.55 0.08 60 / 0.4)",
                   color: "oklch(0.35 0.04 60)",
@@ -1224,7 +1280,7 @@ function IdeaRow({
               <button
                 onClick={handleDelete}
                 aria-label="Delete"
-                className="rounded-full border p-1.5 text-[11px] transition hover:bg-black/5"
+                className="grid h-11 w-11 place-items-center rounded-full border text-[11px] transition hover:bg-black/5"
                 style={{
                   borderColor: "oklch(0.55 0.14 25 / 0.5)",
                   color: "oklch(0.42 0.14 25)",
@@ -1263,6 +1319,9 @@ function PresentEditor({
 }) {
   const [item, setItem] = useState(gift.item);
   useEffect(() => setItem(gift.item), [gift.item]);
+  const progress = presentProgress(gift);
+  const isComplete = progress.state === "given" || progress.state === "sent";
+  const hasBoughtProgress = gift.ordered || gift.arrived || gift.wrapped || isComplete;
 
   const commitItem = () => {
     const trimmed = item.trim();
@@ -1291,14 +1350,50 @@ function PresentEditor({
 
   return (
     <li
-      className="rounded-2xl border p-4"
+      className="relative overflow-hidden rounded-2xl border p-4 transition-colors"
       style={{
-        background: zebra
-          ? "oklch(0.22 0.06 155 / 0.65)"
-          : "oklch(0.16 0.05 155 / 0.75)",
-        borderColor: "oklch(0.55 0.14 155 / 0.35)",
+        background: isComplete
+          ? "linear-gradient(145deg, oklch(0.29 0.08 155 / 0.96), oklch(0.20 0.07 155 / 0.98))"
+          : hasBoughtProgress
+            ? "linear-gradient(145deg, oklch(0.30 0.07 110 / 0.94), oklch(0.21 0.07 150 / 0.96))"
+            : zebra
+              ? "oklch(0.22 0.06 155 / 0.65)"
+              : "oklch(0.16 0.05 155 / 0.75)",
+        borderColor: isComplete
+          ? "oklch(0.62 0.16 28 / 0.72)"
+          : hasBoughtProgress
+            ? "oklch(0.72 0.14 82 / 0.72)"
+            : "oklch(0.55 0.14 155 / 0.35)",
       }}
     >
+      {gift.wrapped && !isComplete && (
+        <span aria-hidden className="pointer-events-none absolute right-3 top-3 text-[color:var(--gold-soft)]">
+          <RibbonMark className="h-7 w-7" />
+        </span>
+      )}
+      {isComplete && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-[color:var(--cream)] shadow-md"
+          style={{ background: "oklch(0.42 0.20 22)", border: "1.5px solid oklch(0.78 0.14 82)" }}
+        >
+          <Stamp className="h-5 w-5" />
+        </span>
+      )}
+      <div className="mb-3 flex items-center gap-2 pr-12">
+        <span
+          className="inline-flex min-h-7 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold"
+          style={{
+            borderColor: isComplete ? "oklch(0.72 0.14 82 / 0.72)" : "oklch(0.72 0.14 82 / 0.45)",
+            color: isComplete ? "var(--cream)" : "var(--gold-soft)",
+            background: isComplete ? "oklch(0.42 0.20 22 / 0.42)" : "oklch(0.72 0.14 82 / 0.1)",
+          }}
+        >
+          <PresentStateIcon state={progress.state} />
+          {progress.label}
+        </span>
+        {progress.state === "ordered" && <span className="text-[10px] text-[color:var(--cream)]/60">Waiting to arrive</span>}
+      </div>
       <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <input
           value={item}
