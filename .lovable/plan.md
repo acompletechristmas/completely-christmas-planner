@@ -17,7 +17,7 @@ A focused update to the existing `/planner/gifts` page. Preserve all data struct
 Inside each existing recipient card, above **View all gifts**:
 
 - Keep the current name, relationship, budget/spend bar, and progress totals unchanged.
-- Show up to two real chosen presents with their highest meaningful existing state: **Chosen**, **Bought**, **Wrapped**, **Sent**, or **Given**.
+- Show up to two real chosen presents with their highest meaningful existing state: **Chosen**, **Ordered**, **Arrived**, **Wrapped**, **Sent**, or **Given**. Ordered and arrived remain visibly distinct, so an ordered gift is never presented as though it has arrived.
 - Use concise rows with a gift name and text state; include the existing line-art bow for wrapped items and a compact seal treatment for sent/given items.
 - If more chosen presents exist, show `+ N more`; if there are only ideas, show a quiet ideas count instead of pretending they are presents.
 - Keep this preview read-only and compact. **View all gifts** continues to expand the existing full editor.
@@ -27,10 +27,11 @@ Inside each existing recipient card, above **View all gifts**:
 Style `PresentEditor` from the existing boolean fields without changing their values or calculation rules:
 
 - Chosen/not bought: normal forest present treatment.
-- Bought: warmer gold-accented treatment and explicit **Bought** state.
+- Bought progression: warmer gold-accented treatment while preserving distinct **Ordered** and **Arrived** labels from the existing fields; an ordered gift must not imply arrival.
 - Wrapped: retain the bought progression and add the existing `RibbonMark` bow treatment clearly.
 - Given/sent: completed treatment with a compact wax-seal-style marker based on the recipient-card completion seal.
 - Keep all five existing progress controls and editing fields unchanged, with text/icon cues so state is not communicated by colour alone.
+- Preserve the existing Bought → Wrapped → Given/Sent card progression, bow, seal, status logic, and calculations exactly as implemented.
 
 ### 3. Clarify Idea → Present
 
@@ -54,7 +55,7 @@ Style `PresentEditor` from the existing boolean fields without changing their va
 - Typecheck and exercise the signed-in Gifts flow using existing data.
 - At 360px, 390px, and desktop, confirm recipient cards remain compact, readable, touch-friendly, and free of horizontal overflow.
 - Confirm collapsed cards expose real gift names and states without expanding.
-- Confirm bought, wrapped, and given/sent rows each have distinct text-and-visual treatments; existing recipient bow/seal progression remains intact.
+- Confirm ordered and arrived remain distinguishable, and bought, wrapped, and given/sent rows each have distinct text-and-visual treatments; existing recipient bow/seal progression remains intact.
 - Confirm ideas stay separate from Presents and excluded from the existing spend/progress calculations.
 - Convert one test idea through the existing action, confirm the same record moves to Presents with no duplicate, then restore the test state.
 - Confirm **Find ideas for {name}** opens the same personalised recipient panel.
