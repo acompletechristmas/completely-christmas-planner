@@ -9,119 +9,63 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VipRouteImport } from './routes/vip'
-import { Route as SaveRouteImport } from './routes/save'
-import { Route as PetsRouteImport } from './routes/pets'
-import { Route as PartnersRouteImport } from './routes/partners'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as InspireRouteImport } from './routes/inspire'
-import { Route as GiftFinderRouteImport } from './routes/gift-finder'
-import { Route as FoodRouteImport } from './routes/food'
-import { Route as EntertainmentRouteImport } from './routes/entertainment'
-import { Route as DaysOutRouteImport } from './routes/days-out'
-import { Route as ComingSoonRouteImport } from './routes/coming-soon'
-import { Route as BuildRouteImport } from './routes/build'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AssistantRouteImport } from './routes/assistant'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
-import { Route as InspireIndexRouteImport } from './routes/inspire.index'
-import { Route as GiftFinderIndexRouteImport } from './routes/gift-finder.index'
-import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
-import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
-import { Route as GiftFinderSecretSantaRouteImport } from './routes/gift-finder.secret-santa'
-import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
-import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BuildRouteImport } from './routes/build'
+import { Route as ComingSoonRouteImport } from './routes/coming-soon'
+import { Route as DaysOutRouteImport } from './routes/days-out'
+import { Route as EntertainmentRouteImport } from './routes/entertainment'
+import { Route as FoodRouteImport } from './routes/food'
+import { Route as GiftFinderRouteImport } from './routes/gift-finder'
+import { Route as InspireRouteImport } from './routes/inspire'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as PetsRouteImport } from './routes/pets'
+import { Route as SaveRouteImport } from './routes/save'
+import { Route as VipRouteImport } from './routes/vip'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
-import { Route as InspireLooksIndexRouteImport } from './routes/inspire.looks.index'
-import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
-import { Route as InspireLooksSlugRouteImport } from './routes/inspire.looks.$slug'
-import { Route as AuthenticatedPlannerWatchlistRouteImport } from './routes/_authenticated/planner.watchlist'
-import { Route as AuthenticatedPlannerTraditionsRouteImport } from './routes/_authenticated/planner.traditions'
-import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
-import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
-import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
-import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
-import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
-import { Route as AuthenticatedPlannerOutingsRouteImport } from './routes/_authenticated/planner.outings'
-import { Route as AuthenticatedPlannerMyRouteImport } from './routes/_authenticated/planner.my'
-import { Route as AuthenticatedPlannerMusicRouteImport } from './routes/_authenticated/planner.music'
-import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
-import { Route as AuthenticatedPlannerHomeRouteImport } from './routes/_authenticated/planner.home'
-import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
-import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
-import { Route as AuthenticatedPlannerFoodRouteImport } from './routes/_authenticated/planner.food'
-import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
+import { Route as GiftFinderIndexRouteImport } from './routes/gift-finder.index'
+import { Route as GiftFinderSecretSantaRouteImport } from './routes/gift-finder.secret-santa'
+import { Route as InspireIndexRouteImport } from './routes/inspire.index'
+import { Route as TeachersIndexRouteImport } from './routes/teachers.index'
+import { Route as TeachersCategoryRouteImport } from './routes/teachers.$category'
+import { Route as TeachersGenerateRouteImport } from './routes/teachers.generate'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as AuthenticatedPlannerIndexRouteImport } from './routes/_authenticated/planner.index'
+import { Route as AuthenticatedPlannerCardsRouteImport } from './routes/_authenticated/planner.cards'
+import { Route as AuthenticatedPlannerFoodRouteImport } from './routes/_authenticated/planner.food'
+import { Route as AuthenticatedPlannerGiftsRouteImport } from './routes/_authenticated/planner.gifts'
+import { Route as AuthenticatedPlannerHelperRouteImport } from './routes/_authenticated/planner.helper'
+import { Route as AuthenticatedPlannerHomeRouteImport } from './routes/_authenticated/planner.home'
+import { Route as AuthenticatedPlannerListRouteImport } from './routes/_authenticated/planner.list'
+import { Route as AuthenticatedPlannerMusicRouteImport } from './routes/_authenticated/planner.music'
+import { Route as AuthenticatedPlannerMyRouteImport } from './routes/_authenticated/planner.my'
+import { Route as AuthenticatedPlannerOutingsRouteImport } from './routes/_authenticated/planner.outings'
+import { Route as AuthenticatedPlannerPeopleRouteImport } from './routes/_authenticated/planner.people'
+import { Route as AuthenticatedPlannerRemindersRouteImport } from './routes/_authenticated/planner.reminders'
+import { Route as AuthenticatedPlannerSetupRouteImport } from './routes/_authenticated/planner.setup'
+import { Route as AuthenticatedPlannerTimelineRouteImport } from './routes/_authenticated/planner.timeline'
+import { Route as AuthenticatedPlannerTodosRouteImport } from './routes/_authenticated/planner.todos'
+import { Route as AuthenticatedPlannerTraditionsRouteImport } from './routes/_authenticated/planner.traditions'
+import { Route as AuthenticatedPlannerWatchlistRouteImport } from './routes/_authenticated/planner.watchlist'
+import { Route as InspireLooksIndexRouteImport } from './routes/inspire.looks.index'
+import { Route as InspireLooksSlugRouteImport } from './routes/inspire.looks.$slug'
+import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 import { Route as InspireLooksSlugIndexRouteImport } from './routes/inspire.looks.$slug.index'
 import { Route as InspireLooksSlugInspirationRouteImport } from './routes/inspire.looks.$slug.$inspiration'
-import { Route as AuthenticatedPlannerPeoplePersonIdRouteImport } from './routes/_authenticated/planner.people.$personId'
 
-const VipRoute = VipRouteImport.update({
-  id: '/vip',
-  path: '/vip',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SaveRoute = SaveRouteImport.update({
-  id: '/save',
-  path: '/save',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PetsRoute = PetsRouteImport.update({
-  id: '/pets',
-  path: '/pets',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartnersRoute = PartnersRouteImport.update({
-  id: '/partners',
-  path: '/partners',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InspireRoute = InspireRouteImport.update({
-  id: '/inspire',
-  path: '/inspire',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GiftFinderRoute = GiftFinderRouteImport.update({
-  id: '/gift-finder',
-  path: '/gift-finder',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FoodRoute = FoodRouteImport.update({
-  id: '/food',
-  path: '/food',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EntertainmentRoute = EntertainmentRouteImport.update({
-  id: '/entertainment',
-  path: '/entertainment',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DaysOutRoute = DaysOutRouteImport.update({
-  id: '/days-out',
-  path: '/days-out',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComingSoonRoute = ComingSoonRouteImport.update({
-  id: '/coming-soon',
-  path: '/coming-soon',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BuildRoute = BuildRouteImport.update({
-  id: '/build',
-  path: '/build',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantRoute = AssistantRouteImport.update({
@@ -129,33 +73,106 @@ const AssistantRoute = AssistantRouteImport.update({
   path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const BuildRoute = BuildRouteImport.update({
+  id: '/build',
+  path: '/build',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TeachersIndexRoute = TeachersIndexRouteImport.update({
-  id: '/teachers/',
-  path: '/teachers/',
+const ComingSoonRoute = ComingSoonRouteImport.update({
+  id: '/coming-soon',
+  path: '/coming-soon',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InspireIndexRoute = InspireIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => InspireRoute,
+const DaysOutRoute = DaysOutRouteImport.update({
+  id: '/days-out',
+  path: '/days-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntertainmentRoute = EntertainmentRouteImport.update({
+  id: '/entertainment',
+  path: '/entertainment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoodRoute = FoodRouteImport.update({
+  id: '/food',
+  path: '/food',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GiftFinderRoute = GiftFinderRouteImport.update({
+  id: '/gift-finder',
+  path: '/gift-finder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspireRoute = InspireRouteImport.update({
+  id: '/inspire',
+  path: '/inspire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PetsRoute = PetsRouteImport.update({
+  id: '/pets',
+  path: '/pets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SaveRoute = SaveRouteImport.update({
+  id: '/save',
+  path: '/save',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VipRoute = VipRouteImport.update({
+  id: '/vip',
+  path: '/vip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const GiftFinderIndexRoute = GiftFinderIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => GiftFinderRoute,
 } as any)
-const TeachersGenerateRoute = TeachersGenerateRouteImport.update({
-  id: '/teachers/generate',
-  path: '/teachers/generate',
+const GiftFinderSecretSantaRoute = GiftFinderSecretSantaRouteImport.update({
+  id: '/secret-santa',
+  path: '/secret-santa',
+  getParentRoute: () => GiftFinderRoute,
+} as any)
+const InspireIndexRoute = InspireIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InspireRoute,
+} as any)
+const TeachersIndexRoute = TeachersIndexRouteImport.update({
+  id: '/teachers/',
+  path: '/teachers/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TeachersCategoryRoute = TeachersCategoryRouteImport.update({
@@ -163,131 +180,26 @@ const TeachersCategoryRoute = TeachersCategoryRouteImport.update({
   path: '/teachers/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GiftFinderSecretSantaRoute = GiftFinderSecretSantaRouteImport.update({
-  id: '/secret-santa',
-  path: '/secret-santa',
-  getParentRoute: () => GiftFinderRoute,
+const TeachersGenerateRoute = TeachersGenerateRouteImport.update({
+  id: '/teachers/generate',
+  path: '/teachers/generate',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
-  id: '/planner',
-  path: '/planner',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotwellKnownChar93OauthProtectedResourceRoute =
-  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const InspireLooksIndexRoute = InspireLooksIndexRouteImport.update({
-  id: '/looks/',
-  path: '/looks/',
-  getParentRoute: () => InspireRoute,
-} as any)
 const AuthenticatedPlannerIndexRoute =
   AuthenticatedPlannerIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const InspireLooksSlugRoute = InspireLooksSlugRouteImport.update({
-  id: '/looks/$slug',
-  path: '/looks/$slug',
-  getParentRoute: () => InspireRoute,
-} as any)
-const AuthenticatedPlannerWatchlistRoute =
-  AuthenticatedPlannerWatchlistRouteImport.update({
-    id: '/watchlist',
-    path: '/watchlist',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerTraditionsRoute =
-  AuthenticatedPlannerTraditionsRouteImport.update({
-    id: '/traditions',
-    path: '/traditions',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerTodosRoute =
-  AuthenticatedPlannerTodosRouteImport.update({
-    id: '/todos',
-    path: '/todos',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerTimelineRoute =
-  AuthenticatedPlannerTimelineRouteImport.update({
-    id: '/timeline',
-    path: '/timeline',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerSetupRoute =
-  AuthenticatedPlannerSetupRouteImport.update({
-    id: '/setup',
-    path: '/setup',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerRemindersRoute =
-  AuthenticatedPlannerRemindersRouteImport.update({
-    id: '/reminders',
-    path: '/reminders',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerPeopleRoute =
-  AuthenticatedPlannerPeopleRouteImport.update({
-    id: '/people',
-    path: '/people',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerOutingsRoute =
-  AuthenticatedPlannerOutingsRouteImport.update({
-    id: '/outings',
-    path: '/outings',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerMyRoute = AuthenticatedPlannerMyRouteImport.update({
-  id: '/my',
-  path: '/my',
-  getParentRoute: () => AuthenticatedPlannerRoute,
-} as any)
-const AuthenticatedPlannerMusicRoute =
-  AuthenticatedPlannerMusicRouteImport.update({
-    id: '/music',
-    path: '/music',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerListRoute =
-  AuthenticatedPlannerListRouteImport.update({
-    id: '/list',
-    path: '/list',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerHomeRoute =
-  AuthenticatedPlannerHomeRouteImport.update({
-    id: '/home',
-    path: '/home',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerHelperRoute =
-  AuthenticatedPlannerHelperRouteImport.update({
-    id: '/helper',
-    path: '/helper',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerGiftsRoute =
-  AuthenticatedPlannerGiftsRouteImport.update({
-    id: '/gifts',
-    path: '/gifts',
-    getParentRoute: () => AuthenticatedPlannerRoute,
-  } as any)
-const AuthenticatedPlannerFoodRoute =
-  AuthenticatedPlannerFoodRouteImport.update({
-    id: '/food',
-    path: '/food',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
 const AuthenticatedPlannerCardsRoute =
@@ -296,17 +208,111 @@ const AuthenticatedPlannerCardsRoute =
     path: '/cards',
     getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
-const Char91DotmcpChar93InvokeToolToolRoute =
-  Char91DotmcpChar93InvokeToolToolRouteImport.update({
-    id: '/.mcp/invoke-tool/$tool',
-    path: '/.mcp/invoke-tool/$tool',
-    getParentRoute: () => rootRouteImport,
+const AuthenticatedPlannerFoodRoute =
+  AuthenticatedPlannerFoodRouteImport.update({
+    id: '/food',
+    path: '/food',
+    getParentRoute: () => AuthenticatedPlannerRoute,
   } as any)
-const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
-  id: '/.lovable/oauth/consent',
-  path: '/.lovable/oauth/consent',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedPlannerGiftsRoute =
+  AuthenticatedPlannerGiftsRouteImport.update({
+    id: '/gifts',
+    path: '/gifts',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerHelperRoute =
+  AuthenticatedPlannerHelperRouteImport.update({
+    id: '/helper',
+    path: '/helper',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerHomeRoute =
+  AuthenticatedPlannerHomeRouteImport.update({
+    id: '/home',
+    path: '/home',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerListRoute =
+  AuthenticatedPlannerListRouteImport.update({
+    id: '/list',
+    path: '/list',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerMusicRoute =
+  AuthenticatedPlannerMusicRouteImport.update({
+    id: '/music',
+    path: '/music',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerMyRoute = AuthenticatedPlannerMyRouteImport.update({
+  id: '/my',
+  path: '/my',
+  getParentRoute: () => AuthenticatedPlannerRoute,
 } as any)
+const AuthenticatedPlannerOutingsRoute =
+  AuthenticatedPlannerOutingsRouteImport.update({
+    id: '/outings',
+    path: '/outings',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerPeopleRoute =
+  AuthenticatedPlannerPeopleRouteImport.update({
+    id: '/people',
+    path: '/people',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerRemindersRoute =
+  AuthenticatedPlannerRemindersRouteImport.update({
+    id: '/reminders',
+    path: '/reminders',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerSetupRoute =
+  AuthenticatedPlannerSetupRouteImport.update({
+    id: '/setup',
+    path: '/setup',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerTimelineRoute =
+  AuthenticatedPlannerTimelineRouteImport.update({
+    id: '/timeline',
+    path: '/timeline',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerTodosRoute =
+  AuthenticatedPlannerTodosRouteImport.update({
+    id: '/todos',
+    path: '/todos',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerTraditionsRoute =
+  AuthenticatedPlannerTraditionsRouteImport.update({
+    id: '/traditions',
+    path: '/traditions',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const AuthenticatedPlannerWatchlistRoute =
+  AuthenticatedPlannerWatchlistRouteImport.update({
+    id: '/watchlist',
+    path: '/watchlist',
+    getParentRoute: () => AuthenticatedPlannerRoute,
+  } as any)
+const InspireLooksIndexRoute = InspireLooksIndexRouteImport.update({
+  id: '/looks/',
+  path: '/looks/',
+  getParentRoute: () => InspireRoute,
+} as any)
+const InspireLooksSlugRoute = InspireLooksSlugRouteImport.update({
+  id: '/looks/$slug',
+  path: '/looks/$slug',
+  getParentRoute: () => InspireRoute,
+} as any)
+const AuthenticatedPlannerPeoplePersonIdRoute =
+  AuthenticatedPlannerPeoplePersonIdRouteImport.update({
+    id: '/$personId',
+    path: '/$personId',
+    getParentRoute: () => AuthenticatedPlannerPeopleRoute,
+  } as any)
 const InspireLooksSlugIndexRoute = InspireLooksSlugIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -317,12 +323,6 @@ const InspireLooksSlugInspirationRoute =
     id: '/$inspiration',
     path: '/$inspiration',
     getParentRoute: () => InspireLooksSlugRoute,
-  } as any)
-const AuthenticatedPlannerPeoplePersonIdRoute =
-  AuthenticatedPlannerPeoplePersonIdRouteImport.update({
-    id: '/$personId',
-    path: '/$personId',
-    getParentRoute: () => AuthenticatedPlannerPeopleRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -651,102 +651,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/vip': {
-      id: '/vip'
-      path: '/vip'
-      fullPath: '/vip'
-      preLoaderRoute: typeof VipRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/save': {
-      id: '/save'
-      path: '/save'
-      fullPath: '/save'
-      preLoaderRoute: typeof SaveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pets': {
-      id: '/pets'
-      path: '/pets'
-      fullPath: '/pets'
-      preLoaderRoute: typeof PetsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/partners': {
-      id: '/partners'
-      path: '/partners'
-      fullPath: '/partners'
-      preLoaderRoute: typeof PartnersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inspire': {
-      id: '/inspire'
-      path: '/inspire'
-      fullPath: '/inspire'
-      preLoaderRoute: typeof InspireRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gift-finder': {
-      id: '/gift-finder'
-      path: '/gift-finder'
-      fullPath: '/gift-finder'
-      preLoaderRoute: typeof GiftFinderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/food': {
-      id: '/food'
-      path: '/food'
-      fullPath: '/food'
-      preLoaderRoute: typeof FoodRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/entertainment': {
-      id: '/entertainment'
-      path: '/entertainment'
-      fullPath: '/entertainment'
-      preLoaderRoute: typeof EntertainmentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/days-out': {
-      id: '/days-out'
-      path: '/days-out'
-      fullPath: '/days-out'
-      preLoaderRoute: typeof DaysOutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/coming-soon': {
-      id: '/coming-soon'
-      path: '/coming-soon'
-      fullPath: '/coming-soon'
-      preLoaderRoute: typeof ComingSoonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/build': {
-      id: '/build'
-      path: '/build'
-      fullPath: '/build'
-      preLoaderRoute: typeof BuildRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/assistant': {
-      id: '/assistant'
-      path: '/assistant'
-      fullPath: '/assistant'
-      preLoaderRoute: typeof AssistantRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -756,67 +665,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/teachers/': {
-      id: '/teachers/'
-      path: '/teachers'
-      fullPath: '/teachers/'
-      preLoaderRoute: typeof TeachersIndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/inspire/': {
-      id: '/inspire/'
-      path: '/'
-      fullPath: '/inspire/'
-      preLoaderRoute: typeof InspireIndexRouteImport
-      parentRoute: typeof InspireRoute
-    }
-    '/gift-finder/': {
-      id: '/gift-finder/'
-      path: '/'
-      fullPath: '/gift-finder/'
-      preLoaderRoute: typeof GiftFinderIndexRouteImport
-      parentRoute: typeof GiftFinderRoute
-    }
-    '/teachers/generate': {
-      id: '/teachers/generate'
-      path: '/teachers/generate'
-      fullPath: '/teachers/generate'
-      preLoaderRoute: typeof TeachersGenerateRouteImport
+    '/build': {
+      id: '/build'
+      path: '/build'
+      fullPath: '/build'
+      preLoaderRoute: typeof BuildRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/teachers/$category': {
-      id: '/teachers/$category'
-      path: '/teachers/$category'
-      fullPath: '/teachers/$category'
-      preLoaderRoute: typeof TeachersCategoryRouteImport
+    '/coming-soon': {
+      id: '/coming-soon'
+      path: '/coming-soon'
+      fullPath: '/coming-soon'
+      preLoaderRoute: typeof ComingSoonRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/gift-finder/secret-santa': {
-      id: '/gift-finder/secret-santa'
-      path: '/secret-santa'
-      fullPath: '/gift-finder/secret-santa'
-      preLoaderRoute: typeof GiftFinderSecretSantaRouteImport
-      parentRoute: typeof GiftFinderRoute
+    '/days-out': {
+      id: '/days-out'
+      path: '/days-out'
+      fullPath: '/days-out'
+      preLoaderRoute: typeof DaysOutRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/planner': {
-      id: '/_authenticated/planner'
-      path: '/planner'
-      fullPath: '/planner'
-      preLoaderRoute: typeof AuthenticatedPlannerRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/entertainment': {
+      id: '/entertainment'
+      path: '/entertainment'
+      fullPath: '/entertainment'
+      preLoaderRoute: typeof EntertainmentRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+    '/food': {
+      id: '/food'
+      path: '/food'
+      fullPath: '/food'
+      preLoaderRoute: typeof FoodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gift-finder': {
+      id: '/gift-finder'
+      path: '/gift-finder'
+      fullPath: '/gift-finder'
+      preLoaderRoute: typeof GiftFinderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspire': {
+      id: '/inspire'
+      path: '/inspire'
+      fullPath: '/inspire'
+      preLoaderRoute: typeof InspireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pets': {
+      id: '/pets'
+      path: '/pets'
+      fullPath: '/pets'
+      preLoaderRoute: typeof PetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/save': {
+      id: '/save'
+      path: '/save'
+      fullPath: '/save'
+      preLoaderRoute: typeof SaveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vip': {
+      id: '/vip'
+      path: '/vip'
+      fullPath: '/vip'
+      preLoaderRoute: typeof VipRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -826,130 +770,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/inspire/looks/': {
-      id: '/inspire/looks/'
-      path: '/looks'
-      fullPath: '/inspire/looks/'
-      preLoaderRoute: typeof InspireLooksIndexRouteImport
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/planner': {
+      id: '/_authenticated/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AuthenticatedPlannerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/gift-finder/': {
+      id: '/gift-finder/'
+      path: '/'
+      fullPath: '/gift-finder/'
+      preLoaderRoute: typeof GiftFinderIndexRouteImport
+      parentRoute: typeof GiftFinderRoute
+    }
+    '/gift-finder/secret-santa': {
+      id: '/gift-finder/secret-santa'
+      path: '/secret-santa'
+      fullPath: '/gift-finder/secret-santa'
+      preLoaderRoute: typeof GiftFinderSecretSantaRouteImport
+      parentRoute: typeof GiftFinderRoute
+    }
+    '/inspire/': {
+      id: '/inspire/'
+      path: '/'
+      fullPath: '/inspire/'
+      preLoaderRoute: typeof InspireIndexRouteImport
       parentRoute: typeof InspireRoute
+    }
+    '/teachers/': {
+      id: '/teachers/'
+      path: '/teachers'
+      fullPath: '/teachers/'
+      preLoaderRoute: typeof TeachersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/$category': {
+      id: '/teachers/$category'
+      path: '/teachers/$category'
+      fullPath: '/teachers/$category'
+      preLoaderRoute: typeof TeachersCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teachers/generate': {
+      id: '/teachers/generate'
+      path: '/teachers/generate'
+      fullPath: '/teachers/generate'
+      preLoaderRoute: typeof TeachersGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/planner/': {
       id: '/_authenticated/planner/'
       path: '/'
       fullPath: '/planner/'
       preLoaderRoute: typeof AuthenticatedPlannerIndexRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/inspire/looks/$slug': {
-      id: '/inspire/looks/$slug'
-      path: '/looks/$slug'
-      fullPath: '/inspire/looks/$slug'
-      preLoaderRoute: typeof InspireLooksSlugRouteImport
-      parentRoute: typeof InspireRoute
-    }
-    '/_authenticated/planner/watchlist': {
-      id: '/_authenticated/planner/watchlist'
-      path: '/watchlist'
-      fullPath: '/planner/watchlist'
-      preLoaderRoute: typeof AuthenticatedPlannerWatchlistRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/traditions': {
-      id: '/_authenticated/planner/traditions'
-      path: '/traditions'
-      fullPath: '/planner/traditions'
-      preLoaderRoute: typeof AuthenticatedPlannerTraditionsRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/todos': {
-      id: '/_authenticated/planner/todos'
-      path: '/todos'
-      fullPath: '/planner/todos'
-      preLoaderRoute: typeof AuthenticatedPlannerTodosRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/timeline': {
-      id: '/_authenticated/planner/timeline'
-      path: '/timeline'
-      fullPath: '/planner/timeline'
-      preLoaderRoute: typeof AuthenticatedPlannerTimelineRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/setup': {
-      id: '/_authenticated/planner/setup'
-      path: '/setup'
-      fullPath: '/planner/setup'
-      preLoaderRoute: typeof AuthenticatedPlannerSetupRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/reminders': {
-      id: '/_authenticated/planner/reminders'
-      path: '/reminders'
-      fullPath: '/planner/reminders'
-      preLoaderRoute: typeof AuthenticatedPlannerRemindersRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/people': {
-      id: '/_authenticated/planner/people'
-      path: '/people'
-      fullPath: '/planner/people'
-      preLoaderRoute: typeof AuthenticatedPlannerPeopleRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/outings': {
-      id: '/_authenticated/planner/outings'
-      path: '/outings'
-      fullPath: '/planner/outings'
-      preLoaderRoute: typeof AuthenticatedPlannerOutingsRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/my': {
-      id: '/_authenticated/planner/my'
-      path: '/my'
-      fullPath: '/planner/my'
-      preLoaderRoute: typeof AuthenticatedPlannerMyRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/music': {
-      id: '/_authenticated/planner/music'
-      path: '/music'
-      fullPath: '/planner/music'
-      preLoaderRoute: typeof AuthenticatedPlannerMusicRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/list': {
-      id: '/_authenticated/planner/list'
-      path: '/list'
-      fullPath: '/planner/list'
-      preLoaderRoute: typeof AuthenticatedPlannerListRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/home': {
-      id: '/_authenticated/planner/home'
-      path: '/home'
-      fullPath: '/planner/home'
-      preLoaderRoute: typeof AuthenticatedPlannerHomeRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/helper': {
-      id: '/_authenticated/planner/helper'
-      path: '/helper'
-      fullPath: '/planner/helper'
-      preLoaderRoute: typeof AuthenticatedPlannerHelperRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/gifts': {
-      id: '/_authenticated/planner/gifts'
-      path: '/gifts'
-      fullPath: '/planner/gifts'
-      preLoaderRoute: typeof AuthenticatedPlannerGiftsRouteImport
-      parentRoute: typeof AuthenticatedPlannerRoute
-    }
-    '/_authenticated/planner/food': {
-      id: '/_authenticated/planner/food'
-      path: '/food'
-      fullPath: '/planner/food'
-      preLoaderRoute: typeof AuthenticatedPlannerFoodRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
     '/_authenticated/planner/cards': {
@@ -959,19 +854,131 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlannerCardsRouteImport
       parentRoute: typeof AuthenticatedPlannerRoute
     }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/planner/food': {
+      id: '/_authenticated/planner/food'
+      path: '/food'
+      fullPath: '/planner/food'
+      preLoaderRoute: typeof AuthenticatedPlannerFoodRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
     }
-    '/.lovable/oauth/consent': {
-      id: '/.lovable/oauth/consent'
-      path: '/.lovable/oauth/consent'
-      fullPath: '/.lovable/oauth/consent'
-      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/planner/gifts': {
+      id: '/_authenticated/planner/gifts'
+      path: '/gifts'
+      fullPath: '/planner/gifts'
+      preLoaderRoute: typeof AuthenticatedPlannerGiftsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/helper': {
+      id: '/_authenticated/planner/helper'
+      path: '/helper'
+      fullPath: '/planner/helper'
+      preLoaderRoute: typeof AuthenticatedPlannerHelperRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/home': {
+      id: '/_authenticated/planner/home'
+      path: '/home'
+      fullPath: '/planner/home'
+      preLoaderRoute: typeof AuthenticatedPlannerHomeRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/list': {
+      id: '/_authenticated/planner/list'
+      path: '/list'
+      fullPath: '/planner/list'
+      preLoaderRoute: typeof AuthenticatedPlannerListRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/music': {
+      id: '/_authenticated/planner/music'
+      path: '/music'
+      fullPath: '/planner/music'
+      preLoaderRoute: typeof AuthenticatedPlannerMusicRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/my': {
+      id: '/_authenticated/planner/my'
+      path: '/my'
+      fullPath: '/planner/my'
+      preLoaderRoute: typeof AuthenticatedPlannerMyRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/outings': {
+      id: '/_authenticated/planner/outings'
+      path: '/outings'
+      fullPath: '/planner/outings'
+      preLoaderRoute: typeof AuthenticatedPlannerOutingsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/people': {
+      id: '/_authenticated/planner/people'
+      path: '/people'
+      fullPath: '/planner/people'
+      preLoaderRoute: typeof AuthenticatedPlannerPeopleRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/reminders': {
+      id: '/_authenticated/planner/reminders'
+      path: '/reminders'
+      fullPath: '/planner/reminders'
+      preLoaderRoute: typeof AuthenticatedPlannerRemindersRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/setup': {
+      id: '/_authenticated/planner/setup'
+      path: '/setup'
+      fullPath: '/planner/setup'
+      preLoaderRoute: typeof AuthenticatedPlannerSetupRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/timeline': {
+      id: '/_authenticated/planner/timeline'
+      path: '/timeline'
+      fullPath: '/planner/timeline'
+      preLoaderRoute: typeof AuthenticatedPlannerTimelineRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/todos': {
+      id: '/_authenticated/planner/todos'
+      path: '/todos'
+      fullPath: '/planner/todos'
+      preLoaderRoute: typeof AuthenticatedPlannerTodosRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/traditions': {
+      id: '/_authenticated/planner/traditions'
+      path: '/traditions'
+      fullPath: '/planner/traditions'
+      preLoaderRoute: typeof AuthenticatedPlannerTraditionsRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/_authenticated/planner/watchlist': {
+      id: '/_authenticated/planner/watchlist'
+      path: '/watchlist'
+      fullPath: '/planner/watchlist'
+      preLoaderRoute: typeof AuthenticatedPlannerWatchlistRouteImport
+      parentRoute: typeof AuthenticatedPlannerRoute
+    }
+    '/inspire/looks/': {
+      id: '/inspire/looks/'
+      path: '/looks'
+      fullPath: '/inspire/looks/'
+      preLoaderRoute: typeof InspireLooksIndexRouteImport
+      parentRoute: typeof InspireRoute
+    }
+    '/inspire/looks/$slug': {
+      id: '/inspire/looks/$slug'
+      path: '/looks/$slug'
+      fullPath: '/inspire/looks/$slug'
+      preLoaderRoute: typeof InspireLooksSlugRouteImport
+      parentRoute: typeof InspireRoute
+    }
+    '/_authenticated/planner/people/$personId': {
+      id: '/_authenticated/planner/people/$personId'
+      path: '/$personId'
+      fullPath: '/planner/people/$personId'
+      preLoaderRoute: typeof AuthenticatedPlannerPeoplePersonIdRouteImport
+      parentRoute: typeof AuthenticatedPlannerPeopleRoute
     }
     '/inspire/looks/$slug/': {
       id: '/inspire/looks/$slug/'
@@ -986,13 +993,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/inspire/looks/$slug/$inspiration'
       preLoaderRoute: typeof InspireLooksSlugInspirationRouteImport
       parentRoute: typeof InspireLooksSlugRoute
-    }
-    '/_authenticated/planner/people/$personId': {
-      id: '/_authenticated/planner/people/$personId'
-      path: '/$personId'
-      fullPath: '/planner/people/$personId'
-      preLoaderRoute: typeof AuthenticatedPlannerPeoplePersonIdRouteImport
-      parentRoute: typeof AuthenticatedPlannerPeopleRoute
     }
   }
 }
